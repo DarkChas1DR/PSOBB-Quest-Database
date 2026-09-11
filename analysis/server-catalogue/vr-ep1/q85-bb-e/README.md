@@ -1,5 +1,7 @@
 # Hazardous Dimension — vr-ep1/q85-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

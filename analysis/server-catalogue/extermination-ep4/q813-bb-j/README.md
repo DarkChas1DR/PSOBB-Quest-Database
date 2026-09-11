@@ -1,5 +1,7 @@
 # 極幻の戦火へ ３ — extermination-ep4/q813-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

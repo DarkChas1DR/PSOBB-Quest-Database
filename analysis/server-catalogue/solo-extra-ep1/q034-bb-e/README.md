@@ -1,5 +1,7 @@
 # Black Paper\'s Dangerous Deal 2 — solo-extra-ep1/q034-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

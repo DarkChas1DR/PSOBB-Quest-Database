@@ -1,5 +1,7 @@
 # 9-4:Pursuit — government-ep4/q704-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

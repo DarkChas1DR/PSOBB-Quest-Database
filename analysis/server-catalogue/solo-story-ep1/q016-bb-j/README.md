@@ -1,5 +1,7 @@
 # ライオネルのメール — solo-story-ep1/q016-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

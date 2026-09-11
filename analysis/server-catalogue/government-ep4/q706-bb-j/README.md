@@ -1,5 +1,7 @@
 # ９－６：選ばれし者（後編） — government-ep4/q706-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

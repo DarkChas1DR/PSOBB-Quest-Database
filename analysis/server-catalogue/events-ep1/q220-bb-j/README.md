@@ -1,5 +1,7 @@
 # 総督の贈り物 — events-ep1/q220-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

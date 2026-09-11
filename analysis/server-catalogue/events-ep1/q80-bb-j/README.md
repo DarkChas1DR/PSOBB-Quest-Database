@@ -1,5 +1,7 @@
 # Tyrell\'s Last Hope — events-ep1/q80-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

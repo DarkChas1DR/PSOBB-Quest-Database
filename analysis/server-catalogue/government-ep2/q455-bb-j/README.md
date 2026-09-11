@@ -1,5 +1,7 @@
 # ５－５：適合試験５ ＶＲ神殿５ — government-ep2/q455-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

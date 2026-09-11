@@ -1,5 +1,7 @@
 # Christmas Fiasco — seasonal-ep2/q65535-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

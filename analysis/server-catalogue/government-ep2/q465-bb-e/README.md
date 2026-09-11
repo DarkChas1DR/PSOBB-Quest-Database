@@ -1,5 +1,7 @@
 # 7-5:Isle of Mutants — government-ep2/q465-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

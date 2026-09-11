@@ -1,5 +1,7 @@
 # 1-1:Planet Ragol — government-ep1/q401-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

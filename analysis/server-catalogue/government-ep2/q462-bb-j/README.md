@@ -1,5 +1,7 @@
 # ７－２：手がかりを求めて — government-ep2/q462-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

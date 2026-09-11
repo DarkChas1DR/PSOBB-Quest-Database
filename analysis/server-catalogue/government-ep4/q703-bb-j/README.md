@@ -1,5 +1,7 @@
 # ９－３：現実と真実と — government-ep4/q703-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

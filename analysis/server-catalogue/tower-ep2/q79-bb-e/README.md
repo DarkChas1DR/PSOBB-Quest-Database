@@ -1,5 +1,7 @@
 # Tower Mop Up — tower-ep2/q79-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

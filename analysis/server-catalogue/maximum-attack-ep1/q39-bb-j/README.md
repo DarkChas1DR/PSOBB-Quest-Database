@@ -1,5 +1,7 @@
 # Maximum Attack E -1- — maximum-attack-ep1/q39-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

@@ -1,5 +1,7 @@
 # Warrior\'s Pride — solo-extra-ep1/q030-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

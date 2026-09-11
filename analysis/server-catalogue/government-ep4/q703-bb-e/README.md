@@ -1,5 +1,7 @@
 # 9-3:Reality & Truth — government-ep4/q703-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

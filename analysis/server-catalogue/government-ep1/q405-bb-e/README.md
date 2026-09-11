@@ -1,5 +1,7 @@
 # 2-2:Deep Within — government-ep1/q405-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

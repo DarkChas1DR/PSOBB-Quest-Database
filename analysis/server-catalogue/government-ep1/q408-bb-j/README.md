@@ -1,5 +1,7 @@
 # ３－１：地に塗れた施設 — government-ep1/q408-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

@@ -1,5 +1,7 @@
 # ステージ6 — challenge-ep1/c88106-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

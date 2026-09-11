@@ -1,5 +1,7 @@
 # ６－５：適合試験１０ ＶＲ宇宙船５ — government-ep2/q460-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

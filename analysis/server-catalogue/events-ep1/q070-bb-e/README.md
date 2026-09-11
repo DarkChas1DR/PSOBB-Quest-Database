@@ -1,5 +1,7 @@
 # PSO Famitsu Cup Ver.2 — events-ep1/q070-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

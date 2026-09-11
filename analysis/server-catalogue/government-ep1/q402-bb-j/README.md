@@ -1,5 +1,7 @@
 # １－２：降りしきる雨の森 — government-ep1/q402-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

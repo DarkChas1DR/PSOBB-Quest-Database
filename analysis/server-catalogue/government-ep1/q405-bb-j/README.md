@@ -1,5 +1,7 @@
 # ２－２：地中深くで — government-ep1/q405-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

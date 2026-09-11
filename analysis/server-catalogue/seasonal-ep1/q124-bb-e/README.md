@@ -1,5 +1,7 @@
 # St. Valentine\'s Day — seasonal-ep1/q124-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

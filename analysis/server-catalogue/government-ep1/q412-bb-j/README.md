@@ -1,5 +1,7 @@
 # ４－２：地底の石碑 — government-ep1/q412-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

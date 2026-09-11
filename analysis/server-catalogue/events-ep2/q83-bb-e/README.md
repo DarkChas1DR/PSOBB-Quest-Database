@@ -1,5 +1,7 @@
 # Den of the Damned — events-ep2/q83-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

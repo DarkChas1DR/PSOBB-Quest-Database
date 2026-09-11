@@ -1,5 +1,7 @@
 # Maximum Attack 2 — maximum-attack-ep2/q211-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

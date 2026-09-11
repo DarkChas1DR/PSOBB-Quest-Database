@@ -1,5 +1,7 @@
 # ４－３：英雄と娘 — government-ep1/q413-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

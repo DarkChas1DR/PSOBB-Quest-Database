@@ -1,5 +1,7 @@
 # Sweep-up Operation #5 — extermination-ep2/q166-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

@@ -1,5 +1,7 @@
 # ９－５：選ばれし者（前編） — government-ep4/q705-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

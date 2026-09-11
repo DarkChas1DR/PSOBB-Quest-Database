@@ -1,5 +1,7 @@
 # 4-1:The Lost Ruins — government-ep1/q411-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

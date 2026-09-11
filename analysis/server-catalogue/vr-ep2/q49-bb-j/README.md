@@ -1,5 +1,7 @@
 # Dream Messenger — vr-ep2/q49-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

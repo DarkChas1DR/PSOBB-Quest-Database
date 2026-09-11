@@ -1,5 +1,7 @@
 # 奪われたヘルパラッシュ — retrieval-ep1/q061-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

@@ -1,5 +1,7 @@
 # 奪われたヒートソード — retrieval-ep1/q058-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

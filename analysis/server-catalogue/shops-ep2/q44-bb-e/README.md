@@ -1,5 +1,7 @@
 # Gallon\'s Shop -Val- — shops-ep2/q44-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

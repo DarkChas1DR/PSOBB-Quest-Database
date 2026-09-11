@@ -1,5 +1,7 @@
 # ガロンの計画 — solo-extra-ep1/q035-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

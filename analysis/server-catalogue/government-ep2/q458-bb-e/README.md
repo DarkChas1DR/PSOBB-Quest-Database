@@ -1,5 +1,7 @@
 # 6-3:Test/Spaceship 3 — government-ep2/q458-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

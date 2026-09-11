@@ -1,5 +1,7 @@
 # Mine Offensive v1.02 — vr-ep1/q139-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

@@ -1,5 +1,7 @@
 # 幻界の果てに ４ — extermination-ep2/q236-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

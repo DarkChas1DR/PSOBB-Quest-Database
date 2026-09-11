@@ -1,5 +1,7 @@
 # Lost FILL CANNON — retrieval-ep2/q153-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

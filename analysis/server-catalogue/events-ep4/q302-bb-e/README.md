@@ -1,5 +1,7 @@
 # Wild Birds Bistro — events-ep4/q302-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

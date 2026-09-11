@@ -1,5 +1,7 @@
 # AOL Cup Sunset Base — events-ep1/q28-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

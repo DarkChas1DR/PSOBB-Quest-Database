@@ -1,5 +1,7 @@
 # Mop-up Operation #1 — extermination-ep1/q101-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

@@ -1,5 +1,7 @@
 # Simulator v1.01 — vr-ep1/q90-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

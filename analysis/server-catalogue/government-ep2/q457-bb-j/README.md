@@ -1,5 +1,7 @@
 # ６－２：適合試験７ ＶＲ宇宙船２ — government-ep2/q457-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

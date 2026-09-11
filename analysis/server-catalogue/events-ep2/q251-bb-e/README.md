@@ -1,5 +1,7 @@
 # Gal Da Val\'s Darkness — events-ep2/q251-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

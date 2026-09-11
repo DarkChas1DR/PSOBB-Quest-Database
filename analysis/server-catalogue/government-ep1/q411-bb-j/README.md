@@ -1,5 +1,7 @@
 # ４－１：地下に眠る遺跡 — government-ep1/q411-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

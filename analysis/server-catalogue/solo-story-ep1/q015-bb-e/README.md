@@ -1,5 +1,7 @@
 # Soul of a Blacksmith — solo-story-ep1/q015-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

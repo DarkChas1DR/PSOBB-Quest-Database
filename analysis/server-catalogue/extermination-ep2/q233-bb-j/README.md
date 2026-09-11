@@ -1,5 +1,7 @@
 # 幻界の果てに １ — extermination-ep2/q233-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

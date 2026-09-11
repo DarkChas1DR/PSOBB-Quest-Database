@@ -1,5 +1,7 @@
 # 荒野のくちばし亭 Ver2 — events-ep4/q315-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

@@ -1,5 +1,7 @@
 # ６－４：適合試験９ ＶＲ宇宙船４ — government-ep2/q459-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

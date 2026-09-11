@@ -1,5 +1,7 @@
 # Lost CHARGE VULCAN — retrieval-ep2/q151-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

@@ -1,5 +1,7 @@
 # 新掃討作戦 第三号 — extermination-ep4/q818-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

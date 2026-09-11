@@ -1,5 +1,7 @@
 # 5-1:Test/VR Temple 1 — government-ep2/q451-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

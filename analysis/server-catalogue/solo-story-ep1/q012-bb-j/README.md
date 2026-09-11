@@ -1,5 +1,7 @@
 # 帰らずの滝 — solo-story-ep1/q012-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

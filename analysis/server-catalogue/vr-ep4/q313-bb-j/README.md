@@ -1,5 +1,7 @@
 # 思戦の彼方 — vr-ep4/q313-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

@@ -1,5 +1,7 @@
 # 1-2:Torrential Woods — government-ep1/q402-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

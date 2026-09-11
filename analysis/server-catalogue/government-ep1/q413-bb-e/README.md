@@ -1,5 +1,7 @@
 # 4-3:Hero & Daughter — government-ep1/q413-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

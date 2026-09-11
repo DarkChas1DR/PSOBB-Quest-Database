@@ -1,5 +1,7 @@
 # Lost RIOT Raygun — retrieval-ep2/q921-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

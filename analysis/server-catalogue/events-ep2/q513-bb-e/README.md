@@ -1,5 +1,7 @@
 # Tian\'s Montreaux Final — events-ep2/q513-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

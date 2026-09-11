@@ -1,5 +1,7 @@
 # Maximum Attack E -Gal- — maximum-attack-ep2/q40-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

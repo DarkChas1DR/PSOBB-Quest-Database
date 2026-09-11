@@ -1,5 +1,7 @@
 # 9-1:Missing Research — government-ep4/q701-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

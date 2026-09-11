@@ -1,5 +1,7 @@
 # 9-6:The Chosen (2/2) — government-ep4/q706-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

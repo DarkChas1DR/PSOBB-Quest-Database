@@ -1,5 +1,7 @@
 # EDY CUP -夕焼けの秘密基地- — solo-extra-ep1/q143-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

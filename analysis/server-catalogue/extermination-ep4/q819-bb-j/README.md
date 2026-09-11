@@ -1,5 +1,7 @@
 # 新掃討作戦 第四号 — extermination-ep4/q819-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

@@ -1,5 +1,7 @@
 # Maximum Attack 4 -2R- — maximum-attack-ep2/q46-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

@@ -1,5 +1,7 @@
 # 3-2:Machines Attack — government-ep1/q409-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

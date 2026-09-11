@@ -1,5 +1,7 @@
 # ９－１：調査部隊を追って — government-ep4/q701-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

@@ -1,5 +1,7 @@
 # Phantasmal World #3 — extermination-ep2/q235-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

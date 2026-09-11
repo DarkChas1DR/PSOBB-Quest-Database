@@ -1,5 +1,7 @@
 # 2-3:The Mutation — government-ep1/q406-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

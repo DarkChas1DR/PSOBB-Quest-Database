@@ -1,5 +1,7 @@
 # ５－３：適合試験３ ＶＲ神殿３ — government-ep2/q453-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

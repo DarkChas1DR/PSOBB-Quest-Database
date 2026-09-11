@@ -1,5 +1,7 @@
 # Pioneer Warehouse — seasonal-ep2/q84-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

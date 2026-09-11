@@ -1,5 +1,7 @@
 # Seek my Master — solo-story-ep1/q024-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

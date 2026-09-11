@@ -1,5 +1,7 @@
 # ９－７：深奥の遺子 — government-ep4/q707-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

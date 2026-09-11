@@ -1,5 +1,7 @@
 # 新掃討作戦 第五号 — extermination-ep4/q820-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

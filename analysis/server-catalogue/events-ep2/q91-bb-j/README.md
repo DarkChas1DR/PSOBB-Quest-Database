@@ -1,5 +1,7 @@
 # Sister\'s Dream — events-ep2/q91-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

@@ -1,5 +1,7 @@
 # 4-4:The Tomb Stirs — government-ep1/q414-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

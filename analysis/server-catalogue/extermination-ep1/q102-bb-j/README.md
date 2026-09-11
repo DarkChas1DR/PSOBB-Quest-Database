@@ -1,5 +1,7 @@
 # 掃討作戦 第二号 — extermination-ep1/q102-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

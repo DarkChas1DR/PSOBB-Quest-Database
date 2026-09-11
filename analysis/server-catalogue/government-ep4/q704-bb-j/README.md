@@ -1,5 +1,7 @@
 # ９－４：追跡 — government-ep4/q704-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

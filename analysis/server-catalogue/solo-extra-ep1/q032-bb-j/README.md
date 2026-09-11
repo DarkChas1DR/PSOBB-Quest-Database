@@ -1,5 +1,7 @@
 # 蠢動の獅子 — solo-extra-ep1/q032-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

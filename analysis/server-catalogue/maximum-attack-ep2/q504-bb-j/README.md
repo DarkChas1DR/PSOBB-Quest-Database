@@ -1,5 +1,7 @@
 # 深遠なる藍の底へと -MA4 特設会場- — maximum-attack-ep2/q504-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

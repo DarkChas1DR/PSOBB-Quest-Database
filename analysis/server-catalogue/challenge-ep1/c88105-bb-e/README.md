@@ -1,5 +1,7 @@
 # Stage5  — challenge-ep1/c88105-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

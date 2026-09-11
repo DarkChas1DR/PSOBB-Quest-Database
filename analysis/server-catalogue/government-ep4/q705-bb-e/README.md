@@ -1,5 +1,7 @@
 # 9-5:The Chosen (1/2) — government-ep4/q705-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

@@ -1,5 +1,7 @@
 # ７－５：亜生命体の島 — government-ep2/q465-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

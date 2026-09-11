@@ -1,5 +1,7 @@
 # TTF Version 1.5 — vr-ep1/q136-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

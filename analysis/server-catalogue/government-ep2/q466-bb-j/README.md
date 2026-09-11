@@ -1,5 +1,7 @@
 # ８－１：水底で眠るモノ — government-ep2/q466-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

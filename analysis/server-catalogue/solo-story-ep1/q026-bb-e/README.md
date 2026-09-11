@@ -1,5 +1,7 @@
 # Central Dome Fire Swirl — solo-story-ep1/q026-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

@@ -1,5 +1,7 @@
 # Black Paper\'s Deal — solo-extra-ep1/q031-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

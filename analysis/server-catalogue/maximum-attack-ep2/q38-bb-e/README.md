@@ -1,5 +1,7 @@
 # Maximum Attack 4 -Venue- — maximum-attack-ep2/q38-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

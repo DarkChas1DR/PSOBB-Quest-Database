@@ -1,5 +1,7 @@
 # ８－２：欲望の果て — government-ep2/q467-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

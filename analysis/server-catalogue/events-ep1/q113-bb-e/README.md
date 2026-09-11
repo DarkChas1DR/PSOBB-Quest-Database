@@ -1,5 +1,7 @@
 # Emergency Deployment — events-ep1/q113-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

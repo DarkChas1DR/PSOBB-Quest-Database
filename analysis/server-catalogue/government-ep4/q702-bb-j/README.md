@@ -1,5 +1,7 @@
 # ９－２：調査データ回収作戦 — government-ep4/q702-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

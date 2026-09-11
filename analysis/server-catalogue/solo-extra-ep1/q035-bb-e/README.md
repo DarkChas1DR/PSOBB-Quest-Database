@@ -1,5 +1,7 @@
 # Gallon\'s Plan — solo-extra-ep1/q035-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

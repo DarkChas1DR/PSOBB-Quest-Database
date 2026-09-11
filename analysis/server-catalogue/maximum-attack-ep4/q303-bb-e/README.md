@@ -1,5 +1,7 @@
 # Maximum Attack 4th Stage -4A- — maximum-attack-ep4/q303-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

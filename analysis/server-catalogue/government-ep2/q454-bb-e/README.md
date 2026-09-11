@@ -1,5 +1,7 @@
 # 5-4:Test/VR Temple 4 — government-ep2/q454-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

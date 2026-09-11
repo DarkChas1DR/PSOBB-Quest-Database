@@ -1,5 +1,7 @@
 # Monster Bash 3 R — extermination-ep1/q130-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

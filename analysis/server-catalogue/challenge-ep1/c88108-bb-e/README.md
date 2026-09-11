@@ -1,5 +1,7 @@
 # Stage8 — challenge-ep1/c88108-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

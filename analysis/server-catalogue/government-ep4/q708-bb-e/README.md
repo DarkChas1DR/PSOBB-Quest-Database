@@ -1,5 +1,7 @@
 # 9-8:The Final Cycle — government-ep4/q708-bb-e
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 

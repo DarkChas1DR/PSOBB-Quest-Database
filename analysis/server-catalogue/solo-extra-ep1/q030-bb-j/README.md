@@ -1,5 +1,7 @@
 # 戦士の誇り — solo-extra-ep1/q030-bb-j
 
+[Browse recorded rooms / sections](sections.md) · [Section data](sections.json)
+
 <!-- quest-downloads:start -->
 ## Download quest files
 
