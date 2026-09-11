@@ -4,6 +4,8 @@ Companion registries to the quest library, built from the preserved newserv and 
 
 ## Browse
 
+- [Qedit authoring definitions, presets and appearance verification](qedit/README.md)
+
 - [Monster IDs, parameters and quest examples](monsters.md)
 - [Monster availability by episode and area](areas.md)
 - [NPC types, Qedit names, placements and interaction candidates](npcs.md)
