@@ -4,6 +4,8 @@ A reference library for understanding Phantasy Star Online Blue Burst quests and
 
 ## Start here
 
+**[Object catalogue](analysis/object-database/README.md)** — Qedit IDs, field labels, presets, area menus, supporting parameter documentation and quest placements. Verification status is explicit.
+
 **[General floor and map database](analysis/floor-database/README.md)** — choose an episode, area, layout and entity variation independently of any existing quest.
 
 **[Browse recorded map rooms / sections](analysis/map-sections/README.md)** — per-quest room IDs, waves, events and placement links; geometric boundaries remain unverified.
