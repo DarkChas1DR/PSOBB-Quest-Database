@@ -2,6 +2,8 @@
 
 The user wants future AI-generated PSOBB quests grounded in their client, Qedit and server quest data.
 
+Before selecting monsters or NPCs, consult `analysis/entity-database/README.md`, its area compatibility table and class/appearance references. DAT types, class IDs, character IDs and script labels are separate namespaces. Resolve floor slots to designated areas; observed placements alone are not spawn permissions. Review the explicitly documented gaps before claiming an entity configuration is verified.
+
 Start with `analysis/quest-knowledge/README.md` and `analysis/quest-knowledge/BUILDER-INSTRUCTIONS.md`. The SQLite database, JSONL retrieval chunks, compiler profiles, DAT schema, raw source snapshot and validation report are in that folder. The full per-quest disassemblies are under `analysis/server-catalogue/`.
 
 For any requested quest/feature, deliver (1) overview/entity mapping, (2) complete commented assembly with exact compiler profile, (3) matching DAT spatial notes. Require Function 0 initialization, project-standard ret-only Function 1, yielding polling loops, explicit register ownership and multiplayer state synchronization. General scratch allocation is R0–R219 with documented reserved-use exclusions.

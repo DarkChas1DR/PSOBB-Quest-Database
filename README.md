@@ -4,6 +4,8 @@ A reference library for understanding Phantasy Star Online Blue Burst quests and
 
 ## Start here
 
+**Entity references: [Monster database](analysis/entity-database/monsters.md) · [Episode/area spawn rules](analysis/entity-database/areas.md) · [NPC database](analysis/entity-database/npcs.md) · [Classes and appearance IDs](analysis/entity-database/classes.md)**
+
 **Browse quests by episode: [Episode 1](analysis/server-catalogue/episode-1.md) · [Episode 2](analysis/server-catalogue/episode-2.md) · [Episode 4](analysis/server-catalogue/episode-4.md)**
 
 - [Quest library and coverage](analysis/quest-knowledge/README.md)
@@ -42,7 +44,7 @@ python analysis/tools/query_knowledge.py events --quest vr-ep1/q118-bb-e --floor
 python analysis/tools/query_knowledge.py opcodes set_switch_flag_sync
 ```
 
-The SQLite database and JSONL retrieval export are included as lossless gzip archives. Restoration verifies their SHA-256 hashes and needs approximately 550 MB of additional free space. Git LFS is not required. The readable guides, scripts, maps and source snapshots are usable without restoration.
+The quest database, companion entity database and JSONL retrieval export are included as lossless gzip archives. Restoration verifies their SHA-256 hashes and needs approximately 650 MB of additional free space. Git LFS is not required. The readable guides, scripts, maps and source snapshots are usable without restoration.
 
 Historical metadata and database source paths retain the original Windows locations for provenance. Browse the corresponding paths under `analysis/` in this checkout. The original build/verification scripts document the research process and reference the author's input folders and decoder installation; they are not a portable one-command rebuild. The restore and query commands above work directly with the packaged library.
 
