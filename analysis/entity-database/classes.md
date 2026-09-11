@@ -1,5 +1,7 @@
 # Classes, races and appearance IDs
 
+For the independently traced Qedit selector values, see [NPC Builder appearance IDs](qedit/native-builder/README.md). The table below retains its original newserv evidence and is not silently substituted for the editor's definitions.
+
 Player class IDs are not NPC DAT skin IDs: RAmar is class 3, while the Qedit default Bernie/RAmar DAT type is 36 (0x24). Race is derived from class flags, not an interchangeable DAT race ID.
 
 Appearance counts below come from newserv V3/V4 lobby normalization. For a positive count N the indices are 0 to N−1; zero means normalization forces zero. These are not face thumbnails or proof that every extra NPC model supports each combination.
