@@ -4,6 +4,8 @@ A reference library for understanding Phantasy Star Online Blue Burst quests and
 
 ## Start here
 
+**[General floor and map database](analysis/floor-database/README.md)** — choose an episode, area, layout and entity variation independently of any existing quest.
+
 **[Browse recorded map rooms / sections](analysis/map-sections/README.md)** — per-quest room IDs, waves, events and placement links; geometric boundaries remain unverified.
 
 **Entity references: [Monster database](analysis/entity-database/monsters.md) · [Episode/area spawn rules](analysis/entity-database/areas.md) · [NPC database](analysis/entity-database/npcs.md) · [Classes and appearance IDs](analysis/entity-database/classes.md)**
