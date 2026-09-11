@@ -1,6 +1,6 @@
 # General floor and map database
 
-**[Forest 1 and Forest 2 wireframes and numbered sections](geometry/README.md)** are now extracted directly from the supplied Qedit map files. Other areas still require extraction; section-to-boundary assignment remains unresolved.
+**[All 126 Qedit wireframes and numbered sections](geometry/README.md)** are now extracted directly from the supplied map files, with links for all 47 area definitions. Dark Falz uses Qedit's explicit filename mapping; other links use setup resource basenames. Section-to-boundary assignment remains unresolved.
 
 This catalogue is independent of individual quests. It covers the 47 named area definitions for Episodes 1, 2 and 4, including boss, lobby, battle and test areas. It joins all four supplied client map tables with Qedit’s bundled and external area menus.
 

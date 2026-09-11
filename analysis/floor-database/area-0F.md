@@ -101,3 +101,12 @@ Room boundaries, transforms, empty-room IDs, valid walkable spawn positions and 
 [Observed quest section index](../map-sections/README.md) can supply examples, but copying a room ID or coordinate requires verifying the exact layout.
 
 [Documented monster constructor availability](../entity-database/areas.md) · [Qedit entity fields](../entity-database/qedit/entity-fields.md)
+
+
+<!-- geometry-atlas:start -->
+## Extracted map wireframes
+
+[map_lobby_01](geometry/map_lobby_01.md) · [map_lobby_02](geometry/map_lobby_02.md) · [map_lobby_03](geometry/map_lobby_03.md) · [map_lobby_04](geometry/map_lobby_04.md) · [map_lobby_05](geometry/map_lobby_05.md) · [map_lobby_06](geometry/map_lobby_06.md) · [map_lobby_07](geometry/map_lobby_07.md) · [map_lobby_08](geometry/map_lobby_08.md) · [map_lobby_09](geometry/map_lobby_09.md) · [map_lobby_10](geometry/map_lobby_10.md) · [map_lobby_green_be00](geometry/map_lobby_green_be00.md) · [map_lobby_red_be00](geometry/map_lobby_red_be00.md) · [map_lobby_yellow_be00](geometry/map_lobby_yellow_be00.md)
+
+Matching uses setup-resource filenames. Section reference positions and collision triangles are extracted; section boundary ownership and safe spawning remain unverified.
+<!-- geometry-atlas:end -->

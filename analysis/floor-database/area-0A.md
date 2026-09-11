@@ -81,3 +81,12 @@ Room boundaries, transforms, empty-room IDs, valid walkable spawn positions and 
 [Observed quest section index](../map-sections/README.md) can supply examples, but copying a room ID or coordinate requires verifying the exact layout.
 
 [Documented monster constructor availability](../entity-database/areas.md) · [Qedit entity fields](../entity-database/qedit/entity-fields.md)
+
+
+<!-- geometry-atlas:start -->
+## Extracted map wireframes
+
+[map_ancient03_00](geometry/map_ancient03_00.md) · [map_ancient03_01](geometry/map_ancient03_01.md) · [map_ancient03_02](geometry/map_ancient03_02.md) · [map_ancient03_03](geometry/map_ancient03_03.md) · [map_ancient03_04](geometry/map_ancient03_04.md)
+
+Matching uses setup-resource filenames. Section reference positions and collision triangles are extracted; section boundary ownership and safe spawning remain unverified.
+<!-- geometry-atlas:end -->

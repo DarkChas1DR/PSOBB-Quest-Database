@@ -5,10 +5,10 @@ SOURCE=pathlib.Path(r'C:\Users\chasm\Documents\ChatGPT\PSOBB\Qedit\map')
 def unpack(b,fmt,offset):
     assert 0<=offset<=len(b)-struct.calcsize(fmt),(offset,len(b),fmt)
     return struct.unpack_from(fmt,b,offset)
-def main():
+def main(stems=None):
     OUT.mkdir(exist_ok=True)
-    for number in (1,2):
-        stem=f'map_forest{number:02}';c=(SOURCE/(stem+'c.rel')).read_bytes();n=(SOURCE/(stem+'n.rel')).read_bytes()
+    for stem in (stems or ['map_forest01','map_forest02']):
+        c=(SOURCE/(stem+'c.rel')).read_bytes();n=(SOURCE/(stem+'n.rel')).read_bytes()
         root=unpack(n,'<I',len(n)-16)[0];header=unpack(n,'<5I',root);count=header[2];table=header[4]
         assert count<10000
         rooms=[]
@@ -32,8 +32,9 @@ def main():
         data=dict(map=stem,rooms=rooms,collision_blocks=blocks,room_boundary_assignment='not inferred',
             provenance=[dict(file=stem+suffix,sha256=hashlib.sha256(blob).hexdigest()) for suffix,blob in [('c.rel',c),('n.rel',n)]])
         (OUT/(stem+'.json')).write_text(json.dumps(data,indent=2)+'\n')
-        points=[v for b in blocks for v in b['vertices']]+[r['position'] for r in rooms]
+        points=[v for b in blocks for v in b['vertices']]+[r['position'] for r in rooms if r['id']<1000]
         xmin=min(v[0] for v in points)-80;xmax=max(v[0] for v in points)+80;zmin=min(v[2] for v in points)-80;zmax=max(v[2] for v in points)+80
+        scale=900/max(xmax-xmin,zmax-zmin);marker_radius=max(65,22/scale);marker_font=max(54,20/scale)
         svg=[f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{xmin} {zmin} {xmax-xmin} {zmax-zmin}" width="1000" height="1000">',f'<rect x="{xmin}" y="{zmin}" width="{xmax-xmin}" height="{zmax-zmin}" fill="white"/>']
         for b in blocks:
             for t in b['triangles']:
@@ -42,7 +43,7 @@ def main():
                 svg.append(f'<polygon points="{xy}" fill="none" stroke="{color}" stroke-width="0.65"/>')
         for r in rooms:
             if r['id']>=1000:continue
-            x,y,z=r['position'];svg+= [f'<circle cx="{x}" cy="{z}" r="65" fill="#b6d9f4" fill-opacity="0.94" stroke="#17324d" stroke-width="2.5"/>',f'<text x="{x}" y="{z}" text-anchor="middle" dominant-baseline="central" font-family="Arial, sans-serif" font-size="54" font-weight="bold" fill="#102538">{r["id"]}</text>']
+            x,y,z=r['position'];svg+= [f'<circle cx="{x}" cy="{z}" r="{marker_radius}" fill="#b6d9f4" fill-opacity="0.94" stroke="#17324d" stroke-width="2.5"/>',f'<text x="{x}" y="{z}" text-anchor="middle" dominant-baseline="central" font-family="Arial, sans-serif" font-size="{marker_font}" font-weight="bold" fill="#102538">{r["id"]}</text>']
         svg.append('</svg>');(OUT/(stem+'.svg')).write_text('\n'.join(svg))
         # Keep raster previews consistent with the downloadable vector image.
         from PIL import Image,ImageDraw,ImageFont
@@ -53,10 +54,10 @@ def main():
             for tri in block['triangles']:
                 xy=[pixel(block['vertices'][i]) for i in tri['indices']];f=tri['flags']
                 draw.line(xy+[xy[0]],fill='blue' if f&64 else '#7fff7f' if f&16 else '#999999' if f&1 else 'black')
-        font=ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf',round(54*scale))
+        font=ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf',round(marker_font*scale))
         for r in rooms:
             if r['id']>=1000:continue
-            x,z=pixel(r['position']);radius=65*scale
+            x,z=pixel(r['position']);radius=marker_radius*scale
             draw.ellipse((x-radius,z-radius,x+radius,z+radius),fill='#b6d9f4',outline='#17324d',width=2)
             draw.text((x,z),str(r['id']),font=font,fill='#102538',anchor='mm')
         im.save(OUT/(stem+'.png'))
