@@ -1,5 +1,7 @@
 # Episode 1: Forest 1
 
+**[Extracted wireframe and section IDs](geometry/README.md#forest-1)** · [Geometry JSON](geometry/map_forest01.json). Numbered section positions and collision triangles are now decoded; room boundary assignment and safe spawn validation remain pending.
+
 [General floor database](README.md)
 
 | Identifier | Value |
