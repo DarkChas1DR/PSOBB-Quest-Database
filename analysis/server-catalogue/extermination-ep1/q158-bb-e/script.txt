@@ -1,0 +1,477 @@
+.version BB_V4
+.quest_num 158
+.name "Sweep-up Operation #2"
+.short_desc "Mission:\nSweep monsters\nin the third area\nof the Caves."
+.long_desc "Client: Lieutenant \nQuest:\n  I want the monsters\n  in the Caves to\n  be swept away.\n\nReward: ??? Meseta\nAuthor: Ender"
+.episode Episode1
+.header_episode 0x00
+.language E
+.max_players 4
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+start:
+  set_episode                     0x00000000
+  leti                            r50, 0x00000000
+  leti                            r51, 0x00000000
+  leti                            r52, 0x00000000
+  leti                            r53, 0x00000000
+  leti                            r54, 0x00000000
+  map_designate_ex                r50-r54
+  leti                            r50, 0x00000005
+  leti                            r51, 0x00000005
+  leti                            r52, 0x00000000
+  leti                            r53, 0x00000001
+  leti                            r54, 0x00000000
+  map_designate_ex                r50-r54
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0096
+  set_floor_handler               ... 0x0 /* 0 */, label0096
+  arg_pushl                       0x00000005
+  arg_pushw                       0x00FA
+  set_floor_handler               ... 0x5 /* 5 */, label00FA
+  set_qt_exit                     label014A
+  set_qt_cancel                   label0154
+  set_qt_success                  label015E
+  set_qt_failure                  label0168
+  get_client_id                   r250
+  get_difficulty_level_v2         r251
+  arg_pushl                       0x00000005
+  set_mainwarp                    ... 0x5 /* 5 */
+  thread                          label0104
+  thread                          label00FB
+  thread                          label05DC
+  call                            label0004
+
+label0001@0x0001:
+  ret
+  arg_pushl                       0x00000069
+  arg_pushs                       "** 2: disables movement at start"
+  message                         ... 0x69 /* 105 */, "** 2: disables movement at start"
+
+label0002@0x0002:
+  arg_pushr                       r250
+  disable_movement2               ... r250
+  p_action_disable
+  hud_hide
+  cine_enable
+  cam_zmin
+  ret
+  arg_pushl                       0x00000069
+  arg_pushs                       "** 3: Enables movement at start\'"
+  message                         ... 0x69 /* 105 */, "** 3: Enables movement at start\'"
+
+label0003@0x0003:
+  arg_pushr                       r250
+  enable_movement2                ... r250
+  p_action_enable
+  hud_show
+  cine_disable
+  cam_zmout
+  ret
+  nop
+  nop
+  nop
+  arg_pushl                       0x00000069
+  arg_pushs                       "** 4 to 9 -- setup max timer in seconds"
+  message                         ... 0x69 /* 105 */, "** 4 to 9 -- setup max timer in seconds"
+  arg_pushl                       0x00000069
+  arg_pushs                       "** R200 = max timer in seconds. R199 = max timer in minutes."
+  message                         ... 0x69 /* 105 */, "** R200 = max timer in seconds. R199 = max timer in minutes."
+
+label0004@0x0004:
+  jmpi_eq                         r251, 0x00000000, label0005
+  jmpi_eq                         r251, 0x00000001, label0006
+  jmpi_eq                         r251, 0x00000002, label0007
+  jmpi_eq                         r251, 0x00000003, label0008
+
+label0005@0x0005:
+  leti                            r200, 0x000004B0
+  jmp                             label0009
+
+label0006@0x0006:
+  leti                            r200, 0x00000384
+  jmp                             label0009
+
+label0007@0x0007:
+  leti                            r200, 0x000002D0
+  jmp                             label0009
+
+label0008@0x0008:
+  leti                            r200, 0x00000258
+  jmp                             label0009
+
+label0009@0x0009:
+  let                             r199, r200
+  divi                            r199, 0x0000003C
+  ret
+
+label000B@0x000B:
+  switch_jmp                      r230, [label0001, label000C]
+
+label000C@0x000C:
+  nop
+  nop
+  ret
+  nop
+  nop
+  nop
+
+label014A@0x014A:
+  ret
+
+label0154@0x0154:
+  ret
+
+label0168@0x0168:
+  sync
+  ret
+  nop
+  nop
+  arg_pushl                       0x00000069
+  arg_pushs                       "** 350->355 - Reward meseta"
+  message                         ... 0x69 /* 105 */, "** 350->355 - Reward meseta"
+  nop
+
+label015E@0x015E:
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  jmpi_eq                         r251, 0x00000000, label015F
+  jmpi_eq                         r251, 0x00000001, label0160
+  jmpi_eq                         r251, 0x00000002, label0161
+  jmpi_eq                         r251, 0x00000003, label0162
+  ret
+  nop
+  nop
+
+label015F@0x015F:
+  leti                            r220, 0x000001F4
+  arg_pushl                       0x000001F4
+  pl_add_meseta2                  ... 0x1F4 /* 500 */
+  jmp                             label0163
+
+label0160@0x0160:
+  leti                            r220, 0x000007D0
+  arg_pushl                       0x000007D0
+  pl_add_meseta2                  ... 0x7D0 /* 2000 */
+  jmp                             label0163
+
+label0161@0x0161:
+  leti                            r220, 0x00001388
+  arg_pushl                       0x00001388
+  pl_add_meseta2                  ... 0x1388 /* 5000 */
+  jmp                             label0163
+
+label0162@0x0162:
+  leti                            r220, 0x00002EE0
+  arg_pushl                       0x00002EE0
+  pl_add_meseta2                  ... 0x2EE0 /* 12000 */
+  jmp                             label0163
+
+label0163@0x0163:
+  arg_pushs                       "You\'ve received <color 1><r220><color 0> Meseta."
+  window_msg                      ... "You\'ve received <color 1><r220><color 0> Meseta."
+  window_msg_end
+  ret
+  nop
+  nop
+  nop
+  arg_pushl                       0x00000069
+  arg_pushs                       "** 150-151 positions players at start of quest"
+  message                         ... 0x69 /* 105 */, "** 150-151 positions players at start of quest"
+
+label0096@0x0096:
+  switch_jmp                      r0, [label0097, label000B]
+
+label0097@0x0097:
+  leti                            r1, 0x000000ED
+  leti                            r2, 0x00000000
+  leti                            r3, 0x0000014D
+  leti                            r4, 0xFFFFFFF1
+  arg_pushl                       0x00000000
+  arg_pushb                       0x01
+  set_player_start_position       ... 0x0 /* 0 */, r1-r4
+  leti                            r1, 0x000000FF
+  leti                            r2, 0x00000000
+  leti                            r3, 0x00000152
+  leti                            r4, 0xFFFFFFD5
+  arg_pushl                       0x00000001
+  arg_pushb                       0x01
+  set_player_start_position       ... 0x1 /* 1 */, r1-r4
+  leti                            r1, 0x000000DE
+  leti                            r2, 0x00000000
+  leti                            r3, 0x00000142
+  leti                            r4, 0x00000019
+  arg_pushl                       0x00000002
+  arg_pushb                       0x01
+  set_player_start_position       ... 0x2 /* 2 */, r1-r4
+  leti                            r1, 0x000000F8
+  leti                            r2, 0x00000000
+  leti                            r3, 0x00000143
+  leti                            r4, 0xFFFFFFEC
+  arg_pushl                       0x00000003
+  arg_pushb                       0x01
+  set_player_start_position       ... 0x3 /* 3 */, r1-r4
+  call                            label0002
+  jmp                             label0136
+  arg_pushl                       0x00000069
+  arg_pushs                       "** 310 is works soldier dialogue at start"
+  message                         ... 0x69 /* 105 */, "** 310 is works soldier dialogue at start"
+
+label0136@0x0136:
+  // Referenced by map enemy ES-00-001 [EnemySetEntry type=0019 "TObjNpcSoldierBase/TObjNpcSoldierBase" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=2 y=0 z=67 x_angle=00000000 y_angle=00007400 z_angle=00000000 params=[0 0 0 105 310 0000 0000]]
+  jmpi_eq                         r254, 0x00000001, label0139
+  jmpi_eq                         r252, 0x00000001, label0138
+  jmpi_eq                         r0, 0x00000001, label0137
+  arg_pushl                       0x00000064
+  arg_pushl                       0x00000064
+  arg_pushl                       0x0000000C
+  arg_pushl                       0x00000001
+  arg_pushl                       0x00000001
+  arg_pushs                       "Skip dialogue?"
+  chat_box                        ... 0x64 /* 100 */, 0x64 /* 100 */, 0xC /* 12 */, 0x1 /* 1 */, 0x1 /* 1 */, "Skip dialogue?"
+  window_msg_end
+  arg_pushb                       0x14
+  arg_pushs                       "No\nYes"
+  list                            ... r20, "No\nYes"
+  jmpi_eq                         r20, 0x00000001, label0098
+  arg_pushl                       0x00000069
+  arg_pushs                       "Welcome back. Same type\nof mission as last time."
+  message                         ... 0x69 /* 105 */, "Welcome back. Same type\nof mission as last time."
+  arg_pushs                       "Sweep the Caves for\nmonsters, then I\'ll send my unit."
+  add_msg                         ... "Sweep the Caves for\nmonsters, then I\'ll send my unit."
+  arg_pushs                       "You have <r199> minutes. Good luck!"
+  add_msg                         ... "You have <r199> minutes. Good luck!"
+  message_end
+
+label0098@0x0098:
+  set                             r0
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  call                            label0003
+  ret
+  nop
+  nop
+  nop
+
+label0137@0x0137:
+  arg_pushl                       0x00000069
+  arg_pushs                       "Report to me when you\'ve\ncompleted the mission."
+  message                         ... 0x69 /* 105 */, "Report to me when you\'ve\ncompleted the mission."
+  message_end
+  ret
+
+label0138@0x0138:
+  arg_pushl                       0x00000069
+  arg_pushs                       "Looks like you failed."
+  message                         ... 0x69 /* 105 */, "Looks like you failed."
+  arg_pushs                       "Don\'t worry, we\'ll handle\nit from here."
+  add_msg                         ... "Don\'t worry, we\'ll handle\nit from here."
+  message_end
+  set                             r253
+  ret
+
+label0139@0x0139:
+  arg_pushl                       0x00000069
+  arg_pushs                       "You killed all the\nmonsters? Good job."
+  message                         ... 0x69 /* 105 */, "You killed all the\nmonsters? Good job."
+  arg_pushs                       "We\'ll start our mission\nnow. Get your reward at\nthe Hunter\'s Guild."
+  add_msg                         ... "We\'ll start our mission\nnow. Get your reward at\nthe Hunter\'s Guild."
+  message_end
+  set                             r255
+  ret
+
+label00FA@0x00FA:
+  jmpi_eq                         r254, 0x00000001, label000B
+  jmpi_eq                         r252, 0x00000001, label000B
+  arg_pushb                       0xD2
+  arg_pushl                       0x00000001
+  sync_register2                  ... r210, 0x1 /* 1 */
+  thread_stg                      label03F3
+  switch_jmp                      r230, [label0103, label000B]
+
+label0103@0x0103:
+  ret
+  nop
+  nop
+  nop
+  arg_pushl                       0x00000069
+  arg_pushs                       "** 251 starts timer. R200 max time, R203 current time."
+  message                         ... 0x69 /* 105 */, "** 251 starts timer. R200 max time, R203 current time."
+
+label00FB@0x00FB:
+  arg_pushl                       0x0A3CAA6C
+  create_pipe                     ... 0xA3CAA6C /* 171747948 */
+  jmpi_eq                         r231, 0x00000001, label0001
+
+label00FE@0x00FE:
+  sync
+  jmpi_eq                         r210, 0x00000000, label00FE
+  switch_jmp                      r230, [label0102, label0001]
+
+label0102@0x0102:
+  gettime                         r201
+  set                             r230
+  sync
+  let                             r202, r201
+  addi                            r202, 0x0000001E
+  let                             r202, r201
+  add                             r202, r200
+
+label0105@0x0105:
+  show_timer
+
+label00FC@0x00FC:
+  sync
+  jmpi_eq                         r254, 0x00000001, label0001
+  let                             r203, r202
+  gettime                         r201
+  sub                             r203, r201
+  jmpi_le                         r203, 0x00000000, label0106
+  winset_time                     r203
+  jmpi_ge                         r203, 0x00000000, label0105
+  arg_pushl                       0x00000069
+  arg_pushs                       "** R203 <= 0, so we ran out of time. Time to fail quest."
+  message                         ... 0x69 /* 105 */, "** R203 <= 0, so we ran out of time. Time to fail quest."
+
+label0106@0x0106:
+  leti                            r204, 0x00000000
+  winset_time                     r204
+  hide_timer
+  toggle_freeze_enemies
+  arg_pushr                       r250
+  disable_movement2               ... r250
+  p_action_disable
+  p_disablewarp
+  warp_off
+  set                             r252
+  thread                          label00FD
+  arg_pushl                       0x00000005
+  clear_mainwarp                  ... 0x5 /* 5 */
+  arg_pushb                       0xFD
+  arg_pushl                       0x00000001
+  sync_register2                  ... r253, 0x1 /* 1 */
+  arg_pushs                       "              TIME UP!"
+  window_msg                      ... "              TIME UP!"
+  window_msg_end
+  ret
+  nop
+  nop
+  nop
+  arg_pushl                       0x00000069
+  arg_pushs                       "** Thread that checks if final door is opened (quest cleared)."
+  message                         ... 0x69 /* 105 */, "** Thread that checks if final door is opened (quest cleared)."
+
+label0104@0x0104:
+  sync
+  leti                            r240, 0x00000005
+  leti                            r241, 0x00000014
+  read_switch_flag_on_floor       r240-r242
+  jmpi_eq                         r242, 0x00000000, label0104
+  p_action_disable
+  set                             r254
+  arg_pushs                       "         Mission complete!"
+  window_msg                      ... "         Mission complete!"
+  arg_pushl                       0x00000001
+  sound_effect                    ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x00000000
+  bgm                             ... 0x0 /* 0 */
+  arg_pushs                       "You will be taken to the lobby\nafter you receive your reward."
+  window_msg                      ... "You will be taken to the lobby\nafter you receive your reward."
+  window_msg_end
+  p_action_enable
+  ret
+  arg_pushl                       0x00000069
+  arg_pushs                       "** This is done because the spawns in those rooms are threaded."
+  message                         ... 0x69 /* 105 */, "** This is done because the spawns in those rooms are threaded."
+  arg_pushl                       0x00000069
+  arg_pushs                       "** 1011 is start of two loops that check for rooms cleared"
+  message                         ... 0x69 /* 105 */, "** 1011 is start of two loops that check for rooms cleared"
+  arg_pushl                       0x00000069
+  arg_pushs                       "** 1011: Checks room 51, 1012 checks room 54"
+  message                         ... 0x69 /* 105 */, "** 1011: Checks room 51, 1012 checks room 54"
+  arg_pushl                       0x00000069
+  arg_pushs                       "sw_send is used instead of unlock_door2"
+  message                         ... 0x69 /* 105 */, "sw_send is used instead of unlock_door2"
+
+label03F3@0x03F3:
+  sync
+  leti                            r60, 0x00000005
+  leti                            r61, 0x00000033
+  if_zone_clear                   r62, r60-r61
+  jmpi_eq                         r62, 0x00000000, label03F3
+  arg_pushl                       0x000001FE
+  setevt                          ... 0x1FE /* 510 */
+
+label03F4@0x03F4:
+  sync
+  leti                            r60, 0x00000005
+  leti                            r61, 0x00000036
+  if_zone_clear                   r62, r60-r61
+  jmpi_eq                         r62, 0x00000000, label03F4
+  arg_pushl                       0x0000021C
+  setevt                          ... 0x21C /* 540 */
+  ret
+  arg_pushl                       0x00000069
+  arg_pushs                       "** Time up code below. Return to guild, disable warp."
+  message                         ... 0x69 /* 105 */, "** Time up code below. Return to guild, disable warp."
+
+label00FD@0x00FD:
+  fadeout
+  unfreeze_enemies
+  set                             r207
+  p_return_guild
+  p_action_enable
+  arg_pushr                       r250
+  enable_movement2                ... r250
+
+label0438@0x0438:
+  leti                            r1, 0x0000000A
+  leti                            r2, 0x00000000
+  leti                            r3, 0x000000C8
+  leti                            r4, 0x0000005A
+  arg_pushl                       0x00000000
+  arg_pushb                       0x01
+  set_player_start_position       ... 0x0 /* 0 */, r1-r4
+  arg_pushl                       0x00000001
+  arg_pushb                       0x01
+  set_player_start_position       ... 0x1 /* 1 */, r1-r4
+  arg_pushl                       0x00000002
+  arg_pushb                       0x01
+  set_player_start_position       ... 0x2 /* 2 */, r1-r4
+  arg_pushl                       0x00000003
+  arg_pushb                       0x01
+  set_player_start_position       ... 0x3 /* 3 */, r1-r4
+  ret
+  nop
+  nop
+  nop
+
+label0455@0x0455:
+  ret
+  nop
+  nop
+  nop
+
+label04B1@0x04B1:
+  arg_pushl                       0x0000042C
+  arg_pushs                       "Was it more difficult than you imagined?"
+  message                         ... 0x42C /* 1068 */, "Was it more difficult than you imagined?"
+  message_end
+  nop
+  nop
+  nop
+
+label05DC@0x05DC:
+  sync
+  jmp                             label05DC
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop

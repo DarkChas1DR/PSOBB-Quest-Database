@@ -1,0 +1,199 @@
+.version BB_V4
+.quest_num 105
+.name "EP1 - Barebones"
+.short_desc "Hit a switch in caves."
+.long_desc "Quest: EP1 - Barebones\n\nClient: Hopkins\n\nDiscription: Go to the caves,\nand deactivate\nthe console.\n\nReward: ??? Meseta."
+.episode Episode1
+.header_episode 0x00
+.language E
+.max_players 0
+.solo_unlock_flag 0x0000
+.solo_unlock_flag 0x0000
+.solo_unlock_flag 0x0000
+.solo_unlock_flag 0x0000
+.solo_unlock_flag 0x0000
+.solo_unlock_flag 0x0000
+.solo_unlock_flag 0x0000
+.solo_unlock_flag 0x0000
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+start:
+  set_episode                     0x00000000
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0064
+  set_floor_handler               ... 0x0 /* 0 */, label0064
+  bb_map_designate                0x00, 0x00, 0x00, 0x00, 0x00
+  bb_map_designate                0x03, 0x03, 0x00, 0x00, 0x00
+  get_difficulty_level_v2         r210
+  ret
+
+label0064@0x0064:
+  switch_jmp                      r0, [label00C8, label00C9]
+  ret
+
+label00C8@0x00C8:
+  leti                            r0, 0x00000001
+  leti                            r60, 0x000000ED
+  leti                            r61, 0x00000000
+  leti                            r62, 0x0000014D
+  leti                            r63, 0xFFFFFFF1
+  arg_pushl                       0x00000000
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  leti                            r60, 0x000000FF
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000152
+  leti                            r63, 0xFFFFFFD5
+  arg_pushl                       0x00000001
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x1 /* 1 */, r60-r63
+  leti                            r60, 0x000000DE
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000142
+  leti                            r63, 0x00000019
+  arg_pushl                       0x00000002
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x2 /* 2 */, r60-r63
+  leti                            r60, 0x000000F8
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000143
+  leti                            r63, 0xFFFFFFEC
+  arg_pushl                       0x00000003
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x3 /* 3 */, r60-r63
+  call                            label03E8
+  ret
+
+label00C9@0x00C9:
+  leti                            r0, 0x00000002
+  ret
+
+label00DC@0x00DC:
+  p_action_disable
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  disable_movement1               ... 0x1 /* 1 */
+  arg_pushl                       0x00000002
+  disable_movement1               ... 0x2 /* 2 */
+  arg_pushl                       0x00000003
+  disable_movement1               ... 0x3 /* 3 */
+  hud_hide
+  cine_enable
+  cam_zmin
+  ret
+
+label00DD@0x00DD:
+  cam_zmout
+  cine_disable
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  enable_movement1                ... 0x1 /* 1 */
+  arg_pushl                       0x00000002
+  enable_movement1                ... 0x2 /* 2 */
+  arg_pushl                       0x00000003
+  enable_movement1                ... 0x3 /* 3 */
+  p_action_enable
+  ret
+
+label03E8@0x03E8:
+  // Referenced by map enemy ES-00-007 [EnemySetEntry type=0031 "TObjNpcNFM01/TObjNpcNFM01" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-3.89174 y=0 z=72.9721 x_angle=00000000 y_angle=0000791E z_angle=00000000 params=[0 0 0 200 1000 0000 0000]]
+  jmpi_eq                         r255, 0x00000001, label03EC
+  jmpi_eq                         r50, 0x00000001, label03EB
+  jmpi_eq                         r25, 0x00000001, label03EA
+  jmpi_eq                         r0, 0x00000001, label03E9
+  ret
+
+label03E9@0x03E9:
+  call                            label00DC
+  arg_pushl                       0x000000C8
+  arg_pushs                       "\"Insert quest givers\nopening cinematic talk here!\""
+  message                         ... 0xC8 /* 200 */, "\"Insert quest givers\nopening cinematic talk here!\""
+  message_end
+  call                            label00DD
+  arg_pushl                       0x00000003
+  set_mainwarp                    ... 0x3 /* 3 */
+  leti                            r25, 0x00000001
+  ret
+
+label03EA@0x03EA:
+  arg_pushl                       0x000000C8
+  arg_pushs                       "\'\"Insert quest givers\nafter opening talk here!\"\'"
+  message                         ... 0xC8 /* 200 */, "\'\"Insert quest givers\nafter opening talk here!\"\'"
+  message_end
+  ret
+
+label03EB@0x03EB:
+  call                            label00DC
+  arg_pushl                       0x000000C8
+  arg_pushs                       "\"Insert quest givers\ncinematic ending talk here!\""
+  message                         ... 0xC8 /* 200 */, "\"Insert quest givers\ncinematic ending talk here!\""
+  message_end
+  leti                            r255, 0x00000001
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  set_qt_success                  label00FA
+  call                            label00DD
+  ret
+
+label03EC@0x03EC:
+  arg_pushl                       0x000000C8
+  arg_pushs                       "\"Insert quest givers\nafter complete talk here!\""
+  message                         ... 0xC8 /* 200 */, "\"Insert quest givers\nafter complete talk here!\""
+  message_end
+  ret
+
+label00FA@0x00FA:
+  jmpi_eq                         r210, 0x00000000, label00FB
+  jmpi_eq                         r210, 0x00000001, label00FC
+  jmpi_eq                         r210, 0x00000002, label00FD
+  jmpi_eq                         r210, 0x00000003, label00FE
+  ret
+
+label00FB@0x00FB:
+  arg_pushs                       "\"Insert message for\nreceived normal mode meseta\nhere!\""
+  window_msg                      ... "\"Insert message for\nreceived normal mode meseta\nhere!\""
+  window_msg_end
+  arg_pushl                       0x000001F4
+  pl_add_meseta2                  ... 0x1F4 /* 500 */
+  ret
+
+label00FC@0x00FC:
+  arg_pushs                       "\"Insert message for\nreceived hard mode meseta\nhere!\""
+  window_msg                      ... "\"Insert message for\nreceived hard mode meseta\nhere!\""
+  window_msg_end
+  arg_pushl                       0x000003E8
+  pl_add_meseta2                  ... 0x3E8 /* 1000 */
+  ret
+
+label00FD@0x00FD:
+  arg_pushs                       "\"Insert message for\nreceived very hard mode meseta\nhere!\""
+  window_msg                      ... "\"Insert message for\nreceived very hard mode meseta\nhere!\""
+  window_msg_end
+  arg_pushl                       0x000005DC
+  pl_add_meseta2                  ... 0x5DC /* 1500 */
+  ret
+
+label00FE@0x00FE:
+  arg_pushs                       "\"Insert message for\nreceived ultimate mode meseta\nhere!\""
+  window_msg                      ... "\"Insert message for\nreceived ultimate mode meseta\nhere!\""
+  window_msg_end
+  arg_pushl                       0x000007D0
+  pl_add_meseta2                  ... 0x7D0 /* 2000 */
+  ret
+
+label0032@0x0032:
+  // Referenced by map object KS-03-008 [ObjectSetEntry type=008B "TObjComputer/TObjComputer" floor=0000 group=0000 room=0032 a3=0000 x=8.80124 y=-10 z=2.33687 x_angle=00000000 y_angle=0000C001 z_angle=00000000 params=[1 1 1 00000032 00000000 00000000]]
+  call                            label00DC
+  arg_pushs                       "\"Insert winning console text here.\""
+  window_msg                      ... "\"Insert winning console text here.\""
+  window_msg_end
+  call                            label00DD
+  leti                            r50, 0x00000001
+  ret

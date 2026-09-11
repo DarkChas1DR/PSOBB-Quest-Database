@@ -1,0 +1,256 @@
+.version BB_V4
+.quest_num 502
+.name "Battle2"
+.short_desc "PALACE:10 minutes\nAll players\' levels\nwill revert to\nLevel 1."
+.long_desc "[Most kills wins]\nItem boxes appear\non the field.\nBe careful, if you are killed, \nyou lose points."
+.episode Episode1
+.header_episode 0x00
+.language E
+.max_players 4
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+// 0x61C data bytes in script section with 11 labels
+
+start:
+  0000  4901000000        arg_pushl                       0x00000001
+  0005  F810              ba_initial_floor                ... 0x1 /* 1 */
+  0007  4911000000        arg_pushl                       0x00000011
+  000C  4B0100            arg_pushw                       0x0001
+  000F  95                set_floor_handler               ... 0x11 /* 17 */, label0001 /* 0011 */
+  0010  01                ret
+
+label0001:
+  // Referenced by instruction at 000F
+  0011  F811              clear_ba_rules
+  0013  4902000000        arg_pushl                       0x00000002
+  0018  F812              ba_set_tech_disk_mode           ... 0x2 /* 2 */
+  001A  4902000000        arg_pushl                       0x00000002
+  001F  F813              ba_set_weapon_and_armor_mode    ... 0x2 /* 2 */
+  0021  4900000000        arg_pushl                       0x00000000
+  0026  F814              ba_set_forbid_mags              ... 0x0 /* 0 */
+  0028  4902000000        arg_pushl                       0x00000002
+  002D  F815              ba_set_tool_mode                ... 0x2 /* 2 */
+  002F  4900000000        arg_pushl                       0x00000000
+  0034  F817              ba_set_unused_F817              ... 0x0 /* 0 */
+  0036  4901000000        arg_pushl                       0x00000001
+  003B  F816              ba_set_trap_mode                ... 0x1 /* 1 */
+  003D  4901000000        arg_pushl                       0x00000001
+  0042  F818              ba_set_respawn                  ... 0x1 /* 1 */
+  0044  4901000000        arg_pushl                       0x00000001
+  0049  F819              ba_set_replace_char             ... 0x1 /* 1 */
+  004B  4901000000        arg_pushl                       0x00000001
+  0050  F81A              ba_dropwep                      ... 0x1 /* 1 */
+  0052  4900000000        arg_pushl                       0x00000000
+  0057  F81B              ba_teams                        ... 0x0 /* 0 */
+  0059  4901000000        arg_pushl                       0x00000001
+  005E  F852              ba_hide_target_reticle          ... 0x1 /* 1 */
+  0060  4905000000        arg_pushl                       0x00000005
+  0065  F81D              ba_death_lvl_up                 ... 0x5 /* 5 */
+  0067  4902000000        arg_pushl                       0x00000002
+  006C  F81E              ba_set_meseta_drop_mode         ... 0x2 /* 2 */
+  006E  F858              ba_show_self_traps
+  0070  4901000000        arg_pushl                       0x00000001
+  0075  F85E              ba_enable_sonar                 ... 0x1 /* 1 */
+  0077  4900000000        arg_pushl                       0x00000000
+  007C  F870              ba_set_max_tech_level           ... 0x0 /* 0 */
+  007E  4900000000        arg_pushl                       0x00000000
+  0083  F871              ba_set_char_level               ... 0x0 /* 0 */
+  0085  490A000000        arg_pushl                       0x0000000A
+  008A  F872              ba_set_time_limit               ... 0xA /* 10 */
+  008C  090001000000      leti                            r0, 0x00000001
+  0092  F86B00            ba_set_box_drop_area            r0
+  0095  F86D              ba_set_trapself
+  0097  4901000000        arg_pushl                       0x00000001
+  009C  F89E              ba_forbid_scape_dolls           ... 0x1 /* 1 */
+  009E  4901000000        arg_pushl                       0x00000001
+  00A3  F8A8              ba_death_tech_level_up          ... 0x1 /* 1 */
+  00A5  096400000000      leti                            r100, 0x00000000
+  00AB  096501000000      leti                            r101, 0x00000001
+  00B1  096664000000      leti                            r102, 0x00000064
+  00B7  F84864            ba_player_give_damage_score     r100-r102
+  00BA  096400000000      leti                            r100, 0x00000000
+  00C0  096501000000      leti                            r101, 0x00000001
+  00C6  096664000000      leti                            r102, 0x00000064
+  00CC  F84964            ba_player_take_damage_score     r100-r102
+  00CF  096400000000      leti                            r100, 0x00000000
+  00D5  096500000000      leti                            r101, 0x00000000
+  00DB  096601000000      leti                            r102, 0x00000001
+  00E1  F84A64            ba_enemy_give_damage_score      r100-r102
+  00E4  096400000000      leti                            r100, 0x00000000
+  00EA  096500000000      leti                            r101, 0x00000000
+  00F0  096601000000      leti                            r102, 0x00000001
+  00F6  F84B64            ba_enemy_take_damage_score      r100-r102
+  00F9  0964E8030000      leti                            r100, 0x000003E8
+  00FF  096500000000      leti                            r101, 0x00000000
+  0105  096601000000      leti                            r102, 0x00000001
+  010B  F84C64            ba_player_kill_score            r100-r102
+  010E  0964E8030000      leti                            r100, 0x000003E8
+  0114  096500000000      leti                            r101, 0x00000000
+  011A  096601000000      leti                            r102, 0x00000001
+  0120  F84D64            ba_player_death_score           r100-r102
+  0123  096400000000      leti                            r100, 0x00000000
+  0129  096500000000      leti                            r101, 0x00000000
+  012F  096601000000      leti                            r102, 0x00000001
+  0135  F84E64            ba_enemy_kill_score             r100-r102
+  0138  0964E8030000      leti                            r100, 0x000003E8
+  013E  096500000000      leti                            r101, 0x00000000
+  0144  096601000000      leti                            r102, 0x00000001
+  014A  F84F64            ba_enemy_death_score            r100-r102
+  014D  096400000000      leti                            r100, 0x00000000
+  0153  096500000000      leti                            r101, 0x00000000
+  0159  096601000000      leti                            r102, 0x00000001
+  015F  F85064            ba_meseta_score                 r100-r102
+  0162  096401000000      leti                            r100, 0x00000001
+  0168  096505000000      leti                            r101, 0x00000005
+  016E  F85164            ba_set_trap_count               r100-r101
+  0171  096402000000      leti                            r100, 0x00000002
+  0177  096505000000      leti                            r101, 0x00000005
+  017D  F85164            ba_set_trap_count               r100-r101
+  0180  096403000000      leti                            r100, 0x00000003
+  0186  096505000000      leti                            r101, 0x00000005
+  018C  F85164            ba_set_trap_count               r100-r101
+  018F  4905000000        arg_pushl                       0x00000005
+  0194  F85F              ba_sonar_count                  ... 0x5 /* 5 */
+  0196  F860              clear_score_announce
+  0198  4901000000        arg_pushl                       0x00000001
+  019D  F861              set_score_announce              ... 0x1 /* 1 */
+  019F  4903000000        arg_pushl                       0x00000003
+  01A4  F861              set_score_announce              ... 0x3 /* 3 */
+  01A6  4905000000        arg_pushl                       0x00000005
+  01AB  F861              set_score_announce              ... 0x5 /* 5 */
+  01AD  4907000000        arg_pushl                       0x00000007
+  01B2  F861              set_score_announce              ... 0x7 /* 7 */
+  01B4  4909000000        arg_pushl                       0x00000009
+  01B9  F861              set_score_announce              ... 0x9 /* 9 */
+  01BB  B19001            thread_stg                      label0190 /* 04E4 */
+  01BE  B19401            thread_stg                      label0194 /* 0551 */
+  01C1  B19501            thread_stg                      label0195 /* 05B5 */
+  01C4  4900000000        arg_pushl                       0x00000000
+  01C9  4B0200            arg_pushw                       0x0002
+  01CC  4E2200720075...   arg_pushs                       "\"rule 1\""
+  01DF  CB                set_quest_board_handler         ... 0x0 /* 0 */, label0002 /* 027E */, "\"rule 1\""
+  01E0  104A              set                             r74
+  01E2  4901000000        arg_pushl                       0x00000001
+  01E7  4B0300            arg_pushw                       0x0003
+  01EA  4E2200720075...   arg_pushs                       "\"rule 2\""
+  01FD  CB                set_quest_board_handler         ... 0x1 /* 1 */, label0003 /* 03DC */, "\"rule 2\""
+  01FE  104B              set                             r75
+  0200  4E59006F0075...   arg_pushs                       "You can only use items found\non the arena ground to fight.\n"
+  0279  F81C              ba_start                        ... "You can only use items found\non the arena ground to fight.\n"
+  027B  F888              enable_win_pfx
+  027D  01                ret
+
+label0002:
+  // Referenced by instruction at 01DF
+  027E  4E5B004D006F...   arg_pushs                       "[Most kills wins]\n10minutes\nPALACE"
+  02C5  D6                disp_msg_qb                     ... "[Most kills wins]\n10minutes\nPALACE"
+  02C6  4E4C00650076...   arg_pushs                       "Level adjustment: 1\nYou can pick up and use any items\non the ground."
+  0351  5B                add_msg                         ... "Level adjustment: 1\nYou can pick up and use any items\non the ground."
+  0352  4E59006F0075...   arg_pushs                       "You lose weapons that are equipped\nwhen defeated.\nUnlimited lives."
+  03D9  5B                add_msg                         ... "You lose weapons that are equipped\nwhen defeated.\nUnlimited lives."
+  03DA  D7                close_msg_qb
+  03DB  01                ret
+
+label0003:
+  // Referenced by instruction at 01FD
+  03DC  4E4E0075006D...   arg_pushs                       "Number of times\nopponent defeated:+1000\nNumber of times defeated:-1000"
+  046B  D6                disp_msg_qb                     ... "Number of times\nopponent defeated:+1000\nNumber of times defeated:-1000"
+  046C  4E440061006D...   arg_pushs                       "Damage done to opponent:+0.01\nDamage done to player:-0.01"
+  04E1  5B                add_msg                         ... "Damage done to opponent:+0.01\nDamage done to player:-0.01"
+  04E2  D7                close_msg_qb
+  04E3  01                ret
+
+label0190:
+  // Referenced by instruction at 01BB
+  04E4  2DCD01000000...   jmpi_eq                         r205, 0x00000001, label0196 /* 0619 */
+  04EC  33C800000000...   jmpi_gt                         r200, 0x00000000, label0191 /* 04F6 */
+  04F4  5DC8              gettime                         r200
+
+label0191:
+  // Referenced by instructions at 04EC, 0505, 0528, 052C, 053C
+  04F6  02                sync
+  04F7  2DCD01000000...   jmpi_eq                         r205, 0x00000001, label0196 /* 0619 */
+  04FF  19C901000000      addi                            r201, 0x00000001
+  0505  37C91E000000...   jmpi_lt                         r201, 0x0000001E, label0191 /* 04F6 */
+  050D  09C900000000      leti                            r201, 0x00000000
+  0513  5DCA              gettime                         r202
+  0515  1ACAC8            sub                             r202, r200
+  0518  33CAE0010000...   jmpi_gt                         r202, 0x000001E0, label0193 /* 0540 */
+  0520  33CAF0000000...   jmpi_gt                         r202, 0x000000F0, label0192 /* 052C */
+  0528  289101            jmp                             label0191 /* 04F6 */
+  052B  01                ret
+
+label0192:
+  // Referenced by instruction at 0520
+  052C  2DCB01000000...   jmpi_eq                         r203, 0x00000001, label0191 /* 04F6 */
+  0534  4ACB              arg_pushb                       0xCB
+  0536  4901000000        arg_pushl                       0x00000001
+  053B  EF                sync_register2                  ... r203, 0x1 /* 1 */
+  053C  289101            jmp                             label0191 /* 04F6 */
+  053F  01                ret
+
+label0193:
+  // Referenced by instruction at 0518
+  0540  2DCC01000000...   jmpi_eq                         r204, 0x00000001, label0196 /* 0619 */
+  0548  4ACC              arg_pushb                       0xCC
+  054A  4901000000        arg_pushl                       0x00000001
+  054F  EF                sync_register2                  ... r204, 0x1 /* 1 */
+  0550  01                ret
+
+label0194:
+  // Referenced by instructions at 01BE, 055A
+  0551  02                sync
+  0552  2DCE01000000...   jmpi_eq                         r206, 0x00000001, label0196 /* 0619 */
+  055A  2DCB00000000...   jmpi_eq                         r203, 0x00000000, label0194 /* 0551 */
+  0562  093C11000000      leti                            r60, 0x00000011
+  0568  093D29000000      leti                            r61, 0x00000029
+  056E  093E01000000      leti                            r62, 0x00000001
+  0574  8A3C              construct_delayed_object        r60-r62
+  0576  093C11000000      leti                            r60, 0x00000011
+  057C  093D1E000000      leti                            r61, 0x0000001E
+  0582  093E03000000      leti                            r62, 0x00000003
+  0588  8A3C              construct_delayed_object        r60-r62
+  058A  093C11000000      leti                            r60, 0x00000011
+  0590  093D14000000      leti                            r61, 0x00000014
+  0596  093E05000000      leti                            r62, 0x00000005
+  059C  8A3C              construct_delayed_object        r60-r62
+  059E  093C11000000      leti                            r60, 0x00000011
+  05A4  093D5A000000      leti                            r61, 0x0000005A
+  05AA  093E07000000      leti                            r62, 0x00000007
+  05B0  8A3C              construct_delayed_object        r60-r62
+  05B2  10CE              set                             r206
+  05B4  01                ret
+
+label0195:
+  // Referenced by instructions at 01C1, 05BE
+  05B5  02                sync
+  05B6  2DCD01000000...   jmpi_eq                         r205, 0x00000001, label0196 /* 0619 */
+  05BE  2DCC00000000...   jmpi_eq                         r204, 0x00000000, label0195 /* 05B5 */
+  05C6  093C11000000      leti                            r60, 0x00000011
+  05CC  093D29000000      leti                            r61, 0x00000029
+  05D2  093E02000000      leti                            r62, 0x00000002
+  05D8  8A3C              construct_delayed_object        r60-r62
+  05DA  093C11000000      leti                            r60, 0x00000011
+  05E0  093D1E000000      leti                            r61, 0x0000001E
+  05E6  093E04000000      leti                            r62, 0x00000004
+  05EC  8A3C              construct_delayed_object        r60-r62
+  05EE  093C11000000      leti                            r60, 0x00000011
+  05F4  093D14000000      leti                            r61, 0x00000014
+  05FA  093E06000000      leti                            r62, 0x00000006
+  0600  8A3C              construct_delayed_object        r60-r62
+  0602  093C11000000      leti                            r60, 0x00000011
+  0608  093D5A000000      leti                            r61, 0x0000005A
+  060E  093E08000000      leti                            r62, 0x00000008
+  0614  8A3C              construct_delayed_object        r60-r62
+  0616  10CD              set                             r205
+  0618  01                ret
+
+label0196:
+  // Referenced by instructions at 04E4, 04F7, 0540, 0552, 05B6
+  0619  01                ret
+  061A  00                nop
+  061B  00                nop

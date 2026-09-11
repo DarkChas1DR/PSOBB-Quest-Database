@@ -1,0 +1,2200 @@
+.version BB_V4
+.quest_num 305
+.name "Maximum Attack 4th Stage -C-"
+.short_desc "ＰＳＯ　ＢＢ\n３周年記念クエスト。\n３つの戦場をまたにかけ、\nラグオル存亡の危機を救え！"
+.long_desc "依頼主：合同対策本部\n依頼内容：\n  謎のフォトン濃度が急激に上昇。\n  ラグオル各地で生物が大量発生した。\n  ハンターズの力で駆除して欲しい。\n報酬：    ？？？メセタ"
+.episode Episode4
+.header_episode 0x02
+.language J
+.max_players 4
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+label004C@0x004C:
+  get_difficulty_level_v2         r252
+  get_client_id                   r250
+  get_number_of_players           r251
+  clear                           r245
+  ret
+
+label005C@0x005C:
+  read_switch_flag_on_floor       r1-r3
+  jmpi_ne                         r3, 0x00000000, label00A8
+  arg_pushr                       r1
+  arg_pushr                       r2
+  set_switch_flag_sync            ... r1, r2
+
+label00A8@0x00A8:
+  ret
+
+label005A@0x005A:
+  // Referenced by map enemy ES-00-003 [EnemySetEntry type=0009 "TObjNpcMaleChild/TObjNpcMaleChild" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=167.998 y=0 z=84 x_angle=00000000 y_angle=0000A000 z_angle=00000000 params=[24 0 0 1015 90 0001 0000]]
+  read_switch_flag_on_floor       r1-r3
+  jmpi_eq                         r3, 0x00000000, label000E
+  arg_pushr                       r1
+  arg_pushr                       r2
+  clear_switch_flag_sync          ... r1, r2
+
+label000E@0x000E:
+  ret
+
+label0084@0x0084:
+  let                             r247, r1
+
+label0050@0x0050:
+  // Referenced by map enemy ES-00-004 [EnemySetEntry type=0006 "TObjNpcFemaleOld/TObjNpcFemaleOld" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=156.003 y=0 z=-49.9997 x_angle=00000000 y_angle=0000E000 z_angle=00000000 params=[30 0 0 1014 80 0001 0000]]
+  jmpi_le                         r247, 0x00000000, label003B
+  sync
+  subi                            r247, 0x00000001
+  jmp                             label0050
+
+label003B@0x003B:
+  ret
+
+label0065@0x0065:
+  call                            label00B1
+  fadeout
+  cine_enable
+  va_start
+  arg_pushr                       r1
+  va_call                         label0084
+  va_end
+  fadein
+  ret
+
+label00BE@0x00BE:
+  cine_enable
+
+label00B1@0x00B1:
+  arg_pushr                       r250
+  disable_movement1               ... r250
+  p_action_disable
+  hud_hide
+  ret
+
+label00A9@0x00A9:
+  fadeout
+
+label007D@0x007D:
+  cine_disable
+
+label0040@0x0040:
+  hud_show
+  p_action_enable
+  arg_pushr                       r250
+  enable_movement1                ... r250
+  ret
+
+label0071@0x0071:
+  leti                            r60, 0xFFFFFFEA
+  leti                            r61, 0x00000000
+  leti                            r62, 0xFFFFF837
+  leti                            r63, 0x0000010E
+  arg_pushl                       0x00000000
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  addi                            r62, 0x00000005
+  arg_pushl                       0x00000001
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x1 /* 1 */, r60-r63
+  addi                            r62, 0x00000005
+  arg_pushl                       0x00000002
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x2 /* 2 */, r60-r63
+  addi                            r62, 0x00000005
+  arg_pushl                       0x00000003
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x3 /* 3 */, r60-r63
+  ret
+
+label0066@0x0066:
+  fleti                           r230, -35
+  fleti                           r231, 14.5
+  fleti                           r232, -2000
+  fleti                           r233, -54
+  fleti                           r234, 13
+  fleti                           r235, -2000
+  arg_pushb                       0xE6
+  fleti_fixed_camera              ... r230-r235
+  ret
+
+label00C3@0x00C3:
+  default_camera_pos2
+  ret
+
+label002E@0x002E:
+  warp_on
+  p_enablewarp
+  ret
+
+label0058@0x0058:
+  warp_off
+  p_disablewarp
+  ret
+
+label0049@0x0049:
+  get_player_state                r250, r0
+  jmpi_eq                         r0, 0x00000001, label0061
+  jmpi_eq                         r0, 0x00000002, label0061
+  jmpi_eq                         r0, 0x00000003, label0061
+  clear                           r0
+  ret
+
+label002F@0x002F:
+  get_player_state                r243, r0
+  jmpi_eq                         r0, 0x00000001, label0061
+  jmpi_eq                         r0, 0x00000002, label0061
+  jmpi_eq                         r0, 0x00000003, label0061
+  clear                           r0
+  ret
+
+label0032@0x0032:
+  get_player_state                r243, r0
+  jmpi_eq                         r0, 0x00000001, label0061
+  jmpi_eq                         r0, 0x00000002, label0061
+  jmpi_eq                         r0, 0x00000003, label0061
+  clear                           r0
+  ret
+
+label0036@0x0036:
+  get_player_state                r243, r0
+  jmpi_eq                         r0, 0x00000001, label0061
+  jmpi_eq                         r0, 0x00000002, label0061
+  jmpi_eq                         r0, 0x00000003, label0061
+  clear                           r0
+  ret
+
+label0061@0x0061:
+  set                             r0
+  ret
+
+label00A0@0x00A0:
+  sync
+  call                            label0049
+  jmpi_eq                         r0, 0x00000000, label00A0
+  ret
+
+label008A@0x008A:
+  sync
+  leti                            r243, 0x00000001
+  call                            label002F
+  jmpi_eq                         r0, 0x00000000, label008A
+  ret
+
+label0096@0x0096:
+  sync
+  leti                            r243, 0x00000002
+  call                            label0032
+  jmpi_eq                         r0, 0x00000000, label0096
+  ret
+
+label00A4@0x00A4:
+  sync
+  leti                            r243, 0x00000003
+  call                            label0036
+  jmpi_eq                         r0, 0x00000000, label00A4
+  ret
+
+label00C4@0x00C4:
+  set                             r246
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  ret
+
+label008D@0x008D:
+  va_start
+  arg_pushl                       0x00000000
+  arg_pushl                       0x000000FF
+  va_call                         label005C
+  va_end
+  ret
+
+label0021@0x0021:
+  thread_stg                      label0024
+  ret
+
+label0024@0x0024:
+  sync
+  call                            label002E
+  jmpi_ne                         r246, 0x00000000, label0052
+  leti                            r60, 0x00000000
+  leti                            r61, 0x000000FF
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000000, label0024
+  call                            label0058
+
+label0052@0x0052:
+  ret
+
+label0027@0x0027:
+  va_start
+  arg_pushr                       r1
+  va_call                         label00AD
+  va_end
+  let                             r60, r0
+  jmpi_ne                         r2, 0x00000000, label00AC
+  leti                            r0, 0x00000000
+  jmpi_eq                         r60, 0x00000000, label0025
+  leti                            r0, 0x00000001
+
+label0025@0x0025:
+  ret
+
+label00AC@0x00AC:
+  leti                            r0, 0x00000002
+  jmpi_eq                         r60, 0x00000000, label0025
+  leti                            r0, 0x00000003
+  ret
+
+label00D7@0x00D7:
+  jmpi_eq                         r3, 0x00000000, label0053
+  va_start
+  arg_pushr                       r1
+  arg_pushr                       r3
+  va_call                         label0027
+  va_end
+  jmpi_le                         r0, 0x00000001, label0028
+  addi                            r0, 0x00000002
+  ret
+
+label0053@0x0053:
+  va_start
+  arg_pushr                       r1
+  arg_pushr                       r2
+  va_call                         label0027
+  va_end
+
+label0028@0x0028:
+  ret
+
+label00D1@0x00D1:
+  va_start
+  arg_pushr                       r1
+  va_call                         label0075
+  va_end
+  and                             r0, r245
+  ret
+
+label00AD@0x00AD:
+  va_start
+  arg_pushr                       r1
+  va_call                         label00D1
+  va_end
+  stack_push                      r0
+  va_start
+  arg_pushr                       r1
+  va_call                         label0075
+  va_end
+  or                              r245, r0
+  stack_pop                       r0
+  ret
+
+label006B@0x006B:
+  va_start
+  arg_pushr                       r1
+  va_call                         label00D1
+  va_end
+  stack_push                      r0
+  va_start
+  arg_pushr                       r1
+  va_call                         label0075
+  va_end
+  xori                            r0, 0xFFFFFFFF
+  and                             r245, r0
+  stack_pop                       r0
+  ret
+
+label000A@0x000A:
+  let                             r0, r245
+  clear                           r245
+  ret
+
+label0075@0x0075:
+  subi                            r1, 0x00000064
+  leti                            r0, 0x00000001
+  shift_left                      r0, r1
+  ret
+
+label00D9@0x00D9:
+  leti                            r249, 0x00000000
+  arg_pushr                       r250
+  enable_movement2                ... r250
+  p_action_enable
+  ret
+
+label0002@0x0002:
+  leti                            r249, 0x00000001
+  p_action_disable
+  arg_pushr                       r250
+  disable_movement2               ... r250
+  ret
+
+label001E@0x001E:
+  stack_pushm                     r10, 0x00000005
+  get_coord_player_detect         r1-r3, r10-r13
+  get_number_of_players           r9
+  let                             r14, r10
+  add                             r14, r11
+  add                             r14, r12
+  add                             r14, r13
+  jmp_eq                          r9, r14, label00B2
+  leti                            r0, 0x00000000
+  stack_popm                      r10, 0x00000005
+  ret
+
+label00B2@0x00B2:
+  leti                            r0, 0x00000001
+  stack_popm                      r10, 0x00000005
+  ret
+
+start:
+  set_episode                     0x00000002
+  set_qt_success                  label00B6
+  set_qt_failure                  label009B
+  bb_map_designate                0x00, 0x2D, 0x00, 0x00, 0x00
+  bb_map_designate                0x08, 0x2B, 0x00, 0x01, 0x00
+  bb_map_designate                0x05, 0x28, 0x00, 0x00, 0x00
+  arg_pushl                       0x00000000
+  initial_floor                   ... 0x0 /* 0 */
+  arg_pushl                       0x00000000
+  arg_pushw                       0x00A5
+  set_floor_handler               ... 0x0 /* 0 */, label00A5
+  arg_pushl                       0x00000005
+  arg_pushw                       0x00C0
+  set_floor_handler               ... 0x5 /* 5 */, label00C0
+  arg_pushl                       0x00000008
+  arg_pushw                       0x00A6
+  set_floor_handler               ... 0x8 /* 8 */, label00A6
+  arg_pushl                       0x00000005
+  set_mainwarp                    ... 0x5 /* 5 */
+  call                            label004C
+  leti                            r199, 0x00000000
+  ret
+
+label0001@0x0001:
+  ret
+
+label00B6@0x00B6:
+  jmpi_eq                         r252, 0x00000000, label00CF
+  jmpi_eq                         r252, 0x00000001, label006C
+  jmpi_eq                         r252, 0x00000002, label00BF
+  jmpi_eq                         r252, 0x00000003, label0097
+
+label00CF@0x00CF:
+  arg_pushs                       "<color 1>２０００<color 0>メセタ受け取った。"
+  window_msg                      ... "<color 1>２０００<color 0>メセタ受け取った。"
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x000007D0
+  pl_add_meseta2                  ... 0x7D0 /* 2000 */
+  ret
+
+label006C@0x006C:
+  arg_pushs                       "<color 1>５０００<color 0>メセタ受け取った。"
+  window_msg                      ... "<color 1>５０００<color 0>メセタ受け取った。"
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x00001388
+  pl_add_meseta2                  ... 0x1388 /* 5000 */
+  ret
+
+label00BF@0x00BF:
+  arg_pushs                       "<color 1>１００００<color 0>メセタ受け取った。"
+  window_msg                      ... "<color 1>１００００<color 0>メセタ受け取った。"
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x00002710
+  pl_add_meseta2                  ... 0x2710 /* 10000 */
+  ret
+
+label0097@0x0097:
+  arg_pushs                       "<color 1>２００００<color 0>メセタ受け取った。"
+  window_msg                      ... "<color 1>２００００<color 0>メセタ受け取った。"
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x00004E20
+  pl_add_meseta2                  ... 0x4E20 /* 20000 */
+  ret
+
+label009B@0x009B:
+  ret
+
+label00A5@0x00A5:
+  jmpi_eq                         r170, 0x00000001, label006D
+
+label0098@0x0098:
+  get_client_id                   r250
+  switch_call                     r250, [label0030, label0033, label0037, label003C]
+  call                            label0475
+  set                             r170
+  ret
+
+label0030@0x0030:
+  leti                            r60, 0x000000D9
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000145
+  leti                            r63, 0x00000019
+  arg_pushl                       0x00000000
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  ret
+
+label0033@0x0033:
+  leti                            r60, 0x000000CD
+  leti                            r61, 0x00000000
+  leti                            r62, 0x0000014A
+  leti                            r63, 0x0000002D
+  arg_pushl                       0x00000001
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x1 /* 1 */, r60-r63
+  ret
+
+label0037@0x0037:
+  leti                            r60, 0x000000E6
+  leti                            r61, 0x00000000
+  leti                            r62, 0x0000014F
+  leti                            r63, 0x00000016
+  arg_pushl                       0x00000002
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x2 /* 2 */, r60-r63
+  ret
+
+label003C@0x003C:
+  // Referenced by map enemy ES-00-007 [EnemySetEntry type=000D "TObjNpcMaleOld/TObjNpcMaleOld" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=-2.00188 y=0 z=35.0037 x_angle=00000000 y_angle=00008000 z_angle=00000000 params=[26 0 0 1012 60 0001 0000]]
+  leti                            r60, 0x000000F5
+  leti                            r61, 0x00000000
+  leti                            r62, 0x0000014A
+  leti                            r63, 0x00000159
+  arg_pushl                       0x00000003
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x3 /* 3 */, r60-r63
+  ret
+
+label006D@0x006D:
+  warp_on
+  unfreeze_enemies
+  jmpi_eq                         r254, 0x00000001, label00D0
+  jmpi_eq                         r253, 0x00000001, label0013
+  thread_stg                      label0079
+  thread_stg                      label008C
+  thread_stg                      label0047
+  ret
+
+label00D0@0x00D0:
+  p_disablewarp
+  arg_pushl                       0x00000005
+  clear_mainwarp                  ... 0x5 /* 5 */
+  arg_pushl                       0x00000008
+  clear_mainwarp                  ... 0x8 /* 8 */
+  jmp                             label0098
+  ret
+
+label0013@0x0013:
+  p_disablewarp
+  arg_pushl                       0x00000005
+  clear_mainwarp                  ... 0x5 /* 5 */
+  arg_pushl                       0x00000008
+  clear_mainwarp                  ... 0x8 /* 8 */
+  jmp                             label0098
+  ret
+
+label0475@0x0475:
+  // Referenced by map enemy ES-00-001 [EnemySetEntry type=00F3 "TObjNpcNgcBase(0x00F3)" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=6.90999 y=0 z=64.0779 x_angle=00000000 y_angle=00009000 z_angle=00000000 params=[0 0 0 141 1141 0000 0000]]
+  jmpi_eq                         r255, 0x00000001, label0038
+  jmpi_eq                         r254, 0x00000001, label0062
+  jmpi_eq                         r253, 0x00000001, label005F
+  jmpi_eq                         r150, 0x00000001, label008E
+
+label007E@0x007E:
+  call                            label00BE
+  arg_pushl                       0x0000008D
+  arg_pushs                       "集まったわね。"
+  message                         ... 0x8D /* 141 */, "集まったわね。"
+  arg_pushs                       "今回の掃討作戦は前回と同様、"
+  add_msg                         ... "今回の掃討作戦は前回と同様、"
+  arg_pushs                       "クレーター内部から地下砂漠に\n向かってもらうわ。"
+  add_msg                         ... "クレーター内部から地下砂漠に\n向かってもらうわ。"
+  arg_pushs                       "ただ、先遣隊の報告によると、"
+  add_msg                         ... "ただ、先遣隊の報告によると、"
+  arg_pushs                       "今回のルートは他と比べて\nＤ型フォトンの量が多く、"
+  add_msg                         ... "今回のルートは他と比べて\nＤ型フォトンの量が多く、"
+  arg_pushs                       "最も熾烈な戦いになることが\n予想されるわ。"
+  add_msg                         ... "最も熾烈な戦いになることが\n予想されるわ。"
+  arg_pushs                       "できうる限りの装備を\n持って臨みなさい。"
+  add_msg                         ... "できうる限りの装備を\n持って臨みなさい。"
+  arg_pushs                       "以上よ。"
+  add_msg                         ... "以上よ。"
+  message_end
+  set                             r150
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0093
+  arg_pushs                       "現在の倒したエネミー数"
+  set_quest_board_handler         ... 0x0 /* 0 */, label0093, "現在の倒したエネミー数"
+  set                             r74
+  call                            label007D
+  ret
+
+label008E@0x008E:
+  arg_pushl                       0x0000008D
+  arg_pushs                       "ハンターズの活躍で\n本作戦も終わりが\n見えてきたわ。"
+  message                         ... 0x8D /* 141 */, "ハンターズの活躍で\n本作戦も終わりが\n見えてきたわ。"
+  arg_pushs                       "だからといって、\n気を抜かずに"
+  add_msg                         ... "だからといって、\n気を抜かずに"
+  arg_pushs                       "最後まで\nやり遂げることを\n期待しているわ。"
+  add_msg                         ... "最後まで\nやり遂げることを\n期待しているわ。"
+  message_end
+  ret
+
+label0038@0x0038:
+  call                            label0002
+  arg_pushl                       0x0000008D
+  arg_pushs                       "あなたの能力……\nハンターズにしておくには\nもったいないわね。"
+  message                         ... 0x8D /* 141 */, "あなたの能力……\nハンターズにしておくには\nもったいないわね。"
+  arg_pushs                       "<color 4>ＷＯＲＫＳ<color 0>に来たら？"
+  add_msg                         ... "<color 4>ＷＯＲＫＳ<color 0>に来たら？"
+  arg_pushs                       "それなりの待遇で\nもてなすわよ。"
+  add_msg                         ... "それなりの待遇で\nもてなすわよ。"
+  message_end
+  call                            label00D9
+  ret
+  ret
+
+label0062@0x0062:
+  call                            label00BC
+  call                            label00DA
+  call                            label0002
+  arg_pushl                       0x0000008D
+  arg_pushs                       "ご苦労様。\n無事 任務を\n遂行したようね。"
+  message                         ... 0x8D /* 141 */, "ご苦労様。\n無事 任務を\n遂行したようね。"
+  arg_pushs                       "今回、<name hero>が\n倒したエネミーの数は\n<r118>ね。"
+  add_msg                         ... "今回、<name hero>が\n倒したエネミーの数は\n<r118>ね。"
+  arg_pushs                       "このデータを登録するので\n少し待ちなさい。"
+  add_msg                         ... "このデータを登録するので\n少し待ちなさい。"
+  arg_pushs                       "…"
+  add_msg                         ... "…"
+  arg_pushs                       "……"
+  add_msg                         ... "……"
+  arg_pushs                       "………"
+  add_msg                         ... "………"
+  message_end
+  call                            label009A
+  call                            label006E
+  call                            label0073
+  arg_pushl                       0x0000008D
+  arg_pushs                       "あと、これを\n渡しておくわ。"
+  message                         ... 0x8D /* 141 */, "あと、これを\n渡しておくわ。"
+  message_end
+  call                            label000F
+  arg_pushs                       "<color 1>チケット<color 0>を\n<r119>枚 手に入れた。"
+  window_msg                      ... "<color 1>チケット<color 0>を\n<r119>枚 手に入れた。"
+  window_msg_end
+  add                             r121, r119
+  call                            label002A
+  arg_pushl                       0x0000008D
+  arg_pushs                       "大半のハンターズが\nこの調子で作戦に\n参加していれば、"
+  message                         ... 0x8D /* 141 */, "大半のハンターズが\nこの調子で作戦に\n参加していれば、"
+  arg_pushs                       "ラグオル全土で\n繰り広げられている\n掃討作戦も成功できそうよ。"
+  add_msg                         ... "ラグオル全土で\n繰り広げられている\n掃討作戦も成功できそうよ。"
+  arg_pushs                       "とりあえず お疲れ様。"
+  add_msg                         ... "とりあえず お疲れ様。"
+  arg_pushs                       "次も期待しているわ。"
+  add_msg                         ... "次も期待しているわ。"
+  message_end
+  arg_pushl                       0x00000001
+  playbgm_epi                     ... 0x1 /* 1 */
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  set                             r255
+  call                            label00D9
+  ret
+
+label005F@0x005F:
+  call                            label00BC
+  call                            label00DA
+  call                            label0002
+  jmpi_eq                         r150, 0x00000002, label00B7
+  arg_pushl                       0x0000008D
+  arg_pushs                       "失敗のようね。"
+  message                         ... 0x8D /* 141 */, "失敗のようね。"
+  arg_pushs                       "この地区は周辺の\n掃討地区の中でも、"
+  add_msg                         ... "この地区は周辺の\n掃討地区の中でも、"
+  arg_pushs                       "最も危険なものと\nされているわ。"
+  add_msg                         ... "最も危険なものと\nされているわ。"
+  arg_pushs                       "一応、失敗したけど、\nその前に戦闘結果のデータが\n送られてきたわ。"
+  add_msg                         ... "一応、失敗したけど、\nその前に戦闘結果のデータが\n送られてきたわ。"
+  arg_pushs                       "今回、<name hero>が\n倒したエネミーの数は\n<r118>ね。"
+  add_msg                         ... "今回、<name hero>が\n倒したエネミーの数は\n<r118>ね。"
+  arg_pushs                       "このデータを登録するので\n少し待ちなさい。"
+  add_msg                         ... "このデータを登録するので\n少し待ちなさい。"
+  arg_pushs                       "…"
+  add_msg                         ... "…"
+  arg_pushs                       "……"
+  add_msg                         ... "……"
+  arg_pushs                       "………"
+  add_msg                         ... "………"
+  message_end
+  call                            label009A
+  call                            label006E
+
+label00B7@0x00B7:
+  arg_pushl                       0x0000008D
+  arg_pushs                       "何度も失敗する\nようだったら、"
+  message                         ... 0x8D /* 141 */, "何度も失敗する\nようだったら、"
+  arg_pushs                       "掃討地区の変更を\nおすすめするわ。"
+  add_msg                         ... "掃討地区の変更を\nおすすめするわ。"
+  message_end
+  call                            label00D9
+  leti                            r150, 0x00000002
+  ret
+
+label008B@0x008B:
+  call                            label0002
+  arg_pushl                       0x0000008D
+  arg_pushs                       "NTH"
+  message                         ... 0x8D /* 141 */, "NTH"
+  message_end
+  call                            label00D9
+  ret
+
+label0003@0x0003:
+  arg_pushl                       0x00000005
+  set_mainwarp                    ... 0x5 /* 5 */
+  arg_pushl                       0x00000008
+  set_mainwarp                    ... 0x8 /* 8 */
+  ret
+
+label0473@0x0473:
+  // Referenced by map enemy ES-00-002 [EnemySetEntry type=0025 "TObjNpcARM00" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=25.49 y=0 z=62.42 x_angle=00000000 y_angle=0000A000 z_angle=00000000 params=[0 0 0 139 1139 0000 0000]]
+  jmpi_eq                         r255, 0x00000001, label00C5
+  jmpi_eq                         r254, 0x00000001, label004B
+  jmpi_eq                         r253, 0x00000001, label0051
+  call                            label0002
+  arg_pushl                       0x0000008B
+  arg_pushs                       "それでは、私の方から\n掃討作戦について\n説明いたします。"
+  message                         ... 0x8B /* 139 */, "それでは、私の方から\n掃討作戦について\n説明いたします。"
+  message_end
+
+label00CA@0x00CA:
+  sync
+  arg_pushb                       0x3A
+  arg_pushs                       "作戦内容について\nラグオルの状況について\n特にない"
+  list                            ... r58, "作戦内容について\nラグオルの状況について\n特にない"
+  switch_jmp                      r58, [label0006, label004A, label009E]
+
+label007F@0x007F:
+  sync
+  arg_pushl                       0x0000008B
+  arg_pushs                       "他に お聞きしたいことは\nありますか？"
+  message                         ... 0x8B /* 139 */, "他に お聞きしたいことは\nありますか？"
+  message_end
+  arg_pushb                       0x3A
+  arg_pushs                       "ある\nない"
+  list                            ... r58, "ある\nない"
+  switch_jmp                      r58, [label00CA, label009E]
+  ret
+
+label009E@0x009E:
+  arg_pushl                       0x0000008B
+  arg_pushs                       "この地区は、\n軍の掃討作戦でも\n苛烈を極めたところです。"
+  message                         ... 0x8B /* 139 */, "この地区は、\n軍の掃討作戦でも\n苛烈を極めたところです。"
+  arg_pushs                       "準備を怠らないよう\n気を付けて下さい。"
+  add_msg                         ... "準備を怠らないよう\n気を付けて下さい。"
+  message_end
+  call                            label00D9
+  ret
+
+label0006@0x0006:
+  arg_pushl                       0x0000008B
+  arg_pushs                       "ハンターズの方には\n前回の掃討作戦と同様、"
+  message                         ... 0x8B /* 139 */, "ハンターズの方には\n前回の掃討作戦と同様、"
+  arg_pushs                       "指定地区でエネミーの掃討に\nあたってもらいます。"
+  add_msg                         ... "指定地区でエネミーの掃討に\nあたってもらいます。"
+  arg_pushs                       "掃討地区に設置\nされている端末を起動後、\n一定時間内にエネミーを掃討、"
+  add_msg                         ... "掃討地区に設置\nされている端末を起動後、\n一定時間内にエネミーを掃討、"
+  arg_pushs                       "もうひとつの端末に\nアクセスすることで\n作戦終了となります。"
+  add_msg                         ... "もうひとつの端末に\nアクセスすることで\n作戦終了となります。"
+  arg_pushs                       "端末起動中は\n範囲内のＤ型フォトンの\n増殖を遅らせ、"
+  add_msg                         ... "端末起動中は\n範囲内のＤ型フォトンの\n増殖を遅らせ、"
+  arg_pushs                       "その間にハンターズが\nエネミーを駆逐という\n作戦を繰り返すことで、"
+  add_msg                         ... "その間にハンターズが\nエネミーを駆逐という\n作戦を繰り返すことで、"
+  arg_pushs                       "Ｄ型フォトンの量を\n減らしていくのが\n今回の作戦の目的です。"
+  add_msg                         ... "Ｄ型フォトンの量を\n減らしていくのが\n今回の作戦の目的です。"
+  arg_pushs                       "ただし、端末の起動から\n一定時間内に作戦を\n遂行しなければ、"
+  add_msg                         ... "ただし、端末の起動から\n一定時間内に作戦を\n遂行しなければ、"
+  arg_pushs                       "失敗となるので\n注意して下さい。"
+  add_msg                         ... "失敗となるので\n注意して下さい。"
+  message_end
+  jmp                             label007F
+  ret
+
+label004A@0x004A:
+  arg_pushl                       0x0000008B
+  arg_pushs                       "現在、ラグオル全土では\nＤ型フォトンが異常な速度で\n増殖を続けております。"
+  message                         ... 0x8B /* 139 */, "現在、ラグオル全土では\nＤ型フォトンが異常な速度で\n増殖を続けております。"
+  arg_pushs                       "増殖したＤ型フォトンは\nその地域に生息している生物、"
+  add_msg                         ... "増殖したＤ型フォトンは\nその地域に生息している生物、"
+  arg_pushs                       "および作業機械などに\n偽装しています。"
+  add_msg                         ... "および作業機械などに\n偽装しています。"
+  arg_pushs                       "このクレーター周辺、\nおよび内部でも同様の\n現象が確認されており、"
+  add_msg                         ... "このクレーター周辺、\nおよび内部でも同様の\n現象が確認されており、"
+  arg_pushs                       "各地で被害が出ています。"
+  add_msg                         ... "各地で被害が出ています。"
+  message_end
+  jmp                             label007F
+  ret
+
+label0051@0x0051:
+  jmpi_eq                         r151, 0x00000002, label0043
+  call                            label0002
+  arg_pushl                       0x0000008B
+  arg_pushs                       "作戦失敗です。"
+  message                         ... 0x8B /* 139 */, "作戦失敗です。"
+  arg_pushs                       "先遣隊からの通信では、\nこの地区が最も過酷な\n掃討地区だという"
+  add_msg                         ... "先遣隊からの通信では、\nこの地区が最も過酷な\n掃討地区だという"
+  arg_pushs                       "報告があがっております。"
+  add_msg                         ... "報告があがっております。"
+  arg_pushs                       "細心の注意を払って\n任務に臨んで下さい。"
+  add_msg                         ... "細心の注意を払って\n任務に臨んで下さい。"
+  message_end
+  call                            label00D9
+  leti                            r151, 0x00000002
+  ret
+
+label0043@0x0043:
+  call                            label0002
+  arg_pushl                       0x0000008B
+  arg_pushs                       "細心の注意を払って\n任務に臨んで下さい。"
+  message                         ... 0x8B /* 139 */, "細心の注意を払って\n任務に臨んで下さい。"
+  message_end
+  call                            label00D9
+  ret
+
+label004B@0x004B:
+  jmpi_eq                         r151, 0x00000001, label00D5
+  call                            label0002
+  arg_pushl                       0x0000008B
+  arg_pushs                       "お嬢様……"
+  message                         ... 0x8B /* 139 */, "お嬢様……"
+  arg_pushs                       "いえ、カレン担当官も\nあなたのことを\n高く評価しております。"
+  add_msg                         ... "いえ、カレン担当官も\nあなたのことを\n高く評価しております。"
+  arg_pushs                       "ご苦労様でした。"
+  add_msg                         ... "ご苦労様でした。"
+  message_end
+  set                             r151
+  call                            label00D9
+  ret
+
+label00D5@0x00D5:
+  arg_pushl                       0x0000008B
+  arg_pushs                       "お疲れ様でした。"
+  message                         ... 0x8B /* 139 */, "お疲れ様でした。"
+  arg_pushs                       "次の作戦も\nよろしくお願いします。"
+  add_msg                         ... "次の作戦も\nよろしくお願いします。"
+  message_end
+  ret
+
+label00C5@0x00C5:
+  call                            label00BC
+  call                            label00DA
+  call                            label0002
+  arg_pushl                       0x0000008B
+  arg_pushs                       "全ハンターズの協力の\nおかげでこの作戦も成功に\n向かっているそうです。"
+  message                         ... 0x8B /* 139 */, "全ハンターズの協力の\nおかげでこの作戦も成功に\n向かっているそうです。"
+  arg_pushs                       "なにか知りたい情報は\nありますか？"
+  add_msg                         ... "なにか知りたい情報は\nありますか？"
+  message_end
+  arg_pushb                       0x3A
+  arg_pushs                       "今回の撃破数\n個人総撃破数\nセントラルドーム地区撃破数\nガル・ダ・バル島地区撃破数\nクレーター地区撃破数\nチケットの獲得枚数\nチケットの所持枚数\n特にない"
+  list                            ... r58, "今回の撃破数\n個人総撃破数\nセントラルドーム地区撃破数\nガル・ダ・バル島地区撃破数\nクレーター地区撃破数\nチケットの獲得枚数\nチケットの所持枚数\n特にない"
+  switch_call                     r58, [label009F, label001F, label00B9, label0014, label0088, label0099, label00AE, label0001]
+  call                            label00D9
+  ret
+
+label009F@0x009F:
+  arg_pushl                       0x0000008B
+  arg_pushs                       "<name hero>さんの\n今回のエネミー撃破数は"
+  message                         ... 0x8B /* 139 */, "<name hero>さんの\n今回のエネミー撃破数は"
+  arg_pushs                       "<color 4><r118><color 0>です。"
+  add_msg                         ... "<color 4><r118><color 0>です。"
+  message_end
+  ret
+
+label001F@0x001F:
+  arg_pushl                       0x0000008B
+  arg_pushs                       "<name hero>さんの\n現在までのエネミー撃破数は"
+  message                         ... 0x8B /* 139 */, "<name hero>さんの\n現在までのエネミー撃破数は"
+  arg_pushs                       "<color 4><r120><color 0>です。"
+  add_msg                         ... "<color 4><r120><color 0>です。"
+  message_end
+  ret
+
+label00B9@0x00B9:
+  arg_pushl                       0x0000008B
+  arg_pushs                       "<name hero>さんの\n現在までのセントラルドーム地区\nエネミー撃破数は"
+  message                         ... 0x8B /* 139 */, "<name hero>さんの\n現在までのセントラルドーム地区\nエネミー撃破数は"
+  arg_pushs                       "<color 4><r123><color 0>です。"
+  add_msg                         ... "<color 4><r123><color 0>です。"
+  message_end
+  ret
+
+label0014@0x0014:
+  arg_pushl                       0x0000008B
+  arg_pushs                       "<name hero>さんの\n現在までのガル・ダ・バル島地区\nエネミー撃破数は"
+  message                         ... 0x8B /* 139 */, "<name hero>さんの\n現在までのガル・ダ・バル島地区\nエネミー撃破数は"
+  arg_pushs                       "<color 4><r124><color 0>です。"
+  add_msg                         ... "<color 4><r124><color 0>です。"
+  message_end
+  ret
+
+label0088@0x0088:
+  arg_pushl                       0x0000008B
+  arg_pushs                       "<name hero>さんの\n現在までのクレーター地区\nエネミー撃破数は"
+  message                         ... 0x8B /* 139 */, "<name hero>さんの\n現在までのクレーター地区\nエネミー撃破数は"
+  arg_pushs                       "<color 4><r125><color 0>です。"
+  add_msg                         ... "<color 4><r125><color 0>です。"
+  message_end
+  ret
+
+label0099@0x0099:
+  arg_pushl                       0x0000008B
+  arg_pushs                       "<name hero>さんの\n今回、獲得したチケットは"
+  message                         ... 0x8B /* 139 */, "<name hero>さんの\n今回、獲得したチケットは"
+  arg_pushs                       "<color 4><r119><color 0>枚です。"
+  add_msg                         ... "<color 4><r119><color 0>枚です。"
+  message_end
+  ret
+
+label00AE@0x00AE:
+  arg_pushl                       0x0000008B
+  arg_pushs                       "<name hero>さんの\n現在、所持しているチケットは"
+  message                         ... 0x8B /* 139 */, "<name hero>さんの\n現在、所持しているチケットは"
+  arg_pushs                       "<color 4><r121><color 0>枚です。"
+  add_msg                         ... "<color 4><r121><color 0>枚です。"
+  message_end
+  ret
+
+label0472@0x0472:
+  // Referenced by map enemy ES-00-00C [EnemySetEntry type=0022 "TObjNpcNHW00/TObjNpcNHW00" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=-50.6302 y=0 z=-27.5535 x_angle=00000000 y_angle=00000000 z_angle=00000000 params=[0 0 0 138 1138 0000 0000]]
+  jmpi_eq                         r153, 0x00000002, label0092
+  jmpi_eq                         r254, 0x00000001, label005B
+  jmpi_eq                         r253, 0x00000001, label0060
+  jmpi_eq                         r153, 0x00000001, label00BA
+  call                            label0002
+  arg_pushl                       0x0000008A
+  arg_pushs                       "あら。\n今度はこの地区？"
+  message                         ... 0x8A /* 138 */, "あら。\n今度はこの地区？"
+  arg_pushs                       "頑張ってね。"
+  add_msg                         ... "頑張ってね。"
+  arg_pushs                       "じゃないと……"
+  add_msg                         ... "じゃないと……"
+  arg_pushs                       "まあ、その先は\n言わなくても\nわかるわよね？"
+  add_msg                         ... "まあ、その先は\n言わなくても\nわかるわよね？"
+  message_end
+  call                            label00D9
+  set                             r153
+  ret
+
+label00BA@0x00BA:
+  call                            label0002
+  arg_pushl                       0x0000008A
+  arg_pushs                       "え？"
+  message                         ... 0x8A /* 138 */, "え？"
+  arg_pushs                       "…毎回毎回\nいったい何よ？"
+  add_msg                         ... "…毎回毎回\nいったい何よ？"
+  arg_pushs                       "…何をしているかって？"
+  add_msg                         ... "…何をしているかって？"
+  arg_pushs                       "いいかげん\nしつこいのね、キミも。"
+  add_msg                         ... "いいかげん\nしつこいのね、キミも。"
+  arg_pushs                       "…以前も似たような台詞を\n言った気もするけど…"
+  add_msg                         ... "…以前も似たような台詞を\n言った気もするけど…"
+  arg_pushs                       "ただの調査よ。"
+  add_msg                         ... "ただの調査よ。"
+  arg_pushs                       "なにもやましいことは\nしてないわ。"
+  add_msg                         ... "なにもやましいことは\nしてないわ。"
+  arg_pushs                       "ほら。\nキミはキミで\nすべき事があるんじゃない？"
+  add_msg                         ... "ほら。\nキミはキミで\nすべき事があるんじゃない？"
+  message_end
+  call                            label00D9
+  ret
+
+label0060@0x0060:
+  call                            label0002
+  arg_pushl                       0x0000008A
+  arg_pushs                       "キミでも\n失敗することがあるんだね…"
+  message                         ... 0x8A /* 138 */, "キミでも\n失敗することがあるんだね…"
+  arg_pushs                       "……"
+  add_msg                         ... "……"
+  arg_pushs                       "…あたしでも\n失敗することはあるわ。"
+  add_msg                         ... "…あたしでも\n失敗することはあるわ。"
+  arg_pushs                       "でも、知ってるわ。"
+  add_msg                         ... "でも、知ってるわ。"
+  arg_pushs                       "失敗を恐れていちゃ\nなにもできないってね。"
+  add_msg                         ... "失敗を恐れていちゃ\nなにもできないってね。"
+  message_end
+  call                            label00D9
+  ret
+
+label005B@0x005B:
+  call                            label0002
+  arg_pushl                       0x0000008A
+  arg_pushs                       "さすが\n<name hero>ね。"
+  message                         ... 0x8A /* 138 */, "さすが\n<name hero>ね。"
+  arg_pushs                       "優秀なハンターズは\n違うわね。"
+  add_msg                         ... "優秀なハンターズは\n違うわね。"
+  arg_pushs                       "…先に言っておくけど、\nあたしの方も順調よ。"
+  add_msg                         ... "…先に言っておくけど、\nあたしの方も順調よ。"
+  message_end
+  call                            label00D9
+  leti                            r153, 0x00000002
+  ret
+
+label0092@0x0092:
+  call                            label0002
+  arg_pushl                       0x0000008A
+  arg_pushs                       "…もし、"
+  message                         ... 0x8A /* 138 */, "…もし、"
+  arg_pushs                       "なにかあったら\n<name hero>にも\n協力してもらうわ。"
+  add_msg                         ... "なにかあったら\n<name hero>にも\n協力してもらうわ。"
+  arg_pushs                       "…今は「なにか」は\n言えないけどね。"
+  add_msg                         ... "…今は「なにか」は\n言えないけどね。"
+  message_end
+  call                            label00D9
+  ret
+
+label0474@0x0474:
+  // Referenced by map enemy ES-00-00B [EnemySetEntry type=0029 "TObjNpcNFW00/TObjNpcNFW00" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=-33.4481 y=0 z=-24.3696 x_angle=00000000 y_angle=00000000 z_angle=00000000 params=[0 0 0 140 1140 0000 0000]]
+  jmpi_eq                         r154, 0x00000002, label0067
+  jmpi_eq                         r254, 0x00000001, label0022
+  jmpi_eq                         r253, 0x00000001, label0029
+  jmpi_eq                         r154, 0x00000001, label0063
+  call                            label0002
+  arg_pushl                       0x0000008C
+  arg_pushs                       "あの地区から\nイヤな感じがするよ。"
+  message                         ... 0x8C /* 140 */, "あの地区から\nイヤな感じがするよ。"
+  arg_pushs                       "スゥの言う通りにしないと、\nホントにやられちゃうかも。"
+  add_msg                         ... "スゥの言う通りにしないと、\nホントにやられちゃうかも。"
+  message_end
+  set                             r154
+  call                            label00D9
+  ret
+
+label0063@0x0063:
+  call                            label0002
+  arg_pushl                       0x0000008C
+  arg_pushs                       "<name hero>は\n感じない？"
+  message                         ... 0x8C /* 140 */, "<name hero>は\n感じない？"
+  message_end
+  call                            label00D9
+  ret
+
+label0029@0x0029:
+  call                            label0002
+  arg_pushl                       0x0000008C
+  arg_pushs                       "<name hero>！"
+  message                         ... 0x8C /* 140 */, "<name hero>！"
+  arg_pushs                       "…作戦は失敗？"
+  add_msg                         ... "…作戦は失敗？"
+  arg_pushs                       "だったら、私を連れて\n行けば、成功したのにー。"
+  add_msg                         ... "だったら、私を連れて\n行けば、成功したのにー。"
+  message_end
+  call                            label00D9
+  ret
+
+label0022@0x0022:
+  call                            label0002
+  arg_pushl                       0x0000008C
+  arg_pushs                       "<name hero>！"
+  message                         ... 0x8C /* 140 */, "<name hero>！"
+  arg_pushs                       "…作戦は成功したの？"
+  add_msg                         ... "…作戦は成功したの？"
+  arg_pushs                       "そうそう。"
+  add_msg                         ... "そうそう。"
+  arg_pushs                       "成功したときに貰えるチケットは\n<color 4>ラボエリアに設置された特設会場で<color 0>\n使えるらしいよ！"
+  add_msg                         ... "成功したときに貰えるチケットは\n<color 4>ラボエリアに設置された特設会場で<color 0>\n使えるらしいよ！"
+  arg_pushs                       "え？\n知ってるって？"
+  add_msg                         ... "え？\n知ってるって？"
+  arg_pushs                       "ふーん。\nつまんないなー。"
+  add_msg                         ... "ふーん。\nつまんないなー。"
+  message_end
+  call                            label00D9
+  leti                            r154, 0x00000002
+  ret
+
+label0067@0x0067:
+  call                            label0002
+  arg_pushl                       0x0000008C
+  arg_pushs                       "ふーん。\nつまんないなー。"
+  message                         ... 0x8C /* 140 */, "ふーん。\nつまんないなー。"
+  message_end
+  call                            label00D9
+  ret
+
+label000F@0x000F:
+  jmpi_eq                         r252, 0x00000000, label008F
+  jmpi_eq                         r252, 0x00000001, label0007
+  jmpi_eq                         r252, 0x00000002, label0054
+  jmpi_eq                         r252, 0x00000003, label004D
+
+label008F@0x008F:
+  leti                            r119, 0x00000005
+  jmp                             label0008
+  ret
+
+label0007@0x0007:
+  leti                            r119, 0x00000008
+  jmp                             label0008
+  ret
+
+label0054@0x0054:
+  leti                            r119, 0x0000000B
+  jmp                             label0008
+  ret
+
+label004D@0x004D:
+  leti                            r119, 0x0000000E
+  jmp                             label0008
+  ret
+
+label0008@0x0008:
+  muli                            r199, 0x00000002
+  sub                             r119, r199
+  jmpi_lt                         r119, 0x00000001, label00A1
+  ret
+
+label00A1@0x00A1:
+  leti                            r119, 0x00000001
+  ret
+
+label00C0@0x00C0:
+  clear                           r146
+  clear                           r144
+  clear                           r145
+  thread_stg                      label0015
+  thread_stg                      label0094
+  thread_stg                      label0079
+  thread_stg                      label008C
+  thread_stg                      label0047
+  thread_stg                      label00CC
+  thread_stg                      label00C2
+  ret
+
+label00A6@0x00A6:
+  clear                           r146
+  clear                           r144
+  clear                           r145
+  thread_stg                      label0015
+  thread_stg                      label0094
+  thread_stg                      label0079
+  thread_stg                      label008C
+  thread_stg                      label0047
+  thread_stg                      label00CC
+  ret
+
+label006F@0x006F:
+  // Referenced by map object KS-08-01D [ObjectSetEntry type=008B "TObjComputer/TObjComputer" floor=0008 group=0000 room=006E a3=0000 x=-197.344 y=-40.5931 z=-22.9789 x_angle=00000000 y_angle=00008FFF z_angle=00000000 params=[1 1 1 0000006F 00000000 00000000]]
+  arg_pushb                       0xFE
+  arg_pushl                       0x00000001
+  sync_register2                  ... r254, 0x1 /* 1 */
+  ret
+
+label002C@0x002C:
+  arg_pushb                       0xFE
+  arg_pushl                       0x00000001
+  sync_register2                  ... r254, 0x1 /* 1 */
+  ret
+
+label0042@0x0042:
+  // Referenced by map object KS-05-019 [ObjectSetEntry type=008B "TObjComputer/TObjComputer" floor=0005 group=0000 room=003C a3=0000 x=-284.266 y=-51.8835 z=532.808 x_angle=00000000 y_angle=00006000 z_angle=00000000 params=[1 1 1 00000042 00000000 00000000]]
+  jmpi_eq                         r180, 0x00000001, label0001
+  leti                            r60, 0x00000005
+  leti                            r61, 0x00000042
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000001, label0001
+  call                            label0002
+  arg_pushs                       "コンピューターを起動します。\n準備はよろしいですか？"
+  window_msg                      ... "コンピューターを起動します。\n準備はよろしいですか？"
+  window_msg_end
+  arg_pushb                       0x3C
+  arg_pushs                       "はい\nいいえ"
+  list                            ... r60, "はい\nいいえ"
+  jmpi_eq                         r60, 0x00000000, label0018
+  call                            label00D9
+  ret
+
+label0018@0x0018:
+  arg_pushs                       "状況を確認中……\n参加者が全員揃うまでお待ち下さい。"
+  window_msg                      ... "状況を確認中……\n参加者が全員揃うまでお待ち下さい。"
+  window_msg_end
+  set                             r180
+  switch_call                     r250, [label0039, label003D, label0041, label0044]
+  thread_stg                      label003A
+  ret
+
+label0039@0x0039:
+  arg_pushb                       0xA4
+  arg_pushl                       0x00000001
+  sync_register2                  ... r164, 0x1 /* 1 */
+  ret
+
+label003D@0x003D:
+  arg_pushb                       0xA5
+  arg_pushl                       0x00000001
+  sync_register2                  ... r165, 0x1 /* 1 */
+  ret
+
+label0041@0x0041:
+  arg_pushb                       0xA6
+  arg_pushl                       0x00000001
+  sync_register2                  ... r166, 0x1 /* 1 */
+  ret
+
+label0044@0x0044:
+  arg_pushb                       0xA7
+  arg_pushl                       0x00000001
+  sync_register2                  ... r167, 0x1 /* 1 */
+  ret
+
+label003A@0x003A:
+  sync
+  clear                           r60
+  get_players_present             r1-r4
+  jmpi_eq                         r1, 0x00000000, label0076
+  jmpi_eq                         r164, 0x00000000, label003A
+  addi                            r60, 0x00000001
+
+label0076@0x0076:
+  jmpi_eq                         r2, 0x00000000, label0078
+  jmpi_eq                         r165, 0x00000000, label003A
+  addi                            r60, 0x00000001
+
+label0078@0x0078:
+  // Referenced by map enemy ES-00-005 [EnemySetEntry type=001A "TObjNpcSoldierMacho/TObjNpcSoldierMacho" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=237.999 y=0 z=-14.0001 x_angle=00000000 y_angle=0000E000 z_angle=00000000 params=[0 0 0 1019 120 0000 0000]]
+  jmpi_eq                         r3, 0x00000000, label0080
+  jmpi_eq                         r166, 0x00000000, label003A
+  addi                            r60, 0x00000001
+
+label0080@0x0080:
+  jmpi_eq                         r4, 0x00000000, label000B
+  jmpi_eq                         r167, 0x00000000, label003A
+  addi                            r60, 0x00000001
+
+label000B@0x000B:
+  get_number_of_players           r251
+  jmp_ne                          r60, r251, label003A
+  clear                           r164
+  clear                           r165
+  clear                           r166
+  clear                           r167
+  call                            label0055
+  clear                           r111
+  gettime                         r102
+  set                             r110
+  thread_stg                      label0079
+  thread_stg                      label008C
+  call                            label0073
+  arg_pushl                       0x00000007
+  sound_effect                    ... 0x7 /* 7 */
+  arg_pushl                       0x00000005
+  arg_pushl                       0x00000042
+  set_switch_flag_sync            ... 0x5 /* 5 */, 0x42 /* 66 */
+  arg_pushs                       "作戦開始。\nゲートを開放します。"
+  window_msg                      ... "作戦開始。\nゲートを開放します。"
+  window_msg_end
+  call                            label00D9
+  ret
+
+label0074@0x0074:
+  arg_pushs                       "状況を確認中……"
+  window_msg                      ... "状況を確認中……"
+  window_msg_end
+  call                            label0081
+  set                             r180
+  call                            label009A
+  leti                            r60, 0x00000005
+  leti                            r61, 0x00000042
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000001, label005D
+
+label0064@0x0064:
+  // Referenced by map enemy ES-00-009 [EnemySetEntry type=0003 "TObjNpcFemaleDwarf/TObjNpcFemaleDwarf" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=-212 y=0 z=-140 x_angle=00000000 y_angle=00000000 z_angle=00000000 params=[37 0 0 1016 100 0001 0000]]
+  clear                           r180
+  arg_pushs                       "参加者が全員揃うまでお待ち下さい。"
+  window_msg                      ... "参加者が全員揃うまでお待ち下さい。"
+  window_msg_end
+  call                            label0055
+  call                            label00D9
+  ret
+
+label005D@0x005D:
+  ret
+
+label0081@0x0081:
+  get_client_id                   r250
+  switch_call                     r250, [label00B3, label00B8, label00BB, label00C1]
+  ret
+
+label00B3@0x00B3:
+  arg_pushb                       0xD5
+  arg_pushl                       0x00000001
+  sync_register2                  ... r213, 0x1 /* 1 */
+  ret
+
+label00B8@0x00B8:
+  arg_pushb                       0xD6
+  arg_pushl                       0x00000001
+  sync_register2                  ... r214, 0x1 /* 1 */
+  ret
+
+label00BB@0x00BB:
+  arg_pushb                       0xD7
+  arg_pushl                       0x00000001
+  sync_register2                  ... r215, 0x1 /* 1 */
+  ret
+
+label00C1@0x00C1:
+  arg_pushb                       0xD8
+  arg_pushl                       0x00000001
+  sync_register2                  ... r216, 0x1 /* 1 */
+  ret
+
+label0090@0x0090:
+  get_number_of_players           r9
+  let                             r14, r213
+  add                             r14, r214
+  add                             r14, r215
+  add                             r14, r216
+  jmp_eq                          r9, r14, label0020
+  leti                            r0, 0x00000000
+  ret
+
+label0020@0x0020:
+  leti                            r0, 0x00000001
+  ret
+
+label00B0@0x00B0:
+  sync
+  leti                            r60, 0x00000005
+  leti                            r61, 0x00000042
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000001, label00C6
+  jmpi_eq                         r180, 0x00000000, label00B0
+  call                            label0090
+  switch_jmp                      r0, [label0077, label0068]
+
+label0077@0x0077:
+  arg_pushl                       0x00000005
+  arg_pushl                       0x00000042
+  clear_switch_flag_sync          ... 0x5 /* 5 */, 0x42 /* 66 */
+  jmp                             label00B0
+
+label0068@0x0068:
+  arg_pushl                       0x00000005
+  arg_pushl                       0x00000042
+  set_switch_flag_sync            ... 0x5 /* 5 */, 0x42 /* 66 */
+  jmp                             label00C6
+  ret
+
+label00C6@0x00C6:
+  jmpi_eq                         r110, 0x00000001, label0001
+  clear                           r111
+  gettime                         r102
+  set                             r110
+
+label0072@0x0072:
+  thread_stg                      label0079
+  thread_stg                      label008C
+  call                            label0073
+  call                            label0002
+  arg_pushs                       "作戦開始。\nゲートを開放します。"
+  window_msg                      ... "作戦開始。\nゲートを開放します。"
+  window_msg_end
+  call                            label00D9
+  ret
+
+label00BC@0x00BC:
+  leti                            r195, 0x0000000E
+  arg_pushr                       r195
+  arg_pushb                       0x78
+  read_counter                    ... r195, r120
+  leti                            r195, 0x00000003
+  arg_pushr                       r195
+  arg_pushb                       0x7B
+  read_counter                    ... r195, r123
+  leti                            r195, 0x00000004
+  arg_pushr                       r195
+  arg_pushb                       0x7C
+  read_counter                    ... r195, r124
+  leti                            r195, 0x00000008
+  arg_pushr                       r195
+  arg_pushb                       0x7D
+  read_counter                    ... r195, r125
+  ret
+
+label0004@0x0004:
+  leti                            r195, 0x0000000E
+  jmpi_gt                         r120, 0x7FFFFFFF, label00CB
+  arg_pushr                       r195
+  arg_pushr                       r120
+  write_counter                   ... r195, r120
+  leti                            r195, 0x00000008
+  jmpi_gt                         r125, 0x7FFFFFFF, label00CB
+  arg_pushr                       r195
+  arg_pushr                       r125
+  write_counter                   ... r195, r125
+  ret
+
+label00CB@0x00CB:
+  arg_pushs                       "You have killed too many enemies!"
+  window_msg                      ... "You have killed too many enemies!"
+  window_msg_end
+  ret
+
+label00DA@0x00DA:
+  leti                            r195, 0x0000000F
+  arg_pushr                       r195
+  arg_pushb                       0xC4
+  read_counter                    ... r195, r196
+  andi                            r196, 0x000000FF
+  let                             r121, r196
+  ret
+
+label002A@0x002A:
+  leti                            r195, 0x0000000F
+  jmpi_gt                         r121, 0x000000FF, label0023
+  arg_pushr                       r195
+  arg_pushb                       0xC4
+  read_counter                    ... r195, r196
+  andi                            r196, 0xFFFFFF00
+  or                              r196, r121
+  arg_pushr                       r195
+  arg_pushr                       r196
+  write_counter                   ... r195, r196
+  ret
+
+label0023@0x0023:
+  leti                            r121, 0x000000FF
+  arg_pushr                       r195
+  arg_pushb                       0xC4
+  read_counter                    ... r195, r196
+  or                              r196, r121
+  arg_pushr                       r195
+  arg_pushr                       r196
+  write_counter                   ... r195, r196
+  arg_pushs                       "上限の２５５枚に達しました。"
+  window_msg                      ... "上限の２５５枚に達しました。"
+  window_msg_end
+  ret
+
+label0093@0x0093:
+  arg_pushs                       "現在倒したエネミー数は…"
+  disp_msg_qb                     ... "現在倒したエネミー数は…"
+  arg_pushs                       "<r118>です。"
+  add_msg                         ... "<r118>です。"
+  close_msg_qb
+  ret
+
+label0015@0x0015:
+  sync
+  chk_ene_num                     r118
+  jmpi_ge                         r118, 0x000001CC, label005E
+  jmp                             label0015
+  ret
+
+label005E@0x005E:
+  let                             r100, r171
+  andi                            r100, 0x00000080
+  jmpi_gt                         r100, 0x00000000, label00C7
+  thread_stg                      label03DC
+
+label00C7@0x00C7:
+  ret
+
+label03DC@0x03DC:
+  call                            label0002
+  arg_pushl                       0x00000008
+  sound_effect                    ... 0x8 /* 8 */
+  ori                             r171, 0x00000080
+  arg_pushs                       "すべてのエネミーを倒しました！"
+  window_msg                      ... "すべてのエネミーを倒しました！"
+  window_msg_end
+  call                            label00D9
+  ret
+
+label0094@0x0094:
+  jmpi_eq                         r253, 0x00000001, label0001
+  sync
+  jmp                             label00AA
+
+label0069@0x0069:
+  addi                            r199, 0x00000001
+  sync
+  sync
+  thread_stg                      label00B4
+  ret
+
+label00AA@0x00AA:
+  switch_jmp                      r250, [label0082, label0083, label0085, label0089]
+  ret
+
+label0082@0x0082:
+  // Referenced by map enemy ES-00-006 [EnemySetEntry type=0019 "TObjNpcSoldierBase/TObjNpcSoldierBase" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=238.004 y=0 z=63.0041 x_angle=00000000 y_angle=0000A000 z_angle=00000000 params=[0 0 0 1020 130 0000 0000]]
+  arg_pushb                       0x3B
+  arg_pushl                       0x00000000
+  p_dead                          ... r59, 0x0 /* 0 */
+  jmpi_eq                         r59, 0x00000000, label0094
+  arg_pushb                       0x87
+  arg_pushl                       0x00000001
+  sync_register2                  ... r135, 0x1 /* 1 */
+  jmp                             label0069
+
+label0083@0x0083:
+  arg_pushb                       0x3B
+  arg_pushl                       0x00000001
+  p_dead                          ... r59, 0x1 /* 1 */
+  jmpi_eq                         r59, 0x00000000, label0094
+  arg_pushb                       0x88
+  arg_pushl                       0x00000001
+  sync_register2                  ... r136, 0x1 /* 1 */
+  jmp                             label0069
+
+label0085@0x0085:
+  arg_pushb                       0x3B
+  arg_pushl                       0x00000002
+  p_dead                          ... r59, 0x2 /* 2 */
+  jmpi_eq                         r59, 0x00000000, label0094
+  arg_pushb                       0x89
+  arg_pushl                       0x00000001
+  sync_register2                  ... r137, 0x1 /* 1 */
+  jmp                             label0069
+
+label0089@0x0089:
+  arg_pushb                       0x3B
+  arg_pushl                       0x00000003
+  p_dead                          ... r59, 0x3 /* 3 */
+  jmpi_eq                         r59, 0x00000000, label0094
+  arg_pushb                       0x8A
+  arg_pushl                       0x00000001
+  sync_register2                  ... r138, 0x1 /* 1 */
+  jmp                             label0069
+
+label00B4@0x00B4:
+  switch_jmp                      r250, [label0010, label0016, label0019, label001B]
+  ret
+
+label0010@0x0010:
+  arg_pushb                       0x3B
+  arg_pushl                       0x00000000
+  p_dead                          ... r59, 0x0 /* 0 */
+  jmpi_eq                         r59, 0x00000000, label0094
+  sync
+  jmp                             label00B4
+
+label0016@0x0016:
+  arg_pushb                       0x3B
+  arg_pushl                       0x00000001
+  p_dead                          ... r59, 0x1 /* 1 */
+  jmpi_eq                         r59, 0x00000000, label0094
+  sync
+  jmp                             label00B4
+
+label0019@0x0019:
+  arg_pushb                       0x3B
+  arg_pushl                       0x00000002
+  p_dead                          ... r59, 0x2 /* 2 */
+  jmpi_eq                         r59, 0x00000000, label0094
+  sync
+  jmp                             label00B4
+
+label001B@0x001B:
+  arg_pushb                       0x3B
+  arg_pushl                       0x00000003
+  p_dead                          ... r59, 0x3 /* 3 */
+  jmpi_eq                         r59, 0x00000000, label0094
+  sync
+  jmp                             label00B4
+
+label0079@0x0079:
+  jmpi_eq                         r253, 0x00000001, label0001
+  jmpi_eq                         r254, 0x00000001, label0001
+  jmpi_eq                         r108, 0x00000001, label0001
+  jmpi_eq                         r109, 0x00000001, label0001
+  jmpi_eq                         r110, 0x00000000, label0001
+
+label004E@0x004E:
+  sync
+  jmpi_eq                         r254, 0x00000001, label0001
+  addi                            r105, 0x00000001
+  jmpi_lt                         r105, 0x0000001E, label004E
+  clear                           r105
+  show_timer
+  sync
+  gettime                         r104
+  sub                             r104, r102
+  leti                            r106, 0x00000708
+  sub                             r106, r104
+  winset_time                     r106
+  leti                            r111, 0x00000708
+  sub                             r111, r106
+  jmpi_lt                         r106, 0x00000001, label003E
+  jmpi_gt                         r106, 0x00000708, label0005
+  jmpi_lt                         r106, 0x00000000, label0005
+  modi                            r106, 0x00000078
+  jmpi_eq                         r106, 0x00000000, label00A7
+  jmp                             label004E
+  ret
+
+label00A7@0x00A7:
+  thread_stg                      label00D2
+  jmp                             label004E
+  ret
+
+label00D2@0x00D2:
+  jmpi_eq                         r253, 0x00000001, label0001
+  arg_pushl                       0x00000008
+  sound_effect                    ... 0x8 /* 8 */
+  arg_pushl                       0x000000F5
+  arg_pushl                       0x00000087
+  arg_pushl                       0x00000014
+  arg_pushl                       0x0000000A
+  arg_pushl                       0x00000002
+  arg_pushl                       0x3F800000
+  arg_pushb                       0xAC
+  arg_pushs                       "<r118>匹撃破！！"
+  scroll_text                     ... 0xF5 /* 245 */, 0x87 /* 135 */, 0x14 /* 20 */, 0xA /* 10 */, 0x2 /* 2 */, 1, r172, "<r118>匹撃破！！"
+
+label002B@0x002B:
+  sync
+  sync
+  sync
+  jmpi_eq                         r253, 0x00000001, label0031
+  jmpi_eq                         r172, 0x00000000, label002B
+
+label0031@0x0031:
+  window_msg_end
+  clear                           r172
+  ret
+
+label001C@0x001C:
+  ret
+
+label0009@0x0009:
+  ret
+
+label003E@0x003E:
+  arg_pushb                       0x6C
+  arg_pushl                       0x00000001
+  sync_register2                  ... r108, 0x1 /* 1 */
+  ret
+
+label0005@0x0005:
+  arg_pushb                       0x6C
+  arg_pushl                       0x00000001
+  sync_register2                  ... r108, 0x1 /* 1 */
+  leti                            r111, 0x00000708
+  ret
+
+label008C@0x008C:
+  // Referenced by map enemy ES-00-011 [EnemySetEntry type=0005 "TObjNpcFemaleMacho/TObjNpcFemaleMacho" num_children=0000 floor=0000 room=001E wave_number=0000 wave_number2=0000 a1=0000 x=16.004 y=0 z=5.99567 x_angle=00000000 y_angle=FFFFD000 z_angle=00000000 params=[22 0 0 1021 140 0001 0000]]
+  sync
+  jmpi_eq                         r253, 0x00000001, label0001
+  jmpi_eq                         r108, 0x00000000, label008C
+  thread_stg                      label00A2
+  p_disablewarp
+  warp_off
+  toggle_freeze_enemies
+  p_action_disable
+  arg_pushr                       r250
+  disable_movement1               ... r250
+  set                             r253
+  arg_pushs                       "作戦時間終了。"
+  window_msg                      ... "作戦時間終了。"
+  arg_pushs                       "参加者を強制帰還させます。"
+  add_msg                         ... "参加者を強制帰還させます。"
+  window_msg_end
+  ret
+
+label00A2@0x00A2:
+  fadeout
+  hide_timer
+  p_action_enable
+  arg_pushr                       r250
+  enable_movement1                ... r250
+  call                            label007A
+  unfreeze_enemies
+  p_return_guild
+  ret
+
+label00C2@0x00C2:
+  jmpi_eq                         r254, 0x00000001, label0001
+  jmpi_eq                         r253, 0x00000001, label0001
+  sync
+  sync
+  leti                            r115, 0x00000005
+  leti                            r116, 0x0000003C
+  if_zone_clear                   r117, r115-r116
+  jmpi_eq                         r117, 0x00000000, label00C2
+  leti                            r10, 0x00000005
+  leti                            r11, 0x0000003C
+  leti                            r12, 0x00000001
+  construct_delayed_object        r10-r12
+  thread_stg                      label00C8
+  ret
+
+label00C8@0x00C8:
+  jmpi_eq                         r254, 0x00000001, label0001
+  jmpi_eq                         r253, 0x00000001, label0001
+  sync
+  sync
+  leti                            r115, 0x00000005
+  leti                            r116, 0x00000028
+  if_zone_clear                   r117, r115-r116
+  jmpi_eq                         r117, 0x00000000, label00C8
+  leti                            r10, 0x00000005
+  leti                            r11, 0x00000028
+  leti                            r12, 0x00000001
+  construct_delayed_object        r10-r12
+  ret
+
+label00CC@0x00CC:
+  jmpi_eq                         r253, 0x00000001, label0001
+  sync
+  jmpi_ne                         r254, 0x00000001, label00CC
+  toggle_freeze_enemies
+  call                            label0002
+  arg_pushs                       "確認中……"
+  window_msg                      ... "確認中……"
+  arg_pushs                       "エネミーの掃討に\n成功しました。"
+  add_msg                         ... "エネミーの掃討に\n成功しました。"
+  arg_pushs                       "参加者をシティへ\n転送します。"
+  add_msg                         ... "参加者をシティへ\n転送します。"
+  window_msg_end
+  call                            label00D9
+  unfreeze_enemies
+  fadeout
+  call                            label0055
+  p_return_guild
+  ret
+
+label00D3@0x00D3:
+  toggle_freeze_enemies
+  call                            label0002
+  clear                           r254
+  set                             r253
+  arg_pushs                       "you are a cheater!you lose"
+  window_msg                      ... "you are a cheater!you lose"
+  window_msg_end
+  call                            label00D9
+  unfreeze_enemies
+  fadeout
+  call                            label0055
+  p_return_guild
+  ret
+
+label0045@0x0045:
+  sync
+  sync
+  sync
+  sync
+  sync
+  ret
+
+label0034@0x0034:
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  ret
+
+label0073@0x0073:
+  call                            label0045
+  call                            label0034
+  ret
+
+label0046@0x0046:
+  // Referenced by map enemy ES-00-008 [EnemySetEntry type=001E "TObjNpcExpertBase" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=-147 y=0 z=-7.99654 x_angle=00000000 y_angle=00006900 z_angle=00000000 params=[30 0 0 1013 70 0001 0000]]
+  call                            label0034
+  call                            label0034
+  ret
+
+label0055@0x0055:
+  call                            label0073
+  call                            label0073
+  ret
+
+label009A@0x009A:
+  call                            label0055
+  call                            label0073
+  ret
+
+label007A@0x007A:
+  call                            label0055
+  call                            label0055
+  ret
+
+label00A3@0x00A3:
+  call                            label009A
+  call                            label009A
+  ret
+
+label006E@0x006E:
+  // Referenced by map enemy ES-00-013 [EnemySetEntry type=001F "TObjNpcNurseBase" num_children=0000 floor=0000 room=0028 wave_number=0000 wave_number2=0000 a1=0000 x=53.4992 y=0 z=-26.4967 x_angle=00000000 y_angle=0000E000 z_angle=00000000 params=[18 0 0 1018 110 0001 0000]]
+  leti                            r122, 0x00000131
+  let                             r60, r254
+  let                             r61, r118
+  jmpi_gt                         r61, 0x000001CC, label001A
+  let                             r62, r111
+  jmpi_le                         r62, 0x0000012C, label001A
+  let                             r63, r142
+  get_gender                      r250, r64
+  jmpi_eq                         r64, 0x00000002, label001A
+  get_chara_class                 r250, r65-r66
+  jmpi_eq                         r65, 0x00000003, label001A
+  jmpi_eq                         r66, 0x00000003, label001A
+  let                             r67, r147
+
+label0035@0x0035:
+  arg_pushr                       r122
+  arg_pushw                       0x002D
+  arg_pushw                       0x00D8
+  prepare_statistic               ... r122, label002D, label00D8
+  arg_pushr                       r60
+  arg_pushr                       r61
+  arg_pushr                       r62
+  arg_pushr                       r63
+  arg_pushr                       r64
+  arg_pushr                       r65
+  arg_pushr                       r66
+  arg_pushr                       r67
+  send_statistic                  ... r60, r61, r62, r63, r64, r65, r66, r67
+  clear                           r149
+  clear                           r148
+
+label001D@0x001D:
+  sync
+  addi                            r149, 0x00000001
+  jmpi_ge                         r149, 0x000001C2, label0001
+  jmpi_eq                         r148, 0x00000000, label001D
+  ret
+
+label002D@0x002D:
+  jmpi_ge                         r149, 0x000001C2, label0001
+  leti                            r195, 0x0000000E
+  arg_pushr                       r195
+  arg_pushb                       0x78
+  read_counter                    ... r195, r120
+  jmpi_lt                         r120, 0x00000000, label00B5
+  jmpi_ge                         r120, 0x7FFFFFFF, label00B5
+  add                             r120, r118
+  arg_pushr                       r195
+  arg_pushr                       r120
+  write_counter                   ... r195, r120
+  leti                            r195, 0x00000008
+  arg_pushr                       r195
+  arg_pushb                       0x7D
+  read_counter                    ... r195, r125
+  jmpi_lt                         r125, 0x00000000, label00B5
+  jmpi_ge                         r125, 0x7FFFFFFF, label00B5
+  add                             r125, r118
+  arg_pushr                       r195
+  arg_pushr                       r125
+  write_counter                   ... r195, r125
+  jmpi_eq                         r147, 0x00000001, label00AF
+
+label00B5@0x00B5:
+  arg_pushl                       0x0000008D
+  arg_pushs                       "登録完了したわ。"
+  message                         ... 0x8D /* 141 */, "登録完了したわ。"
+  message_end
+  set                             r148
+  ret
+
+label00AF@0x00AF:
+  arg_pushl                       0x0000008D
+  arg_pushs                       "データに異常が発生していた\n可能性があるわね。\n撃破ポイントのみ登録したわ。"
+  message                         ... 0x8D /* 141 */, "データに異常が発生していた\n可能性があるわね。\n撃破ポイントのみ登録したわ。"
+  message_end
+  set                             r148
+  ret
+
+label00D8@0x00D8:
+  jmpi_ge                         r149, 0x000001C2, label0001
+  arg_pushl                       0x0000008D
+  arg_pushs                       "登録完了したわ…"
+  message                         ... 0x8D /* 141 */, "登録完了したわ…"
+  message_end
+  set                             r148
+  ret
+
+label001A@0x001A:
+  arg_pushl                       0x0000008D
+  arg_pushs                       "登録完了したわ！"
+  message                         ... 0x8D /* 141 */, "登録完了したわ！"
+  message_end
+  set                             r148
+  ret
+
+label0047@0x0047:
+  sync
+  jmpi_eq                         r253, 0x00000001, label0001
+  jmpi_eq                         r254, 0x00000001, label0001
+  jmpi_eq                         r110, 0x00000000, label0047
+
+label00BD@0x00BD:
+  sync
+  jmpi_eq                         r254, 0x00000001, label000C
+  jmpi_eq                         r253, 0x00000001, label000C
+  addi                            r142, 0x00000001
+  jmp                             label00BD
+
+label000C@0x000C:
+  ret
+
+label0026@0x0026:
+  jmpi_eq                         r147, 0x00000001, label0001
+  sync
+  addi                            r146, 0x00000001
+  gettime                         r143
+  modi                            r143, 0x0000000A
+  jmpi_gt                         r143, 0x00000000, label0026
+  let                             r144, r146
+  sub                             r144, r145
+  let                             r145, r146
+  jmpi_lt                         r144, 0x000001C2, label0026
+  arg_pushb                       0x93
+  arg_pushl                       0x00000001
+  sync_register2                  ... r147, 0x1 /* 1 */
+  arg_pushs                       "フレーム数に異常な値が検知されました。\nフレームカウント<r142>\nタイムカウント<r111>"
+  window_msg                      ... "フレーム数に異常な値が検知されました。\nフレームカウント<r142>\nタイムカウント<r111>"
+  window_msg_end
+  ret
+
+label00D4@0x00D4:
+  arg_pushs                       "どうしますか？"
+  disp_msg_qb                     ... "どうしますか？"
+  close_msg_qb
+  arg_pushb                       0x3C
+  arg_pushs                       "テストデータ（撃破数10000）送信\nテストデータ（加速ツールフラグON）送信\nチケット１００枚ゲット\nチケット０枚に\n倒したエネミー数確認\n倒したエネミー数＋1000\n倒したエネミー数消去\n全エリアに転送可能\n成功状態で強制終了\n失敗状態で強制終了\nテストデータ（撃破数ランダム）送信\n現在のフレーム数とタイムカウント\n何もしない"
+  list                            ... r60, "テストデータ（撃破数10000）送信\nテストデータ（加速ツールフラグON）送信\nチケット１００枚ゲット\nチケット０枚に\n倒したエネミー数確認\n倒したエネミー数＋1000\n倒したエネミー数消去\n全エリアに転送可能\n成功状態で強制終了\n失敗状態で強制終了\nテストデータ（撃破数ランダム）送信\n現在のフレーム数とタイムカウント\n何もしない"
+  switch_jmp                      r60, [label0011, label00CD, label0059, label003F, label0056, label0091, label007B, label00CE, label0070, label00D6, label007C, label0057, label0095]
+  ret
+
+label0011@0x0011:
+  leti                            r122, 0x00000131
+  let                             r60, r254
+  leti                            r118, 0x00002710
+  let                             r61, r118
+  leti                            r156, 0x00000000
+  leti                            r157, 0x00000708
+  get_random                      r156-r157, r158
+  let                             r62, r158
+  muli                            r158, 0x0000001E
+  let                             r63, r158
+  get_gender                      r250, r64
+  jmpi_eq                         r64, 0x00000002, label0086
+  get_chara_class                 r250, r65-r66
+  jmpi_eq                         r65, 0x00000003, label0086
+  jmpi_eq                         r66, 0x00000003, label0086
+  let                             r67, r147
+  jmp                             label0017
+  ret
+
+label00CD@0x00CD:
+  leti                            r122, 0x00000131
+  let                             r60, r254
+  leti                            r156, 0x00000000
+  leti                            r157, 0x000002BD
+  get_random                      r156-r157, r158
+  let                             r61, r158
+  let                             r118, r158
+  leti                            r156, 0x00000000
+  leti                            r157, 0x00000708
+  get_random                      r156-r157, r158
+  let                             r62, r158
+  muli                            r158, 0x0000001E
+  let                             r63, r158
+  get_gender                      r250, r64
+  jmpi_eq                         r64, 0x00000002, label0086
+  get_chara_class                 r250, r65-r66
+  jmpi_eq                         r65, 0x00000003, label0086
+  jmpi_eq                         r66, 0x00000003, label0086
+  leti                            r147, 0x00000001
+  let                             r67, r147
+  jmp                             label0017
+  ret
+
+label0059@0x0059:
+  call                            label00DA
+  addi                            r121, 0x00000064
+  jmpi_gt                         r121, 0x000000FF, label00AB
+
+label004F@0x004F:
+  call                            label002A
+  arg_pushs                       "現在のチケット枚数 <r121>枚\n上限は２５５枚"
+  disp_msg_qb                     ... "現在のチケット枚数 <r121>枚\n上限は２５５枚"
+  close_msg_qb
+  ret
+
+label00AB@0x00AB:
+  leti                            r121, 0x000000FF
+  jmp                             label004F
+  ret
+
+label003F@0x003F:
+  call                            label00DA
+  clear                           r121
+  call                            label002A
+  arg_pushs                       "現在のチケット枚数 ０枚"
+  disp_msg_qb                     ... "現在のチケット枚数 ０枚"
+  close_msg_qb
+  ret
+
+label0056@0x0056:
+  leti                            r195, 0x0000000E
+  arg_pushr                       r195
+  arg_pushb                       0x3C
+  read_counter                    ... r195, r60
+  leti                            r195, 0x00000008
+  arg_pushr                       r195
+  arg_pushb                       0x3D
+  read_counter                    ... r195, r61
+  arg_pushs                       "現在の総撃破数は<r60>\n現在のEP4総撃破数は<r61>"
+  disp_msg_qb                     ... "現在の総撃破数は<r60>\n現在のEP4総撃破数は<r61>"
+  close_msg_qb
+  ret
+
+label0091@0x0091:
+  leti                            r195, 0x0000000E
+  arg_pushr                       r195
+  arg_pushb                       0x3C
+  read_counter                    ... r195, r60
+  leti                            r195, 0x00000004
+  arg_pushr                       r195
+  arg_pushb                       0x3D
+  read_counter                    ... r195, r61
+  addi                            r60, 0x000003E8
+  addi                            r61, 0x000003E8
+  leti                            r195, 0x0000000E
+  arg_pushr                       r195
+  arg_pushr                       r60
+  write_counter                   ... r195, r60
+  leti                            r195, 0x00000008
+  arg_pushr                       r195
+  arg_pushr                       r61
+  write_counter                   ... r195, r61
+  arg_pushs                       "エネミー数+1000しました。\n現在の数値は<r60>\n現在のEP4数値は<r61>"
+  disp_msg_qb                     ... "エネミー数+1000しました。\n現在の数値は<r60>\n現在のEP4数値は<r61>"
+  close_msg_qb
+  ret
+
+label007B@0x007B:
+  clear                           r60
+  clear                           r61
+  clear                           r62
+  clear                           r63
+  leti                            r195, 0x0000000E
+  arg_pushr                       r195
+  arg_pushr                       r60
+  write_counter                   ... r195, r60
+  leti                            r195, 0x00000003
+  arg_pushr                       r195
+  arg_pushr                       r61
+  write_counter                   ... r195, r61
+  leti                            r195, 0x00000004
+  arg_pushr                       r195
+  arg_pushr                       r62
+  write_counter                   ... r195, r62
+  leti                            r195, 0x00000008
+  arg_pushr                       r195
+  arg_pushr                       r63
+  write_counter                   ... r195, r63
+  arg_pushs                       "クエストワークの\nエネミー数全初期化しました。\n総数値は<r60>"
+  disp_msg_qb                     ... "クエストワークの\nエネミー数全初期化しました。\n総数値は<r60>"
+  arg_pushs                       "EP1数値は<r61>\nEP2数値は<r62>\nEP4数値は<r63>"
+  add_msg                         ... "EP1数値は<r61>\nEP2数値は<r62>\nEP4数値は<r63>"
+  close_msg_qb
+  ret
+
+label00CE@0x00CE:
+  call                            label0003
+  arg_pushs                       "全てのエリアに\n転送できるようになりました。"
+  disp_msg_qb                     ... "全てのエリアに\n転送できるようになりました。"
+  close_msg_qb
+  ret
+
+label0070@0x0070:
+  arg_pushs                       "成功状態で、シティに強制転送されます。"
+  disp_msg_qb                     ... "成功状態で、シティに強制転送されます。"
+  close_msg_qb
+  set                             r109
+  hide_timer
+  sync
+  gettime                         r104
+  sub                             r104, r102
+  leti                            r106, 0x00000708
+  sub                             r106, r104
+  leti                            r111, 0x00000708
+  sub                             r111, r106
+  jmpi_gt                         r106, 0x00000708, label0048
+  jmpi_lt                         r106, 0x00000000, label0048
+
+label0048@0x0048:
+  call                            label0055
+  set                             r141
+  clear                           r253
+  set                             r254
+  arg_pushl                       0x000000FF
+  arg_pushl                       0x000000FF
+  arg_pushl                       0x000000FF
+  arg_pushl                       0x000000FF
+  arg_pushl                       0x0000005A
+  add_color_overlay               ... 0xFF /* 255 */, 0xFF /* 255 */, 0xFF /* 255 */, 0xFF /* 255 */, 0x5A /* 90 */
+  call                            label007A
+  call                            label0055
+  unfreeze_enemies
+  p_return_guild
+  ret
+
+label00D6@0x00D6:
+  arg_pushs                       "失敗状態で、シティに強制転送されます。"
+  disp_msg_qb                     ... "失敗状態で、シティに強制転送されます。"
+  close_msg_qb
+  set                             r109
+  hide_timer
+  leti                            r111, 0x00000708
+  set                             r141
+  clear                           r254
+  set                             r253
+  arg_pushl                       0x000000FF
+  arg_pushl                       0x000000FF
+  arg_pushl                       0x000000FF
+  arg_pushl                       0x000000FF
+  arg_pushl                       0x0000005A
+  add_color_overlay               ... 0xFF /* 255 */, 0xFF /* 255 */, 0xFF /* 255 */, 0xFF /* 255 */, 0x5A /* 90 */
+  call                            label007A
+  call                            label0055
+  unfreeze_enemies
+  p_return_guild
+  ret
+
+label007C@0x007C:
+  leti                            r122, 0x00000131
+  let                             r60, r254
+  leti                            r156, 0x00000000
+  leti                            r157, 0x000002BD
+  get_random                      r156-r157, r158
+  let                             r61, r158
+  let                             r118, r158
+  leti                            r156, 0x00000000
+  leti                            r157, 0x00000708
+  get_random                      r156-r157, r158
+  let                             r62, r158
+  muli                            r158, 0x0000001E
+  let                             r63, r158
+  get_gender                      r250, r64
+  jmpi_eq                         r64, 0x00000002, label0086
+  get_chara_class                 r250, r65-r66
+  jmpi_eq                         r65, 0x00000003, label0086
+  jmpi_eq                         r66, 0x00000003, label0086
+  let                             r67, r147
+
+label0017@0x0017:
+  arg_pushr                       r122
+  arg_pushw                       0x000D
+  arg_pushw                       0x009D
+  prepare_statistic               ... r122, label000D, label009D
+  arg_pushr                       r60
+  arg_pushr                       r61
+  arg_pushr                       r62
+  arg_pushr                       r63
+  arg_pushr                       r64
+  arg_pushr                       r65
+  arg_pushr                       r66
+  arg_pushr                       r67
+  send_statistic                  ... r60, r61, r62, r63, r64, r65, r66, r67
+  clear                           r149
+  clear                           r148
+
+label009C@0x009C:
+  sync
+  addi                            r149, 0x00000001
+  jmpi_ge                         r149, 0x000001C2, label0012
+  jmpi_eq                         r147, 0x00000001, label006A
+  jmpi_eq                         r148, 0x00000000, label009C
+
+label0012@0x0012:
+  set                             r148
+  call                            label00D9
+  ret
+
+label000D@0x000D:
+  jmpi_ge                         r149, 0x000001C2, label0001
+  arg_pushs                       "撃破数<r61>\nタイム<r62>\n登録が完了しました。"
+  disp_msg_qb                     ... "撃破数<r61>\nタイム<r62>\n登録が完了しました。"
+  close_msg_qb
+  set                             r148
+  call                            label00D9
+  ret
+
+label009D@0x009D:
+  jmpi_ge                         r149, 0x000001C2, label0001
+  arg_pushs                       "撃破数<r61>\nタイム<r62>\n登録が完了しました。"
+  disp_msg_qb                     ... "撃破数<r61>\nタイム<r62>\n登録が完了しました。"
+  close_msg_qb
+  set                             r148
+  call                            label00D9
+  ret
+
+label0086@0x0086:
+  arg_pushs                       "撃破数<r61>\nタイム<r62>\n登録が完了しました。"
+  disp_msg_qb                     ... "撃破数<r61>\nタイム<r62>\n登録が完了しました。"
+  close_msg_qb
+  set                             r148
+  call                            label00D9
+  ret
+
+label006A@0x006A:
+  arg_pushs                       "データに異常が発生していた可能性があります。\n撃破ポイントのみ登録されました。"
+  disp_msg_qb                     ... "データに異常が発生していた可能性があります。\n撃破ポイントのみ登録されました。"
+  close_msg_qb
+  set                             r148
+  call                            label00D9
+  ret
+
+label0057@0x0057:
+  arg_pushs                       "フレームカウント<r142>\nタイムカウント<r111>"
+  disp_msg_qb                     ... "フレームカウント<r142>\nタイムカウント<r111>"
+  close_msg_qb
+  call                            label00D9
+  ret
+
+label0095@0x0095:
+  ret
+  nop
+  nop
+
+label0087@0x0087:
+  // Label type is not known; could not disassemble as code (script uses opcode 00FF which does not exist)
+  // As raw data (0x2DCC bytes)
+  .data FF58565254B85500006103FD0007FCFC50B301008018FE55EDECF8FF23FFFDFF1500471400AAFF8786FFB801F0F5F7FDAFAB86FF3A0A95B8AC5FFF00FF0BA155F9EA80FF0E4E87FE3812D00E80FF09B7099EB0C2FAA080FE0C17DFFFBE00FF0942F0FDD1025100FF0BD000FD097CE0D5FDBFAFBD00FD0E80FA0C57FFFE80FF0C97D5FFBF00FC092EE05F7EFA80FF094070B0FD0987FDF0DD4000F80DFFAF00FD0FFA3680FB0BFD00FF0EF7383187FF391A7760EB00FC0B55D7F380F80939407DFBDE00FF0C5F7FFA80F317B4746055D5F58380FC0B7DA100FF0E7557FFF200FE1555F51B80FF0E5780FF0BD5FDFFFFF06B9709D5FDFBBD018EFF1F74170AEF557FFF8286FF3F74DB770189EFB886FF7EC35B97F0F5BF3D0C86FF9F843940D0F9031F86FF7F84D8097BD0C086FF5D3B3600D0F92187EFE01814D0FD80FF09BF8001577F7A8880FD090090027BF52D87FE943902ECC00A86FFBF8C01B8A004CF87FB60DA70FF0F86FFFD7F53D6005F5E7A78C787FD8C57E0FDC287FD90F8117A81F287FEDF63D7D8B0FDFE87EB5F8010400B5FF800FB0BC11DBF07E61F64F7D0FFFA87FE3F7C38D4608086FF7DC35B1730D7DF1D0E07FF9DF8F7A0FF3E86FFBE4BF6F602EBFC86FFB90113E8A480ED097E73BF960055D5D52580F309DE81F67DFFF086FF59BE81ED575EFCF800ED0DE5FF07E9F0F56BBF2A00EA0B80F70BB8FF04F095EFED7F43CFBAFFCFFB1CE7122A015FFFABBDDFFE7EE7CAFBFFC9FCDFDE515B8294FFBBFBEDFFB4BFE99FF0FEFEDED33AFB90FD09EAEEFB5AF9FF5FF96F7FEFD23A26017FF9FED86F5ACE9CDCDC3FFFE70F5B0376EAAFDDFFFE23FAA9FADAFB5D7FC62801C0A5AAA2F8CFCAFFA8CFA8FFBF5DCE163BD89FFDFFBFDEEF479ACCD8FDE1E9B06B4200FFE7BABBFDFDE6D5F9FFFAF8FB9ED6D04A801F91EB6BFFCFFE25EFF9DFFABCDE36FF1A056D2DFDFFDDE7FF33B79AAAAEDDDE251F19085BAB8AFEEFD38FCA6FCE7F7FFFC6491138A9EAE8FFFFDEFE38FDACFCBC3D1FEF54220F7FE001E0A3FF7D0FFF8FFEFCA9FF1958797C7EFFCEFF8757AFFAF0BC7FE635220D792FEF7840FA4AF84EF8BE3EC6C9290CFF6A4AEAEFEE8FB7DDFFFCEBFC1DEF177C01C797BB5DA0DFC3F8FFFEDDE6FF562298999BDFEDEE3FB368F84CF86DFC50293A007963EFFFDFEE6FA9BFEDCDDE7F3DE7B55203B6AAF8D8FD43D3E8B9FFF9BE3EE7482180D5C3E38370FF3A7FFF9EFFAD78D63AFC40A5B5FDCF73FF5F7EADAFBC9DDE067F1120CD8CAAFEFFFFF4FFFD9C7C1A567676F52080E90981E6F5FF8E0FFFDFFF4D41FFFF9F1AC6B6112565FFA7B7EDFF43FEAEF9FFEFF83DF755327065FB78BF00E6091902577F4600E5095FF08501EC84FDCBEBFFBCBD9C227585CD8EFE06FF3B1214007878DB707007D10304E0CFF1FBFEDCCF44FFDABD5422A9A90959C3B9FCFEC9A8FFCD655FCEEC4AFB2B0FBB5AE9AFFEFFF7CEF5CDDCAD8D2A7FAA2A2B29F98FF9F871BEE9CEDF9D7F547C6DB93DBDDAF8D2FEB8FE99FEFFBCD657748DC959FD8FEAFDD9EFFEFFDFFCC5F85389CFDFFFDF9AAF9BBF9CEF9CFFFE57CE77745756D4FFD4FCFBF6FE73FF2CFFFA3FDFE710AA838DFFA6D8FCA9FD7AFF6CFFFF76ADD72263626EFF6EDFF9FFE5FF46FFFF4E3ECE311AAD3979FF4DBC9FFF9FFE9FF6FF9F3FE7324BEBF0FCC3F9DE2EADFFFFBCFFCCF8C5FD4BF2FFBB272FFBBCFACCF9FF8CF84C1B7DC44982FF0282428FFE8FFF88FFFFE4FF9CE695227F6F7C7F717F69F58DFCFED07B9F5473FF535253AB9F9CBE8DE1CEFE9AADB3876BA727FFE9E1FC7EB8FC9AFFFDFCBDF66BF9F1F1FA31F0F4FF56847F03C398B8FFF88DFFF8ADF8CDF8DDF9C5FF177475B535B5CBDEFFC9DEC8EEA8EEF5C5FFB9637B535359E9DDFFDAFD56FD66FD1CC63FD24A0BA275754262FE6EF8FED3A4DB22A5FF35E7E7AFBC8FBE777FAF67AFBFDE5163F89B65E5CDCF7D878EAECEFE9BFFCE756B20E4BE5FFEFFEDEB85BCAD9C79BD1FD68E4A0EDB5242FF107FF8FE34841F0A2FFF26A6A6EFD9CFAA57FFEE67ECFCE6D0523DFFB8A7F7EEFDDAD8FBFFEAFBFAFECD946B80FF993BB7EEDF467B96FFCAF9AC5EEFCB5220FF65ADE3FEC7E674EAFFEAEEEA7FEFAD52987BD93B07DD7F3B34B701F0787A00F010B7F3EFFFFB97BDBA223909E917E9BFFCF4FFEEDE9B743779CEE94D0FE9DCE9FBFEFFDDBDE9216A2A2A82FDD499DEACCFADCF3AFF95E7310108080A7B07FE6DFF3BF84FFE7C884208870C84AC51D9E1BFFEEABFD3FFAC7E4C9E9E1E3A43FFFE9DDDBFBCCFBB1EFFBE87292528A8AABFFFF6FFF8FEF9FBF91FFFE77653D8DBF7FB9DC299E6FEAEFF3F987C190AE060FCFFFFEFEFFEDFFCFFEFF95DD6181209A9FFE92DE59FCA9FCB9FFFDB9FFA84465A81886F8200FF39E1C4FBF8FE5DEF77227FFF2FAFEFF5ACF8BCE9FFCCDACDF98CC85201FF030282F9FFE8FFBAE1FFAA968C9BC30A70FF608EFE01F07FFF8FFD9F9D7FD75BF76767058CFF31F4BABED8CE5E9DB1FF6B87A7AFAF7CFD5EFFFC5FFB7FFBDE8466DF4A0A24242C21F0EFE1F8B2DAFEE6FF3874D535F5F1F8DDE221F0FEDB8CFF31630B0B8A0A8ADEFF5CDE4EDE6FEE5D84FF6A4AA2A4A42CDAFDFFE9DEF9AFF99D7ED6BFF583D329CD4903F0F0FEAE14A59E3F1A27A7A725AF8404BAFEAFFFBB99FFF652FCFDFDC5FE22F0FEAEFF5DC6187C575755C7FF9C879BFF9CFEACEDFFDEDE726BD70FDF27FA02F072E8587C7E120071FF3FEFD8FFD9FFD884FA5FFB6B3FD8D5D5DAFBFAFDFEEBF8B9D6197C3F55557553F94EFE82FEF9DC5BE7B7FF5277A727BFFCE9F4FFEAC8EACDFAFFDE70F74AF8F980CC09DF3BF643005AFF5C5180B70CFF21D761E3CD7AB93A1861415553F0E8F03CF8893ABFBFC155CFD7F9A6E7C0FFFF7653B9DDC0557D7B9D7CE3EDDEFF56388D7702554C55CFFEF07F7CA5BB2A28A2E3B82F9FB66EF4FCFF365BFD7D3855CFB8D3BFD7F23EEFFF184BBE1E8B55C6F9FB5AFD83BFEFD73AF93FE670558CFF6AFFC0DBDE57096A6E3F705FEFC5FF5BFF70CE360139C90D9FFDF87FFA5DFEF05EEFB73AEF7E26CF55DFF9CD50F0C0DA3ABABE5FCA55A9AB9863BEF8E3F64AEBFF002F556FFF8F63E8FC90171A6E6E6357EFCFC7FF5804FD372AFF396905D5F79CFD6A7E04FFF74AE97E073810FBDFCDFDF09CADBB323882BF0B55A6E455D883BEFFF76E191BB780FFE6F3BAB5A03CEF0FF54AA1F9A04F8FCECFAEF0FFFCEEDB3ABFEB3955F7B6A455E3B5DFFFD35F4AD9D5C055A9D9FE40DBE6792AE57F6505555B8EA56FFF83C1F7B442C66938554FBD57FBA6F0FF3DF7D6427E9B0E55E7CB97F8F07E3FFF9763DFD98440C0D26DFF84FA191AE7E725556BFBFA7504B6EFD742F6BFED505576F79763B8F040346315BDF070F78DD68F1CF0E786E0FBFDA0DAA7A9F77CF01DBFEF9409BAEB2C0FBAF06AB6005C5CAB5E5F00B00D71BE07A5DF960083ABFD87FFBABF2217010BAFF587FF7FDA22160100AAFF1D00FF0A80FF0D381AB0C0F05700FE0A2F090ABF5500FE18BDF080EA5F5580BA0BB7E07A7F07FE5A81A5EF0B0DADF580FB0BA8FE7D5700FB0B0908AED5E300FD1859C0E078BB7E5F80FF0B030B80FD09BFB922370108BE80FD0900F0A03B2ABF80FD093B2BF4B00280FA0E00A8FFEE80FE0C28FE00F90E8AFFDE80F50C28BEDF87F9FABA00F81280FF0B3B2381F7BA80FF0A829DB8FC00FE0954000000F30AAEC00A00FB1900F30F7DD7819370787A7EAF87BCF75508628E80FF096DB680FF0ED680FF6E96DB80FB4EB600F97E9600FE3E769680FB4E7580FF0C74F609C105EFDFDDD8FCD384097FA87684FFDDE1D2D39CACF02A80FE1580FF7BFFEF678F555C77DEF7BF462900705C5631E5EFFFC5FF7501D4C410EF0002090D94FEEEEE4671E0CE40518595F184FF5B068EEF85FFA080FE15D300FC0ECFBF59C6F0EC40B0DFBCF5DC11A271F6EFEBC21FA80A0058CC22F6ECE0FCFFF7EFBB0B38800480A4D3EFFDA0BE0087808083F8CBF9CCBCF7A64140A2AAFBBCFDFB9FFFD7BD003B352081A2CFCB62CFDF1738D0540808F4F8CC84FEFFA6310685FECCCF8789F3F7D6D057EB030207FF87FDBBFC0ED47CD6B5B0056003F1A351EAC78079F7FF80F51F5B55585598AAE8FFFF87EF47215657FFFF0355B55595AA87FFFF8BA7F7672195D57FED60F8CD095D01F70301C280FD10456BBFFF555DC79DF7652100FF6058949AEA556566FF55EE6B0ED767292E80E1C07074C5FF650C108730D0710500FE16B73DBD04FE969A99FCEC6666EEEEC8D6FB682909D50099FC557FE766C6AEA697EFF8702F3595DC78E01811A3F9FFFFE4EFA84A05090103FF59CE6FAB9F98BF87FF0EDF271907A4FCD810C454C2309991A4F7E34729A20066FFFD55FB79F8AFF7987FEF462905253718F8B9CF54CF99DFC3FFD72029500758F808D0F8DA9969FF7FE401FFF08EF67FC0FBA211F7FE86FF4B4212011709FFFD81ABFF5BBEF7A2D00080407E87F759FE00C8567180F50A2EC8352181C5D1DFFAFED9A9F78FE302FB080287F6FFAD1F1283FC54FF0D90E1FEFD1F0A0F410DFF22F00AFE9ECA7701F070009309DFCE18D03F15A4FF22F0FE9D8FE721C858FF0E06FF2CFB908DFF00FC0ABE80312F80CF08B4198DA0F05062C80800DD0300F020E8FFF4FFE38FF74B6B09FFFBFF8BF4FFE4F7A931857080FB0AFF33A36302FF93E7BD7FE984FF6A4282F71777FEE5F1E3E0FFD007420597090300ABE9DEF0EFC4848079E557FFF95DE5AF94EF668E7FF787293516DC50FD00FE135A67C4EF27080F1B010207DBE47DBE7A6AAF96AF86FAFEE3FFC9315C08FFD419FCFE1E90C49401033EFFDF86DF76EFC2FED0C8398A02F70685E0E97C50CFE6EFFFD5FFB6FF98A8EF4A7F291890D0F0DFFF5FF4FFEDF750B602A56474FE38922642404AFF22F0FE1F9EF7A83101FBFFEE85FD9DEF20C8F770505807A6D3FC0051C861076658F200C0036448D5EEFE7FDEF741D001090D3D85DB02D43F12567AFF00F0093F0A0D3F00F00ABEF7BF22500AFF00F009D0AD1500F00C0000F00C87FC3A80FF0F7DFD3CF7BCEE0D05253500F029FD2B00F025A9FFE7DFF887BFFBF8F94AEFF090183C80F20B5454C200FD09F2E5EFDE834C49FF5D01F5AFF0B086297060FF40C0FCA9F9E8D7F8FF85FB8FE78931F233EB392500FE1F14F0AF96D7E3FFE903F022F0FBDE02E0F7E47B09F001FFEF76DF76CF86BF86B0C0E83109F77D5C00F00FFF79FF6B4371A56FF0A704807F0F22F0DEFFDC427FF7BAAD2C2E2F2DC300F014EFFE9EEFEA04F0ABD283D420C8EB5C5401F284CFDF7DF062C83525250E87D9FBF6E0ED5602E1DEFCEC3CEF8741C805FF250600F056DFD0B890D5353505F1C7FCFF5C70573B5C5807FE59EEC0F0C295956286F7FFE77B81F60300F03F9FFD8FFF7185ACFFCBF74C6324D704060E80F01080FF0FCFDA74DF82DFC079DF55BFFD66FF87FF9801F3BF662925050D0F00FE1FFFAFB6AFD6AFE5AFF5FFE9FF8A29DCDC9C9CFFF7FFC6FF77EE5B66FF85E7882901090756FF8F975E99589C659FFFEAD62A21DCF4F7E55600F009C304F01980C35157CFB0E4414340C07EDAFB8985C779DFA7E75142A10B110D00F010D5EFF4FF06F086FB7537F500C809F056DA326BDF9D81F405B50502E114F55C81E4D609EB000DDD03EF2550FF0000F050C57EFE02ECFFEE168DFF7D81EF1CC280F20930ECB6E0959500F051BB8151C7D9FFE9D0CEEF7B0F0D0906CDAFE4D7EF643A89F2835B9810A6FB86F00611F10FD200E10C30BAFFC7CBFFDD70C4BFEF6584050F0A044687CFFF8FE2072110D0804EC07A7768DD8401EF005701D0E5FF67D655B655B7EFEFF788299C817A5B5556BF55C9CCFBFF8682BAFF55AB02759F55999CFF97CF878AE78A29E5F7F5DED800F00943C601FAF9CE87CBF7C4CE408601ECA6C6FFF768FF6A82CC3A0D05DB050700F0177E00F00E4805DA01F0FF8B07F2BE02D5FFD682B3EF0AAD02AE555DA801F0CCDC91ADBFD9C358CEC0D52A07F0ADDF00F04EDF05F08CFF1EE9AFEFA2D0BBC15206FECAE202E0A0FF00F044FBAAFF5BCE018181C1F9FF3EF4FFE4EF2A21FFB06FFF5CFF5AFFE179D08729402160D055FCF8E5FDB8FFAC5187DFC931829B0DE200F00AE759B5FC875B87E06E01CF2F5BFF6AC481A1C0C0BF8599F5F892A881F68D42557FFD0B0389CCFFBFFAFE9FEF4E42F55FEF8080FAFFF4FF98906452F680CF87F4FFE3FF2A353A00C01300FC0B3FD8FF99CF7D01DA9FFFFFA4E726420606045D0C00F027A6D902F05500F20982CF04F080A9108DF4FF61F3C0FF1600E050DF85B0AD8009F05515CB03CBB7585C5607C67901D0AB959500F0427EB601F083C141FF07F07BF7A604F098FFB73F79D5C7E5EF8B4AB641D0A951AF82F2DFDFF7E052C200F80AE2B081CFA880BA0A3607F0788942A7C0BCF0A94A7E06F8AF985E55BF1F01A20200FC563FB4CF89BB55A6FCB026298080AFD5C614F0FB8084C600F02AEF9044DE81970804AF7DCBC47FEF6484040C08008D00F02782A457FFAE00F00941D000F07400B0255BEE9E81AA35F9C43D00B04007F0336382AAFF22F0023701D1BD1903F0C7FFC8510F6199D00B53AC417094E25124AFFF2A9D4079E186FC0FE3FFE6CF621BA8A800F010B721FEC0A91CC0CE18F0BFFF5C669CEEAC01BD3F88E78C31560E7CFF6696AE85AFFCFEA4F7C931550A03A0F4FFD0DB245300F023CF89EB9F87FE8FFCF0E55F730C04243400FC106B00F026A501E009F254D700F0873BFF039C07A1BEE3FF41F0350054D3DFF1C4F8B024D1010208FA80701600F01E7BFF5BE42FEF69296083330DFE7777D2BF8B4A82020255128777E7FFE601F56742A10987D07CF1D1E19FDEA4EFA730D040C0FCAADCFDFA75FA87FFFFB0F74842A03235050500A10D3001947360F6F2049D89730FFF9ADBFF8C19488F81EC4A7E02A3ACFFABFFAAE179DFF02E3A0F50FF0D22F0BAFEE2FF890590F600F02D8F01399FF79FFFF6C4F747212C3C1CD51C80CB0CDAF200F02649F5DA00F00F04C0EFEEDDFDDD04D558CEA8570243FAEEF0DC7F84E658D62AD5C0EFB500C0509AD9797BBE05C0EBFFCF81BC744CBE40EFD50B00FD87B22C63550280A50A00F02805CD4781D6C660C0702206B624538B896C0086CCE0ABCE0980A20B02C598AE095CF0CF80FF0EEF02C4CBFFB969CE77FFFFC4F786420B0F0D05EE80FC09A451827EA4FFC20C69902619EB0D0A01A000F03E9FD53F9FB49FA59F87FC8027199C9CDCDCEA80FB0B8BBB00A0268EEBAA02F000720906B086FC92829F6086D66B3BE703A000901B02AB00B03B7D06F080553E00F0101280911FFF8471FAF0846142F22030A180FE2054CF01DFFD6F81CE328080C040FF65FE55FD55FA55F7B681B021097B35009020FE00F03F888F898F9A8FDFBAE5FFEB5201A2D4E443047EC473EB0002815900F0269DF75605E0DE93508384BD019E07FA7CFF2002AFFD5705F0EF3CEF21C8F525F97F06FF9FC63F9B12540460BF00F0A006F00D85C0DDA45284FF5052006D091EB7E75F1A09F03500F09085D809E27A58BFE4F7C710B0F0049FDDFE83F5466B814C01F600D50E3F119F58DF55C38F55E00621C360702066D5FFB695F766FA5973C60F882915DDF9BA00FE1800F0468FDAF1CFE1F9FEF0FF0BDF5B9494141404CAC8B8A0095303CADA00601E86FD5D01A554B600750A530150D580F50BDA06B47D5E9E03DF09B607FE9D01F15C00FE0A435F95F0958700FE0ADFDEF057BE00BE0A5EE71F0A02B2EE06FEDEEF00F059D8FFFF686684E76A2903037D0B851C6666C4EF55013C897280FF1021F0B8FE6676A40184EE09AF55B5A18055753B5656827109250FA0AF9937E965F000C05FFF555A56657566C556FFF74F74662154D595B735FD5C718EAF018A3E81B16342C200E5C065C0461E06FEFFA9AA20F8F04740C05C555F22F07A9555960151C101F0A722F0D9E3DD56E04621EF0202AB5522F0AD87DF5587E3F7E901505EC28197FEDCDD00C05060E0893155FF22F07DF955FAF5FFA4FF103C3C3E35AAFF9C7FFF7EDD7F55ECFF78D00F0EA654A722F0DD7D90C65F3140406A5500F0117B8BC4FE02E07060C0D787E7A6F903B40713DBE3FE20F0D51540D6D0DDEE81D128DA8949000DEE9CBFFDC0D75F1A70F97B7FC7C6631F12C0563100CF0BF095FA41733C9EEF7F01D689450007920291586B5CA800F00E0023405808FE66FEBF5B5599D66621099946693966FF78FAA62187211D82E980FF108566FFFE55B5CC4A05191F7F9F9F1F5B668F65FF71EFBF1DD78729575CFB50C094FE78C8B16BE38621A13756EBFCA511E101D8E7075F19B52D0B0A002C100AC059C07F7EEF2519565C703F06FE77293283103C92ABA86696FCFE55B677E9967C97A729D501EE00E0FF1E59272A85188F71AC5687FE1F9855CA137CC240F5FF25650966FE3EBE26228720AB9CC0AB56FAAEFE55FDFF01B082E6F092AF65CF6557EF56DE01EB82E320B5FE6184FEB1EAEAFB22F0F8F18CBEF70A3AD603D0FD73510271C6FB10E004F0FCFFBDCC7FDEEFE3C05C0002E18299E2DCBCFEFFDFEF45C10D80200AD5FD864E816F02F0FF75ED84CE8223B040120A01EBC2CDCBAB997CEF58000BF882B1EFCCC3BCFD7059745F0D00A02FED85CFDAC00F0102F0ED7BEECE6BB7F7BD02F03281C5EEDECCC2D3B9F080EA5BD50000F03FDF05B178FFB3635CA0E180B009FFF36B5535AA80FF12FFACF47BF0F0B0095EDFC17180CE0A6084D7D780FF0CD99C80AB1B71D7CEBD8080FE0CD7845780FF0EB195F0DE80FB09477357A870DF07FFF463B52A80FA0BF4BB735500FF0D6B3581AD7A91F106FE637080AD00F91100FA0A7C03F280FA0F5E07FE59CEE080A70AD2F080A42380FF87DF57FF41FD09D780FFFFDF80FFF843FD40FD01D66A6E80E80942FD0108C3BB80FF1D7D80FF1EBF0000FE0E6D4080FF0DFF8753FE5EF0F72C80FE0EDB8776DE84FFC286FF0B49FEF001C7B700FF0CDFB000FD0E0080FF1DBBDF9080FF0D5F5880FB0DCDE907FBFDF0CD6D07F99BF0CD7B87F958F0A5D58379FFDD5CF07A07FFD8F243FD00A60B08DA00FA0E84FC5F0735DC5CF0B5879E2DF2F209BD9C007109D7C05600FD1780FF3140F5FD82A886FF91FE0607F92C14FF7F072EFE04F8283434BF876690FE48F92800FF0AC3D7FFD02E1CFB1A9A97D6FD05F9CAF749414186FF17FF231BF82C00FE0A17BE00F80CA4A4A680FD090F68F9C261FFEE87FDFE0500FC0C50FE7D6500FE0CD4FE41FDFD894907F671FE27F90A4600950AFCA0FBF9D81886FF3DFF83F8F7FE5757075CB4FE03DFF80B89898086FFAF5FFE81F8A321809809BF714FF89C56774907467FFF87F93818181AFF86FFB0FEE3F88C868DFD8986FF2FFFA0F80AF7CA4A6286FFD8FE02DFF80F35159880F109218200EC0E40092AFD2796FF27FE6DFB8AC185FF86FF52BFFFC1F8C2725287FC7F38FF01F802C1C9FFEF75B9FF26FD545DDDDD3900EE0DD71C80E4179ABCF05D4000F0277133401C1C1B0067091401F236FDFF86FFD3FD27F914F71416BE86FF8DFE63EFF8D2727007F513FFDF88F961616387F73BEFFFA4F81480F10A91FC0F21F80406FF4600F40968D00B00F009DB01F2D2AD1C87E87101F000FC0BFF6DFEA2FC3FAFEF4FFE86FFEDFDC6F80505FB0F2F17C1FF07FA18C19EFF86FF70BFFF84F9606A6A07D9C3D0FEF0C0C8FB484887F9FEE8F80DF78D8F8600FA0926F9C1F7C1212186FFBDFF62F7F8BBFB805409ECFE82DFF9A1A1A2A297BEFFDFE0F87A7AAA87A9151810D004FF07DD007830887454F4E386FF19F00060FB529386FFC8FD27F8FB0A0B00EC09F7FFA2F8AF1A1A9A5A877C81EBF7466C6007F3BCFF636FF882617107FED95F01F402C1494E80F009B8D02B353787E6F1DBF0883715ED9900DC0E5600F01750FEBFA9F994D4F47486FFFFBAFF29FA17151D1DFE86FFB5FD09FAFFE9FB415D86FF6EFE22F8FA822086FFD1FEA8F9F760626387F13AFEA7F7F9149480FD09D3FC266FF9272F2F87F26FBD03F080DE09DBFEA600FC0CF74DFE4B00FC0CC7FE0607FACA4AFFBF80E3094DFA3F3E1A07D41F2BFEAAF918BDFF0793FDCBF9034ABE87FD86F9484880FF09C39BFFF0C6C4BBA4A787EDFE8301F1FE00F009F7FF82F85A5AEDD887E10D81F0A2A3E0DE00D30BF5D5DB15F596FF5A81DC98DB143787DB9501D684F7848C8C86FFDAFF2AF7FA191D80F90966FE2D07FA8D8FFFBF80D50940F872628207CC7D9D81EEC1CDC5C6FF17ADFF41F832024272C280F509E0C8CBFB89CB86FF99FFCDFAB7B4F4F487EC1C01DE6FB3B3D5D586FF4AB501F0036C00F0165281D5A164FF4480CC094308FA52997F07EE7CFFA3F85555FF80F20939FFE5F8509818DE87DE7AFF4681F169FD6D87E8FE00F86C4CE0FF80E70909FAF7BDBD3FEF4EFCFFE4A1F8D07907FB1FDEFF05F9743D7F80EB090AFA191AFF86FFAAFBD04A80E10ABAFFC3F8B715959087E42C01EAFE00F01B6FFE25F86070FBB0B000BE0AF8A5253C853C86FFC7836FF881C14D8781BB8381D91BFF87D37FEDFE47F9898D873F87DE4EFF60F8CAF86F87D8DBFFC2F8B789010287F99481CC3B8C8C00F0099BFFBCF03B3B1BD387E9DBFD2C01E00B07E0B5F0E0F93E1E1AFE07021BFF21F8C4C4FBC6CD00F60925F992121B12D186FF7D5F506E4E4F8D87FA6F81F4ACA72507E55C7C200303B19DAB86FF0901F0034C00F00DFE87CFF6FE26F944CCFD0000B80A2BFBDDDB00FE071DF1FE87F941C3DB082886FF77F17736F72680A000DC09A4F86F7DEE00FE0939FF64F8F4B007FDF9FF08DFFB173E80EA86FF98E1FF50973C002D8280BE090400FC0CBCD029FB9D9B80FE097F70FF62F97AEA0A7F87D4F2FE85F990B0FF80FF09F4FFC3F99EBA828687FAB0A0F9C16AD00777B1DFFE84F8903000FD09B37FFF05FA1E9A828AFF86FFFAFF23F9569C02FE87FF74FF66FA1C98FD8207FBD5FF80F8A68DAC80FF0930A00B726200FC0910B030D5BF80F8097D1601E7848C0020DF80EA0944F9516300F609B1BFFFC0F8ADABA007F6DD7101DD724280FA0955DE81DFC9032087FE79F8A071E300087E80DC0922F8CD4EC07B87B97801CE3C2685E307BBB83015265B80A280A00CA9800E09DB80BF135480FF0E5580FF0E41B680FF0E1580FE1E5580FE1EB51400FC1E80FE0F5080FF1EA51400FF1A009ADA80060A80FE131480FE2E50B680F81E4500F61E0580FC0EA56A80FC0AF0A94A00FC0E00FE0BEE0B15D500760BF0AB705E80FF0980FA1180F00D7F7C43350055D5B50F072B3C3B75F07B7FFA87ED7D4BD6D8F055BF87E67CB4E05FFE87EA531E5CE0FFA78701BD53F0BD8D0307DC43D077D7BE2800FD0CD7B6DF87D45D43F600808F0B1CB4E0F7BE07E9B3BF64A007F810C05576F0F5AF87FE9A1A082257704DF887CD32E01DAD87D5B709EEE05557FE07FBB811F8F05D7F62FFF78DFFCE19D08EB7A5F0D0A525A5A5FFDCEBEACBEADC7CDAFFFABD356C787FFB97FFBEADACCDCCEBDCFAFFD8BD5874A9353F7BFFE8FDDBD9FCDAEBFAFF58AD984B6FFAA28FFFC9CCBDDCECEAE6F9FF9AADD04A82A8E0F1FFAF8DDFBABFCD7FCDFFF7C51743E9A989A50FDB9FBCBEF0FFCF9C37A519649B9EFFB871FB9FFBECFCFBFFF9FBF6945C12342CFFACAEAEBDABEDCAEBFFDBEAFCB5357C2FB5E1FDE7AAFC9BFFFCBCFCDC54A5DA53FF06E7B537CDB8EDBCF1EB9F97AD77FF63F20A0656AFCABFFFCCCFCCAFD7D59CBAEF2A01018903A0CBAEFFDC9BB8BD7B1A57FF1FA0AABFF9CFFE92AEBFD6F8A4D8094FA1890B3BE00FCDCACDBA806BBC22099C81F6DFFFF904CDFF5A9DF8005BB772787039C1DEEA14039B9D00FE01A5EDACEDDCCC85B901BD465BFFA2ABA38DD9F9DBFAFDAAE1605C9DB763B1FFD3AB52DBE7DCBDB9FDAD11619DD3731BEB7FABBEBEFBCEFCD8FF795199B5F911E8EAEA7F6CFFCADECC9FACFF01D9AD782AA3ABA9B1DF9FBBDFCBCD51BEDC7FB5587CD5DDDAA57804FBFCEB8EFF01DAADD932B6B6BE16DFDAEADADB9DE165DA7F94375333B208B13806CCDCA7FED05DA56F5BB3B287A908E904CCE3DD8780A5B67F6B05255A8DCFBD18FE9FB8FEF0F89CBB22890929BF81DCBADCEA7C51C5FF5BADD66B37BBC6B343CFBFFEAFFFB12C19A55B228B8BA97FC9DDBCCDDCB7BAFF01EAA5B56BDF3EF1E0EDCB710C9B82A69439A101027007B6D0FF9601ED557E87E7DFF71701F5EF80FF0CF7005F80FF0AFFF7F73701D580FF0C160157DE80FF0BFF370980FD0D372A80FD0CF1C800FF0C14FF5780FE0E0A90FF00FE1AF0B7F600F580FE1CD600FF0ED0307F80FA0CB68686F9EF85FFFFDAFEFF04320000504281B7F6756159E7FAA11898F00D0E2FD4CFFF7B725E4CFF80E0F10F97FF7AF7E0DD6781100D1700FF137787C7AA99E066E14AF0957FBFFFFE6AF7F9C8FC8DB4BFEF073A0817B303B77F55E5CCBADBF722FB81331583E15E55CE9C77DCF782013154E83A70FCFFFB1CC1F72DB31EF08243DDEDF160FFFBEE215FC8000895553975E17345FC9E2AA02F007072FD0554FCF93E3B82004141FBDDDEFC365EE7EE68B0C06B69014B7CC05DEF4100C070C981D7E1623369B1E24F030D1E3FFBF6F7216B30EEFF9FFFF4FFD5F7C7E2200CFFFFA1F83EAFE9DEFFEFF72963102C0C0A3FFFB7FF6EFF8FFC0EC5EF2A00B0C0C7C080EFE0ADFE7126CCEFEB5A100CCB0E09B9B3FEEFE4F7EA3982ACFD7E03FE6FFEDCFA64E7A8812D40E742FFAEA1AF8FA4E74A63F0A7C0FEBFFEFD1FBFAAEF489D83E143067CFBF05F41B84262856205EB5079DDEE822D71618D30FF3FBDE7B459737178FF07A3F7FF2AD00281A3FD2E3F8FAE2B704BFFEE0E7FDBF6022B794985EFFFEFF001B7090D0D00F81FFC0CFFFFEFE4EF0E9D0B0101FD8194F5E7FFC4EF265E81EE0001F6113718E0FEDF86E0A64AE103FD82B99AADBCAA5595F0F00A19E0E0FFFAD5FA9BA7B657A6FFEC8C44E70A3A63DD2BD56291081336FCE0A4AD428282021FFBBFF9BFF8E1FEF00D0082C183FF8611DF7FD700B8727252528E12EE201FEFC3D861E1C89EF06AF05B5FEF1A3A7173808C090D00F8187C43FEE04741D049FFB780E409A3D0896E0500F814A1EFFEB506F81FAFFC8FFC9FE0FE10894AC2A142FFA6991AF1CF3DCBEF2D1F420D0E080863D18FFE9FB840884AC079F185C99931FE7BFF979EEF6C3AFD0200F7D7FD8EF4FFE3FF6AA33A62FF8009091B44B6890B223A02FB11F0FFBFFCA0E573C1C3C2C03E06F8FFD721B814025207A0D6FF86D9032CFFFF3F2D0A81147000F0267CB1ED00C8417DAD86BF02E841830B00F810E804F1F7BB94C7F7E41001ACF8009FFBAFFA0E01F04863020B4383121A003FE7FFECF76B526C02080994E9FEC701F2496B01C2FFAA79FB7DFA7DF97D3FE4FFEB317F6318FF00F810FDFCC581CCBCA4E7C48C8720B0F040BF2AF4FF81F701E828FF00F81461E014206507F8C0F140011612DA00F82879EE5C811255EF2D0909EF872317DEAA821500F80FA91206F39BCEA807B7DF2DF08131040DF62E50249D81D87E50F8FFF5FFC5FF81E7E61802030109F95E07E0CA316302E00B00F80F8C2986FC1FAC84E7AA4A1BE1E014F8FD0FB0E473C0FFFDC206F87ECF00C0528172FFFC936AE45DEF61D061F761717106E09FA60B2368E1FFE3712D7EE763BF2201614F06F81FAE4B00054380EE09005002006D0907303F8CFCB9F7FF03633601D0158EBB4C70645201FF9FFF7FFD7FE76B66F030E6390C240B1457A1E875876667A5F007FF3A4060585587FF6CFFFD9FE7EF658EEF09DF320D271E5014F8776177E0083AEC205514F898883000884A16015D21F0FFFE99D8A7EF2D19A060FF11E8FAFCFE9B89E5F7674363C3FF57F671E1D7FFF746DFA16363438386FA8A21DA405D3451150BDCFEFC1FBEF7B4596143FDC287C93F3BBF01EB50F93E0CF37FEADA07986B6362E05B00F80E0B00F8106611C886CF5050B750A000920CEEE3EFFDA7810AAA00765A75FDAF72EEDFF7A72975C3C50AE0F6865EFDEDE93195F91D0B3994AF84FFE0C370C0AA66767D666549C82955D5F8C0668556A5EE78CEBFEF87FCF02A0065D5557DE584FF6721959578F05C565E55E102D9A0872156DF54A800FBEF8610946B8C81791CB17CED5F04C2CFE336A2011DAFFFD159CEC203EB761A475CC6142ABD29F7F5E958C622791BC5EF8EFFD008AD0B801B197B719FF9B74DE580FF0963F0B68F197A04FF0E80FF0E828732D0819DD0F0CB80FD0E5E72808A09F00C5B80FF0EC080FE0E268089096EF0EA80FC0ECDDB80FE0E5500FF0E9480FF0E7E0A80FE1780FF0F42EF0FFBA0F0004A09CDFCDF0BFB02B9D107750FBE815DB2FCE4C4877CDFFCE8F92213803809CF7FFC2BFB08E6E666BF86FF88FD8CFA0B80E40ABDCF814653F18187E9FF8EFE69F937A68C8EFE86FF0EFE2BFA63D1FBB12386FFEFFD49F9EF38382E0480740927FAEF925E4642807C09A6F9EFAA20CE6786FFC9FD5FECF9C243838763F827CBFAABADEF860756AD40FAF7AA009A0770C7FE6670F0A8A3AD7F00F809ADFA606070F0E186FF1405F9A31BB352077990DF00CCE4F4FA873FFDDF8BFA9E961687434FBFFC87F988C8C8076C7F45FD8FFA8989CBE187EF7786F9EBF7EFEDEC86FF69FECBDFF9CECE4ECE0778FDDF03F822222107FCCD7FFDE8F8042C3A38FF07F6FE07FAEA123EB6FE86FFD2FD0DFBB393FBB373873FFFABFA69F729E96986FF36FE2ADFFA0B49CBE986FF547FFDC3F80A8BAA137D873A015EAEA5A2AFDF00320941FC5F0F90DE0932EFFF03FC7710A30A95FF97C2FB59978BAE3024FCF51787823F2B66FA7915078BBCB040F9EA2080FF09BF30FF21FC662280FE095F92FF00FC6797F0F8FFCCFE20FA6A7E00FE0A10FF43FC96E917F45040F8DE850200FF0955E0EDF980FE0BAC816BEB28C280FF097044FA8D7B00FF0ACF60FB3D18806709E9FE00FAFBA9A004FFCFCCCFCBBBD88C0198FD0183EA7FCCDBCCCDB884D7E8F0FB84DECBAD1FCCDC3895F7FAF0FF046CCCDDBDDD27B97CB6F0C38369DBE0CEF8FB8CD887FFBDBDBCBD1DB880FF0AFFCE6EF0B9849781802E4F0568BDFBF990BF556EC0DFCDEFF3A10F7A84950082DFF500CCBCFD83D9DA87BDF8116255CFAADDBEEDE0FF5A847711082855009086CE7FF09A84B71120A080F056ED15CC836585FE1A76CE63ED9A87F0B2BAF0BC3BDEDD05FD5801FC725F00CDFCDCFDFE93D784B800C0C07FF8209FF8DFFC00FEEBDFC16B00143881ECBFFFD8DEAFFDDFD5F7A9EF73009C48F1F3BF99F0F0FBAFF5F7E1C9F05C4A43FFDAFFADA9BFCFAECF7FADEF6A840956C4FF81DF8BFEDFFDDEFDFAFFEFE7AA00A7686AEEFE05D37FE766A000C58BE5FFA4CDF01FDFF35000FAFCFF96D3BEF761D0002705351F8482FEEEC31FAD1C1C9C9CFE78FDFDCEFACEFEE5FFEF4B8402221E2EFBFFBFFE88CFDDCFBCC7FFE74D63C352B8EC9B0BEF996982FEFFE4F7286387050E0E0FDDFDDBFDFCF07E81C84CC6AF1517151594BF02D9DF7708EAC2C28706908FA23F8525FFFE80B60982D01B1F1735D884DC62B1F47FF7A6B59CDC8C0CE886EDFACBEFE6FFEF08B6271D00C2CFFF9BDFADFCAEF9AFA5FFE7877378686241BEFFEFBECFBEAFBEBFA47FE7468C84C44444F086F4FFEBD705A3C968FF06FCFF5AFF738242427777C207E3766C3550FF3D15C30D69B301AC03FF7086BFDD6FFFD1D3F5F7E53108A8547FA0FCAF8A7BA6D6F8F053E7C62982FF6F9D00F8AF8D8BAF2176F0B67C6E31C1EE5C00B8829CBC765110C332DFD08CAEC3D50004BBFDF1598EFDFF01AF52EAAE27F3E2E2F4BF9FEF21C0A50502C688F08DBF9DF73A3AF5C584E95E5CC962C80302B0BF87478BFB0002FE8747876DFE8DF0224D7707290BE0FB80BF870C2DFE6AFAB0C297AB80FE09E18CE0A2E79F1E86FF6BFEABEEF0AAA7DF86FF6CFEBF4BFC00EA9775002409B18AE08087FEBF67FD4FFAFC7C80FB097FEDFD6BFB5FD6087F87E269FDCCFABFBDFF00FF09C9FD2AFCDD5D20FE07FF8AFD8EFB9AE7FE00FF09E8FD2EFC747DFD8607FFEBFD0BFC91FBDD8A87FF68FD91FAFB1B2F01BAFFCECCDEFE71E4997C7700FD037103E0CCDC3F72BD987C981955F80F31F6CCCCCDDCBE8109B5B811558BDE77DDEEDC71BB196C3F81638080AAEEDEFEFEFEEEED71E7CE1FB5CAE808BCFEB2DDECBEFACEFCCBFFEF8B8CFCBE163EFD0291F3D1FCFC74CE8CC130D8FDAC07C0DFC729B93ADF9EFE9EDEED79BABBFFADCCABEF107C28000FFAF6BEEC92FFBBDBBEBBE8CE0D7C0F2CAABFDCC6D0FEEC61AF7787DFC9A8AF9AFE8760BEFFD4593E2FED2D87F82A02F477777687462B02F4DDFD1F87F809FE2DFC36F075BA00F6092C0CF0AD574003EEEFFDFC2DDD6ECE3B2A7DA251B73409B3F0FE33D5792A0F5FFF08A013FBCDBC03F6EC2BAFE5EDAB01B5FF0BDEFF59BFF78DDC973FFFA1AEF7DEFECD79ED8BFE180F6355E8A8B070DE000E0005F8FF2900000000
+
+label00C9@0x00C9:
+  // Label type is not known; could not disassemble as code (script uses opcode 0056 which does not exist)
+  // As raw data (0xA5E bytes)
+  .data 7F585652543820008EFF06FC1F50B3010080EBFE0065FFF8FF1F2C180F2A00FE55FF432B08F80029C0FFEA08BF42F8FA2BFFC3F79ACE69085535CD0F45BAD626E11F38CFE739C67FF888BB135CE749F8E8FB2E2497B5E146F800EBE58759CE05E80243FCDEE008F8F8EE2092DCDEFF8810558DF274B7BD78D000EEE708E6AAF03FD62B4B59C666FCD0204FF67ACE6770F860AF3D08C028E01F3A888F19C63FB8C03F9D5ACEFEA835C9D2DADE27F0E82EE36F18C3C647F022EE21C6D068DCF83CC34384FCAF0196900FA808FBDB68F8D0DC333139F4C0803FDD74C38C09E870424F8355842A310F3CB4944AF887358505A006F0F8E02F1D947973E8C0D48FC4FF22F8BDF8577DC3C886F8C0FF0F807060C508FF90FF2108ACA68DA09DEFF0EC121D1B12FFBBDE20003C1A1F9FC338C6E8A7BFFF9B93DFF70100131200FF98FF6108F3687C7CDBD6F0D8049C708EC3DBDEF8EED80F92339BCE801F4CC426C79BFFE8B0092738BFF76AFF4A19A9F969FFFF45FF2985A7A5B53ACE82FF10A399353BDDD6427F101A3A3A1A1BDFF8D864E4A4A4DCF098088F8D85E187D84A4A6FFF6F4F5318C641089C87FC6C4CF8C31F183252D232FE68CC103A181028B6E1B578E33B1F7FE3F7BD83182E9E80BFE0E4FF2082D1DB1B39C6CB1F18343A333C7EC00421D1FD95D1F85008422A5D118711BAD6C08AA755D163D8361F158CCDCF31D60E565440F009C6FFBDC3F729006D25E155C04808EEFF4B2E559DF7250093FF590855FEFF0500F3E8F842EF93B9FF88551CE74800129AF189D88710C6FF6722557DEF4508A7FD5DE9EEDE0700B3D0F10AE8490847FFE6B7553CE747083A1F85A055DEFF8EB84B6D28F070C0985E0284D0B0930169F03EF828009268263EC84608EF7100C0C80CE0C646B0F0880400FF65C720557CD84E01E5C020E0C09A0EC89EF7681F39B198555C0FE8FF1580D821EFE8BFC2D8A86608C3997DF879CEF036AACC3655C3BEF7709D3500C8D8F0B8BF5D0055102806FA687904FC2D9B8A55C318A5D85756FA00F811C0FFF7DFF7107161AAF9FFFF7DC0FFEE46F82F78307855C2F7C0FFFFC0FFFFC0FFFFFDC0FFFFC0FF87B9C44F78551F55758558C4ECEE41BA5700FC6F5CE6F888951595DFC3FF50F8AA002102F8701DF8A019CD77E8565480FB2090783E48151189B7F8A885FF5480FE17D39AD51055093DB884F85CFFFFC4F025FFBFBE31D35C585C5CC0F377C37EF7F62D35C2C2F7F85070036060F00658D5EF5A6055FF41C63F42F75F705092917D48D5153EF70F84F8E75EF8C8D5D55F50F0D8D180AA000FCB4D5CDEF09D5681BC5AD52F200B74A284F71FC09525057ED811890200F856F81090807040822109F02F0300B85C985C545440F61847C0FF5F7BC538FC57BEF75078401FC08203139AE2F015F0BFF7FFB08002894163FBDDC201F3F1A9F719B3D8F110E80D8585717F00585731B1F7304D3AFF42F6D51514189E01F706AAF857183C287062413DD00D89C143A198D101B1F0F8052535150E82F42726FF851B41F602567D56C2F3D535050D08D070D84F586060BFF05F153535FDEEC1F3B8E1541DF7C1F53F7362625EF7901CF8CDC9C1E0D0885509012101F87004F870FFFAB07DC30200DC685089E5567DC0F72FC2F201090D057AB857D796340742F35058670A20094F37A51EEF01EF5C1078F03C028505BDE60280FF0EC8118902FB494042F18DC94141ED50C1E754C5F8C98DE0D702EF436320FFC6FC45A815FF80D0D624B8FF97B304F800B8D80F8941617110B0F0627904FEFB2525C4F4545C5C58F0E072894343D3C383B0C1C3C7C3C23EE881A161FF7A81EC03F095FF7D6828D45458B2ABC1EA54B9F400F83181E3853542F3B82CB788C04086F21C01F32F8D89E961C2E2D1789805050068F02170C8A0C0DEF052893B404B02F0B0808002FF86FDFA42F0C1F6859FFFF170004341C10946FF28F602352582F4242626852702DE01578D5782E473FFF0F8D391554200FFC87F9078C54D49C95E0741F05852FFF8D0339A2333130113C0DEE0C8CCC4C402E4810101FFBEF85078DA505001F7F0D8608002096BBEE600F035C2F515AFC3F570806081ED46FFC33EF74071011B035202E958D0987802F0051B0D7244D8548EE80F70C9FF04E81A97890DD545E05E18858DC94382ED78EA25351DEF17C1E9575C41F77E58258DC360B9CC88F007D7C286EED8B080C7736141B8114B894979EDD81609E9F342F386726063F0D01F809393D353E0F870C6C7C575C5C2ED09F0E194FC905F55D5303EBE01EB2515163C02EEAD5480DD32D7C1EB42EB30A0308056017003CFB9D70BC2E15A03EC2021735F61C0E04E0200F7AA553E41F4D8D05A9155007DF002E20736D75538D05289FCF4B1FDC2EE705856B75517BC84DD9E41E247000375C8B541E5C1D682F2E501EFC358C4B85D5380A6F01F800D0525D5E0C0B0406070E35EBFD853526B525F42F781F7754342F353FF5DAD02E809827502F509F00898B847F0F070D880E88982636DBD48568700E832FDEE6095E7953501487085E081E7F8251725575CC2DC28F050F1D478C9017E03D1560E80D240BBDD201D8541F736AB40EE2A80FA31DDC0FF4F42D203AB82D150878000FFF8DD0EC1ED585EF8A00204F242D5B8E9555282E2555580FA81C0FFFFC0FFFFF5C0FFFFC0FFFF00B930F72F70AA82A141A4C0FFEC46F8B59B4156C9C255C0FFF7BA0050FFC6FF00A8C236FBA505C4FFA6060198F4F8A70600A0F4F8BE1C00B8C32A08F8E7CE88F8F0BBFBF3C4FEFAB0C4FFBB9A10C4FFAE8CC4FFDBEBC3C4FFE9C5FFB5A73500B0C0BE5D3884FFAA80C5FF7745FCAB8284FC3505BB84FCD845FDBE2C84FFBBD617C4FF60C040FE0D23AE0AA89EF8D7370177E0704044FFEAC27784FD953544FE58707744FFAD8DC4FF7A727100F81028050D80FFF8078F40060C08F037092007B9A201FEA01C9C989800C050F84AF99F80F88DB200FF105FC008309030D91C18F82818E2FF3CC838C687CECE4BF8089F20C383830206984240FF3AC0252505C028C008B881D2FF06B8A058FF5CB808820190F8F8038069B93EF0C0C029088DC7CDCDC9C028EFD2929215192E180C528194C835E9019460CAEA5C0880F88F82C9C941609F180B2121331EC8372626067E900B0043436BFF7F82F7E250504002887C8805F5D5017C78636270500CD010A13B494982F77252F8DF00F810D829108D0011807FC80658080C8C847A18C9C10303F8F809089C1C3C092CF01E02F2F300D01ED0101038387ED80480CC4CEEDFF8F808303C3C24E124E809204BC34B4168D0051F68B2B290903F681062627273C14088090104580220E882F74C025C5CC88F73F39212F883182CA2C1F500A88203C1C1F0A4E015A0B8F0E04040CACAB410D5F504F6234043A082E0FA41F630C82813A4C200F00617068E8EC2F3F6EAF3F3C2EA40785C5D78C2F7951581EDB290B98D0281EF16C98B6942F30B805F00F811F660813982D018C08CCE71F8A8F2F287C4FF0C88F801EE01F4E3A384FF382818F8E876F8BA3B84FF2434C4E05860F3F057C0B0F888E8F00B7272C4FF518EC4FF9210F8B8B85C5444FE9B303005FE06EFE008010D84FF3C36EE84FE8A8FC4FF0535EEC4FF627004FDE3F3CEC4FE183CF8CF080626D5F023F0B2F08E104060F838180D0986F8F0F85E5D5E44FFC1E344FF500140D809C20FAB49A2FE420F427AC0FFE71645F8BF0000
+
+label157C@0x157C:
+  nop
+  nop

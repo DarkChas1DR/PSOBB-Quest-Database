@@ -1,0 +1,566 @@
+.version BB_V4
+.quest_num 154
+.name "Lost BIND ASSAULT"
+.short_desc "Retrieve a\nweapon from\na Gol Dragon!!\n\n* Job can be joined\n  while in progress."
+.long_desc "Client:  Hopkins, hunter\nQuest:\n My weapon was taken\n from me when I was\n fighting Gol Dragon.\nReward:  ??? Meseta\nAuthor: Ender"
+.episode Episode2
+.header_episode 0x01
+.language E
+.max_players 4
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+start:
+  set_episode                     0x00000001
+  leti                            r60, 0x0000000F
+  leti                            r61, 0x00000021
+  leti                            r62, 0x00000000
+  leti                            r63, 0x00000000
+  leti                            r64, 0x00000000
+  map_designate_ex                r60-r64
+  leti                            r60, 0x00000004
+  leti                            r61, 0x00000016
+  leti                            r62, 0x00000000
+  leti                            r63, 0x00000001
+  leti                            r64, 0x00000000
+  map_designate_ex                r60-r64
+  leti                            r60, 0x00000003
+  leti                            r61, 0x00000015
+  leti                            r62, 0x00000000
+  leti                            r63, 0x00000000
+  leti                            r64, 0x00000000
+  map_designate_ex                r60-r64
+  leti                            r60, 0x00000000
+  leti                            r61, 0x00000012
+  leti                            r62, 0x00000000
+  leti                            r63, 0x00000000
+  leti                            r64, 0x00000000
+  map_designate_ex                r60-r64
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0096
+  set_floor_handler               ... 0x0 /* 0 */, label0096
+  arg_pushl                       0x00000003
+  arg_pushw                       0x0097
+  set_floor_handler               ... 0x3 /* 3 */, label0097
+  arg_pushl                       0x00000004
+  arg_pushw                       0x0098
+  set_floor_handler               ... 0x4 /* 4 */, label0098
+  arg_pushl                       0x0000000F
+  arg_pushw                       0x00A1
+  set_floor_handler               ... 0xF /* 15 */, label00A1
+  set_qt_success                  label00FA
+  get_client_id                   r250
+  get_difficulty_level_v2         r252
+  thread                          label0384
+  ret
+
+label0001@0x0001:
+  ret
+  arg_pushs                       "** Floor handler for the Lab"
+  disp_msg_qb                     ... "** Floor handler for the Lab"
+
+label0096@0x0096:
+  switch_jmp                      r0, [label00C8, label00C9]
+
+label00C8@0x00C8:
+  set                             r50
+  arg_pushl                       0x00000003
+  set_mainwarp                    ... 0x3 /* 3 */
+  call                            label037F
+  leti                            r60, 0xFFFFF81C
+  leti                            r61, 0x00000000
+  leti                            r62, 0x0000000F
+  leti                            r63, 0x000000FA
+  arg_pushl                       0x00000000
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  leti                            r60, 0xFFFFF81C
+  leti                            r61, 0x00000000
+  leti                            r62, 0xFFFFFFF1
+  leti                            r63, 0x00000136
+  arg_pushl                       0x00000001
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x1 /* 1 */, r60-r63
+  leti                            r60, 0xFFFFF830
+  leti                            r61, 0x00000000
+  leti                            r62, 0x0000000F
+  leti                            r63, 0x000000FA
+  arg_pushl                       0x00000002
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x2 /* 2 */, r60-r63
+  leti                            r60, 0xFFFFF830
+  leti                            r61, 0x00000000
+  leti                            r62, 0xFFFFFFF1
+  leti                            r63, 0x00000122
+  arg_pushl                       0x00000003
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x3 /* 3 */, r60-r63
+  call                            label0136
+  ret
+
+label00C9@0x00C9:
+  warp_on
+  set                             r50
+  thread_stg                      label01A1
+  thread_stg                      label01A5
+  ret
+  arg_pushs                       "** Quest success (talking to guild lady)"
+  disp_msg_qb                     ... "** Quest success (talking to guild lady)"
+
+label00FA@0x00FA:
+  switch_jmp                      r252, [label00FB, label00FC, label00FD, label00FE]
+
+label00FB@0x00FB:
+  arg_pushs                       "You\'ve been awarded <color 1>2,000<color 0> Meseta."
+  window_msg                      ... "You\'ve been awarded <color 1>2,000<color 0> Meseta."
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x000007D0
+  pl_add_meseta2                  ... 0x7D0 /* 2000 */
+  ret
+
+label00FC@0x00FC:
+  arg_pushs                       "You\'ve been awarded <color 1>4,000<color 0> Meseta."
+  window_msg                      ... "You\'ve been awarded <color 1>4,000<color 0> Meseta."
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x00000FA0
+  pl_add_meseta2                  ... 0xFA0 /* 4000 */
+  ret
+
+label00FD@0x00FD:
+  arg_pushs                       "You\'ve been awarded <color 1>6,000<color 0> Meseta."
+  window_msg                      ... "You\'ve been awarded <color 1>6,000<color 0> Meseta."
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x00001770
+  pl_add_meseta2                  ... 0x1770 /* 6000 */
+  ret
+
+label00FE@0x00FE:
+  arg_pushs                       "You\'ve been awarded <color 1>8,000<color 0> Meseta."
+  window_msg                      ... "You\'ve been awarded <color 1>8,000<color 0> Meseta."
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x00001F40
+  pl_add_meseta2                  ... 0x1F40 /* 8000 */
+  ret
+  arg_pushs                       "** Spaceship Alpha floor handler"
+  disp_msg_qb                     ... "** Spaceship Alpha floor handler"
+
+label0097@0x0097:
+  arg_pushb                       0x52
+  arg_pushl                       0x00000001
+  sync_register2                  ... r82, 0x1 /* 1 */
+  arg_pushl                       0x00000003
+  arg_pushl                       0x000000FF
+  set_switch_flag_sync            ... 0x3 /* 3 */, 0xFF /* 255 */
+  thread_stg                      label01A1
+  thread_stg                      label01A5
+  ret
+  arg_pushs                       "** Spaceship Beta floor handler"
+  disp_msg_qb                     ... "** Spaceship Beta floor handler"
+
+label0098@0x0098:
+  thread_stg                      label01A1
+  thread_stg                      label01A5
+  thread_stg                      label01A7
+  arg_pushl                       0x00000004
+  set_mainwarp                    ... 0x4 /* 4 */
+  ret
+  arg_pushs                       "** Gol Dragon floor handler"
+  disp_msg_qb                     ... "** Gol Dragon floor handler"
+
+label00A1@0x00A1:
+  warp_off
+  thread_stg                      label01A0
+  thread_stg                      label01A3
+  thread_stg                      label01A5
+  ret
+
+label01A0@0x01A0:
+  jmpi_eq                         r15, 0x00000001, label00E6
+  sync
+  leti                            r240, 0x0000000F
+  leti                            r241, 0x00000001
+  if_zone_clear                   r242, r240-r241
+  jmpi_eq                         r242, 0x00000000, label01A0
+  arg_pushb                       0x0F
+  arg_pushl                       0x00000001
+  sync_register2                  ... r15, 0x1 /* 1 */
+  ret
+
+label01A1@0x01A1:
+  jmpi_eq                         r18, 0x00000001, label0001
+  jmpi_eq                         r19, 0x00000001, label0001
+
+label01A2@0x01A2:
+  sync
+  jmpi_eq                         r15, 0x00000000, label01A2
+  call                            label00CF
+  p_action_disable
+  call                            label03E8
+  set                             r18
+  p_action_enable
+  ret
+
+label01A3@0x01A3:
+  jmpi_eq                         r18, 0x00000001, label0001
+  jmpi_eq                         r19, 0x00000001, label0001
+
+label01A4@0x01A4:
+  sync
+  jmpi_eq                         r15, 0x00000000, label01A4
+  call                            label00CF
+  call                            label00DC
+  set                             r19
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0122
+  arg_pushs                       "BIND ASSAULT"
+  set_quest_board_handler         ... 0x0 /* 0 */, label0122, "BIND ASSAULT"
+  set                             r74
+  set                             r254
+  gettime                         r104
+  call                            label03E8
+  call                            label00E6
+  call                            label00DD
+  ret
+
+label03E8@0x03E8:
+  arg_pushs                       "Gol Dragon killed!"
+  window_msg                      ... "Gol Dragon killed!"
+  arg_pushs                       "Hopkins\' BIND ASSAULT found\nin Gol Dragon\'s mouth!"
+  add_msg                         ... "Hopkins\' BIND ASSAULT found\nin Gol Dragon\'s mouth!"
+  arg_pushl                       0x00000001
+  sound_effect                    ... 0x1 /* 1 */
+  window_msg_end
+  ret
+
+label00E6@0x00E6:
+  sync
+  warp_on
+  ret
+
+label0122@0x0122:
+  arg_pushs                       "My dad gave BIND ASSAULT\nto me."
+  disp_msg_qb                     ... "My dad gave BIND ASSAULT\nto me."
+  close_msg_qb
+  ret
+
+label01A5@0x01A5:
+  jmpi_eq                         r20, 0x00000001, label0001
+
+label01A6@0x01A6:
+  sync
+  jmpi_eq                         r16, 0x00000000, label01A6
+  jmpi_eq                         r17, 0x00000001, label0001
+  p_action_disable
+  arg_pushs                       "Mission complete!"
+  window_msg                      ... "Mission complete!"
+  arg_pushl                       0x00000000
+  bgm                             ... 0x0 /* 0 */
+  arg_pushs                       "You will be taken to the lobby\nafter you receive your reward."
+  add_msg                         ... "You will be taken to the lobby\nafter you receive your reward."
+  set                             r20
+  window_msg_end
+  arg_pushl                       0x00000000
+  clear_quest_board_handler       ... 0x0 /* 0 */
+  clear                           r74
+  p_action_enable
+  arg_pushl                       0x00000001
+  playbgm_epi                     ... 0x1 /* 1 */
+  ret
+
+label01A7@0x01A7:
+  jmpi_eq                         r53, 0x00000001, label01A8
+  sync
+  leti                            r60, 0x00000002
+  leti                            r61, 0x00000069
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000000, label01A7
+  arg_pushl                       0x00000002
+  sound_effect                    ... 0x2 /* 2 */
+  set                             r53
+
+label01A8@0x01A8:
+  ret
+  ret
+  arg_pushs                       "** Hopkins dialogue below"
+  disp_msg_qb                     ... "** Hopkins dialogue below"
+
+label0136@0x0136:
+  // Referenced by map enemy ES-00-007 [EnemySetEntry type=0031 "TObjNpcNFM01/TObjNpcNFM01" num_children=0000 floor=0000 room=0046 wave_number=0000 wave_number2=0000 a1=0000 x=-50 y=0 z=0 x_angle=00000000 y_angle=00004000 z_angle=00000000 params=[0 0 0 100 310 0000 0000]]
+  jmpi_eq                         r255, 0x00000001, label0139
+  jmpi_eq                         r254, 0x00000001, label0138
+  jmpi_eq                         r0, 0x00000001, label0137
+  call                            label00DC
+  call                            label00CF
+  arg_pushl                       0x00000064
+  arg_pushl                       0x00000064
+  arg_pushl                       0x0000000C
+  arg_pushl                       0x00000001
+  arg_pushl                       0x00000001
+  arg_pushs                       "Skip dialogue?"
+  chat_box                        ... 0x64 /* 100 */, 0x64 /* 100 */, 0xC /* 12 */, 0x1 /* 1 */, 0x1 /* 1 */, "Skip dialogue?"
+  window_msg_end
+  arg_pushb                       0x0A
+  arg_pushs                       "No\nYes"
+  list                            ... r10, "No\nYes"
+  jmpi_eq                         r10, 0x00000001, label0064
+  arg_pushl                       0x00000064
+  arg_pushs                       "Ca... can you help\nme?  Please?"
+  message                         ... 0x64 /* 100 */, "Ca... can you help\nme?  Please?"
+  arg_pushs                       "I almost killed a\nGol Dragon."
+  add_msg                         ... "I almost killed a\nGol Dragon."
+  arg_pushs                       "But... but..."
+  add_msg                         ... "But... but..."
+  arg_pushs                       "My BIND ASSAULT...\nMy dad gave BIND ASSAULT\nto me..."
+  add_msg                         ... "My BIND ASSAULT...\nMy dad gave BIND ASSAULT\nto me..."
+  arg_pushs                       "It\'s really important to\nme. I don\'t know how it\nwas taken from me."
+  add_msg                         ... "It\'s really important to\nme. I don\'t know how it\nwas taken from me."
+  arg_pushs                       "I cannot do my job\nwithout it!  Please\nget it back for me."
+  add_msg                         ... "I cannot do my job\nwithout it!  Please\nget it back for me."
+  message_end
+
+label0064@0x0064:
+  set                             r0
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  call                            label00DD
+  ret
+
+label0137@0x0137:
+  arg_pushl                       0x00000064
+  arg_pushs                       "Please get my\nBIND ASSAULT\nback to me."
+  message                         ... 0x64 /* 100 */, "Please get my\nBIND ASSAULT\nback to me."
+  arg_pushs                       "Perhaps it\'s in the\nGol Dragon\'s stomach!"
+  add_msg                         ... "Perhaps it\'s in the\nGol Dragon\'s stomach!"
+  message_end
+  ret
+
+label0138@0x0138:
+  call                            label00DC
+  arg_pushl                       0x00000064
+  arg_pushs                       "My item!\nThis is great!  Wow!"
+  message                         ... 0x64 /* 100 */, "My item!\nThis is great!  Wow!"
+  arg_pushs                       "Thank you very much!\nYou\'re great!"
+  add_msg                         ... "Thank you very much!\nYou\'re great!"
+  arg_pushs                       "Please get your reward\nat the counter!"
+  add_msg                         ... "Please get your reward\nat the counter!"
+  arg_pushs                       "This is all I can do to\nshow my appreciation."
+  add_msg                         ... "This is all I can do to\nshow my appreciation."
+  message_end
+  set                             r17
+  arg_pushb                       0x10
+  arg_pushl                       0x00000001
+  sync_register2                  ... r16, 0x1 /* 1 */
+  arg_pushb                       0xFF
+  arg_pushl                       0x00000001
+  sync_register2                  ... r255, 0x1 /* 1 */
+  arg_pushl                       0x00000000
+  clear_quest_board_handler       ... 0x0 /* 0 */
+  clear                           r74
+  arg_pushl                       0x00000000
+  bgm                             ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  playbgm_epi                     ... 0x1 /* 1 */
+  call                            label00DD
+  ret
+
+label0139@0x0139:
+  arg_pushl                       0x00000064
+  arg_pushs                       "Please go get your\nreward at the counter!\nThank you!"
+  message                         ... 0x64 /* 100 */, "Please go get your\nreward at the counter!\nThank you!"
+  message_end
+  ret
+
+label0140@0x0140:
+  jmpi_eq                         r254, 0x00000001, label0141
+  arg_pushl                       0x00000068
+  arg_pushs                       "Did Hopkins do it again?"
+  message                         ... 0x68 /* 104 */, "Did Hopkins do it again?"
+  arg_pushs                       "Even in the simulator?"
+  add_msg                         ... "Even in the simulator?"
+  arg_pushs                       "Nevermind..."
+  add_msg                         ... "Nevermind..."
+  message_end
+  ret
+
+label0141@0x0141:
+  arg_pushl                       0x00000068
+  arg_pushs                       "Well, Hopkins often\nloses his..."
+  message                         ... 0x68 /* 104 */, "Well, Hopkins often\nloses his..."
+  message_end
+  ret
+
+label014A@0x014A:
+  jmpi_eq                         r254, 0x00000001, label014B
+  arg_pushl                       0x00000097
+  arg_pushs                       "Hopkins needs to find\na new hobby..."
+  message                         ... 0x97 /* 151 */, "Hopkins needs to find\na new hobby..."
+  message_end
+  ret
+
+label014B@0x014B:
+  arg_pushl                       0x00000097
+  arg_pushs                       "Thanks for taking care\nof Hopkins again..."
+  message                         ... 0x97 /* 151 */, "Thanks for taking care\nof Hopkins again..."
+  message_end
+  ret
+
+label0154@0x0154:
+  jmpi_eq                         r254, 0x00000001, label0155
+  arg_pushl                       0x00000098
+  arg_pushs                       "Hopkins paid me alot of\nmesta to keep the\nsimulator open this late."
+  message                         ... 0x98 /* 152 */, "Hopkins paid me alot of\nmesta to keep the\nsimulator open this late."
+  arg_pushs                       "That item must be very\nimportant to him."
+  add_msg                         ... "That item must be very\nimportant to him."
+  message_end
+  ret
+
+label0155@0x0155:
+  arg_pushl                       0x00000098
+  arg_pushs                       "Items left in the\nsimulator when it\'s\nshut down are destroyed."
+  message                         ... 0x98 /* 152 */, "Items left in the\nsimulator when it\'s\nshut down are destroyed."
+  arg_pushs                       "Hopkins is lucky\nhe\'s wealthy."
+  add_msg                         ... "Hopkins is lucky\nhe\'s wealthy."
+  message_end
+  ret
+
+label00DC@0x00DC:
+  p_action_disable
+  arg_pushr                       r250
+  disable_movement1               ... r250
+  hud_hide
+  cine_enable
+  cam_zmin
+  ret
+
+label00DD@0x00DD:
+  cam_zmout
+  cine_disable
+  hud_show
+  arg_pushr                       r250
+  enable_movement1                ... r250
+  p_action_enable
+  ret
+
+label00CF@0x00CF:
+  leti                            r72, 0x00000000
+
+label00D0@0x00D0:
+  sync
+  addi                            r72, 0x00000001
+  jmpi_le                         r72, 0x0000001E, label00D0
+  ret
+  nop
+  nop
+  arg_pushs                       "** Timer toggle in quest board."
+  disp_msg_qb                     ... "** Timer toggle in quest board."
+  arg_pushs                       "** 895 - Sets R75 to enable QB handler 01"
+  disp_msg_qb                     ... "** 895 - Sets R75 to enable QB handler 01"
+
+label037F@0x037F:
+  leti                            r60, 0x00000003
+  leti                            r61, 0x000000FF
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000001, label0001
+  set                             r75
+  arg_pushl                       0x00000001
+  clear_quest_board_handler       ... 0x1 /* 1 */
+  arg_pushl                       0x00000001
+  arg_pushw                       0x0383
+  arg_pushs                       "Enable Timer"
+  set_quest_board_handler         ... 0x1 /* 1 */, label0383, "Enable Timer"
+  ret
+  arg_pushs                       "** 898 - Sets up the timer enabled QB handler"
+  disp_msg_qb                     ... "** 898 - Sets up the timer enabled QB handler"
+
+label0382@0x0382:
+  nop
+  jmpi_eq                         r0, 0x00000000, label0380
+  leti                            r100, 0x00000000
+
+label0380@0x0380:
+  arg_pushl                       0x00000001
+  clear_quest_board_handler       ... 0x1 /* 1 */
+  arg_pushl                       0x00000001
+  arg_pushw                       0x0383
+  arg_pushs                       "Enable Timer"
+  set_quest_board_handler         ... 0x1 /* 1 */, label0383, "Enable Timer"
+  arg_pushs                       "Timer disabled."
+  disp_msg_qb                     ... "Timer disabled."
+  close_msg_qb
+  ret
+  arg_pushs                       "** 899 - Sets up the timer disabled QB handler"
+  disp_msg_qb                     ... "** 899 - Sets up the timer disabled QB handler"
+
+label0383@0x0383:
+  nop
+  jmpi_eq                         r0, 0x00000000, label0381
+  leti                            r100, 0x00000001
+
+label0381@0x0381:
+  arg_pushl                       0x00000001
+  clear_quest_board_handler       ... 0x1 /* 1 */
+  arg_pushl                       0x00000001
+  arg_pushw                       0x0382
+  arg_pushs                       "Disable Timer"
+  set_quest_board_handler         ... 0x1 /* 1 */, label0382, "Disable Timer"
+  arg_pushs                       "Timer enabled."
+  disp_msg_qb                     ... "Timer enabled."
+  close_msg_qb
+  ret
+  arg_pushs                       "** Timer thread that runs entire quest. Displays timer if R100 set."
+  disp_msg_qb                     ... "** Timer thread that runs entire quest. Displays timer if R100 set."
+  arg_pushs                       "** R82: has any player touched the floor?"
+  disp_msg_qb                     ... "** R82: has any player touched the floor?"
+  arg_pushs                       "** R100: should we show the timer?"
+  disp_msg_qb                     ... "** R100: should we show the timer?"
+  arg_pushs                       "** R101: initial time"
+  disp_msg_qb                     ... "** R101: initial time"
+  arg_pushs                       "** R102: Current time register"
+  disp_msg_qb                     ... "** R102: Current time register"
+  arg_pushs                       "** R103: Time difference to display"
+  disp_msg_qb                     ... "** R103: Time difference to display"
+  arg_pushs                       "** R104: gettimg call from when R254 is set at boss death"
+  disp_msg_qb                     ... "** R104: gettimg call from when R254 is set at boss death"
+
+label0384@0x0384:
+  sync
+  jmpi_eq                         r82, 0x00000000, label0384
+  jmpi_ne                         r101, 0x00000000, label0385
+  gettime                         r101
+
+label0385@0x0385:
+  gettime                         r102
+  jmpi_eq                         r254, 0x00000001, label0388
+  let                             r103, r102
+  jmp                             label0389
+
+label0388@0x0388:
+  let                             r103, r104
+
+label0389@0x0389:
+  sub                             r103, r101
+  winset_time                     r103
+  jmpi_eq                         r100, 0x00000000, label0386
+  show_timer
+  jmp                             label0387
+
+label0386@0x0386:
+  hide_timer
+
+label0387@0x0387:
+  jmp                             label0384
+  ret
+  nop
+  nop
+  nop

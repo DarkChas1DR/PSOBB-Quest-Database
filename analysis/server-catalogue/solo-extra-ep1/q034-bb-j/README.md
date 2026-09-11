@@ -1,0 +1,56 @@
+# ブラックペーパーのもっと危険な取引 — solo-extra-ep1/q034-bb-j
+
+Episode4; header quest ID 34; language J. Static scan: **40 objects, 86 enemy/NPC records, 10 events, 132 script labels.** Script roundtrip: byte-identical.
+
+This is a structural dossier, not a claim that every branch has been manually interpreted or playtested. Enemy/NPC records are not gameplay kill totals. Event IDs, wave numbers, object groups and script labels are distinct namespaces.
+
+## Read and inspect
+
+- [Script with byte offsets and map references](<script-offsets.txt>)
+- [Reassembly syntax with explicit labels](<script.txt>)
+- [Complete placements and event actions](<map.txt>)
+- [Every parsed wave and its next actions](<waves.csv>)
+- [Object fields](<objects.csv>)
+- [Enemy/NPC fields](<enemies.csv>)
+- [Explicit script references, including handlers; not a complete dynamic call graph](<script-references.csv>)
+- [State, timing and reward operation locations](<state-and-rewards.csv>)
+- [Function/label index](<labels.csv>)
+
+## Area designations
+
+Operands: floor, area, type, layout variation, entities variation.
+
+```text
+0x00, 0x2D, 0x00, 0x00, 0x00
+0x08, 0x2B, 0x00, 0x00, 0x00
+```
+
+## Floors
+
+| Floor | Objects | Enemy/NPC records | Events |
+|---|---:|---:|---:|
+| 0 | 26 | 18 | 0 |
+| 8 | 14 | 68 | 10 |
+
+## Wave progression
+
+Numbers below are decimal; delays are frames. Alternatives and parallel triggers must not be mistaken for one compulsory sequence.
+
+| Floor | Event | Room / wave | Records | Delay | Completion actions |
+|---|---:|---|---:|---:|---|
+| 8 | 211 | 21 / 1 | 7 | 30 | trigger_event(212); stop |
+| 8 | 212 | 21 / 2 | 6 | 30 | trigger_event(213); stop |
+| 8 | 213 | 21 / 3 | 8 | 30 | trigger_event(214); stop |
+| 8 | 214 | 21 / 4 | 8 | 30 | trigger_event(215); stop |
+| 8 | 215 | 21 / 5 | 7 | 60 | trigger_event(216); stop |
+| 8 | 216 | 21 / 6 | 7 | 30 | trigger_event(217); stop |
+| 8 | 217 | 21 / 7 | 3 | 30 | trigger_event(218); stop |
+| 8 | 218 | 21 / 8 | 9 | 30 | trigger_event(219); stop |
+| 8 | 219 | 21 / 9 | 3 | 30 | trigger_event(220); stop |
+| 8 | 220 | 21 / 10 | 8 | 120 | set_switch(21); set_switch(41); stop |
+
+## Review notes
+
+No structural or event-destination issues found by these checks. This does not establish reachability or runtime correctness.
+
+Additional [server metadata](<server-metadata.json>) is supplied. It is separate from quest bytecode and can affect drops.

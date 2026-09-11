@@ -1,0 +1,166 @@
+.version BB_V4
+.quest_num 505
+.name "バトル５"
+.short_desc "神殿面１０分間\n\nレベル制限なし\n復活なし真剣勝負\n\n他のプレイヤーを倒して\nメセタを奪え"
+.long_desc "『メセタ争奪戦』\n\nプレイヤーレベル制限なし\n装備品持込可\n復活できない状態で\n相手のメセタを奪え\n\n４人のときのみ\nパーティーバトル可能\n"
+.episode Episode1
+.header_episode 0x00
+.language J
+.max_players 0
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+// 0x388 data bytes in script section with 4 labels
+
+start:
+  0000  4901000000        arg_pushl                       0x00000001
+  0005  F810              ba_initial_floor                ... 0x1 /* 1 */
+  0007  4911000000        arg_pushl                       0x00000011
+  000C  4B0100            arg_pushw                       0x0001
+  000F  95                set_floor_handler               ... 0x11 /* 17 */, label0001 /* 0011 */
+  0010  01                ret
+
+label0001:
+  // Referenced by instruction at 000F
+  0011  F811              clear_ba_rules
+  0013  4901000000        arg_pushl                       0x00000001
+  0018  F812              ba_set_tech_disk_mode           ... 0x1 /* 1 */
+  001A  4901000000        arg_pushl                       0x00000001
+  001F  F813              ba_set_weapon_and_armor_mode    ... 0x1 /* 1 */
+  0021  4900000000        arg_pushl                       0x00000000
+  0026  F814              ba_set_forbid_mags              ... 0x0 /* 0 */
+  0028  4901000000        arg_pushl                       0x00000001
+  002D  F815              ba_set_tool_mode                ... 0x1 /* 1 */
+  002F  4900000000        arg_pushl                       0x00000000
+  0034  F817              ba_set_unused_F817              ... 0x0 /* 0 */
+  0036  4901000000        arg_pushl                       0x00000001
+  003B  F816              ba_set_trap_mode                ... 0x1 /* 1 */
+  003D  4900000000        arg_pushl                       0x00000000
+  0042  F818              ba_set_respawn                  ... 0x0 /* 0 */
+  0044  4900000000        arg_pushl                       0x00000000
+  0049  F819              ba_set_replace_char             ... 0x0 /* 0 */
+  004B  4901000000        arg_pushl                       0x00000001
+  0050  F81A              ba_dropwep                      ... 0x1 /* 1 */
+  0052  4901000000        arg_pushl                       0x00000001
+  0057  F81B              ba_teams                        ... 0x1 /* 1 */
+  0059  4901000000        arg_pushl                       0x00000001
+  005E  F852              ba_hide_target_reticle          ... 0x1 /* 1 */
+  0060  4905000000        arg_pushl                       0x00000005
+  0065  F81D              ba_death_lvl_up                 ... 0x5 /* 5 */
+  0067  4902000000        arg_pushl                       0x00000002
+  006C  F81E              ba_set_meseta_drop_mode         ... 0x2 /* 2 */
+  006E  F858              ba_show_self_traps
+  0070  4901000000        arg_pushl                       0x00000001
+  0075  F85E              ba_enable_sonar                 ... 0x1 /* 1 */
+  0077  490A000000        arg_pushl                       0x0000000A
+  007C  F872              ba_set_time_limit               ... 0xA /* 10 */
+  007E  09000A000000      leti                            r0, 0x0000000A
+  0084  F86B00            ba_set_box_drop_area            r0
+  0087  F86D              ba_set_trapself
+  0089  4901000000        arg_pushl                       0x00000001
+  008E  F89E              ba_forbid_scape_dolls           ... 0x1 /* 1 */
+  0090  4901000000        arg_pushl                       0x00000001
+  0095  F8A8              ba_death_tech_level_up          ... 0x1 /* 1 */
+  0097  096400000000      leti                            r100, 0x00000000
+  009D  096500000000      leti                            r101, 0x00000000
+  00A3  096664000000      leti                            r102, 0x00000064
+  00A9  F84864            ba_player_give_damage_score     r100-r102
+  00AC  096400000000      leti                            r100, 0x00000000
+  00B2  096500000000      leti                            r101, 0x00000000
+  00B8  096664000000      leti                            r102, 0x00000064
+  00BE  F84964            ba_player_take_damage_score     r100-r102
+  00C1  096400000000      leti                            r100, 0x00000000
+  00C7  096500000000      leti                            r101, 0x00000000
+  00CD  096601000000      leti                            r102, 0x00000001
+  00D3  F84A64            ba_enemy_give_damage_score      r100-r102
+  00D6  096400000000      leti                            r100, 0x00000000
+  00DC  096500000000      leti                            r101, 0x00000000
+  00E2  096601000000      leti                            r102, 0x00000001
+  00E8  F84B64            ba_enemy_take_damage_score      r100-r102
+  00EB  096400000000      leti                            r100, 0x00000000
+  00F1  096500000000      leti                            r101, 0x00000000
+  00F7  096601000000      leti                            r102, 0x00000001
+  00FD  F84C64            ba_player_kill_score            r100-r102
+  0100  096400000000      leti                            r100, 0x00000000
+  0106  096500000000      leti                            r101, 0x00000000
+  010C  096601000000      leti                            r102, 0x00000001
+  0112  F84D64            ba_player_death_score           r100-r102
+  0115  096400000000      leti                            r100, 0x00000000
+  011B  096500000000      leti                            r101, 0x00000000
+  0121  096601000000      leti                            r102, 0x00000001
+  0127  F84E64            ba_enemy_kill_score             r100-r102
+  012A  096400000000      leti                            r100, 0x00000000
+  0130  096500000000      leti                            r101, 0x00000000
+  0136  096601000000      leti                            r102, 0x00000001
+  013C  F84F64            ba_enemy_death_score            r100-r102
+  013F  096401000000      leti                            r100, 0x00000001
+  0145  096500000000      leti                            r101, 0x00000000
+  014B  096601000000      leti                            r102, 0x00000001
+  0151  F85064            ba_meseta_score                 r100-r102
+  0154  096400000000      leti                            r100, 0x00000000
+  015A  096505000000      leti                            r101, 0x00000005
+  0160  F85164            ba_set_trap_count               r100-r101
+  0163  096401000000      leti                            r100, 0x00000001
+  0169  096505000000      leti                            r101, 0x00000005
+  016F  F85164            ba_set_trap_count               r100-r101
+  0172  096402000000      leti                            r100, 0x00000002
+  0178  096505000000      leti                            r101, 0x00000005
+  017E  F85164            ba_set_trap_count               r100-r101
+  0181  096403000000      leti                            r100, 0x00000003
+  0187  096505000000      leti                            r101, 0x00000005
+  018D  F85164            ba_set_trap_count               r100-r101
+  0190  096458020000      leti                            r100, 0x00000258
+  0196  096500000000      leti                            r101, 0x00000000
+  019C  096601000000      leti                            r102, 0x00000001
+  01A2  F88064            set_trap_damage                 r100-r102
+  01A5  4905000000        arg_pushl                       0x00000005
+  01AA  F85F              ba_sonar_count                  ... 0x5 /* 5 */
+  01AC  F860              clear_score_announce
+  01AE  4901000000        arg_pushl                       0x00000001
+  01B3  F861              set_score_announce              ... 0x1 /* 1 */
+  01B5  4903000000        arg_pushl                       0x00000003
+  01BA  F861              set_score_announce              ... 0x3 /* 3 */
+  01BC  4905000000        arg_pushl                       0x00000005
+  01C1  F861              set_score_announce              ... 0x5 /* 5 */
+  01C3  4907000000        arg_pushl                       0x00000007
+  01C8  F861              set_score_announce              ... 0x7 /* 7 */
+  01CA  4909000000        arg_pushl                       0x00000009
+  01CF  F861              set_score_announce              ... 0x9 /* 9 */
+  01D1  4900000000        arg_pushl                       0x00000000
+  01D6  4B0200            arg_pushw                       0x0002
+  01D9  4E0C30EB30FC...   arg_pushs                       "「ルール詳細」"
+  01EA  CB                set_quest_board_handler         ... 0x0 /* 0 */, label0002 /* 028D */, "「ルール詳細」"
+  01EB  104A              set                             r74
+  01ED  4901000000        arg_pushl                       0x00000001
+  01F2  4B0300            arg_pushw                       0x0003
+  01F5  4E0C30975FB9...   arg_pushs                       "「得点詳細」"
+  0204  CB                set_quest_board_handler         ... 0x1 /* 1 */, label0003 /* 0365 */, "「得点詳細」"
+  0205  104B              set                             r75
+  0207  4E0E30E130BB...   arg_pushs                       "『メセタ争奪 復活なしの１回勝負』\n\n マグ以外の装備品を持ち込める\n メセタは勝者の印だ\n 相手を全滅させてメセタを奪え！\n"
+  0288  F81C              ba_start                        ... "『メセタ争奪 復活なしの１回勝負』\n\n マグ以外の装備品を持ち込める\n メセタは勝者の印だ\n 相手を全滅させてメセタを奪え！\n"
+  028A  F888              enable_win_pfx
+  028C  01                ret
+
+label0002:
+  // Referenced by instruction at 01EA
+  028D  4EA0250C30E1...   arg_pushs                       "■「メセタを多く持っていれば勝ち」\n■１０分間\n■神殿面"
+  02C8  D6                disp_msg_qb                     ... "■「メセタを多く持っていれば勝ち」\n■１０分間\n■神殿面"
+  02C9  4EA025D730EC...   arg_pushs                       "■プレイヤーレベルはそのまま\n■マグ以外の装備品の\n  持ち込み可能"
+  0310  5B                add_msg                         ... "■プレイヤーレベルはそのまま\n■マグ以外の装備品の\n  持ち込み可能"
+  0311  4EA02512508C...   arg_pushs                       "■倒れたときに武器を落とす\n■復活はなし。仲間に復活して\n  もらうのは有り。"
+  0362  5B                add_msg                         ... "■倒れたときに武器を落とす\n■復活はなし。仲間に復活して\n  もらうのは有り。"
+  0363  D7                close_msg_qb
+  0364  01                ret
+
+label0003:
+  // Referenced by instruction at 0204
+  0365  4EA025975FB9...   arg_pushs                       "■得点\n  メセタ：＋１点"
+  0382  D6                disp_msg_qb                     ... "■得点\n  メセタ：＋１点"
+  0383  D7                close_msg_qb
+  0384  01                ret
+  0385  00                nop
+  0386  00                nop
+  0387  00                nop

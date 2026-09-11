@@ -1,0 +1,349 @@
+.version BB_V4
+.quest_num 156
+.name "Aberrant Grove"
+.short_desc "Strange things\nare occurring\nin the forest.\n\n* Job can be joined\n  while in progress."
+.long_desc "Client: Alicia\nDescription:\n  There have been\n  multitudes of strange\n  sightings in the forest.\n  Please investigate!\nReward: ??? Meseta\n\nAuthor: Matt"
+.episode Episode1
+.header_episode 0x00
+.language E
+.max_players 4
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+start:
+  set_qt_success                  label0014
+  get_client_id                   r250
+  get_difficulty_level_v2         r252
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0096
+  set_floor_handler               ... 0x0 /* 0 */, label0096
+  arg_pushl                       0x00000001
+  arg_pushw                       0x00FA
+  set_floor_handler               ... 0x1 /* 1 */, label00FA
+  arg_pushl                       0x00000002
+  arg_pushw                       0x012C
+  set_floor_handler               ... 0x2 /* 2 */, label012C
+  leti                            r60, 0x00000000
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000000
+  leti                            r63, 0x00000000
+  map_designate                   r60-r63
+  leti                            r60, 0x00000001
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000000
+  leti                            r63, 0x00000000
+  map_designate                   r60-r63
+  leti                            r60, 0x00000002
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000000
+  leti                            r63, 0x00000000
+  map_designate                   r60-r63
+  thread                          label0032
+
+label0001@0x0001:
+  ret
+
+label0002@0x0002:
+  p_action_disable
+  arg_pushr                       r250
+  disable_movement2               ... r250
+  hud_hide
+  cine_enable
+  cam_zmin
+  ret
+
+label0003@0x0003:
+  cam_zmout
+  cine_disable
+  hud_show
+  arg_pushr                       r250
+  enable_movement2                ... r250
+  p_action_enable
+  ret
+
+label0014@0x0014:
+  switch_jmp                      r252, [label0015, label0016, label0017, label0018]
+
+label0015@0x0015:
+  arg_pushs                       "You\'ve been awarded\n<color 1>1,000<color 0> meseta."
+  window_msg                      ... "You\'ve been awarded\n<color 1>1,000<color 0> meseta."
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x000003E8
+  pl_add_meseta2                  ... 0x3E8 /* 1000 */
+  ret
+
+label0016@0x0016:
+  arg_pushs                       "You\'ve been awarded\n<color 1>2,000<color 0> meseta."
+  window_msg                      ... "You\'ve been awarded\n<color 1>2,000<color 0> meseta."
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x000007D0
+  pl_add_meseta2                  ... 0x7D0 /* 2000 */
+  ret
+
+label0017@0x0017:
+  arg_pushs                       "You\'ve been awarded\n<color 1>4,000<color 0> meseta."
+  window_msg                      ... "You\'ve been awarded\n<color 1>4,000<color 0> meseta."
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x00000FA0
+  pl_add_meseta2                  ... 0xFA0 /* 4000 */
+  ret
+
+label0018@0x0018:
+  arg_pushs                       "You\'ve been awarded\n<color 1>10,000<color 0> meseta."
+  window_msg                      ... "You\'ve been awarded\n<color 1>10,000<color 0> meseta."
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x00002710
+  pl_add_meseta2                  ... 0x2710 /* 10000 */
+  ret
+
+label001E@0x001E:
+  sync
+  subi                            r60, 0x00000001
+  jmpi_ne                         r60, 0x00000000, label001E
+  ret
+
+label0028@0x0028:
+  set                             r74
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0029
+  arg_pushs                       "Enable Timer"
+  set_quest_board_handler         ... 0x0 /* 0 */, label0029, "Enable Timer"
+  ret
+
+label0029@0x0029:
+  leti                            r15, 0x00000001
+  arg_pushl                       0x00000000
+  clear_quest_board_handler       ... 0x0 /* 0 */
+  arg_pushl                       0x00000000
+  arg_pushw                       0x002A
+  arg_pushs                       "Disable Timer"
+  set_quest_board_handler         ... 0x0 /* 0 */, label002A, "Disable Timer"
+  arg_pushs                       "Timer enabled."
+  disp_msg_qb                     ... "Timer enabled."
+  close_msg_qb
+  ret
+
+label002A@0x002A:
+  leti                            r15, 0x00000000
+  arg_pushl                       0x00000000
+  clear_quest_board_handler       ... 0x0 /* 0 */
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0029
+  arg_pushs                       "Enable Timer"
+  set_quest_board_handler         ... 0x0 /* 0 */, label0029, "Enable Timer"
+  arg_pushs                       "Timer disabled."
+  disp_msg_qb                     ... "Timer disabled."
+  close_msg_qb
+  ret
+
+label0032@0x0032:
+  sync
+  jmpi_eq                         r10, 0x00000000, label0032
+  jmpi_ne                         r11, 0x00000000, label0033
+  gettime                         r11
+
+label0033@0x0033:
+  gettime                         r12
+  jmpi_eq                         r254, 0x00000001, label0035
+  let                             r13, r12
+  jmp                             label0036
+
+label0035@0x0035:
+  let                             r13, r14
+
+label0036@0x0036:
+  sub                             r13, r11
+  winset_time                     r13
+  jmpi_eq                         r15, 0x00000000, label0034
+  show_timer
+  jmp                             label0032
+
+label0034@0x0034:
+  hide_timer
+  jmp                             label0032
+
+label0064@0x0064:
+  sync
+  jmpi_eq                         r254, 0x00000001, label0001
+  leti                            r60, 0x00000002
+  leti                            r61, 0x00000004
+  if_zone_clear                   r254, r60-r61
+  jmpi_eq                         r254, 0x00000000, label0064
+  gettime                         r14
+  p_action_disable
+  arg_pushs                       "Discovered <color 4>strange stone<color 0>!"
+  window_msg                      ... "Discovered <color 4>strange stone<color 0>!"
+  arg_pushs                       "Return to ALICIA to\nfinish the quest."
+  add_msg                         ... "Return to ALICIA to\nfinish the quest."
+  window_msg_end
+  p_action_enable
+  ret
+
+label006E@0x006E:
+  sync
+  jmpi_eq                         r254, 0x00000001, label006F
+  leti                            r60, 0x00000002
+  leti                            r61, 0x00000004
+  if_zone_clear                   r254, r60-r61
+  jmpi_eq                         r254, 0x00000000, label006E
+  gettime                         r14
+  leti                            r60, 0x0000003C
+  call                            label001E
+  call                            label0002
+  arg_pushs                       "Discovered <color 4>strange stone<color 0>!"
+  window_msg                      ... "Discovered <color 4>strange stone<color 0>!"
+  arg_pushs                       "Return to ALICIA to\nfinish the quest."
+  add_msg                         ... "Return to ALICIA to\nfinish the quest."
+  window_msg_end
+  fadeout
+  leti                            r60, 0x0000001E
+  call                            label001E
+  leti                            r60, 0x00000002
+  leti                            r61, 0x00000004
+  leti                            r62, 0x00000001
+  construct_delayed_object        r60-r62
+  fadein
+  call                            label0003
+  ret
+
+label006F@0x006F:
+  leti                            r60, 0x00000002
+  leti                            r61, 0x00000004
+  leti                            r62, 0x00000001
+  construct_delayed_object        r60-r62
+  ret
+
+label0096@0x0096:
+  thread_stg                      label0064
+  jmpi_eq                         r0, 0x00000001, label0001
+  call                            label0028
+  arg_pushl                       0x00000001
+  set_mainwarp                    ... 0x1 /* 1 */
+  switch_call                     r250, [label0097, label0098, label0099, label009A]
+  jmp                             label00C8
+
+label0097@0x0097:
+  leti                            r60, 0x000000ED
+  leti                            r61, 0x00000000
+  leti                            r62, 0x0000014D
+  leti                            r63, 0xFFFFFFF1
+  arg_pushl                       0x00000000
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  ret
+
+label0098@0x0098:
+  leti                            r60, 0x000000FF
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000152
+  leti                            r63, 0xFFFFFFD5
+  arg_pushl                       0x00000001
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x1 /* 1 */, r60-r63
+  ret
+
+label0099@0x0099:
+  leti                            r60, 0x000000DE
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000142
+  leti                            r63, 0x00000019
+  arg_pushl                       0x00000002
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x2 /* 2 */, r60-r63
+  ret
+
+label009A@0x009A:
+  leti                            r60, 0x000000F8
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000143
+  leti                            r63, 0xFFFFFFEC
+  arg_pushl                       0x00000003
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x3 /* 3 */, r60-r63
+  ret
+
+label00C8@0x00C8:
+  // Referenced by map enemy ES-00-007 [EnemySetEntry type=0027 "TObjNpcHFW00/TObjNpcHFW00" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=6.90999 y=0 z=64.0779 x_angle=00000000 y_angle=00009000 z_angle=00000000 params=[0 0 0 100 200 0000 0000]]
+  jmpi_eq                         r255, 0x00000001, label00CB
+  jmpi_eq                         r254, 0x00000001, label00CA
+  jmpi_eq                         r0, 0x00000001, label00C9
+  call                            label0002
+  arg_pushb                       0x46
+  arg_pushs                       "View dialogue\nSkip dialogue"
+  list                            ... r70, "View dialogue\nSkip dialogue"
+  jmpi_eq                         r70, 0x00000001, label00D2
+  arg_pushl                       0x00000064
+  arg_pushs                       "Hello again, <hero name>.\nThank you for coming."
+  message                         ... 0x64 /* 100 */, "Hello again, <hero name>.\nThank you for coming."
+  arg_pushs                       "There appears to have\nbeen some aberrations\nin Ragol\'s forest."
+  add_msg                         ... "There appears to have\nbeen some aberrations\nin Ragol\'s forest."
+  arg_pushs                       "The local wildlife\nappear to be more\naggressive than usual."
+  add_msg                         ... "The local wildlife\nappear to be more\naggressive than usual."
+  arg_pushs                       "Please investigate\nand see if you\ncan find the cause."
+  add_msg                         ... "Please investigate\nand see if you\ncan find the cause."
+  message_end
+
+label00D2@0x00D2:
+  set                             r0
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  call                            label0003
+  ret
+
+label00C9@0x00C9:
+  arg_pushl                       0x00000064
+  arg_pushs                       "Please hurry!"
+  message                         ... 0x64 /* 100 */, "Please hurry!"
+  arg_pushs                       "I don\'t want the\nPioneer 2 military\nto harm the wildlife..."
+  add_msg                         ... "I don\'t want the\nPioneer 2 military\nto harm the wildlife..."
+  message_end
+  ret
+
+label00CA@0x00CA:
+  arg_pushl                       0x00000064
+  arg_pushs                       "What\'s this?"
+  message                         ... 0x64 /* 100 */, "What\'s this?"
+  arg_pushs                       "A <color 4>strange stone<color 0> near\nthe Central Dome?"
+  add_msg                         ... "A <color 4>strange stone<color 0> near\nthe Central Dome?"
+  arg_pushs                       "I will investigate.\nThank you for\nyour hard work."
+  add_msg                         ... "I will investigate.\nThank you for\nyour hard work."
+  arg_pushs                       "Please receive your\nreward from the\nHunters\' Guild."
+  add_msg                         ... "Please receive your\nreward from the\nHunters\' Guild."
+  message_end
+  set                             r255
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  arg_pushl                       0x00000001
+  playbgm_epi                     ... 0x1 /* 1 */
+  ret
+
+label00CB@0x00CB:
+  arg_pushl                       0x00000064
+  arg_pushs                       "Please receive your\nreward from the\nHunters\' Guild."
+  message                         ... 0x64 /* 100 */, "Please receive your\nreward from the\nHunters\' Guild."
+  message_end
+  ret
+
+label00FA@0x00FA:
+  thread_stg                      label0064
+  arg_pushb                       0x0A
+  arg_pushl                       0x00000001
+  sync_register2                  ... r10, 0x1 /* 1 */
+  ret
+
+label012C@0x012C:
+  thread_stg                      label006E
+  ret
+  nop
+  nop

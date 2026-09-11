@@ -1,0 +1,575 @@
+.version BB_V4
+.quest_num 2
+.name "Claiming a Stake"
+.short_desc "Find and bring\nback a greedy\nlandlord!"
+.long_desc "Client: Racton\'s son\nQuest:\n  My father, Racton, has\n  gone to claim land on\n  Ragol. Find him.\nReward: 700 Meseta"
+.episode Episode1
+.header_episode 0x00
+.language E
+.max_players 1
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+start:
+  set_episode                     0x00000000
+  gget                            0x00F6, r102
+  gget                            0x00F3, r103
+  gget                            0x00F1, r101
+  set_qt_exit                     label006F
+  set_qt_cancel                   label006F
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0096
+  set_floor_handler               ... 0x0 /* 0 */, label0096
+  arg_pushl                       0x00000001
+  arg_pushw                       0x0097
+  set_floor_handler               ... 0x1 /* 1 */, label0097
+  set_qt_success                  label00FA
+  bb_map_designate                0x00, 0x00, 0x00, 0x00, 0x00
+  bb_map_designate                0x01, 0x01, 0x00, 0x00, 0x01
+  ret
+
+label0001@0x0001:
+  ret
+
+label006F@0x006F:
+  jmpi_eq                         r103, 0x00000001, label0001
+  gclear                          0x00F3
+  ret
+
+label0096@0x0096:
+  arg_pushl                       0x00000001
+  set_mainwarp                    ... 0x1 /* 1 */
+  jmpi_eq                         r200, 0x00000001, label0190
+  leti                            r60, 0x000000ED
+  leti                            r61, 0x00000000
+  leti                            r62, 0x0000014D
+  leti                            r63, 0xFFFFFFFA
+  arg_pushl                       0x00000000
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  set                             r200
+  call                            label012F
+
+label0190@0x0190:
+  jmpi_eq                         r255, 0x00000000, label0001
+  leti                            r60, 0x0000011A
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000146
+  leti                            r63, 0x00000014
+  leti                            r64, 0x00000136
+  leti                            r65, 0x0000000A
+  set_obj_param                   r60-r65, r90
+  leti                            r60, 0x0000011A
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000146
+  leti                            r63, 0x00000040
+  leti                            r64, 0x00000000
+  leti                            r65, 0x00000020
+  npc_crptalk                     r60-r65
+  ret
+
+label00FA@0x00FA:
+  gset                            0x0067
+  arg_pushs                       "You\'ve been awarded 700 Meseta."
+  window_msg                      ... "You\'ve been awarded 700 Meseta."
+  window_msg_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  arg_pushl                       0x00000000
+  arg_pushl                       0x000002BC
+  pl_add_meseta                   ... 0x0 /* 0 */, 0x2BC /* 700 */
+  ret
+
+label0097@0x0097:
+  jmpi_eq                         r255, 0x00000001, label0001
+  leti                            r60, 0x00000091
+  leti                            r61, 0x00000000
+  leti                            r62, 0xFFFFFFEB
+  leti                            r63, 0x00000019
+  leti                            r64, 0x0000015E
+  leti                            r65, 0x0000000A
+  set_obj_param                   r60-r65, r90
+  leti                            r60, 0x00000091
+  leti                            r61, 0x00000000
+  leti                            r62, 0xFFFFFFEB
+  leti                            r63, 0x000000B4
+  leti                            r64, 0x00000000
+  leti                            r65, 0x00000020
+  npc_crptalk                     r60-r65
+  leti                            r60, 0x00000217
+  leti                            r61, 0x00000024
+  leti                            r62, 0xFFFFFF57
+  leti                            r63, 0x0000000A
+  leti                            r64, 0x00000168
+  at_coords_call                  r60-r64
+  leti                            r60, 0xFFFFFEE0
+  leti                            r61, 0x00000018
+  leti                            r62, 0xFFFFFE3F
+  leti                            r63, 0x0000000A
+  leti                            r64, 0x00000169
+  at_coords_call                  r60-r64
+  leti                            r60, 0x000001DA
+  leti                            r61, 0x0000000C
+  leti                            r62, 0x00000213
+  leti                            r63, 0x0000000A
+  leti                            r64, 0x0000016A
+  at_coords_call                  r60-r64
+  ret
+
+label012F@0x012F:
+  // Referenced by map enemy ES-00-001 [EnemySetEntry type=0008 "TObjNpcMaleBase/TObjNpcMaleBase" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-2.99986 y=0 z=64.0013 x_angle=00000000 y_angle=00007800 z_angle=00000000 params=[0 0 0 101 303 0000 0000]]
+  jmpi_eq                         r7, 0x00000001, label0133
+  jmpi_eq                         r255, 0x00000001, label0132
+  jmpi_eq                         r1, 0x00000001, label0131
+  jmpi_eq                         r0, 0x00000001, label0130
+  call                            label00DC
+  arg_pushl                       0x00000065
+  arg_pushs                       "Ah, here you are,\n<hero job>.\nMy father disgusts me."
+  message                         ... 0x65 /* 101 */, "Ah, here you are,\n<hero job>.\nMy father disgusts me."
+  arg_pushs                       "As soon as we arrived,\nhe ran off saying, \"I\'m\noff to stake out land.\""
+  add_msg                         ... "As soon as we arrived,\nhe ran off saying, \"I\'m\noff to stake out land.\""
+  arg_pushs                       "Staking out Ragol? It\'s\ntoo early to do that."
+  add_msg                         ... "Staking out Ragol? It\'s\ntoo early to do that."
+  arg_pushs                       "We don\'t know much about\nRagol... it\'s dangerous."
+  add_msg                         ... "We don\'t know much about\nRagol... it\'s dangerous."
+  arg_pushs                       "Please!  Please find my\nfather!"
+  add_msg                         ... "Please!  Please find my\nfather!"
+  set                             r0
+  message_end
+  call                            label00DD
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  ret
+
+label0130@0x0130:
+  arg_pushl                       0x00000065
+  arg_pushs                       "Please!  Please find my\nfather!"
+  message                         ... 0x65 /* 101 */, "Please!  Please find my\nfather!"
+  message_end
+  ret
+
+label0131@0x0131:
+  arg_pushl                       0x00000065
+  arg_pushs                       "Is he safe now?\nAh, thank you...!"
+  message                         ... 0x65 /* 101 */, "Is he safe now?\nAh, thank you...!"
+  message_end
+  ret
+
+label0132@0x0132:
+  arg_pushl                       0x00000065
+  arg_pushs                       "I\'ll make sure he\ndoesn\'t cause any more\ntrouble like this again."
+  message                         ... 0x65 /* 101 */, "I\'ll make sure he\ndoesn\'t cause any more\ntrouble like this again."
+  arg_pushs                       "Please get your reward."
+  add_msg                         ... "Please get your reward."
+  message_end
+  set                             r7
+  arg_pushl                       0x00000000
+  bgm                             ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  playbgm_epi                     ... 0x1 /* 1 */
+  ret
+
+label0133@0x0133:
+  arg_pushl                       0x00000065
+  arg_pushs                       "Visit the Hunter\'s Guild\nto get your reward."
+  message                         ... 0x65 /* 101 */, "Visit the Hunter\'s Guild\nto get your reward."
+  message_end
+  ret
+
+label0136@0x0136:
+  call                            label00E2
+  arg_pushl                       0x00000003
+  arg_pushs                       "I\'m going there again\nonce those monsters\nare exterminated."
+  message                         ... 0x3 /* 3 */, "I\'m going there again\nonce those monsters\nare exterminated."
+  message_end
+  call                            label00E3
+  ret
+
+label0140@0x0140:
+  // Referenced by map enemy ES-00-002 [EnemySetEntry type=002C "TObjNpcAHM01" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-13.5029 y=0 z=-64.9985 x_angle=00000000 y_angle=0000E000 z_angle=00000000 params=[0 0 0 103 320 0000 0000]]
+  jmpi_eq                         r255, 0x00000001, label0141
+  jmpi_eq                         r10, 0x00000001, label0142
+  arg_pushl                       0x00000067
+  arg_pushs                       "Racton is a greedy\nman.  He\'s so self-\nabsorbed."
+  message                         ... 0x67 /* 103 */, "Racton is a greedy\nman.  He\'s so self-\nabsorbed."
+  arg_pushs                       "But ironically, his son\nis a very good-natured\nman."
+  add_msg                         ... "But ironically, his son\nis a very good-natured\nman."
+  message_end
+  set                             r10
+  ret
+
+label0142@0x0142:
+  arg_pushl                       0x00000067
+  arg_pushs                       "Racton is a greedy\nman.  He\'s so self-\nabsorbed."
+  message                         ... 0x67 /* 103 */, "Racton is a greedy\nman.  He\'s so self-\nabsorbed."
+  arg_pushs                       "But ironically, his son\nis a very good-natured\nman."
+  add_msg                         ... "But ironically, his son\nis a very good-natured\nman."
+  message_end
+  ret
+
+label0141@0x0141:
+  arg_pushl                       0x00000067
+  arg_pushs                       "Racton never learns\nfrom his mistakes..."
+  message                         ... 0x67 /* 103 */, "Racton never learns\nfrom his mistakes..."
+  message_end
+  ret
+
+label014A@0x014A:
+  // Referenced by map enemy ES-00-003 [EnemySetEntry type=002B "TObjNpcNHW01" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=167.998 y=0 z=83.9969 x_angle=00000000 y_angle=0000A000 z_angle=00000000 params=[24 0 0 104 330 0001 0000]]
+  jmpi_eq                         r255, 0x00000001, label014B
+  arg_pushl                       0x00000068
+  arg_pushs                       "Racton?\nOh, yes.  I saw him."
+  message                         ... 0x68 /* 104 */, "Racton?\nOh, yes.  I saw him."
+  arg_pushs                       "He was fleeing from some\nmonsters in the forest."
+  add_msg                         ... "He was fleeing from some\nmonsters in the forest."
+  arg_pushs                       "Help him? No way!\nSympathy only gets you\ninto trouble."
+  add_msg                         ... "Help him? No way!\nSympathy only gets you\ninto trouble."
+  arg_pushs                       "Why do I have to save\nhim?  It\'s not my job."
+  add_msg                         ... "Why do I have to save\nhim?  It\'s not my job."
+  message_end
+  ret
+
+label014B@0x014B:
+  arg_pushl                       0x00000068
+  arg_pushs                       "Wow, he returned alive.\nWhat a lucky man!"
+  message                         ... 0x68 /* 104 */, "Wow, he returned alive.\nWhat a lucky man!"
+  arg_pushs                       "Well, lucky for him, but\nnot really for us."
+  add_msg                         ... "Well, lucky for him, but\nnot really for us."
+  message_end
+  ret
+
+label0154@0x0154:
+  // Referenced by map enemy ES-00-004 [EnemySetEntry type=0009 "TObjNpcMaleChild/TObjNpcMaleChild" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=156.003 y=0 z=-49.9997 x_angle=00000000 y_angle=0000E000 z_angle=00000000 params=[30 0 0 106 340 0001 0000]]
+  jmpi_eq                         r102, 0x00000001, label0158
+  jmpi_eq                         r103, 0x00000001, label0157
+  jmpi_eq                         r104, 0x00000001, label0157
+  jmpi_eq                         r101, 0x00000001, label0155
+  arg_pushl                       0x00000069
+  arg_pushs                       "I have to train myself\nmore!"
+  message                         ... 0x69 /* 105 */, "I have to train myself\nmore!"
+  message_end
+  ret
+
+label0155@0x0155:
+  arg_pushl                       0x00000069
+  arg_pushs                       "I have to train myself\nmore!"
+  message                         ... 0x69 /* 105 */, "I have to train myself\nmore!"
+  arg_pushs                       "Training will make me\nstrong enough to fight\nwith my bare hands."
+  add_msg                         ... "Training will make me\nstrong enough to fight\nwith my bare hands."
+  arg_pushs                       "Did you know that some\nweapons are only for\nmartial arts players?"
+  add_msg                         ... "Did you know that some\nweapons are only for\nmartial arts players?"
+  arg_pushs                       "...Hey.  You have the\nsame emblem that I have!"
+  add_msg                         ... "...Hey.  You have the\nsame emblem that I have!"
+  arg_pushs                       "What?  You want to\njoin \"WEAPONS?\"\nHmmm..."
+  add_msg                         ... "What?  You want to\njoin \"WEAPONS?\"\nHmmm..."
+  arg_pushs                       "No problem."
+  add_msg                         ... "No problem."
+  message_end
+  jmp                             label0156
+
+label0156@0x0156:
+  arg_pushs                       "Got an approval!"
+  window_msg                      ... "Got an approval!"
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  gset                            0x00F3
+  set                             r104
+  ret
+
+label0157@0x0157:
+  arg_pushl                       0x00000069
+  arg_pushs                       "Good weapons require\na strong body."
+  message                         ... 0x69 /* 105 */, "Good weapons require\na strong body."
+  arg_pushs                       "Balance between body and\nweapon is important."
+  add_msg                         ... "Balance between body and\nweapon is important."
+  message_end
+  ret
+
+label0158@0x0158:
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000016
+  leti                            r63, 0x00000000
+  find_inventory_item             r61-r63, r64
+  jmpi_gt                         r64, 0xFFFFFFFF, label0159
+  jmp                             label0157
+  ret
+
+label0159@0x0159:
+  arg_pushl                       0x00000069
+  arg_pushs                       "That\'s Akiko\'s frying\npan, isn\'t it?"
+  message                         ... 0x69 /* 105 */, "That\'s Akiko\'s frying\npan, isn\'t it?"
+  arg_pushs                       "She always uses it when\nshe gets angry with her\nhusband."
+  add_msg                         ... "She always uses it when\nshe gets angry with her\nhusband."
+  message_end
+  ret
+
+label015E@0x015E:
+  jmpi_eq                         r1, 0x00000001, label0137
+  call                            label00E4
+  arg_pushl                       0x00000003
+  arg_pushs                       "Ahhhhh!"
+  message                         ... 0x3 /* 3 */, "Ahhhhh!"
+  arg_pushs                       "I\'m s-s-scared!\nWhat are these monsters\ndoing here!?"
+  add_msg                         ... "I\'m s-s-scared!\nWhat are these monsters\ndoing here!?"
+  arg_pushs                       "I can\'t raise the price\nof this land if these\nmonsters hang around!"
+  add_msg                         ... "I can\'t raise the price\nof this land if these\nmonsters hang around!"
+  arg_pushs                       "My son asked you to take\nme back to Pioneer 2?"
+  add_msg                         ... "My son asked you to take\nme back to Pioneer 2?"
+  arg_pushs                       "Cough!  Of course I\'ll\ngo back with you..."
+  add_msg                         ... "Cough!  Of course I\'ll\ngo back with you..."
+  arg_pushs                       "If you do me a favor."
+  add_msg                         ... "If you do me a favor."
+  arg_pushs                       "I\'ve left three capsules\non prime land locations."
+  add_msg                         ... "I\'ve left three capsules\non prime land locations."
+  arg_pushs                       "You go and recall all of\nthem.  Then I\'ll\ngo back with you."
+  add_msg                         ... "You go and recall all of\nthem.  Then I\'ll\ngo back with you."
+  arg_pushs                       "Why?  Because capsules\naren\'t cheap."
+  add_msg                         ... "Why?  Because capsules\naren\'t cheap."
+  arg_pushs                       "Hurry now.  The capsules\nare this way and that\nway."
+  add_msg                         ... "Hurry now.  The capsules\nare this way and that\nway."
+  message_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  set                             r1
+  call                            label00E5
+  leti                            r30, 0x00000001
+  leti                            r31, 0x00000002
+  leti                            r32, 0x00000001
+  construct_delayed_object        r30-r32
+  leti                            r30, 0x00000001
+  leti                            r31, 0x00000010
+  leti                            r32, 0x00000002
+  construct_delayed_object        r30-r32
+  leti                            r30, 0x00000001
+  leti                            r31, 0x00000008
+  leti                            r32, 0x00000003
+  construct_delayed_object        r30-r32
+  ret
+
+label0137@0x0137:
+  jmpi_eq                         r2, 0x00000000, label015F
+  jmpi_eq                         r3, 0x00000000, label015F
+  jmpi_eq                         r4, 0x00000000, label015F
+  jmp                             label0160
+
+label015F@0x015F:
+  call                            label00E4
+  arg_pushl                       0x00000003
+  arg_pushs                       "You haven\'t found\nall three of them yet."
+  message                         ... 0x3 /* 3 */, "You haven\'t found\nall three of them yet."
+  arg_pushs                       "Are you really a hunter\nfrom the Hunter\'s Guild?"
+  add_msg                         ... "Are you really a hunter\nfrom the Hunter\'s Guild?"
+  message_end
+  call                            label00E5
+  ret
+
+label0160@0x0160:
+  jmpi_eq                         r255, 0x00000001, label0001
+  call                            label00E4
+  arg_pushl                       0x00000003
+  arg_pushs                       "Hmmm!  You have all\nthree capsules!"
+  message                         ... 0x3 /* 3 */, "Hmmm!  You have all\nthree capsules!"
+  arg_pushs                       "Now, let\'s get out of\nthis dangerous place!\nHurry!"
+  add_msg                         ... "Now, let\'s get out of\nthis dangerous place!\nHurry!"
+  arg_pushs                       "Ahhhhhhh!"
+  add_msg                         ... "Ahhhhhhh!"
+  message_end
+  set                             r255
+  arg_pushl                       0x00000000
+  bgm                             ... 0x0 /* 0 */
+  call                            label00E5
+  fadeout
+  arg_pushl                       0x00000003
+  npc_kill                        ... 0x3 /* 3 */
+  del_obj_param                   r90
+  arg_pushl                       0x00000000
+  clear_quest_board_handler       ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  clear_quest_board_handler       ... 0x1 /* 1 */
+  arg_pushl                       0x00000002
+  clear_quest_board_handler       ... 0x2 /* 2 */
+  clear                           r74
+  clear                           r75
+  clear                           r76
+  arg_pushl                       0x00000000
+  create_pipe                     ... 0x0 /* 0 */
+  fadein
+  ret
+
+label0168@0x0168:
+  jmpi_eq                         r2, 0x00000001, label0001
+  jmpi_eq                         r1, 0x00000000, label0001
+  cine_enable
+  p_action_disable
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  set                             r2
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0122
+  arg_pushs                       "Racton`s capsule 1"
+  set_quest_board_handler         ... 0x0 /* 0 */, label0122, "Racton`s capsule 1"
+  set                             r74
+  arg_pushs                       "Got capsule 1!"
+  window_msg                      ... "Got capsule 1!"
+  window_msg_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  p_action_enable
+  cine_disable
+  ret
+
+label0169@0x0169:
+  jmpi_eq                         r3, 0x00000001, label0001
+  jmpi_eq                         r1, 0x00000000, label0001
+  cine_enable
+  p_action_disable
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  set                             r3
+  arg_pushl                       0x00000001
+  arg_pushw                       0x0123
+  arg_pushs                       "Racton`s capsule 2"
+  set_quest_board_handler         ... 0x1 /* 1 */, label0123, "Racton`s capsule 2"
+  set                             r75
+  arg_pushs                       "Got capsule 2!"
+  window_msg                      ... "Got capsule 2!"
+  window_msg_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  p_action_enable
+  cine_disable
+  ret
+
+label016A@0x016A:
+  jmpi_eq                         r4, 0x00000001, label0001
+  jmpi_eq                         r1, 0x00000000, label0001
+  cine_enable
+  p_action_disable
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  set                             r4
+  arg_pushl                       0x00000002
+  arg_pushw                       0x0124
+  arg_pushs                       "Racton`s capsule 3"
+  set_quest_board_handler         ... 0x2 /* 2 */, label0124, "Racton`s capsule 3"
+  set                             r76
+  arg_pushs                       "Got capsule 3 !"
+  window_msg                      ... "Got capsule 3 !"
+  window_msg_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  p_action_enable
+  cine_disable
+  ret
+
+label0122@0x0122:
+  arg_pushs                       "Racton`s capsule."
+  disp_msg_qb                     ... "Racton`s capsule."
+  close_msg_qb
+  ret
+
+label0123@0x0123:
+  arg_pushs                       "Racton`s capsule."
+  disp_msg_qb                     ... "Racton`s capsule."
+  close_msg_qb
+  ret
+
+label0124@0x0124:
+  arg_pushs                       "Racton`s capsule."
+  disp_msg_qb                     ... "Racton`s capsule."
+  close_msg_qb
+  ret
+
+label00DC@0x00DC:
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  hud_hide
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000001
+  p_look_at                       ... 0x0 /* 0 */, 0x1 /* 1 */
+  cine_enable
+  cam_zmin
+  call                            label00CF
+  ret
+
+label00DD@0x00DD:
+  cam_zmout
+  cine_disable
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  npc_talk_on
+  p_action_enable
+  ret
+
+label00E2@0x00E2:
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000003
+  p_look_at                       ... 0x0 /* 0 */, 0x3 /* 3 */
+  arg_pushl                       0x00000003
+  arg_pushl                       0x00000000
+  p_look_at                       ... 0x3 /* 3 */, 0x0 /* 0 */
+  hud_hide
+  cam_zmin
+  call                            label00CF
+  ret
+
+label00E3@0x00E3:
+  cam_zmout
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  npc_talk_on
+  p_action_enable
+  ret
+
+label00E4@0x00E4:
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  arg_pushl                       0x00000000
+  p_look                          ... 0x0 /* 0 */
+  arg_pushl                       0x00000003
+  arg_pushl                       0x00000000
+  p_look_at                       ... 0x3 /* 3 */, 0x0 /* 0 */
+  hud_hide
+  cine_enable
+  cam_zmin
+  call                            label00CF
+  ret
+
+label00E5@0x00E5:
+  cam_zmout
+  cine_disable
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  npc_talk_on
+  p_action_enable
+  ret
+
+label00CF@0x00CF:
+  leti                            r72, 0x00000000
+
+label00D0@0x00D0:
+  sync
+  addi                            r72, 0x00000001
+  jmpi_le                         r72, 0x0000001E, label00D0
+  ret

@@ -1,0 +1,894 @@
+.version BB_V4
+.quest_num 173
+.name "Penumbral Surge #3"
+.short_desc "The eclipse is\nattracting\nan abundance of\nmonsters on\nGal Da Val Island.\n\nCreator: Esther"
+.long_desc "A strange umbral eclipse is\ncausing an abnormal\namount of monsters to\nswarm on Gal Da Val\nIsland.\n\nExterminate them!"
+.episode Episode2
+.header_episode 0x01
+.language E
+.max_players 4
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+start:
+  set_episode                     0x00000001
+  leti                            r60, 0x00000000
+  leti                            r61, 0x00000012
+  leti                            r62, 0x00000000
+  leti                            r63, 0x00000000
+  leti                            r64, 0x00000000
+  map_designate_ex                r60-r64
+  leti                            r60, 0x00000007
+  leti                            r61, 0x00000019
+  leti                            r62, 0x00000000
+  leti                            r63, 0x00000000
+  leti                            r64, 0x00000000
+  map_designate_ex                r60-r64
+  leti                            r60, 0x00000006
+  leti                            r61, 0x00000018
+  leti                            r62, 0x00000000
+  leti                            r63, 0x00000000
+  leti                            r64, 0x00000000
+  map_designate_ex                r60-r64
+  leti                            r60, 0x00000009
+  leti                            r61, 0x0000001B
+  leti                            r62, 0x00000000
+  leti                            r63, 0x00000000
+  leti                            r64, 0x00000000
+  map_designate_ex                r60-r64
+  leti                            r60, 0x00000008
+  leti                            r61, 0x0000001A
+  leti                            r62, 0x00000000
+  leti                            r63, 0x00000001
+  leti                            r64, 0x00000000
+  map_designate_ex                r60-r64
+  get_difficulty_level_v2         r251
+  set_qt_success                  label01F4
+  get_client_id                   r250
+  arg_pushl                       0x00000009
+  set_mainwarp                    ... 0x9 /* 9 */
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0068
+  set_floor_handler               ... 0x0 /* 0 */, label0068
+  arg_pushl                       0x00000006
+  arg_pushw                       0x0064
+  set_floor_handler               ... 0x6 /* 6 */, label0064
+  arg_pushl                       0x00000008
+  arg_pushw                       0x0066
+  set_floor_handler               ... 0x8 /* 8 */, label0066
+  arg_pushl                       0x00000009
+  arg_pushw                       0x0067
+  set_floor_handler               ... 0x9 /* 9 */, label0067
+  thread                          label0034
+  ret
+
+label0001@0x0001:
+  arg_pushr                       r250
+  disable_movement2               ... r250
+  p_action_disable
+  ret
+
+label0002@0x0002:
+  arg_pushr                       r250
+  enable_movement2                ... r250
+  p_action_enable
+  ret
+
+label0003@0x0003:
+  ret
+
+label000A@0x000A:
+  // Referenced by map object KS-09-07D [ObjectSetEntry type=008B "TObjComputer/TObjComputer" floor=0000 group=0000 room=0001 a3=0000 x=35.5381 y=10 z=44.3066 x_angle=00000000 y_angle=FFFF9750 z_angle=00000000 params=[1 1 1 0000000A 00000000 00000000]]
+  jmpi_eq                         r30, 0x00000001, label0003
+  call                            label0001
+  arg_pushs                       "<hero job> <hero name>, are you ready?"
+  window_msg                      ... "<hero job> <hero name>, are you ready?"
+  window_msg_end
+  arg_pushb                       0x1F
+  arg_pushs                       "Yes\nNo"
+  list                            ... r31, "Yes\nNo"
+  jmpi_eq                         r31, 0x00000000, label000B
+  call                            label0002
+  ret
+
+label000B@0x000B:
+  arg_pushs                       "Get ready, Hunters."
+  window_msg                      ... "Get ready, Hunters."
+  window_msg_end
+  switch_call                     r250, [label000C, label000D, label000E, label000F]
+  thread_stg                      label0010
+  ret
+
+label000C@0x000C:
+  arg_pushb                       0x01
+  arg_pushl                       0x00000001
+  sync_register2                  ... r1, 0x1 /* 1 */
+  ret
+
+label000D@0x000D:
+  arg_pushb                       0x02
+  arg_pushl                       0x00000001
+  sync_register2                  ... r2, 0x1 /* 1 */
+  ret
+
+label000E@0x000E:
+  arg_pushb                       0x03
+  arg_pushl                       0x00000001
+  sync_register2                  ... r3, 0x1 /* 1 */
+  ret
+
+label000F@0x000F:
+  arg_pushb                       0x04
+  arg_pushl                       0x00000001
+  sync_register2                  ... r4, 0x1 /* 1 */
+  ret
+
+label0010@0x0010:
+  sync
+  clear                           r60
+  get_players_present             r5-r8
+  jmpi_eq                         r5, 0x00000000, label0011
+  jmpi_eq                         r1, 0x00000000, label0010
+  addi                            r60, 0x00000001
+
+label0011@0x0011:
+  jmpi_eq                         r6, 0x00000000, label0012
+  jmpi_eq                         r2, 0x00000000, label0010
+  addi                            r60, 0x00000001
+
+label0012@0x0012:
+  jmpi_eq                         r7, 0x00000000, label0013
+  jmpi_eq                         r3, 0x00000000, label0010
+  addi                            r60, 0x00000001
+
+label0013@0x0013:
+  jmpi_eq                         r8, 0x00000000, label0014
+  jmpi_eq                         r4, 0x00000000, label0010
+  addi                            r60, 0x00000001
+
+label0014@0x0014:
+  get_number_of_players           r150
+  jmp_ne                          r60, r150, label0010
+  arg_pushs                       "Get to work, Hunters!"
+  window_msg                      ... "Get to work, Hunters!"
+  window_msg_end
+  arg_pushl                       0x00000012
+  sound_effect                    ... 0x12 /* 18 */
+  arg_pushl                       0x00000009
+  arg_pushl                       0x00000064
+  set_switch_flag_sync            ... 0x9 /* 9 */, 0x64 /* 100 */
+  arg_pushl                       0x00000009
+  arg_pushl                       0x000000B3
+  set_switch_flag_sync            ... 0x9 /* 9 */, 0xB3 /* 179 */
+  set                             r30
+  call                            label0002
+  call                            label0015
+  ret
+
+label0015@0x0015:
+  gettime                         r90
+  thread                          label0016
+  ret
+
+label0016@0x0016:
+  sync
+  jmpi_eq                         r254, 0x00000001, label0017
+  gettime                         r91
+  sub                             r91, r90
+
+label0017@0x0017:
+  winset_time                     r91
+  show_timer
+  jmp                             label0016
+
+label0068@0x0068:
+  sync
+  clear                           r95
+  call                            label005A
+  jmpi_eq                         r0, 0x00000001, label0003
+  call                            label0001
+  leti                            r60, 0xFFFFD8F1
+  leti                            r61, 0x0000002F
+  leti                            r62, 0xFFFFFF41
+  leti                            r63, 0xFFFFD8F0
+  leti                            r64, 0x0000002D
+  leti                            r65, 0xFFFFFF29
+  leti_fixed_camera               r60-r65
+  arg_pushl                       0x00000064
+  arg_pushl                       0x00000064
+  arg_pushl                       0x0000000C
+  arg_pushl                       0x00000001
+  arg_pushl                       0x00000001
+  arg_pushs                       "Skip Dialogue?"
+  chat_box                        ... 0x64 /* 100 */, 0x64 /* 100 */, 0xC /* 12 */, 0x1 /* 1 */, 0x1 /* 1 */, "Skip Dialogue?"
+  window_msg_end
+  arg_pushb                       0x6D
+  arg_pushs                       "No\nYes"
+  list                            ... r109, "No\nYes"
+  jmpi_eq                         r109, 0x00000001, label0030
+  arg_pushl                       0x00000078
+  arg_pushs                       "Welcome back, Hunters."
+  message                         ... 0x78 /* 120 */, "Welcome back, Hunters."
+  arg_pushs                       "Your simulated tests\ncame out exemplary."
+  add_msg                         ... "Your simulated tests\ncame out exemplary."
+  arg_pushs                       "Today you will be\ndeployed down to\nGal Da Val Island."
+  add_msg                         ... "Today you will be\ndeployed down to\nGal Da Val Island."
+  arg_pushs                       "Report back when all\nmonsters are exterminated."
+  add_msg                         ... "Report back when all\nmonsters are exterminated."
+  arg_pushs                       "Be careful down there, <hero name>."
+  add_msg                         ... "Be careful down there, <hero name>."
+  arg_pushs                       "Good luck to you."
+  add_msg                         ... "Good luck to you."
+  message_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  set                             r0
+  call                            label0002
+  default_camera_pos1
+  ret
+
+label012C@0x012C:
+  jmpi_eq                         r177, 0x00000002, label012E
+  jmpi_eq                         r177, 0x00000001, label012D
+  arg_pushl                       0x00000078
+  arg_pushs                       "You have work to do."
+  message                         ... 0x78 /* 120 */, "You have work to do."
+  message_end
+  ret
+
+label012D@0x012D:
+  cam_zmin
+  arg_pushl                       0x00000078
+  arg_pushs                       "No monsters are left\non the radar."
+  message                         ... 0x78 /* 120 */, "No monsters are left\non the radar."
+  arg_pushs                       "You\'ve done an excellent\njob today, <hero name>."
+  add_msg                         ... "You\'ve done an excellent\njob today, <hero name>."
+  arg_pushs                       "Thank you."
+  add_msg                         ... "Thank you."
+  message_end
+  arg_pushl                       0x00000000
+  bgm                             ... 0x0 /* 0 */
+  set                             r255
+  addi                            r177, 0x00000001
+  ret
+
+label012E@0x012E:
+  arg_pushl                       0x00000078
+  arg_pushs                       "Your work is done.\nThank you."
+  message                         ... 0x78 /* 120 */, "Your work is done.\nThank you."
+  message_end
+  ret
+
+label0031@0x0031:
+  sync
+  arg_pushl                       0x000000F0
+  switch_on                       ... 0xF0 /* 240 */
+  ret
+
+label0032@0x0032:
+  sync
+  arg_pushl                       0x000000F1
+  switch_on                       ... 0xF1 /* 241 */
+  ret
+
+label0033@0x0033:
+  sync
+  arg_pushl                       0x000000F2
+  switch_on                       ... 0xF2 /* 242 */
+  ret
+
+label0067@0x0067:
+  thread_stg                      label002C
+  thread_stg                      label002D
+  thread_stg                      label002F
+  clear                           r95
+  switch_call                     r250, [label006E, label006F, label0070, label0071]
+  call                            label0054
+  call                            label0031
+  ret
+
+label0096@0x0096:
+  set                             r55
+  set                             r56
+  sync
+  thread_stg                      label0072
+  ret
+
+label0097@0x0097:
+  set                             r55
+  set                             r56
+  sync
+  thread_stg                      label0474
+  ret
+
+label0098@0x0098:
+  set                             r55
+  set                             r56
+  sync
+  thread_stg                      label0475
+  ret
+
+label0099@0x0099:
+  set                             r55
+  set                             r56
+  sync
+  thread_stg                      label0476
+  ret
+
+label009A@0x009A:
+  clear                           r55
+  clear                           r56
+  sync
+  thread_stg                      label0076
+  ret
+
+label009B@0x009B:
+  clear                           r55
+  clear                           r56
+  sync
+  thread_stg                      label0077
+  ret
+
+label009C@0x009C:
+  clear                           r55
+  clear                           r56
+  sync
+  thread_stg                      label0078
+  sync
+  ret
+
+label009D@0x009D:
+  clear                           r55
+  clear                           r56
+  sync
+  thread_stg                      label0079
+  ret
+
+label006E@0x006E:
+  thread_stg                      label0076
+  ret
+
+label006F@0x006F:
+  thread_stg                      label0077
+  ret
+
+label0070@0x0070:
+  thread_stg                      label0078
+  ret
+
+label0071@0x0071:
+  thread_stg                      label0079
+  ret
+
+label0072@0x0072:
+  sync
+  jmpi_eq                         r55, 0x00000000, label0003
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000001
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x1 /* 1 */
+  jmpi_eq                         r55, 0x00000000, label0003
+  call                            label0258
+  jmpi_eq                         r55, 0x00000000, label0003
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000001
+  arg_pushl                       0x00000001
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x1 /* 1 */, 0x1 /* 1 */
+  jmpi_eq                         r55, 0x00000000, label0003
+  jmp                             label0072
+
+label0474@0x0474:
+  sync
+  jmpi_eq                         r55, 0x00000000, label0003
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000001
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x1 /* 1 */
+  jmpi_eq                         r55, 0x00000000, label0003
+  call                            label0258
+  jmpi_eq                         r55, 0x00000000, label0003
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000001
+  arg_pushl                       0x00000001
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x1 /* 1 */, 0x1 /* 1 */
+  jmpi_eq                         r55, 0x00000000, label0003
+  jmp                             label0474
+
+label0475@0x0475:
+  sync
+  jmpi_eq                         r55, 0x00000000, label0003
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000001
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x1 /* 1 */
+  jmpi_eq                         r55, 0x00000000, label0003
+  call                            label0258
+  jmpi_eq                         r55, 0x00000000, label0003
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000001
+  arg_pushl                       0x00000001
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x1 /* 1 */, 0x1 /* 1 */
+  jmpi_eq                         r55, 0x00000000, label0003
+  jmp                             label0475
+
+label0476@0x0476:
+  sync
+  jmpi_eq                         r55, 0x00000000, label0003
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000001
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x1 /* 1 */
+  jmpi_eq                         r55, 0x00000000, label0003
+  call                            label0258
+  jmpi_eq                         r55, 0x00000000, label0003
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000001
+  arg_pushl                       0x00000001
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x1 /* 1 */, 0x1 /* 1 */
+  jmpi_eq                         r55, 0x00000000, label0003
+  jmp                             label0476
+
+label0076@0x0076:
+  sync
+  jmpi_eq                         r55, 0x00000001, label0003
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000064
+  arg_pushl                       0x00000001
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x64 /* 100 */, 0x1 /* 1 */
+  jmpi_eq                         r55, 0x00000001, label0003
+  call                            label0258
+  jmpi_eq                         r55, 0x00000001, label0003
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000065
+  arg_pushl                       0x00000001
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x65 /* 101 */, 0x1 /* 1 */
+  jmpi_eq                         r55, 0x00000001, label0003
+  jmp                             label0076
+
+label0077@0x0077:
+  sync
+  jmpi_eq                         r55, 0x00000001, label0003
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000064
+  arg_pushl                       0x00000001
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x64 /* 100 */, 0x1 /* 1 */
+  jmpi_eq                         r55, 0x00000001, label0003
+  call                            label0258
+  jmpi_eq                         r55, 0x00000001, label0003
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000065
+  arg_pushl                       0x00000001
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x65 /* 101 */, 0x1 /* 1 */
+  jmpi_eq                         r55, 0x00000001, label0003
+  jmp                             label0077
+
+label0078@0x0078:
+  sync
+  jmpi_eq                         r55, 0x00000001, label0003
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000064
+  arg_pushl                       0x00000001
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x64 /* 100 */, 0x1 /* 1 */
+  jmpi_eq                         r55, 0x00000001, label0003
+  call                            label0258
+  jmpi_eq                         r55, 0x00000001, label0003
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000065
+  arg_pushl                       0x00000001
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x65 /* 101 */, 0x1 /* 1 */
+  jmpi_eq                         r55, 0x00000001, label0003
+  jmp                             label0078
+
+label0079@0x0079:
+  sync
+  jmpi_eq                         r55, 0x00000001, label0003
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000064
+  arg_pushl                       0x00000001
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x64 /* 100 */, 0x1 /* 1 */
+  jmpi_eq                         r55, 0x00000001, label0003
+  call                            label0258
+  jmpi_eq                         r55, 0x00000001, label0003
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000065
+  arg_pushl                       0x00000001
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x65 /* 101 */, 0x1 /* 1 */
+  jmpi_eq                         r55, 0x00000001, label0003
+  jmp                             label0079
+
+label0054@0x0054:
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0055
+  arg_pushs                       "Seaside Filter"
+  set_quest_board_handler         ... 0x0 /* 0 */, label0055, "Seaside Filter"
+  set                             r74
+  ret
+
+label0055@0x0055:
+  jmpi_eq                         r56, 0x00000001, label0056
+  switch_call                     r250, [label0096, label0097, label0098, label0099]
+  arg_pushs                       "Eclipse Filter Disabled!"
+  disp_msg_qb                     ... "Eclipse Filter Disabled!"
+  close_msg_qb
+  ret
+
+label005F@0x005F:
+  // Referenced by map enemy ES-00-00A [EnemySetEntry type=0027 "TObjNpcHFW00/TObjNpcHFW00" num_children=0000 floor=0000 room=002A wave_number=0000 wave_number2=0000 a1=0000 x=-166.153 y=-10 z=-19.9962 x_angle=00000000 y_angle=00000000 z_angle=00000000 params=[0 0 0 105 95 0000 0000]]
+  arg_pushl                       0x00000069
+  arg_pushs                       "I like color filters. Do you?"
+  message                         ... 0x69 /* 105 */, "I like color filters. Do you?"
+  arg_pushs                       "If so, you can toggle it\nin Seaside in your Quest\nBoard when you get there!"
+  add_msg                         ... "If so, you can toggle it\nin Seaside in your Quest\nBoard when you get there!"
+  message_end
+  ret
+
+label0056@0x0056:
+  switch_call                     r250, [label009A, label009B, label009C, label009D]
+  arg_pushs                       "Eclipse Filter Enabled!"
+  disp_msg_qb                     ... "Eclipse Filter Enabled!"
+  close_msg_qb
+  ret
+
+label005A@0x005A:
+  arg_pushl                       0x00000000
+  clear_quest_board_handler       ... 0x0 /* 0 */
+  clear                           r74
+  ret
+
+label0046@0x0046:
+  jmpi_eq                         r111, 0x00000001, label0003
+  switch_call                     r250, [label0047, label0048, label0049, label004A]
+  set                             r111
+  ret
+
+label0047@0x0047:
+  leti                            r62, 0x00000001
+  jmp                             label004B
+
+label0048@0x0048:
+  leti                            r62, 0x00000002
+  jmp                             label004B
+
+label0049@0x0049:
+  leti                            r62, 0x00000003
+  jmp                             label004B
+
+label004A@0x004A:
+  leti                            r62, 0x00000004
+  jmp                             label004B
+
+label004B@0x004B:
+  leti                            r60, 0x00000006
+  leti                            r61, 0x00000001
+  construct_delayed_object        r60-r62
+  ret
+
+label0050@0x0050:
+  // Referenced by map enemy ES-00-009 [EnemySetEntry type=00F4 "TObjNpcNgcBase(0x00F4)" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=197.232 y=-30 z=-169.129 x_angle=00000000 y_angle=00003778 z_angle=00000000 params=[0 0 0 444 80 0000 0000]]
+  jmpi_eq                         r10, 0x0000000F, label0051
+  arg_pushl                       0x000001BC
+  arg_pushs                       "I\'m just sight seeing. Nothing special."
+  message                         ... 0x1BC /* 444 */, "I\'m just sight seeing. Nothing special."
+  message_end
+  addi                            r10, 0x00000001
+  ret
+
+label0051@0x0051:
+  arg_pushl                       0x000001BC
+  arg_pushs                       "I LOVE BARANZ!!!"
+  message                         ... 0x1BC /* 444 */, "I LOVE BARANZ!!!"
+  message_end
+  clear                           r10
+  ret
+
+label0066@0x0066:
+  thread_stg                      label002B
+  thread_stg                      label002E
+  clear                           r95
+  call                            label0032
+  call                            label005A
+  jmp                             label0019
+  ret
+
+label0064@0x0064:
+  thread_stg                      label002A
+  call                            label0033
+  call                            label0028
+  call                            label0046
+  call                            label005A
+  ret
+
+label0065@0x0065:
+  call                            label005A
+  ret
+
+label0028@0x0028:
+  thread_stg                      label0029
+  ret
+
+label0029@0x0029:
+  sync
+  leti                            r60, 0x00000006
+  leti                            r61, 0x0000005A
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000000, label0029
+  jmpi_eq                         r100, 0x00000003, label0037
+  cam_quake
+  arg_pushl                       0x0000000F
+  sound_effect                    ... 0xF /* 15 */
+  arg_pushr                       r250
+  arg_pushl                       0x000000C8
+  add_damage_to                   ... r250, 0xC8 /* 200 */
+  arg_pushl                       0x0000005A
+  switch_off                      ... 0x5A /* 90 */
+  addi                            r100, 0x00000001
+  jmp                             label0028
+
+label0037@0x0037:
+  jmpi_eq                         r95, 0x00000001, label0003
+  leti                            r60, 0x00000006
+  leti                            r61, 0x00000004
+  leti                            r62, 0x00000002
+  construct_delayed_object        r60-r62
+  set                             r95
+  ret
+
+label002A@0x002A:
+  sync
+  leti                            r60, 0x00000006
+  leti                            r61, 0x00000012
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000000, label002A
+  arg_pushl                       0x00000009
+  arg_pushl                       0x000003E8
+  start_setevt                    ... 0x9 /* 9 */, 0x3E8 /* 1000 */
+  ret
+
+label002B@0x002B:
+  sync
+  leti                            r60, 0x00000008
+  leti                            r61, 0x00000096
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000000, label002B
+  arg_pushl                       0x00000009
+  arg_pushl                       0x000003E9
+  start_setevt                    ... 0x9 /* 9 */, 0x3E9 /* 1001 */
+  ret
+
+label002C@0x002C:
+  sync
+  leti                            r60, 0x00000009
+  leti                            r61, 0x000000D2
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000000, label002C
+  leti                            r60, 0x00000009
+  leti                            r61, 0x000000D3
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000000, label002C
+  arg_pushl                       0x00000009
+  arg_pushl                       0x00000032
+  set_switch_flag_sync            ... 0x9 /* 9 */, 0x32 /* 50 */
+  ret
+
+label002D@0x002D:
+  jmpi_eq                         r92, 0x00000001, label0003
+  sync
+  leti                            r60, 0x00000009
+  leti                            r61, 0x00000004
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000000, label002D
+  cam_quake
+  set                             r92
+  ret
+
+label002F@0x002F:
+  sync
+  leti                            r60, 0x00000009
+  leti                            r61, 0x00000035
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000000, label002F
+  leti                            r60, 0x00000009
+  leti                            r61, 0x00000036
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000000, label002F
+  arg_pushl                       0x00000034
+  setevt                          ... 0x34 /* 52 */
+  ret
+
+label0034@0x0034:
+  jmpi_eq                         r241, 0x00000001, label0003
+  sync
+  leti                            r60, 0x00000009
+  leti                            r61, 0x00000033
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000000, label0034
+  set                             r241
+  set                             r254
+  cam_zmin
+  call                            label0001
+  arg_pushs                       "Monsters exterminated!"
+  window_msg                      ... "Monsters exterminated!"
+  arg_pushs                       "Return to the lab to\ncollect your reward."
+  add_msg                         ... "Return to the lab to\ncollect your reward."
+  window_msg_end
+  cam_zmout
+  arg_pushl                       0x00000000
+  bgm                             ... 0x0 /* 0 */
+  call                            label0002
+  set                             r177
+  ret
+
+label002E@0x002E:
+  sync
+  leti                            r60, 0x00000008
+  leti                            r61, 0x00000006
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000000, label002E
+  arg_pushb                       0x63
+  arg_pushl                       0x00000002
+  sync_register2                  ... r99, 0x2 /* 2 */
+  ret
+
+label0030@0x0030:
+  call                            label0002
+  set                             r0
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  default_camera_pos1
+  ret
+
+label0019@0x0019:
+  thread_stg                      label001E
+  ret
+
+label001E@0x001E:
+  sync
+  leti                            r60, 0x00000008
+  leti                            r61, 0x000000C9
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000000, label001E
+  jmpi_eq                         r99, 0x00000002, label0003
+  call                            label0001
+  leti                            r60, 0xFFFFFE5C
+  leti                            r61, 0xFFFFFF56
+  leti                            r62, 0x0000012C
+  leti                            r63, 0x00000000
+  leti                            r64, 0x00000000
+  p_move                          r60-r64
+  leti                            r60, 0xFFFFFE5C
+  leti                            r61, 0xFFFFFF56
+  leti                            r62, 0x0000012C
+  leti                            r63, 0x00000000
+  leti                            r64, 0x00000001
+  p_move                          r60-r64
+  leti                            r60, 0xFFFFFE5C
+  leti                            r61, 0xFFFFFF56
+  leti                            r62, 0x0000012C
+  leti                            r63, 0x00000000
+  leti                            r64, 0x00000002
+  p_move                          r60-r64
+  leti                            r60, 0xFFFFFE5C
+  leti                            r61, 0xFFFFFF56
+  leti                            r62, 0x0000012C
+  leti                            r63, 0x00000000
+  leti                            r64, 0x00000003
+  p_move                          r60-r64
+  call                            label0002
+  arg_pushl                       0x000000C9
+  switch_off                      ... 0xC9 /* 201 */
+  addi                            r99, 0x00000001
+  jmp                             label0019
+
+label01F4@0x01F4:
+  jmpi_eq                         r251, 0x00000000, label01F5
+  jmpi_eq                         r251, 0x00000001, label01F6
+  jmpi_eq                         r251, 0x00000002, label01F7
+  jmpi_eq                         r251, 0x00000003, label01F8
+  ret
+
+label01F5@0x01F5:
+  arg_pushs                       "You\'ve been rewarded <color 1>2000<color 0> Meseta!"
+  window_msg                      ... "You\'ve been rewarded <color 1>2000<color 0> Meseta!"
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x000007D0
+  pl_add_meseta2                  ... 0x7D0 /* 2000 */
+  ret
+
+label01F6@0x01F6:
+  arg_pushs                       "You\'ve been rewarded <color 1>4000<color 0> Meseta!"
+  window_msg                      ... "You\'ve been rewarded <color 1>4000<color 0> Meseta!"
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x00000FA0
+  pl_add_meseta2                  ... 0xFA0 /* 4000 */
+  ret
+
+label01F7@0x01F7:
+  arg_pushs                       "You\'ve been rewarded <color 1>6000<color 0> Meseta!"
+  window_msg                      ... "You\'ve been rewarded <color 1>6000<color 0> Meseta!"
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x00001770
+  pl_add_meseta2                  ... 0x1770 /* 6000 */
+  ret
+
+label01F8@0x01F8:
+  arg_pushs                       "You\'ve been rewarded <color 1>23000<color 0> Meseta!"
+  window_msg                      ... "You\'ve been rewarded <color 1>23000<color 0> Meseta!"
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x000059D8
+  pl_add_meseta2                  ... 0x59D8 /* 23000 */
+  ret
+
+label0258@0x0258:
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  ret
+  nop
+  nop

@@ -1,0 +1,580 @@
+.version BB_V4
+.quest_num 160
+.name "Sweep-up Operation #4"
+.short_desc "Mission:\nSweep monsters\nin the second area\nof the Ruins."
+.long_desc "Client: Lieutenant \nQuest:\n  I want the monsters\n  in the Ruins to\n  be swept away.\n\nReward: ??? Meseta\nAuthor: Ender"
+.episode Episode1
+.header_episode 0x00
+.language E
+.max_players 4
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+// 0x1054 data bytes in script section with 50 labels
+
+start:
+  // Referenced by map object KS-09-033 [ObjectSetEntry type=0155 "TOMonumentAncient01" floor=0009 group=0000 room=0016 a3=0000 x=90 y=0 z=0 x_angle=00000000 y_angle=0000C000 z_angle=00000000 params=[0.999726 1 1 00000000 00000000 00000000]]
+  // Referenced by map object KS-09-03E [ObjectSetEntry type=0155 "TOMonumentAncient01" floor=0009 group=0000 room=0020 a3=0000 x=-90 y=0 z=0.00866699 x_angle=00000000 y_angle=00004001 z_angle=00000000 params=[0.999726 1 1 00000000 00000000 00000000]]
+  // Referenced by map object KS-09-04A [ObjectSetEntry type=0155 "TOMonumentAncient01" floor=0009 group=0000 room=0028 a3=0000 x=0 y=0 z=-120 x_angle=00000000 y_angle=00010000 z_angle=00000000 params=[0.999726 1 1 00000000 00000000 00000000]]
+  0000  F8BC00000000      set_episode                     0x00000000
+  0006  093200000000      leti                            r50, 0x00000000
+  000C  093300000000      leti                            r51, 0x00000000
+  0012  093400000000      leti                            r52, 0x00000000
+  0018  093500000000      leti                            r53, 0x00000000
+  001E  093600000000      leti                            r54, 0x00000000
+  0024  F80D32            map_designate_ex                r50-r54
+  0027  093209000000      leti                            r50, 0x00000009
+  002D  093309000000      leti                            r51, 0x00000009
+  0033  093400000000      leti                            r52, 0x00000000
+  0039  093501000000      leti                            r53, 0x00000001
+  003F  093600000000      leti                            r54, 0x00000000
+  0045  F80D32            map_designate_ex                r50-r54
+  0048  4900000000        arg_pushl                       0x00000000
+  004D  4B9600            arg_pushw                       0x0096
+  0050  95                set_floor_handler               ... 0x0 /* 0 */, label0096 /* 03D1 */
+  0051  4909000000        arg_pushl                       0x00000009
+  0056  4BFA00            arg_pushw                       0x00FA
+  0059  95                set_floor_handler               ... 0x9 /* 9 */, label00FA /* 082E */
+  005A  BA4A01            set_qt_exit                     label014A /* 0258 */
+  005D  A55401            set_qt_cancel                   label0154 /* 0259 */
+  0060  A25E01            set_qt_success                  label015E /* 029E */
+  0063  A16801            set_qt_failure                  label0168 /* 025A */
+  0066  E6FA              get_client_id                   r250
+  0068  F808FB            get_difficulty_level_v2         r251
+  006B  4909000000        arg_pushl                       0x00000009
+  0070  93                set_mainwarp                    ... 0x9 /* 9 */
+  0071  04FB00            thread                          label00FB /* 08CE */
+  0074  040401            thread                          label0104 /* 0C02 */
+  0077  04DC05            thread                          label05DC /* 104A */
+  007A  290400            call                            label0004 /* 01FD */
+
+label0001:
+  // Referenced by instructions at 024B, 08D4, 08E5, 0902, 0A92
+  007D  01                ret
+  007E  4969000000        arg_pushl                       0x00000069
+  0083  4E2A002A0020...   arg_pushs                       "** 2: disables movement at start"
+  00C6  50                message                         ... 0x69 /* 105 */, "** 2: disables movement at start"
+
+label0002:
+  // Referenced by instruction at 0458
+  00C7  48FA              arg_pushr                       r250
+  00C9  F91B              disable_movement2               ... r250
+  00CB  70                p_action_disable
+  00CC  98                hud_hide
+  00CD  9A                cine_enable
+  00CE  82                cam_zmin
+  00CF  01                ret
+  00D0  4969000000        arg_pushl                       0x00000069
+  00D5  4E2A002A0020...   arg_pushs                       "** 3: Enables movement at start\'"
+  0118  50                message                         ... 0x69 /* 105 */, "** 3: Enables movement at start\'"
+
+label0003:
+  // Referenced by instruction at 0650
+  0119  48FA              arg_pushr                       r250
+  011B  F91C              enable_movement2                ... r250
+  011D  71                p_action_enable
+  011E  99                hud_show
+  011F  9B                cine_disable
+  0120  83                cam_zmout
+  0121  01                ret
+  0122  00                nop
+  0123  00                nop
+  0124  00                nop
+  0125  4969000000        arg_pushl                       0x00000069
+  012A  4E2A002A0020...   arg_pushs                       "** 4 to 9 -- setup max timer in seconds"
+  017B  50                message                         ... 0x69 /* 105 */, "** 4 to 9 -- setup max timer in seconds"
+  017C  4969000000        arg_pushl                       0x00000069
+  0181  4E2A002A0020...   arg_pushs                       "** R200 = max timer in seconds. R199 = max timer in minutes."
+  01FC  50                message                         ... 0x69 /* 105 */, "** R200 = max timer in seconds. R199 = max timer in minutes."
+
+label0004:
+  // Referenced by instruction at 007A
+  01FD  2DFB00000000...   jmpi_eq                         r251, 0x00000000, label0005 /* 021D */
+  0205  2DFB01000000...   jmpi_eq                         r251, 0x00000001, label0006 /* 0226 */
+  020D  2DFB02000000...   jmpi_eq                         r251, 0x00000002, label0007 /* 022F */
+  0215  2DFB03000000...   jmpi_eq                         r251, 0x00000003, label0008 /* 0238 */
+
+label0005:
+  // Referenced by instruction at 01FD
+  021D  09C8B0040000      leti                            r200, 0x000004B0
+  0223  280900            jmp                             label0009 /* 0241 */
+
+label0006:
+  // Referenced by instruction at 0205
+  0226  09C838040000      leti                            r200, 0x00000438
+  022C  280900            jmp                             label0009 /* 0241 */
+
+label0007:
+  // Referenced by instruction at 020D
+  022F  09C884030000      leti                            r200, 0x00000384
+  0235  280900            jmp                             label0009 /* 0241 */
+
+label0008:
+  // Referenced by instruction at 0215
+  0238  09C8D0020000      leti                            r200, 0x000002D0
+  023E  280900            jmp                             label0009 /* 0241 */
+
+label0009:
+  // Referenced by instructions at 0223, 022C, 0235, 023E
+  0241  08C7C8            let                             r199, r200
+  0244  1FC73C000000      divi                            r199, 0x0000003C
+  024A  01                ret
+
+label000B:
+  // Referenced by instructions at 03D1, 082E, 0836, 084E
+  024B  40E60201000C00    switch_jmp                      r230, [label0001 /* 007D */, label000C /* 0252 */]
+
+label000C:
+  // Referenced by instruction at 024B
+  0252  00                nop
+  0253  00                nop
+  0254  01                ret
+  0255  00                nop
+  0256  00                nop
+  0257  00                nop
+
+label014A:
+  // Referenced by instruction at 005A
+  0258  01                ret
+
+label0154:
+  // Referenced by instruction at 005D
+  0259  01                ret
+
+label0168:
+  // Referenced by instruction at 0063
+  025A  02                sync
+  025B  01                ret
+  025C  00                nop
+  025D  00                nop
+  025E  4969000000        arg_pushl                       0x00000069
+  0263  4E2A002A0020...   arg_pushs                       "** 350->355 - Reward meseta"
+  029C  50                message                         ... 0x69 /* 105 */, "** 350->355 - Reward meseta"
+  029D  00                nop
+
+label015E:
+  // Referenced by instruction at 0060
+  029E  4901000000        arg_pushl                       0x00000001
+  02A3  55                bgm                             ... 0x1 /* 1 */
+  02A4  2DFB00000000...   jmpi_eq                         r251, 0x00000000, label015F /* 02C7 */
+  02AC  2DFB01000000...   jmpi_eq                         r251, 0x00000001, label0160 /* 02D6 */
+  02B4  2DFB02000000...   jmpi_eq                         r251, 0x00000002, label0161 /* 02E5 */
+  02BC  2DFB03000000...   jmpi_eq                         r251, 0x00000003, label0162 /* 02F4 */
+  02C4  01                ret
+  02C5  00                nop
+  02C6  00                nop
+
+label015F:
+  // Referenced by instruction at 02A4
+  02C7  09DCF4010000      leti                            r220, 0x000001F4
+  02CD  49F4010000        arg_pushl                       0x000001F4
+  02D2  EE                pl_add_meseta2                  ... 0x1F4 /* 500 */
+  02D3  286301            jmp                             label0163 /* 0303 */
+
+label0160:
+  // Referenced by instruction at 02AC
+  02D6  09DCD0070000      leti                            r220, 0x000007D0
+  02DC  49D0070000        arg_pushl                       0x000007D0
+  02E1  EE                pl_add_meseta2                  ... 0x7D0 /* 2000 */
+  02E2  286301            jmp                             label0163 /* 0303 */
+
+label0161:
+  // Referenced by instruction at 02B4
+  02E5  09DC88130000      leti                            r220, 0x00001388
+  02EB  4988130000        arg_pushl                       0x00001388
+  02F0  EE                pl_add_meseta2                  ... 0x1388 /* 5000 */
+  02F1  286301            jmp                             label0163 /* 0303 */
+
+label0162:
+  // Referenced by instruction at 02BC
+  02F4  09DCE02E0000      leti                            r220, 0x00002EE0
+  02FA  49E02E0000        arg_pushl                       0x00002EE0
+  02FF  EE                pl_add_meseta2                  ... 0x2EE0 /* 12000 */
+  0300  286301            jmp                             label0163 /* 0303 */
+
+label0163:
+  // Referenced by instructions at 02D3, 02E2, 02F1, 0300
+  0303  4E59006F0075...   arg_pushs                       "You\'ve received <color 1><r220><color 0> Meseta."
+  0366  5A                window_msg                      ... "You\'ve received <color 1><r220><color 0> Meseta."
+  0367  5E                window_msg_end
+  0368  01                ret
+  0369  00                nop
+  036A  00                nop
+  036B  00                nop
+  036C  4969000000        arg_pushl                       0x00000069
+  0371  4E2A002A0020...   arg_pushs                       "** 150-151 positions players at start of quest"
+  03D0  50                message                         ... 0x69 /* 105 */, "** 150-151 positions players at start of quest"
+
+label0096:
+  // Referenced by instruction at 0050
+  03D1  40000297000B00    switch_jmp                      r0, [label0097 /* 03D8 */, label000B /* 024B */]
+
+label0097:
+  // Referenced by instruction at 03D1
+  03D8  0901ED000000      leti                            r1, 0x000000ED
+  03DE  090200000000      leti                            r2, 0x00000000
+  03E4  09034D010000      leti                            r3, 0x0000014D
+  03EA  0904F1FFFFFF      leti                            r4, 0xFFFFFFF1
+  03F0  4900000000        arg_pushl                       0x00000000
+  03F5  4A01              arg_pushb                       0x01
+  03F7  76                set_player_start_position       ... 0x0 /* 0 */, r1-r4
+  03F8  0901FF000000      leti                            r1, 0x000000FF
+  03FE  090200000000      leti                            r2, 0x00000000
+  0404  090352010000      leti                            r3, 0x00000152
+  040A  0904D5FFFFFF      leti                            r4, 0xFFFFFFD5
+  0410  4901000000        arg_pushl                       0x00000001
+  0415  4A01              arg_pushb                       0x01
+  0417  76                set_player_start_position       ... 0x1 /* 1 */, r1-r4
+  0418  0901DE000000      leti                            r1, 0x000000DE
+  041E  090200000000      leti                            r2, 0x00000000
+  0424  090342010000      leti                            r3, 0x00000142
+  042A  090419000000      leti                            r4, 0x00000019
+  0430  4902000000        arg_pushl                       0x00000002
+  0435  4A01              arg_pushb                       0x01
+  0437  76                set_player_start_position       ... 0x2 /* 2 */, r1-r4
+  0438  0901F8000000      leti                            r1, 0x000000F8
+  043E  090200000000      leti                            r2, 0x00000000
+  0444  090343010000      leti                            r3, 0x00000143
+  044A  0904ECFFFFFF      leti                            r4, 0xFFFFFFEC
+  0450  4903000000        arg_pushl                       0x00000003
+  0455  4A01              arg_pushb                       0x01
+  0457  76                set_player_start_position       ... 0x3 /* 3 */, r1-r4
+  0458  290200            call                            label0002 /* 00C7 */
+  045B  283601            jmp                             label0136 /* 04B9 */
+  045E  4969000000        arg_pushl                       0x00000069
+  0463  4E2A002A0020...   arg_pushs                       "** 310 is works soldier dialogue at start"
+  04B8  50                message                         ... 0x69 /* 105 */, "** 310 is works soldier dialogue at start"
+
+label0136:
+  // Referenced by instruction at 045B
+  // Referenced by map enemy ES-00-001 [EnemySetEntry type=0019 "TObjNpcSoldierBase/TObjNpcSoldierBase" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=2 y=0 z=67 x_angle=00000000 y_angle=00007400 z_angle=00000000 params=[0 0 0 105 310 0000 0000]]
+  04B9  2DFE01000000...   jmpi_eq                         r254, 0x00000001, label0139 /* 074B */
+  04C1  2DFC01000000...   jmpi_eq                         r252, 0x00000001, label0138 /* 06C0 */
+  04C9  2D0001000000...   jmpi_eq                         r0, 0x00000001, label0137 /* 0657 */
+  04D1  4964000000        arg_pushl                       0x00000064
+  04D6  4964000000        arg_pushl                       0x00000064
+  04DB  490C000000        arg_pushl                       0x0000000C
+  04E0  4901000000        arg_pushl                       0x00000001
+  04E5  4901000000        arg_pushl                       0x00000001
+  04EA  4E53006B0069...   arg_pushs                       "Skip dialogue?"
+  0509  F930              chat_box                        ... 0x64 /* 100 */, 0x64 /* 100 */, 0xC /* 12 */, 0x1 /* 1 */, 0x1 /* 1 */, "Skip dialogue?"
+  050B  5E                window_msg_end
+  050C  4A14              arg_pushb                       0x14
+  050E  4E4E006F000A...   arg_pushs                       "No\nYes"
+  051D  51                list                            ... r20, "No\nYes"
+  051E  2D1401000000...   jmpi_eq                         r20, 0x00000001, label0098 /* 0648 */
+  0526  4969000000        arg_pushl                       0x00000069
+  052B  4E570065006C...   arg_pushs                       "Welcome back. Same type\nof mission as last time."
+  058E  50                message                         ... 0x69 /* 105 */, "Welcome back. Same type\nof mission as last time."
+  058F  4E5300770065...   arg_pushs                       "Sweep the Ruins for\nmonsters, then I\'ll send my unit."
+  05FC  5B                add_msg                         ... "Sweep the Ruins for\nmonsters, then I\'ll send my unit."
+  05FD  4E59006F0075...   arg_pushs                       "You have <r199> minutes. Good luck!"
+  0646  5B                add_msg                         ... "You have <r199> minutes. Good luck!"
+  0647  5C                message_end
+
+label0098:
+  // Referenced by instruction at 051E
+  0648  1000              set                             r0
+  064A  4901000000        arg_pushl                       0x00000001
+  064F  55                bgm                             ... 0x1 /* 1 */
+  0650  290300            call                            label0003 /* 0119 */
+  0653  01                ret
+  0654  00                nop
+  0655  00                nop
+  0656  00                nop
+
+label0137:
+  // Referenced by instruction at 04C9
+  0657  4969000000        arg_pushl                       0x00000069
+  065C  4E5200650070...   arg_pushs                       "Report to me when you\'ve\ncompleted the mission."
+  06BD  50                message                         ... 0x69 /* 105 */, "Report to me when you\'ve\ncompleted the mission."
+  06BE  5C                message_end
+  06BF  01                ret
+
+label0138:
+  // Referenced by instruction at 04C1
+  06C0  4969000000        arg_pushl                       0x00000069
+  06C5  4E4C006F006F...   arg_pushs                       "Looks like you failed."
+  06F4  50                message                         ... 0x69 /* 105 */, "Looks like you failed."
+  06F5  4E44006F006E...   arg_pushs                       "Don\'t worry, we\'ll handle\nit from here."
+  0746  5B                add_msg                         ... "Don\'t worry, we\'ll handle\nit from here."
+  0747  5C                message_end
+  0748  10FD              set                             r253
+  074A  01                ret
+
+label0139:
+  // Referenced by instruction at 04B9
+  074B  4969000000        arg_pushl                       0x00000069
+  0750  4E59006F0075...   arg_pushs                       "You killed all the\nmonsters? Good job."
+  079F  50                message                         ... 0x69 /* 105 */, "You killed all the\nmonsters? Good job."
+  07A0  4E5700650027...   arg_pushs                       "We\'ll start our mission\nnow. Get your reward at\nthe Hunter\'s Guild."
+  0829  5B                add_msg                         ... "We\'ll start our mission\nnow. Get your reward at\nthe Hunter\'s Guild."
+  082A  5C                message_end
+  082B  10FF              set                             r255
+  082D  01                ret
+
+label00FA:
+  // Referenced by instruction at 0059
+  082E  2DFE01000000...   jmpi_eq                         r254, 0x00000001, label000B /* 024B */
+  0836  2DFE01000000...   jmpi_eq                         r254, 0x00000001, label000B /* 024B */
+  083E  4AD2              arg_pushb                       0xD2
+  0840  4901000000        arg_pushl                       0x00000001
+  0845  EF                sync_register2                  ... r210, 0x1 /* 1 */
+  0846  1106              clear                           r6
+  0848  B1F303            thread_stg                      label03F3 /* 0EB6 */
+  084B  B10E01            thread_stg                      label010E /* 0B4C */
+  084E  40E60203010B00    switch_jmp                      r230, [label0103 /* 0855 */, label000B /* 024B */]
+
+label0103:
+  // Referenced by instruction at 084E
+  0855  01                ret
+  0856  00                nop
+  0857  00                nop
+  0858  00                nop
+  0859  4969000000        arg_pushl                       0x00000069
+  085E  4E2A002A0020...   arg_pushs                       "** 251 starts timer. R200 max time, R203 current time."
+  08CD  50                message                         ... 0x69 /* 105 */, "** 251 starts timer. R200 max time, R203 current time."
+
+label00FB:
+  // Referenced by instruction at 0071
+  08CE  496CAA3C0A        arg_pushl                       0x0A3CAA6C
+  08D3  68                create_pipe                     ... 0xA3CAA6C /* 171747948 */
+  08D4  2DE701000000...   jmpi_eq                         r231, 0x00000001, label0001 /* 007D */
+
+label00FE:
+  // Referenced by instruction at 08DD
+  08DC  02                sync
+  08DD  2DD200000000...   jmpi_eq                         r210, 0x00000000, label00FE /* 08DC */
+  08E5  40E60202010100    switch_jmp                      r230, [label0102 /* 08EC */, label0001 /* 007D */]
+
+label0102:
+  // Referenced by instruction at 08E5
+  08EC  5DC9              gettime                         r201
+  08EE  10E6              set                             r230
+  08F0  02                sync
+  08F1  08CAC9            let                             r202, r201
+  08F4  19CA1E000000      addi                            r202, 0x0000001E
+  08FA  08CAC9            let                             r202, r201
+  08FD  18CAC8            add                             r202, r200
+
+label0105:
+  // Referenced by instruction at 091C
+  0900  C7                show_timer
+
+label00FC:
+  0901  02                sync
+  0902  2DFE01000000...   jmpi_eq                         r254, 0x00000001, label0001 /* 007D */
+  090A  08CBCA            let                             r203, r202
+  090D  5DC9              gettime                         r201
+  090F  1ACBC9            sub                             r203, r201
+  0912  3FCB00000000...   jmpi_le                         r203, 0x00000000, label0106 /* 099D */
+  091A  C9CB              winset_time                     r203
+  091C  3BCB00000000...   jmpi_ge                         r203, 0x00000000, label0105 /* 0900 */
+  0924  4969000000        arg_pushl                       0x00000069
+  0929  4E2A002A0020...   arg_pushs                       "** R203 <= 0, so we ran out of time. Time to fail quest."
+  099C  50                message                         ... 0x69 /* 105 */, "** R203 <= 0, so we ran out of time. Time to fail quest."
+
+label0106:
+  // Referenced by instruction at 0912
+  099D  09CC00000000      leti                            r204, 0x00000000
+  09A3  C9CC              winset_time                     r204
+  09A5  C8                hide_timer
+  09A6  F8DF              toggle_freeze_enemies
+  09A8  48FA              arg_pushr                       r250
+  09AA  F91B              disable_movement2               ... r250
+  09AC  70                p_action_disable
+  09AD  6B                p_disablewarp
+  09AE  E5                warp_off
+  09AF  10FC              set                             r252
+  09B1  04FD00            thread                          label00FD /* 0FA2 */
+  09B4  4909000000        arg_pushl                       0x00000009
+  09B9  E1                clear_mainwarp                  ... 0x9 /* 9 */
+  09BA  4AFD              arg_pushb                       0xFD
+  09BC  4901000000        arg_pushl                       0x00000001
+  09C1  EF                sync_register2                  ... r253, 0x1 /* 1 */
+  09C2  4E2000200020...   arg_pushs                       "              TIME UP!"
+  09F1  5A                window_msg                      ... "              TIME UP!"
+  09F2  5E                window_msg_end
+  09F3  01                ret
+  09F4  00                nop
+  09F5  00                nop
+  09F6  00                nop
+  09F7  4901000000        arg_pushl                       0x00000001
+  09FC  4E2A002A0020...   arg_pushs                       "** Thread that checks if wave in room X can spawn due to script collision"
+  0A91  50                message                         ... 0x1 /* 1 */, "** Thread that checks if wave in room X can spawn due to script collision"
+
+label0118:
+  // Referenced by map object KS-09-089 [ObjectSetEntry type=0012 "TObjQuestCol/TObjQuestCol" floor=0000 group=0000 room=003C a3=0000 x=-121.146 y=0 z=100.453 x_angle=00000000 y_angle=00000000 z_angle=00000000 params=[45 1 1 00000118 00000000 00000000]]
+  0A92  2D0601000000...   jmpi_eq                         r6, 0x00000001, label0001 /* 007D */
+  0A9A  1006              set                             r6
+
+label0119:
+  // Referenced by instruction at 0AAC
+  0A9C  02                sync
+  0A9D  099909000000      leti                            r153, 0x00000009
+  0AA3  099A66000000      leti                            r154, 0x00000066
+  0AA9  F82E99            read_switch_flag_on_floor       r153-r155
+  0AAC  2D9B00000000...   jmpi_eq                         r155, 0x00000000, label0119 /* 0A9C */
+  0AB4  4943010000        arg_pushl                       0x00000143
+  0AB9  B8                setevt                          ... 0x143 /* 323 */
+  0ABA  01                ret
+  0ABB  4900000000        arg_pushl                       0x00000000
+  0AC0  4E2A002A0020...   arg_pushs                       "** Thread that checks if final few spawns in final room should spawn"
+  0B4B  50                message                         ... 0x0 /* 0 */, "** Thread that checks if final few spawns in final room should spawn"
+
+label010E:
+  // Referenced by instructions at 084B, 0B5C
+  0B4C  02                sync
+  0B4D  099609000000      leti                            r150, 0x00000009
+  0B53  099764000000      leti                            r151, 0x00000064
+  0B59  F82E96            read_switch_flag_on_floor       r150-r152
+  0B5C  2D9800000000...   jmpi_eq                         r152, 0x00000000, label010E /* 0B4C */
+
+label010F:
+  // Referenced by instruction at 0B6E
+  0B64  02                sync
+  0B65  099765000000      leti                            r151, 0x00000065
+  0B6B  F82E96            read_switch_flag_on_floor       r150-r152
+  0B6E  2D9800000000...   jmpi_eq                         r152, 0x00000000, label010F /* 0B64 */
+  0B76  49F10C0000        arg_pushl                       0x00000CF1
+  0B7B  B8                setevt                          ... 0xCF1 /* 3313 */
+  0B7C  01                ret
+  0B7D  4969000000        arg_pushl                       0x00000069
+  0B82  4E2A002A0020...   arg_pushs                       "** Thread that checks if final door is opened (quest cleared)."
+  0C01  50                message                         ... 0x69 /* 105 */, "** Thread that checks if final door is opened (quest cleared)."
+
+label0104:
+  // Referenced by instructions at 0074, 0C12
+  0C02  02                sync
+  0C03  09F009000000      leti                            r240, 0x00000009
+  0C09  09F139000000      leti                            r241, 0x00000039
+  0C0F  F82EF0            read_switch_flag_on_floor       r240-r242
+  0C12  2DF200000000...   jmpi_eq                         r242, 0x00000000, label0104 /* 0C02 */
+  0C1A  70                p_action_disable
+  0C1B  10FE              set                             r254
+  0C1D  4E2000200020...   arg_pushs                       "         Mission complete!"
+  0C54  5A                window_msg                      ... "         Mission complete!"
+  0C55  4901000000        arg_pushl                       0x00000001
+  0C5A  54                sound_effect                    ... 0x1 /* 1 */
+  0C5B  5E                window_msg_end
+  0C5C  4900000000        arg_pushl                       0x00000000
+  0C61  55                bgm                             ... 0x0 /* 0 */
+  0C62  4E59006F0075...   arg_pushs                       "You will be taken to the lobby\nafter you receive your reward."
+  0CDF  5A                window_msg                      ... "You will be taken to the lobby\nafter you receive your reward."
+  0CE0  5E                window_msg_end
+  0CE1  71                p_action_enable
+  0CE2  01                ret
+  0CE3  4969000000        arg_pushl                       0x00000069
+  0CE8  4E2A002A0020...   arg_pushs                       "** This is done because the spawns in those rooms are threaded."
+  0D69  50                message                         ... 0x69 /* 105 */, "** This is done because the spawns in those rooms are threaded."
+  0D6A  4969000000        arg_pushl                       0x00000069
+  0D6F  4E2A002A0020...   arg_pushs                       "** 1011 is start of two loops that check for rooms cleared"
+  0DE6  50                message                         ... 0x69 /* 105 */, "** 1011 is start of two loops that check for rooms cleared"
+  0DE7  4969000000        arg_pushl                       0x00000069
+  0DEC  4E2A002A0020...   arg_pushs                       "** 1011: Checks room 40, 1012 checks room 42, 1013 checks room 80, 1014 checks room 33 (final room)"
+  0EB5  50                message                         ... 0x69 /* 105 */, "** 1011: Checks room 40, 1012 checks room 42, 1013 checks room 80, 1014 checks room 33 (final room)"
+
+label03F3:
+  // Referenced by instructions at 0848, 0EC6
+  0EB6  02                sync
+  0EB7  093C09000000      leti                            r60, 0x00000009
+  0EBD  093D28000000      leti                            r61, 0x00000028
+  0EC3  883E3C            if_zone_clear                   r62, r60-r61
+  0EC6  2D3E00000000...   jmpi_eq                         r62, 0x00000000, label03F3 /* 0EB6 */
+  0ECE  4990010000        arg_pushl                       0x00000190
+  0ED3  B8                setevt                          ... 0x190 /* 400 */
+
+label03F4:
+  // Referenced by instruction at 0EE4
+  0ED4  02                sync
+  0ED5  093C09000000      leti                            r60, 0x00000009
+  0EDB  093D2A000000      leti                            r61, 0x0000002A
+  0EE1  883E3C            if_zone_clear                   r62, r60-r61
+  0EE4  2D3E00000000...   jmpi_eq                         r62, 0x00000000, label03F4 /* 0ED4 */
+  0EEC  49A4010000        arg_pushl                       0x000001A4
+  0EF1  B8                setevt                          ... 0x1A4 /* 420 */
+
+label03F5:
+  // Referenced by instruction at 0F02
+  0EF2  02                sync
+  0EF3  093C09000000      leti                            r60, 0x00000009
+  0EF9  093D50000000      leti                            r61, 0x00000050
+  0EFF  883E3C            if_zone_clear                   r62, r60-r61
+  0F02  2D3E00000000...   jmpi_eq                         r62, 0x00000000, label03F5 /* 0EF2 */
+  0F0A  4920030000        arg_pushl                       0x00000320
+  0F0F  B8                setevt                          ... 0x320 /* 800 */
+
+label03F6:
+  // Referenced by instruction at 0F20
+  0F10  02                sync
+  0F11  093C09000000      leti                            r60, 0x00000009
+  0F17  093D21000000      leti                            r61, 0x00000021
+  0F1D  883E3C            if_zone_clear                   r62, r60-r61
+  0F20  2D3E00000000...   jmpi_eq                         r62, 0x00000000, label03F6 /* 0F10 */
+  0F28  494A010000        arg_pushl                       0x0000014A
+  0F2D  B8                setevt                          ... 0x14A /* 330 */
+  0F2E  01                ret
+  0F2F  4969000000        arg_pushl                       0x00000069
+  0F34  4E2A002A0020...   arg_pushs                       "** Time up code below. Return to guild, disable warp."
+  0FA1  50                message                         ... 0x69 /* 105 */, "** Time up code below. Return to guild, disable warp."
+
+label00FD:
+  // Referenced by instruction at 09B1
+  0FA2  53                fadeout
+  0FA3  F8E0              unfreeze_enemies
+  0FA5  10CF              set                             r207
+  0FA7  77                p_return_guild
+  0FA8  71                p_action_enable
+  0FA9  48FA              arg_pushr                       r250
+  0FAB  F91C              enable_movement2                ... r250
+
+label0438:
+  0FAD  09010A000000      leti                            r1, 0x0000000A
+  0FB3  090200000000      leti                            r2, 0x00000000
+  0FB9  0903C8000000      leti                            r3, 0x000000C8
+  0FBF  09045A000000      leti                            r4, 0x0000005A
+  0FC5  4900000000        arg_pushl                       0x00000000
+  0FCA  4A01              arg_pushb                       0x01
+  0FCC  76                set_player_start_position       ... 0x0 /* 0 */, r1-r4
+  0FCD  4901000000        arg_pushl                       0x00000001
+  0FD2  4A01              arg_pushb                       0x01
+  0FD4  76                set_player_start_position       ... 0x1 /* 1 */, r1-r4
+  0FD5  4902000000        arg_pushl                       0x00000002
+  0FDA  4A01              arg_pushb                       0x01
+  0FDC  76                set_player_start_position       ... 0x2 /* 2 */, r1-r4
+  0FDD  4903000000        arg_pushl                       0x00000003
+  0FE2  4A01              arg_pushb                       0x01
+  0FE4  76                set_player_start_position       ... 0x3 /* 3 */, r1-r4
+  0FE5  01                ret
+  0FE6  00                nop
+  0FE7  00                nop
+  0FE8  00                nop
+
+label0455:
+  0FE9  01                ret
+  0FEA  00                nop
+  0FEB  00                nop
+  0FEC  00                nop
+
+label04B1:
+  0FED  492C040000        arg_pushl                       0x0000042C
+  0FF2  4E5700610073...   arg_pushs                       "Was it more difficult than you imagined?"
+  1045  50                message                         ... 0x42C /* 1068 */, "Was it more difficult than you imagined?"
+  1046  5C                message_end
+  1047  00                nop
+  1048  00                nop
+  1049  00                nop
+
+label05DC:
+  // Referenced by instructions at 0077, 104B
+  104A  02                sync
+  104B  28DC05            jmp                             label05DC /* 104A */
+  104E  00                nop
+  104F  00                nop
+  1050  00                nop
+  1051  00                nop
+  1052  00                nop
+  1053  00                nop

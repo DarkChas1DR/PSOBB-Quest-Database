@@ -1,0 +1,428 @@
+newserv-1f7faff9+ built 2026-09-04 16:27:45.000000 UTC
+
+Usage:
+  newserv [ACTION] [OPTIONS...]
+
+If ACTION is not specified, newserv runs in server mode. PSO clients can
+connect normally, join lobbies, play games, and use the proxy server. See
+README.md and system/config.json for more information.
+
+When ACTION is given, newserv will do things other than running the server.
+
+Some actions accept input and/or output filenames; see the descriptions below
+for details. If INPUT-FILENAME is missing or is '-', newserv reads from stdin.
+If OUTPUT-FILENAME is missing and the input is not from stdin, newserv writes
+the output to INPUT-FILENAME.dec or a similarly-named file; if OUTPUT-FILENAME
+is '-', newserv writes the output to stdout. If stdout is a terminal and the
+output is not text or JSON, the data written to stdout is formatted in a
+hex/ASCII view; in any other case, the raw output is written to stdout, which
+(for most actions) may include arbitrary binary data.
+
+The actions are:
+  help
+    You're reading it now.
+  version
+    Show newserv's revision and build date.
+  compress-prs [INPUT-FILENAME [OUTPUT-FILENAME]]
+  compress-pr2 [INPUT-FILENAME [OUTPUT-FILENAME]]
+  compress-prc [INPUT-FILENAME [OUTPUT-FILENAME]]
+  compress-bc0 [INPUT-FILENAME [OUTPUT-FILENAME]]
+    Compress data using the PRS, PR2, PRC, or BC0 algorithms. By default, the
+    heuristic-based compressor is used, which gives a good balance between
+    memory usage, CPU usage, and output size. For PRS and PR2, this compressor
+    can be tuned with the --compression-level=N option, which specifies how
+    aggressive the compressor should be in searching for literal sequences. The
+    default level is 0; a higher value generally means slower compression and a
+    smaller output size. If the compression level is -1, the input data is
+    encoded in a PRS-compatible format but not actually compressed, resulting
+    in valid PRS data which is about 9/8 the size of the input.
+    There is also a compressor which produces the absolute smallest output
+    size, but uses much more memory and CPU time. To use this compressor, use
+    the --optimal option.
+  decompress-prs [INPUT-FILENAME [OUTPUT-FILENAME]]
+  decompress-pr2 [INPUT-FILENAME [OUTPUT-FILENAME]]
+  decompress-prc [INPUT-FILENAME [OUTPUT-FILENAME]]
+  decompress-bc0 [INPUT-FILENAME [OUTPUT-FILENAME]]
+    Decompress data compressed using the PRS, PR2, PRC, or BC0 algorithms.
+  prs-size [INPUT-FILENAME]
+    Compute the decompressed size of the PRS-compressed input data, but don't
+    write the decompressed data anywhere.
+  disassemble-prs [INPUT-FILENAME]
+  disassemble-bc0 [INPUT-FILENAME]
+    Write a textual representation of the commands contained in a PRS or BC0
+    command stream. The output is written to stdout. This is mainly useful for
+    debugging the compressors and decompressors themselves.
+  encrypt-data [INPUT-FILENAME [OUTPUT-FILENAME] [OPTIONS...]]
+  decrypt-data [INPUT-FILENAME [OUTPUT-FILENAME] [OPTIONS...]]
+    Encrypt or decrypt data using PSO's standard network protocol encryption.
+    By default, PSO V3 (GameCube/XBOX) encryption is used, but this can be
+    overridden with the --pc or --bb options. The --seed=SEED option specifies
+    the encryption seed (4 hex bytes for PC or GC, or 48 hex bytes for BB). For
+    BB, the --key=KEY-NAME option is required as well, and refers to a .nsk
+    file in system/blueburst/keys (without the directory or .nsk extension).
+    For non-BB ciphers, the --big-endian option applies the cipher masks as
+    big-endian instead of little-endian, which is necessary for some GameCube
+    file formats.
+  encrypt-trivial-data --seed=BASIS [INPUT-FILENAME [OUTPUT-FILENAME]]
+  decrypt-trivial-data [--seed=BASIS] [INPUT-FILENAME [OUTPUT-FILENAME]]
+    Encrypt or decrypt data using the Episode 3 trivial algorithm. When
+    encrypting, --seed=BASIS is required; BASIS should be a single byte
+    specified in hexadecimal. When decrypting, BASIS should be specified the
+    same way, but if it is not given, newserv will try all possible basis
+    values and return the one that results in the greatest number of zero bytes
+    in the output.
+  parse-pc-v2-registry [INPUT-FILENAME]
+    Decrypt and show the encrypted serial number, access key, and email fields
+    from the given registry export. The input file should be a .reg file
+    exported from the HKEY_CURRENT_USER\Software\SonicTeam\PSOV2 key.
+  generate-pc-v2-registry <OPTIONS> [OUTPUT-FILENAME]
+    Generate a .reg file containing PSO PC v2 credentials suitable for
+    importing into the Windows registry. The following options are required:
+      --serial-number=SERIAL-NUMBER (decimal serial number)
+      --access-key=ACCESS-KEY (access key, 8 characters)
+      --email=EMAIL (email address)
+  encrypt-challenge-data [INPUT-FILENAME [OUTPUT-FILENAME]]
+  decrypt-challenge-data [INPUT-FILENAME [OUTPUT-FILENAME]]
+    Encrypt or decrypt data using the challenge mode trivial algorithm.
+  encrypt-vms-save --seed=SEED INPUT-FILENAME [OUTPUT-FILENAME]
+  decrypt-vms-save [--seed=SEED] INPUT-FILENAME [OUTPUT-FILENAME]
+    Encrypt or decrypt a character or Guild Card file in VMS format. If
+    encrypting, the checksum is also recomputed and stored in the encrypted
+    file. --seed is the encryption seed (serial number) specified as a 32-bit
+    hexadecimal value.
+  encrypt-pc-save --seed=SEED [INPUT-FILENAME [OUTPUT-FILENAME]]
+  decrypt-pc-save --seed=SEED [INPUT-FILENAME [OUTPUT-FILENAME]]
+    Encrypt or decrypt a PSO PC character file (PSO______SYS or PSO______SYD)
+    or Guild Card file (PSO______GUD). SEED should be the serial number
+    associated with the save file, as a 32-bit hexadecimal integer.
+  encrypt-gci-save CRYPT-OPTION INPUT-FILENAME [OUTPUT-FILENAME]
+  decrypt-gci-save CRYPT-OPTION INPUT-FILENAME [OUTPUT-FILENAME]
+    Encrypt or decrypt a character or Guild Card file in GCI format. If
+    encrypting, the checksum is also recomputed and stored in the encrypted
+    file. CRYPT-OPTION is required; it can be either --sys=SYSTEM-FILENAME
+    (specifying the name of the corresponding PSO_SYSTEM .gci file) or
+    --seed=ROUND1-SEED (specified as a 32-bit hexadecimal number).
+  decrypt-xbox-save CRYPT-OPTION INPUT-FILENAME [OUTPUT-FILENAME]
+    Decrypt a character or Guild Card file in Xbox format. CRYPT-OPTION is
+    required; it can be either --sys=SYSTEM-FILENAME (specifying the name of
+    the corresponding PSO_SYSTEM file) or --seed=ROUND1-SEED (specified as a
+    32-bit hexadecimal number).
+  decrypt-dcv2-executable --executable=EXEC --indexes=INDEXES --values=VALUES
+  decrypt-dcv2-executable --executable=EXEC --simple [--seed=SEED]
+    Decrypt a PSO DC v2 executable file. EXEC should be the path to the
+    executable (DP_ADDRESS.JPN), INDEXES should be the path to the index fixup
+    table (KATSUO.SEA), and VALUES should be the path to the value fixup table
+    (IWASHI.SEA). The output is written to EXEC.dec.
+    If --simple is given, uses the encryption method used in Ives' Enhancement
+    Pack. In this case, --seed is not required; if not given, finds the seed
+    automatically, and prints it to stderr so you will be able to use it when
+    re-encrypting.
+  encrypt-dcv2-executable --executable=EXEC --indexes=INDEXES
+  encrypt-dcv2-executable --executable=EXEC --simple --seed=SEED
+    Encrypt a PSO DC v2 executable file. EXEC should be the path to the
+    executable (DP_ADDRESS.JPN) and INDEXES should be the path to the index
+    fixup table (KATSUO.SEA). The output is written to EXEC.enc and
+    INDEXES.enc.
+    If --simple is given, uses the simpler encryption method used in Ives'
+    Enhancement Pack. In this case, --seed is required.
+  decode-gci-snapshot [INPUT-FILENAME [OUTPUT-FILENAME]]
+    Decode a PSO GC snapshot file (in GCI format) into a Windows BMP image.
+  encode-gvm [INPUT-FILENAME [OUTPUT-FILENAME]]
+    Encode an image in BMP or PPM/PNM format into a GVM texture. The resulting
+    GVM file can be used as an Episode 3 lobby banner.
+  decode-bitmap-font --width=WIDTH [INPUT-FILENAME [OUTPUT-FILENAME]]
+    Decode a 2-bit bitmap font file (.fon) into a BMP image. The --width
+    option is required; if the output looks wrong, try increasing or
+    decreasing this number. For S18all04.fon, the width should be 20. If
+    --show-unused is given, highlights the unused areas of ISO8859 characters
+    in red. If --transparent is given, generates an image with the glyphs in
+    the alpha channel instead of in the RGB channels.
+  encode-bitmap-font [INPUT-FILENAME [OUTPUT-FILENAME]]
+    Encode an image in BMP or PPM/PNM format into a bitmap font file for use
+    with the console PSO versions. The image dimensions must match the
+    original fon's dimensions.
+  salvage-gci INPUT-FILENAME [--round2] [CRYPT-OPTION] [--bytes=SIZE]
+    Attempt to find either the round-1 or round-2 decryption seed for a
+    corrupted GCI file. If --round2 is given, then CRYPT-OPTION must be given
+    (and should specify either a valid system file or the round1 seed).
+  find-decryption-seed OPTIONS...
+    Perform a brute-force search for a decryption seed of the given data. The
+    ciphertext is specified with the --encrypted=DATA option and the expected
+    plaintext is specified with the --decrypted=DATA option. The plaintext may
+    include unmatched bytes (specified with the Phosg parse_data_string ?
+    operator), but overall it must be the same length as the ciphertext. By
+    default, this option uses PSO V3 encryption, but this can be overridden
+    with --pc. (BB encryption seeds are too long to be searched for with this
+    function.) By default, the number of worker threads is equal to the number
+    of CPU cores in the system, but this can be overridden with the
+    --threads=NUM-THREADS option.
+  decode-gci INPUT-FILENAME [OPTIONS...]
+  decode-vms INPUT-FILENAME [OPTIONS...]
+  decode-dlq INPUT-FILENAME [OPTIONS...]
+  decode-qst INPUT-FILENAME [OPTIONS...]
+    Decode the input quest file into a compressed, unencrypted .bin or .dat
+    file (or in the case of decode-qst, both a .bin and a .dat file).
+    INPUT-FILENAME must be specified, but there is no OUTPUT-FILENAME; the
+    output is written to INPUT-FILENAME.dec (or .bin, or .dat). If the output
+    is a .dec file, you can rename it to .bin or .dat manually. DLQ and QST
+    decoding are relatively simple operations, but GCI and VMS decoding can be
+    computationally expensive if the file is encrypted and doesn't contain an
+    embedded seed. If you know the player's serial number who generated the
+    GCI or VMS file, use the --seed=SEED option and give the serial number (as
+    a hex-encoded 32-bit integer). If you don't know the serial number,
+    newserv will find it via a brute-force search, which will take a long time.
+  encode-qst INPUT-FILENAME [OUTPUT-FILENAME] [OPTIONS...]
+    Encode the input quest files (in .bin format) into a .qst file. There must
+    be a .dat file with the same name as the .bin file, which will be included
+    in the resulting .qst file. If there is a .pvr file with the same name as
+    the .bin file, it will be included as well. If --download is given,
+    generates a download .qst instead of an online .qst. Specify the quest's
+    game version with one of the --dc-nte, --dc-v1, --dc-v2, --pc, --gc-nte,
+    --gc, --gc-ep3, --xb, or --bb options.
+  disassemble-quest-script [OPTIONS] [INPUT-FILENAME [OUTPUT-FILENAME]]
+    Disassemble the input quest script (.bin file) into a text representation
+    of the commands and metadata it contains. Specify the quest's game version
+    with one of the --dc-nte, --dc-v1, --dc-v2, --pc, --gc-nte, --gc,
+    --gc-ep3, --xb, or --bb options. Other options:
+      --qedit: newserv uses more descriptive opcode mnemonics by default; this
+          option will result in names matching those used by QEdit.
+      --reassembly: If you intend to reassemble the script after editing it,
+          use this option to add explicit label numbers and remove offsets and
+          data in code sections.
+      --map-file=FILENAME: Include references to script labels from this map.
+      --language=L: Decode strings using this language. L may be J, E, G, F,
+          S, B, T, or K, for Japanese, English, German, French, Spanish,
+          Simplified Chinese, Traditional Chinese, or Korean respectively.
+  disassemble-quest-map [OPTIONS] [INPUT-FILENAME [OUTPUT-FILENAME]]
+    Disassemble the input quest map (.dat file) into a text representation of
+    the data it contains. If --decompressed is given, don't decompress before
+    disassembling.
+  disassemble-free-map INPUT-FILENAME [OUTPUT-FILENAME]
+    Disassemble the input free-play map (.dat or .evt file) into a text
+    representation of the data it contains. Unlike other disassembly actions,
+    this action expects its input to be already decompressed. If the input is
+    compressed, use the --compressed option. Also unlike other options, the
+    input must be from a file (that is, INPUT-FILENAME is required and cannot
+    be "-").
+  disassemble-set-data-table [INPUT-FILENAME]
+    Show the contents of a SetDataTable.rel file. A version option is required.
+  assemble-quest-script [OPTIONS] [INPUT-FILENAME [OUTPUT-FILENAME]]
+    Assemble the input quest script (.txt file) into a compressed .bin file
+    usable as an online quest script. If --decompressed is given, produces an
+    uncompressed .bind file instead. If --disable-strict is given, allows some
+    invalid behaviors (e.g. calling an undefined label by number).
+  assemble-all-client-functions [--skip-encrypted] OUTPUT-DIRECTORY
+    Assemble all patches in the system/client-functions directory, and produce
+    two compiled .bin files for each patch: one unencrypted, for most PSO
+    versions, and one encrypted, for PSO GC JP v1.4, JP Ep3, and Ep3 Trial
+    Edition. If --skip-encrypted is given, only the unencrypted .bin files are
+    created.
+  generate-gsl INPUT-DIRECTORY [OUTPUT-FILENAME] [--big-endian]
+    Generate a .gsl archive from the contents of a directory. If --big-endian
+    is given, the archive header is generated in GameCube format; otherwise it
+    is generated in PC/BB format.
+  extract-afs [INPUT-FILENAME [OUTPUT-DIRECTORY]] [OPTIONS]
+  extract-gsl [INPUT-FILENAME [OUTPUT-DIRECTORY]] [OPTIONS]
+  extract-bml [INPUT-FILENAME [OUTPUT-DIRECTORY]] [OPTIONS]
+  extract-ppk [INPUT-FILENAME [OUTPUT-DIRECTORY]] [OPTIONS]
+    Extract all files from an AFS, GSL, BML, or PPK archive into the current
+    directory. input-filename may be specified. If OUTPUT-DIRECTORY is
+    specified, files are written to that directory; if not, then they are
+    written to the directory INPUT-FILENAME.out. If --big-endian is given,
+    the archive header is read in GameCube format; otherwise it is read in
+    PC/BB format. For PPK archives, the --password= option is required.
+  decode-text-archive [INPUT-FILENAME [OUTPUT-FILENAME]]
+    Decode a text archive to JSON. --collections=NUM_COLLECTIONS is given,
+    expects a fixed number of collections in the input (this is needed for DC
+    NTE and 11/2000). If --has-pr3 is given, expects the input not to have a
+    REL footer.
+  encode-text-archive [INPUT-FILENAME [OUTPUT-FILENAME]]
+    Encode a text archive. Currently only supports GC and Xbox format.
+  decode-unicode-text-set [INPUT-FILENAME [OUTPUT-FILENAME]]
+  encode-unicode-text-set [INPUT-FILENAME [OUTPUT-FILENAME]]
+    Decode a Unicode text set (e.g. unitxt_e.prs) to JSON for easy editing, or
+    encode a JSON file to a Unicode text set.
+  decode-credits-text-archive [OPTIONS] [INPUT-FILENAME [OUTPUT-FILENAME]]
+    Decode a credits text archive (AdEnding.rel) to JSON. Use the --big-endian
+    option if the file is for PSO GC.
+  encode-credits-text-archive [OPTIONS] [INPUT-FILENAME [OUTPUT-FILENAME]]
+    Encode a credits text archive (AdEnding.rel) from JSON. Use the
+    --big-endian option if the file is for PSO GC.
+  decode-word-select-set [INPUT-FILENAME]
+    Decode a Word Select data file and print all the tokens. A version option
+    (e.g. --gc-ep3) is required. If the Word Select set is for PC or BB, the
+    --unitxt option is also required, and must point to a unitxt file in prs
+    or JSON format. For PC (V2), the unitxt_e.prs file should be used; for BB,
+    the unitxt_ws_e.prs file should be used.
+  print-word-select-table
+    Print the Word Select token translation table. If a version option is
+    given, prints the table sorted by token ID for that version. If no version
+    option is given, prints the token table sorted by canonical name.
+  convert-rare-item-set INPUT-FILENAME [OUTPUT-FILENAME] [OPTIONS]
+    If OUTPUT-FILENAME is not given, print the contents of a rare item table in
+    a human-readable format. Otherwise, convert the input rare item set to a
+    different format and write it to OUTPUT-FILENAME. Both filenames must end
+    in one of the following extensions:
+      .json (newserv JSON rare item table)
+      .gsl (PSO BB little-endian GSL archive)
+      .gslb (PSO GC big-endian GSL archive)
+      .afs (PSO V2 little-endian AFS archive)
+      .html (HTML rare table; cannot be used in input filename)
+    If the --multiply=X option is given, multiplies all drop rates by X (given
+    as a decimal value). The HTML drop tables will account for each enemy's
+    drop-anything rate; the true drop rates are shown in tooltips.
+  convert-common-item-set INPUT-FILENAME [OUTPUT-FILENAME]
+    Convert the input rare item set to a JSON representation and write it to
+    OUTPUT-FILENAME or stdout. The input filename must end in one of the
+    following extensions:
+      .json (newserv JSON common item table)
+      .afs (PSO v2 AFS archive; --ct-filename is required in this case)
+      .gsl (PSO BB little-endian GSL archive)
+      .gslb (PSO GC big-endian GSL archive)
+    Options:
+      --ct-filename=FILENAME: Required if the input is an AFS archive.
+          Specifies where to read the ItemCT (Challenge Mode) tables from.
+          Should be another AFS file.
+      --big-endian: If input is a GSL file, always decode it as big-endian
+          even if the file extension is not gslb.
+  decode-item-parameter-table [INPUT-FILENAME [OUTPUT-FILENAME]] [OPTIONS...]
+    Converts an ItemPMT file into a JSON item parameter table. A version
+    option is required. Use --hex to make item codes in the output readable;
+    however, this option also uses nonstandard JSON syntax - newserv can parse
+    it, but many other JSON parsers can't. Expects compressed input (a .prs
+    file) by default; use --decompressed if the input is not compressed.
+  encode-item-parameter-table [INPUT-FILENAME [OUTPUT-FILENAME]] [OPTIONS...]
+    Converts a JSON item parameter table into an ItemPMT file compatible with
+    the game client. A version option is required. By default the output will
+    be compressed, as the client expects; use --decompressed to get
+    uncompressed output.
+  decode-mag-metadata-table [INPUT-FILENAME [OUTPUT-FILENAME]] [OPTIONS...]
+    Converts an ItemMagEdit file into a JSON mag metadata file. A version
+    option is required. Expects compressed input (a .prs file) by default; use
+    --decompressed if the input is not compressed.
+  encode-mag-metadata-table [INPUT-FILENAME [OUTPUT-FILENAME]] [OPTIONS...]
+    Converts a JSON mag metadata file into an ItemMagEdit file compatible with
+    the game client. A version option is required. By default the output will
+    be compressed, as the client expects; use --decompressed to get
+    uncompressed output.
+  decode-tekker-adjustment-set [INPUT-FILENAME [OUTPUT-FILENAME]] [OPTIONS]
+    Converts a JudgeItem.rel file into a JSON tekker adjustment set. Use
+    --big-endian if the .rel file is from PSO GC.
+  encode-tekker-adjustment-set [INPUT-FILENAME [OUTPUT-FILENAME]] [OPTIONS]
+    Converts a JSON tekker adjustment set into a JudgeItem.rel file compatible
+    with the game client. Use --big-endian if the .rel file is for PSO GC.
+  decode-armor-shop-random-set [INPUT-FILENAME [OUTPUT-FILENAME]] [OPTIONS]
+    Converts a ArmorRandom.rel file into a JSON armor shop random set. Use
+    --big-endian if the .rel file is from PSO GC.
+  encode-armor-shop-random-set [INPUT-FILENAME [OUTPUT-FILENAME]] [OPTIONS]
+    Converts a JSON armo shop random set into an ArmorRandom.rel file
+    compatible with the game client. Use --big-endian if the .rel file is for
+    PSO GC.
+  decode-tool-shop-random-set [INPUT-FILENAME [OUTPUT-FILENAME]] [OPTIONS]
+    Converts a ToolRandom.rel file into a JSON tool shop random set. Use
+    --big-endian if the .rel file is from PSO GC.
+  encode-tool-shop-random-set [INPUT-FILENAME [OUTPUT-FILENAME]] [OPTIONS]
+    Converts a JSON armo shop random set into an ToolRandom.rel file
+    compatible with the game client. Use --big-endian if the .rel file is for
+    PSO GC.
+  decode-weapon-shop-random-set [INPUT-FILENAME [OUTPUT-FILENAME]] [OPTIONS]
+    Converts a WeaponRandom.rel file into a JSON weapon shop random set. Use
+    --big-endian if the .rel file is from PSO GC.
+  encode-weapon-shop-random-set [INPUT-FILENAME [OUTPUT-FILENAME]] [OPTIONS]
+    Converts a JSON armo shop random set into an WeaponRandom.rel file
+    compatible with the game client. Use --big-endian if the .rel file is for
+    PSO GC.
+  describe-item DATA-OR-DESCRIPTION
+    Describe an item. The argument may be the item's raw hex code or a textual
+    description of the item. If the description contains spaces, it must be
+    quoted, such as "L&K14 COMBAT +10 0/10/15/0/35".
+  show-level-tables
+    Print the level tables for each version in a semi-human-readable format.
+  show-item-parameter-tables
+    Print the item parameter tables for each version in a semi-human-readable
+    format.
+  show-shop-random-sets
+    Print the tekker and shop generation tables in a semi-human-readable
+    format.
+  show-ep3-cards
+    Print the Episode 3 card definitions from the system/ep3 directory in a
+    human-readable format.
+  generate-ep3-cards-html [--ep3-nte] [--compare] [--threads=N] [--no-images]
+      [--no-disassembly]
+    Generate an HTML file describing all Episode 3 card definitions from the
+    system/ep3 directory. If --ep3-nte is given, use the Trial Edition card
+    definitions instead. If there are images present in the system/ep3/cardtex
+    directory (or system/ep3/tardtex-trial, if --ep3-nte is given), they will
+    be included in the generated HTML unless --no-images is given. The
+    filenames should be like C_###.bmp, L_###.bmp, and M_###.bmp, where ###
+    are decimal card IDs.
+  show-ep3-maps
+    Print the Episode 3 maps from the system/ep3 directory in a (sort of)
+    human-readable format.
+  show-battle-params
+    Print the Blue Burst battle parameters from the system/blueburst directory
+    in a human-readable format.
+  check-supermaps [--disassemble] [--generate-enemy-stats]
+    Checks the supermaps for all free-play areas and quests. If --disassemble
+    is given, saves the contents of each supermap to text files in the current
+    directory. If --generate-enemy-stats is given, saves tables of enemy
+    counts for each quest to text files in the current directory.
+  materialize-map [OPTIONS] [INPUT-FILENAME [OUTPUT-FILENAME]]
+    Runs the Challenge Mode random enemy generation algorithm on the input map
+    file, producing a new map file with no random sections. A version option
+    is required, and the --seed=SEED option is also required (SEED is a 32-bit
+    hex integer). If --disassemble is given, disassembles the result instead
+    of generating the map data.
+  optimize-materialized-map [OPTIONS] [INPUT-FILENAME]
+    Runs the Challenge Mode random enemy generation algorithm on the input map
+    file, looking for the seed that results in the fewest extra events and the
+    fewest enemies overall, optionally restricting to specific enemy types. A
+    version option is required. Other options:
+      --minimize=TYPE[:PARAM:VALUE]: Try to find seeds that result in the
+          fewest instances of this enemy (may be given multiple times). TYPE
+          should be an integer (for example, 0x0040 for Hildebears and
+          Hildeblues). This can also filter by a param value (for example,
+          0x0044:6:2 for Gigoboomas). See Map.cc for a full listing of types
+          and parameters). Event count always takes precedence; that is, a map
+          with fewer events is always considered better than any map with more
+          events, regardless of the enemy counts.
+      --restrict-room=FLOOR:ROOM-ID: Ignore all enemies outside of this room
+          (may be given multiple times).
+      --threads=NUM-THREADS: Limits parallelism; by default, uses one thread
+          per CPU core.
+      --debug: Enables debug logging.
+      --pessimize: Finds the worst seeds instead of the best seeds.
+  print-free-supermap [--psov2] [--seed=SEED] [--episode=1|2|4]
+      [--mode=N|B|C|S] [--difficulty=N|H|V|U] [--event=EVENT] VARIATIONS
+    Generates and prints the specified free play supermap.
+  generate-dc-serial-number DOMAIN SUBDOMAIN
+    Generate a PSO DC serial number. DOMAIN should be 0 for Japanese, 1 for
+    USA, or 2 for Europe. SUBDOMAIN should be 0 for v1, or 1 for v2.
+  inspect-dc-serial-number SERIAL-NUMBER
+    Show which domain and subdomain the serial number belongs to. (As with
+    generate-dc-serial-number, described above, this will tell you which PSO
+    version it is valid for.)
+  dc-serial-number-speed-test
+    Run a speed test of the two DC serial number validation functions.
+
+Most options that take data as input also accept the following option:
+  --parse-data
+      For modes that take input (from a file or from stdin), parse the input as
+      a hex string before encrypting/decoding/etc.
+
+Many versions also accept or require a version option. The version options are:
+  --pc-patch: PC patch server
+  --bb-patch: BB patch server
+  --dc-nte: DC Network Trial Edition
+  --dc-proto or --dc-11-2000: DC 11/2000 prototype
+  --dc-v1: DC v1
+  --dc-v2 or --dc: DC v2
+  --pc-nte: PC Network Trial Edition
+  --pc: PC v2
+  --gc-nte: GC Episodes 1&2 Trial Edition
+  --gc: GC Episodes 1&2
+  --xb: Xbox Episodes 1&2
+  --ep3-nte: GC Episode 3 Trial Edition
+  --ep3: GC Episode 3
+  --bb: Blue Burst
+

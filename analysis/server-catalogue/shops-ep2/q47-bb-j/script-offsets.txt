@@ -1,0 +1,1918 @@
+.version BB_V4
+.quest_num 47
+.name "The Lab"
+.short_desc "Come visit\nthe lab!\n\n* Job can be joined\n  while in progress."
+.long_desc "Client: NOL\nQuest:\n  Hiya! I\'ve been\n  working at the lab\n  on Pioneer 2 and\n  would like to invite\n  you to come! We\n  have useful things\n  for everyone!"
+.episode Episode2
+.header_episode 0x01
+.language J
+.max_players 4
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+// 0x609F data bytes in script section with 141 labels
+
+start:
+  0000  F8BC01000000      set_episode                     0x00000001
+  0006  093C00000000      leti                            r60, 0x00000000
+  000C  093D12000000      leti                            r61, 0x00000012
+  0012  093E00000000      leti                            r62, 0x00000000
+  0018  093F00000000      leti                            r63, 0x00000000
+  001E  094000000000      leti                            r64, 0x00000000
+  0024  F80D3C            map_designate_ex                r60-r64
+  0027  4900000000        arg_pushl                       0x00000000
+  002C  4B9600            arg_pushw                       0x0096
+  002F  95                set_floor_handler               ... 0x0 /* 0 */, label0096 /* 0043 */
+  0030  E6FA              get_client_id                   r250
+
+label0001:
+  // Referenced by instructions at 0554, 055C, 1CCA, 1CD7, 2F6E, 3E2A, 40E5, 50A1, 544E, 54AB, 556F, 5597
+  0032  01                ret
+
+label0032:
+  // Referenced by instructions at 003A, 0B67, 12F9, 1994, 2F7D, 378E, 4B45
+  0033  02                sync
+  0034  1B3C01000000      subi                            r60, 0x00000001
+  003A  2F3C00000000...   jmpi_ne                         r60, 0x00000000, label0032 /* 0033 */
+  0042  01                ret
+
+label0096:
+  // Referenced by instruction at 002F
+  0043  01                ret
+
+label012C:
+  // Referenced by map enemy ES-00-007 [EnemySetEntry type=0025 "TObjNpcARM00" num_children=0000 floor=0000 room=0028 wave_number=0000 wave_number2=0000 a1=0000 x=-75 y=0 z=-135 x_angle=00000000 y_angle=00004955 z_angle=00000000 params=[0 0 0 300 300 0000 0000]]
+  0044  492C010000        arg_pushl                       0x0000012C
+  0049  4E480065006C...   arg_pushs                       "Hello there."
+  0064  50                message                         ... 0x12C /* 300 */, "Hello there."
+  0065  4E4900270076...   arg_pushs                       "I\'ve recently figured\nout how to modify\ncommon weapon photons."
+  00E4  5B                add_msg                         ... "I\'ve recently figured\nout how to modify\ncommon weapon photons."
+  00E5  4E4900660020...   arg_pushs                       "If you\'d like, I\ncan change the color\nof common weapons."
+  0158  5B                add_msg                         ... "If you\'d like, I\ncan change the color\nof common weapons."
+  0159  4E4900740020...   arg_pushs                       "It will cost <color 4>1<color 0> Photon Drop."
+  01B6  5B                add_msg                         ... "It will cost <color 4>1<color 0> Photon Drop."
+  01B7  4E49006E0074...   arg_pushs                       "Interested?"
+  01D0  5B                add_msg                         ... "Interested?"
+  01D1  5C                message_end
+  01D2  4A3C              arg_pushb                       0x3C
+  01D4  4E5900650073...   arg_pushs                       "Yes\nNo"
+  01E3  51                list                            ... r60, "Yes\nNo"
+  01E4  2D3C00000000...   jmpi_eq                         r60, 0x00000000, label012E /* 025D */
+
+label012D:
+  // Referenced by instructions at 02C6, 0425, 04DC
+  01EC  492C010000        arg_pushl                       0x0000012C
+  01F1  4E5400680061...   arg_pushs                       "That\'s too bad."
+  0212  50                message                         ... 0x12C /* 300 */, "That\'s too bad."
+  0213  4E43006F006D...   arg_pushs                       "Come back if you\nchange your mind!"
+  025A  5B                add_msg                         ... "Come back if you\nchange your mind!"
+  025B  5C                message_end
+  025C  01                ret
+
+label012E:
+  // Referenced by instruction at 01E4
+  025D  492C010000        arg_pushl                       0x0000012C
+  0262  4E41006C0072...   arg_pushs                       "Alright, what weapon\ndo you want to change?"
+  02BB  50                message                         ... 0x12C /* 300 */, "Alright, what weapon\ndo you want to change?"
+  02BC  5C                message_end
+  02BD  1132              clear                           r50
+  02BF  1133              clear                           r51
+  02C1  F92A              open_pack_select
+  02C3  F92C64            get_chosen_item_id              r100
+  02C6  2D64FFFFFFFF...   jmpi_eq                         r100, 0xFFFFFFFF, label012D /* 01EC */
+  02CE  4864              arg_pushr                       r100
+  02D0  4A6E              arg_pushb                       0x6E
+  02D2  F93A              get_item_info                   ... r100, r110-r121
+  02D4  2F6E00000000...   jmpi_ne                         r110, 0x00000000, label012F /* 02EC */
+  02DC  3F6F09000000...   jmpi_le                         r111, 0x00000009, label0130 /* 036D */
+  02E4  3F6F0C000000...   jmpi_le                         r111, 0x0000000C, label0131 /* 0378 */
+
+label012F:
+  // Referenced by instructions at 02D4, 0375, 0382
+  02EC  492C010000        arg_pushl                       0x0000012C
+  02F1  4E5400680069...   arg_pushs                       "This isn\'t a\ncommon weapon."
+  032A  50                message                         ... 0x12C /* 300 */, "This isn\'t a\ncommon weapon."
+  032B  4E4900200063...   arg_pushs                       "I cannot help\nyou modify this."
+  036A  5B                add_msg                         ... "I cannot help\nyou modify this."
+  036B  5C                message_end
+  036C  01                ret
+
+label0130:
+  // Referenced by instruction at 02DC
+  036D  3F7004000000...   jmpi_le                         r112, 0x00000004, label0136 /* 0385 */
+  0375  282F01            jmp                             label012F /* 02EC */
+
+label0131:
+  // Referenced by instruction at 02E4
+  0378  1032              set                             r50
+  037A  3F7003000000...   jmpi_le                         r112, 0x00000003, label0136 /* 0385 */
+  0382  282F01            jmp                             label012F /* 02EC */
+
+label0136:
+  // Referenced by instructions at 036D, 037A
+  0385  492C010000        arg_pushl                       0x0000012C
+  038A  4E5700680061...   arg_pushs                       "What color should\nI change this into?"
+  03D7  50                message                         ... 0x12C /* 300 */, "What color should\nI change this into?"
+  03D8  5C                message_end
+  03D9  4A50              arg_pushb                       0x50
+  03DB  4E4700720065...   arg_pushs                       "Green\nBlue\nPurple\nRed\nYellow\nCancel"
+  0424  51                list                            ... r80, "Green\nBlue\nPurple\nRed\nYellow\nCancel"
+  0425  2D5005000000...   jmpi_eq                         r80, 0x00000005, label012D /* 01EC */
+  042D  291D0C            call                            label0C1D /* 0554 */
+  0430  2D3301000000...   jmpi_eq                         r51, 0x00000001, label0C1E /* 0567 */
+  0438  492C010000        arg_pushl                       0x0000012C
+  043D  4E4100720065...   arg_pushs                       "Are you ready?\nRemember, this costs\n<color 4>1<color 0> Photon Drop."
+  04C8  50                message                         ... 0x12C /* 300 */, "Are you ready?\nRemember, this costs\n<color 4>1<color 0> Photon Drop."
+  04C9  5C                message_end
+  04CA  4A3C              arg_pushb                       0x3C
+  04CC  4E5900650073...   arg_pushs                       "Yes\nNo"
+  04DB  51                list                            ... r60, "Yes\nNo"
+  04DC  2D3C01000000...   jmpi_eq                         r60, 0x00000001, label012D /* 01EC */
+  04E4  083CFA            let                             r60, r250
+  04E7  093D03000000      leti                            r61, 0x00000003
+  04ED  093E10000000      leti                            r62, 0x00000010
+  04F3  093F00000000      leti                            r63, 0x00000000
+  04F9  F9113C40          get_stackable_item_count        r60-r63, r64
+  04FD  2D4000000000...   jmpi_eq                         r64, 0x00000000, label0137 /* 05D6 */
+  0505  B63D40            item_delete_by_type             r61-r63, r64-r75
+  0508  02                sync
+  0509  4864              arg_pushr                       r100
+  050B  F939              item_delete_noreturn            ... r100
+  050D  087050            let                             r112, r80
+  0510  097100000000      leti                            r113, 0x00000000
+  0516  B46EDC            item_create2                    r110-r121, r220
+  0519  492C010000        arg_pushl                       0x0000012C
+  051E  4E41006C006C...   arg_pushs                       "All done for you, enjoy!"
+  0551  50                message                         ... 0x12C /* 300 */, "All done for you, enjoy!"
+  0552  5C                message_end
+  0553  01                ret
+
+label0C1D:
+  // Referenced by instruction at 042D
+  0554  2D3200000000...   jmpi_eq                         r50, 0x00000000, label0001 /* 0032 */
+  055C  3F5003000000...   jmpi_le                         r80, 0x00000003, label0001 /* 0032 */
+  0564  1033              set                             r51
+  0566  01                ret
+
+label0C1E:
+  // Referenced by instruction at 0430
+  0567  492C010000        arg_pushl                       0x0000012C
+  056C  4E4900200063...   arg_pushs                       "I cannot change\nthis to Yellow."
+  05AD  50                message                         ... 0x12C /* 300 */, "I cannot change\nthis to Yellow."
+  05AE  4E4C00650074...   arg_pushs                       "Let\'s start over."
+  05D3  5B                add_msg                         ... "Let\'s start over."
+  05D4  5C                message_end
+  05D5  01                ret
+
+label0137:
+  // Referenced by instruction at 04FD
+  05D6  492C010000        arg_pushl                       0x0000012C
+  05DB  4E59006F0075...   arg_pushs                       "You don\'t have\nany Photon Drops."
+  061E  50                message                         ... 0x12C /* 300 */, "You don\'t have\nany Photon Drops."
+  061F  5C                message_end
+  0620  01                ret
+
+label0190:
+  // Referenced by map enemy ES-00-008 [EnemySetEntry type=0027 "TObjNpcHFW00/TObjNpcHFW00" num_children=0000 floor=0000 room=001E wave_number=0000 wave_number2=0000 a1=0000 x=-110 y=0 z=-40 x_angle=00000000 y_angle=00004000 z_angle=00000000 params=[0 0 0 400 400 0000 0000]]
+  0621  4990010000        arg_pushl                       0x00000190
+  0626  4E4800690020...   arg_pushs                       "Hi there!"
+  063B  50                message                         ... 0x190 /* 400 */, "Hi there!"
+  063C  4E4D00790020...   arg_pushs                       "My name is Alicia."
+  0663  5B                add_msg                         ... "My name is Alicia."
+  0664  4E4900270076...   arg_pushs                       "I\'ve been researching\nhow to strengthen\nvarious equipment."
+  06DB  5B                add_msg                         ... "I\'ve been researching\nhow to strengthen\nvarious equipment."
+  06DC  4E430061006E...   arg_pushs                       "Can I help you?"
+  06FD  5B                add_msg                         ... "Can I help you?"
+  06FE  5C                message_end
+  06FF  4A3C              arg_pushb                       0x3C
+  0701  4E4C004F0056...   arg_pushs                       "LOVE HEART\nSAFETY HEART\nVIRUS ARMOR:LAFUTERIA\nCancel"
+  076C  51                list                            ... r60, "LOVE HEART\nSAFETY HEART\nVIRUS ARMOR:LAFUTERIA\nCancel"
+  076D  2D3C00000000...   jmpi_eq                         r60, 0x00000000, label019A /* 07A6 */
+  0775  2D3C01000000...   jmpi_eq                         r60, 0x00000001, label01A4 /* 0E60 */
+  077D  2D3C02000000...   jmpi_eq                         r60, 0x00000002, label01AE /* 1615 */
+
+label0191:
+  // Referenced by instructions at 090E, 095F, 09E6, 0B30, 109A, 10EF, 1178, 12C2, 17A5, 180E, 188F, 195D
+  0785  4990010000        arg_pushl                       0x00000190
+  078A  4E540061006C...   arg_pushs                       "Talk later!"
+  07A3  50                message                         ... 0x190 /* 400 */, "Talk later!"
+  07A4  5C                message_end
+  07A5  01                ret
+
+label019A:
+  // Referenced by instruction at 076D
+  07A6  4990010000        arg_pushl                       0x00000190
+  07AB  4E4900660020...   arg_pushs                       "If you have a\nLOVE HEART, I\ncan strengthen it."
+  080A  50                message                         ... 0x190 /* 400 */, "If you have a\nLOVE HEART, I\ncan strengthen it."
+  080B  4E54006F0020...   arg_pushs                       "To do this, I will\nneed a SPIRIT GARMENT."
+  0860  5B                add_msg                         ... "To do this, I will\nneed a SPIRIT GARMENT."
+  0861  4E4900200077...   arg_pushs                       "I won\'t be able to\nstrengthen one that\'s\nalready strengthened."
+  08E0  5B                add_msg                         ... "I won\'t be able to\nstrengthen one that\'s\nalready strengthened."
+  08E1  4E49006E0074...   arg_pushs                       "Interested?"
+  08FA  5B                add_msg                         ... "Interested?"
+  08FB  5C                message_end
+  08FC  4A3C              arg_pushb                       0x3C
+  08FE  4E5900650073...   arg_pushs                       "Yes\nNo"
+  090D  51                list                            ... r60, "Yes\nNo"
+  090E  2D3C01000000...   jmpi_eq                         r60, 0x00000001, label0191 /* 0785 */
+  0916  4990010000        arg_pushl                       0x00000190
+  091B  4E50006C0065...   arg_pushs                       "Please select the LOVE HEART."
+  0958  50                message                         ... 0x190 /* 400 */, "Please select the LOVE HEART."
+  0959  5C                message_end
+  095A  F92A              open_pack_select
+  095C  F92C64            get_chosen_item_id              r100
+  095F  2D64FFFFFFFF...   jmpi_eq                         r100, 0xFFFFFFFF, label0191 /* 0785 */
+  0967  4864              arg_pushr                       r100
+  0969  4A6E              arg_pushb                       0x6E
+  096B  F93A              get_item_info                   ... r100, r110-r121
+  096D  2F6E01000000...   jmpi_ne                         r110, 0x00000001, label019B /* 0CA6 */
+  0975  2F6F01000000...   jmpi_ne                         r111, 0x00000001, label019B /* 0CA6 */
+  097D  2F702D000000...   jmpi_ne                         r112, 0x0000002D, label019B /* 0CA6 */
+  0985  2F7400000000...   jmpi_ne                         r116, 0x00000000, label019C /* 0D01 */
+  098D  2F7600000000...   jmpi_ne                         r118, 0x00000000, label019C /* 0D01 */
+  0995  4990010000        arg_pushl                       0x00000190
+  099A  4E50006C0065...   arg_pushs                       "Please select the SPIRIT GARMENT."
+  09DF  50                message                         ... 0x190 /* 400 */, "Please select the SPIRIT GARMENT."
+  09E0  5C                message_end
+  09E1  F92A              open_pack_select
+  09E3  F92C82            get_chosen_item_id              r130
+  09E6  2D82FFFFFFFF...   jmpi_eq                         r130, 0xFFFFFFFF, label0191 /* 0785 */
+  09EE  4882              arg_pushr                       r130
+  09F0  4A8C              arg_pushb                       0x8C
+  09F2  F93A              get_item_info                   ... r130, r140-r151
+  09F4  2F8C01000000...   jmpi_ne                         r140, 0x00000001, label019D /* 0DB0 */
+  09FC  2F8D01000000...   jmpi_ne                         r141, 0x00000001, label019D /* 0DB0 */
+  0A04  2F8E1C000000...   jmpi_ne                         r142, 0x0000001C, label019D /* 0DB0 */
+  0A0C  299E01            call                            label019E /* 0E3D */
+  0A0F  299F01            call                            label019F /* 0E56 */
+  0A12  4990010000        arg_pushl                       0x00000190
+  0A17  4E41006C0072...   arg_pushs                       "Alright, here is what\nthe results will be:"
+  0A6E  50                message                         ... 0x190 /* 400 */, "Alright, here is what\nthe results will be:"
+  0A6F  4E4400460050...   arg_pushs                       "DFP: <color 4>+<r80><color 0>/50"
+  0AB2  5B                add_msg                         ... "DFP: <color 4>+<r80><color 0>/50"
+  0AB3  4E4500560050...   arg_pushs                       "EVP: <color 4>+<r81><color 0>/20"
+  0AF6  5B                add_msg                         ... "EVP: <color 4>+<r81><color 0>/20"
+  0AF7  4E570061006E...   arg_pushs                       "Want to continue?"
+  0B1C  5B                add_msg                         ... "Want to continue?"
+  0B1D  5C                message_end
+  0B1E  4A3C              arg_pushb                       0x3C
+  0B20  4E5900650073...   arg_pushs                       "Yes\nNo"
+  0B2F  51                list                            ... r60, "Yes\nNo"
+  0B30  2D3C01000000...   jmpi_eq                         r60, 0x00000001, label0191 /* 0785 */
+  0B38  4990010000        arg_pushl                       0x00000190
+  0B3D  4E4C00650061...   arg_pushs                       "Leave it to me."
+  0B5E  50                message                         ... 0x190 /* 400 */, "Leave it to me."
+  0B5F  5C                message_end
+  0B60  53                fadeout
+  0B61  093C3C000000      leti                            r60, 0x0000003C
+  0B67  293200            call                            label0032 /* 0033 */
+  0B6A  4864              arg_pushr                       r100
+  0B6C  F939              item_delete_noreturn            ... r100
+  0B6E  4882              arg_pushr                       r130
+  0B70  F939              item_delete_noreturn            ... r130
+  0B72  087450            let                             r116, r80
+  0B75  087651            let                             r118, r81
+  0B78  B46EDC            item_create2                    r110-r121, r220
+  0B7B  52                fadein
+  0B7C  4990010000        arg_pushl                       0x00000190
+  0B81  4E41006C006C...   arg_pushs                       "All done!"
+  0B96  50                message                         ... 0x190 /* 400 */, "All done!"
+  0B97  4E45006E006A...   arg_pushs                       "Enjoy your LOVE HEART!"
+  0BC6  5B                add_msg                         ... "Enjoy your LOVE HEART!"
+  0BC7  5C                message_end
+  0BC8  4901000000        arg_pushl                       0x00000001
+  0BCD  55                bgm                             ... 0x1 /* 1 */
+  0BCE  4E5200650063...   arg_pushs                       "Received <color 4>LOVE HEART<color 0>\nwith <color 4>+<r80><color 0> DFP and <color 4>+<r81><color 0> EVP!"
+  0CA3  5A                window_msg                      ... "Received <color 4>LOVE HEART<color 0>\nwith <color 4>+<r80><color 0> DFP and <color 4>+<r81><color 0> EVP!"
+  0CA4  5E                window_msg_end
+  0CA5  01                ret
+
+label019B:
+  // Referenced by instructions at 096D, 0975, 097D
+  0CA6  4990010000        arg_pushl                       0x00000190
+  0CAB  4E5400680069...   arg_pushs                       "This isn\'t LOVE HEART,\nI can\'t help you."
+  0CFE  50                message                         ... 0x190 /* 400 */, "This isn\'t LOVE HEART,\nI can\'t help you."
+  0CFF  5C                message_end
+  0D00  01                ret
+
+label019C:
+  // Referenced by instructions at 0985, 098D
+  0D01  4990010000        arg_pushl                       0x00000190
+  0D06  4E5400680069...   arg_pushs                       "This LOVE HEART has\nalready been strengthened."
+  0D65  50                message                         ... 0x190 /* 400 */, "This LOVE HEART has\nalready been strengthened."
+  0D66  4E50006C0065...   arg_pushs                       "Please come back\nwith another one."
+  0DAD  5B                add_msg                         ... "Please come back\nwith another one."
+  0DAE  5C                message_end
+  0DAF  01                ret
+
+label019D:
+  // Referenced by instructions at 09F4, 09FC, 0A04
+  0DB0  4990010000        arg_pushl                       0x00000190
+  0DB5  4E5400680069...   arg_pushs                       "This isn\'t a SPIRIT GARMENT."
+  0DF0  50                message                         ... 0x190 /* 400 */, "This isn\'t a SPIRIT GARMENT."
+  0DF1  4E50006C0065...   arg_pushs                       "Please come back\nwhen you have one."
+  0E3A  5B                add_msg                         ... "Please come back\nwhen you have one."
+  0E3B  5C                message_end
+  0E3C  01                ret
+
+label019E:
+  // Referenced by instruction at 0A0C
+  0E3D  085092            let                             r80, r146
+  0E40  1D5007000000      muli                            r80, 0x00000007
+  0E46  2D5031000000...   jmpi_eq                         r80, 0x00000031, label102E /* 0E4F */
+  0E4E  01                ret
+
+label102E:
+  // Referenced by instruction at 0E46
+  0E4F  095032000000      leti                            r80, 0x00000032
+  0E55  01                ret
+
+label019F:
+  // Referenced by instruction at 0A0F
+  0E56  085194            let                             r81, r148
+  0E59  1D5104000000      muli                            r81, 0x00000004
+  0E5F  01                ret
+
+label01A4:
+  // Referenced by instruction at 0775
+  0E60  4990010000        arg_pushl                       0x00000190
+  0E65  4E4900660020...   arg_pushs                       "If you have a\nSAFETY HEART, I\ncan strengthen it."
+  0EC8  50                message                         ... 0x190 /* 400 */, "If you have a\nSAFETY HEART, I\ncan strengthen it."
+  0EC9  4E54006F0020...   arg_pushs                       "To do this, I will\nneed an INVISIBLE GUARD."
+  0F22  5B                add_msg                         ... "To do this, I will\nneed an INVISIBLE GUARD."
+  0F23  4E4900200077...   arg_pushs                       "I won\'t be able to\nstrengthen one that\'s\nalready strengthened."
+  0FA2  5B                add_msg                         ... "I won\'t be able to\nstrengthen one that\'s\nalready strengthened."
+  0FA3  4E50006C0065...   arg_pushs                       "Please note that\nif you are not\nusing any bug fixes..."
+  1012  5B                add_msg                         ... "Please note that\nif you are not\nusing any bug fixes..."
+  1013  4E2E002E002E...   arg_pushs                       "...any DFP values\nabove +15 will\nbecome +0."
+  106C  5B                add_msg                         ... "...any DFP values\nabove +15 will\nbecome +0."
+  106D  4E49006E0074...   arg_pushs                       "Interested?"
+  1086  5B                add_msg                         ... "Interested?"
+  1087  5C                message_end
+  1088  4A3C              arg_pushb                       0x3C
+  108A  4E5900650073...   arg_pushs                       "Yes\nNo"
+  1099  51                list                            ... r60, "Yes\nNo"
+  109A  2D3C01000000...   jmpi_eq                         r60, 0x00000001, label0191 /* 0785 */
+  10A2  4990010000        arg_pushl                       0x00000190
+  10A7  4E50006C0065...   arg_pushs                       "Please select the SAFETY HEART."
+  10E8  50                message                         ... 0x190 /* 400 */, "Please select the SAFETY HEART."
+  10E9  5C                message_end
+  10EA  F92A              open_pack_select
+  10EC  F92C64            get_chosen_item_id              r100
+  10EF  2D64FFFFFFFF...   jmpi_eq                         r100, 0xFFFFFFFF, label0191 /* 0785 */
+  10F7  4864              arg_pushr                       r100
+  10F9  4A6E              arg_pushb                       0x6E
+  10FB  F93A              get_item_info                   ... r100, r110-r121
+  10FD  2F6E01000000...   jmpi_ne                         r110, 0x00000001, label01A5 /* 1440 */
+  1105  2F6F02000000...   jmpi_ne                         r111, 0x00000002, label01A5 /* 1440 */
+  110D  2F702A000000...   jmpi_ne                         r112, 0x0000002A, label01A5 /* 1440 */
+  1115  2F7400000000...   jmpi_ne                         r116, 0x00000000, label01A6 /* 149F */
+  111D  2F7600000000...   jmpi_ne                         r118, 0x00000000, label01A6 /* 149F */
+  1125  4990010000        arg_pushl                       0x00000190
+  112A  4E50006C0065...   arg_pushs                       "Please select the INVISIBLE GUARD."
+  1171  50                message                         ... 0x190 /* 400 */, "Please select the INVISIBLE GUARD."
+  1172  5C                message_end
+  1173  F92A              open_pack_select
+  1175  F92C82            get_chosen_item_id              r130
+  1178  2D82FFFFFF0F...   jmpi_eq                         r130, 0x0FFFFFFF, label0191 /* 0785 */
+  1180  4882              arg_pushr                       r130
+  1182  4A8C              arg_pushb                       0x8C
+  1184  F93A              get_item_info                   ... r130, r140-r151
+  1186  2F8C01000000...   jmpi_ne                         r140, 0x00000001, label01A7 /* 1552 */
+  118E  2F8D02000000...   jmpi_ne                         r141, 0x00000002, label01A7 /* 1552 */
+  1196  2F8E15000000...   jmpi_ne                         r142, 0x00000015, label01A7 /* 1552 */
+  119E  29A801            call                            label01A8 /* 15E3 */
+  11A1  29A901            call                            label01A9 /* 15FC */
+  11A4  4990010000        arg_pushl                       0x00000190
+  11A9  4E41006C0072...   arg_pushs                       "Alright, here is what\nthe results will be:"
+  1200  50                message                         ... 0x190 /* 400 */, "Alright, here is what\nthe results will be:"
+  1201  4E4400460050...   arg_pushs                       "DFP: <color 4>+<r80><color 0>/50"
+  1244  5B                add_msg                         ... "DFP: <color 4>+<r80><color 0>/50"
+  1245  4E4500560050...   arg_pushs                       "EVP: <color 4>+<r81><color 0>/15"
+  1288  5B                add_msg                         ... "EVP: <color 4>+<r81><color 0>/15"
+  1289  4E570061006E...   arg_pushs                       "Want to continue?"
+  12AE  5B                add_msg                         ... "Want to continue?"
+  12AF  5C                message_end
+  12B0  4A3C              arg_pushb                       0x3C
+  12B2  4E5900650073...   arg_pushs                       "Yes\nNo"
+  12C1  51                list                            ... r60, "Yes\nNo"
+  12C2  2D3C01000000...   jmpi_eq                         r60, 0x00000001, label0191 /* 0785 */
+  12CA  4990010000        arg_pushl                       0x00000190
+  12CF  4E4C00650061...   arg_pushs                       "Leave it to me."
+  12F0  50                message                         ... 0x190 /* 400 */, "Leave it to me."
+  12F1  5C                message_end
+  12F2  53                fadeout
+  12F3  093C3C000000      leti                            r60, 0x0000003C
+  12F9  293200            call                            label0032 /* 0033 */
+  12FC  4864              arg_pushr                       r100
+  12FE  F939              item_delete_noreturn            ... r100
+  1300  4882              arg_pushr                       r130
+  1302  F939              item_delete_noreturn            ... r130
+  1304  087450            let                             r116, r80
+  1307  087651            let                             r118, r81
+  130A  B46EDC            item_create2                    r110-r121, r220
+  130D  52                fadein
+  130E  4990010000        arg_pushl                       0x00000190
+  1313  4E41006C006C...   arg_pushs                       "All done!"
+  1328  50                message                         ... 0x190 /* 400 */, "All done!"
+  1329  4E45006E006A...   arg_pushs                       "Enjoy your SAFETY HEART!"
+  135C  5B                add_msg                         ... "Enjoy your SAFETY HEART!"
+  135D  5C                message_end
+  135E  4901000000        arg_pushl                       0x00000001
+  1363  55                bgm                             ... 0x1 /* 1 */
+  1364  4E5200650063...   arg_pushs                       "Received <color 4>SAFETY HEART<color 0>\nwith <color 4>+<r80><color 0> DFP and <color 4>+<r81><color 0> EVP!"
+  143D  5A                window_msg                      ... "Received <color 4>SAFETY HEART<color 0>\nwith <color 4>+<r80><color 0> DFP and <color 4>+<r81><color 0> EVP!"
+  143E  5E                window_msg_end
+  143F  01                ret
+
+label01A5:
+  // Referenced by instructions at 10FD, 1105, 110D
+  1440  4990010000        arg_pushl                       0x00000190
+  1445  4E5400680069...   arg_pushs                       "This isn\'t SAFETY HEART,\nI can\'t help you."
+  149C  50                message                         ... 0x190 /* 400 */, "This isn\'t SAFETY HEART,\nI can\'t help you."
+  149D  5C                message_end
+  149E  01                ret
+
+label01A6:
+  // Referenced by instructions at 1115, 111D
+  149F  4990010000        arg_pushl                       0x00000190
+  14A4  4E5400680069...   arg_pushs                       "This SAFETY HEART has\nalready been strengthened."
+  1507  50                message                         ... 0x190 /* 400 */, "This SAFETY HEART has\nalready been strengthened."
+  1508  4E50006C0065...   arg_pushs                       "Please come back\nwith another one."
+  154F  5B                add_msg                         ... "Please come back\nwith another one."
+  1550  5C                message_end
+  1551  01                ret
+
+label01A7:
+  // Referenced by instructions at 1186, 118E, 1196
+  1552  4990010000        arg_pushl                       0x00000190
+  1557  4E5400680069...   arg_pushs                       "This isn\'t an INVISIBLE GUARD."
+  1596  50                message                         ... 0x190 /* 400 */, "This isn\'t an INVISIBLE GUARD."
+  1597  4E50006C0065...   arg_pushs                       "Please come back\nwhen you have one."
+  15E0  5B                add_msg                         ... "Please come back\nwhen you have one."
+  15E1  5C                message_end
+  15E2  01                ret
+
+label01A8:
+  // Referenced by instruction at 119E
+  15E3  085092            let                             r80, r146
+  15E6  1D5006000000      muli                            r80, 0x00000006
+  15EC  2D5030000000...   jmpi_eq                         r80, 0x00000030, label1092 /* 15F5 */
+  15F4  01                ret
+
+label1092:
+  // Referenced by instruction at 15EC
+  15F5  095032000000      leti                            r80, 0x00000032
+  15FB  01                ret
+
+label01A9:
+  // Referenced by instruction at 11A1
+  15FC  085194            let                             r81, r148
+  15FF  1D5102000000      muli                            r81, 0x00000002
+  1605  2D5110000000...   jmpi_eq                         r81, 0x00000010, label109C /* 160E */
+  160D  01                ret
+
+label109C:
+  // Referenced by instruction at 1605
+  160E  09510F000000      leti                            r81, 0x0000000F
+  1614  01                ret
+
+label01AE:
+  // Referenced by instruction at 077D
+  1615  4990010000        arg_pushl                       0x00000190
+  161A  4E4900200063...   arg_pushs                       "I can strengthen a\nVIRUS ARMOR: LAFUTERIA."
+  1671  50                message                         ... 0x190 /* 400 */, "I can strengthen a\nVIRUS ARMOR: LAFUTERIA."
+  1672  4E54006F0020...   arg_pushs                       "To do this, I will\nneed a STINK FRAME."
+  16C1  5B                add_msg                         ... "To do this, I will\nneed a STINK FRAME."
+  16C2  4E5400680065...   arg_pushs                       "The VIRUS ARMOR\ncannot be\nstrengthened and..."
+  171F  5B                add_msg                         ... "The VIRUS ARMOR\ncannot be\nstrengthened and..."
+  1720  4E2E002E002E...   arg_pushs                       "...the STINK FRAME\ncannot be\ntoo powerful."
+  1777  5B                add_msg                         ... "...the STINK FRAME\ncannot be\ntoo powerful."
+  1778  4E49006E0074...   arg_pushs                       "Interested?"
+  1791  5B                add_msg                         ... "Interested?"
+  1792  5C                message_end
+  1793  4A3C              arg_pushb                       0x3C
+  1795  4E5900650073...   arg_pushs                       "Yes\nNo"
+  17A4  51                list                            ... r60, "Yes\nNo"
+  17A5  2D3C01000000...   jmpi_eq                         r60, 0x00000001, label0191 /* 0785 */
+  17AD  4990010000        arg_pushl                       0x00000190
+  17B2  4E50006C0065...   arg_pushs                       "Please select the\nVIRUS ARMOR: LAFUTERIA."
+  1807  50                message                         ... 0x190 /* 400 */, "Please select the\nVIRUS ARMOR: LAFUTERIA."
+  1808  5C                message_end
+  1809  F92A              open_pack_select
+  180B  F92C64            get_chosen_item_id              r100
+  180E  2D64FFFFFFFF...   jmpi_eq                         r100, 0xFFFFFFFF, label0191 /* 0785 */
+  1816  4864              arg_pushr                       r100
+  1818  4A6E              arg_pushb                       0x6E
+  181A  F93A              get_item_info                   ... r100, r110-r121
+  181C  2F6E01000000...   jmpi_ne                         r110, 0x00000001, label01AF /* 1B07 */
+  1824  2F6F01000000...   jmpi_ne                         r111, 0x00000001, label01AF /* 1B07 */
+  182C  2F702F000000...   jmpi_ne                         r112, 0x0000002F, label01AF /* 1B07 */
+  1834  2F7400000000...   jmpi_ne                         r116, 0x00000000, label01B0 /* 1B7A */
+  183C  2F7600000000...   jmpi_ne                         r118, 0x00000000, label01B0 /* 1B7A */
+  1844  4990010000        arg_pushl                       0x00000190
+  1849  4E50006C0065...   arg_pushs                       "Please select the STINK FRAME."
+  1888  50                message                         ... 0x190 /* 400 */, "Please select the STINK FRAME."
+  1889  5C                message_end
+  188A  F92A              open_pack_select
+  188C  F92C82            get_chosen_item_id              r130
+  188F  2D82FFFFFFFF...   jmpi_eq                         r130, 0xFFFFFFFF, label0191 /* 0785 */
+  1897  4882              arg_pushr                       r130
+  1899  4A8C              arg_pushb                       0x8C
+  189B  F93A              get_item_info                   ... r130, r140-r151
+  189D  2F8C01000000...   jmpi_ne                         r140, 0x00000001, label01B1 /* 1C41 */
+  18A5  2F8D01000000...   jmpi_ne                         r141, 0x00000001, label01B1 /* 1C41 */
+  18AD  2F8E1D000000...   jmpi_ne                         r142, 0x0000001D, label01B1 /* 1C41 */
+  18B5  29B201            call                            label01B2 /* 1CC8 */
+  18B8  29B301            call                            label01B3 /* 1CD5 */
+  18BB  2AB40102A0A1      jmp_on                          label01B4 /* 1CE2 */, [r160, r161]
+  18C1  4990010000        arg_pushl                       0x00000190
+  18C6  4E41006C0072...   arg_pushs                       "Alright, here is what\nthe results will be:"
+  191D  50                message                         ... 0x190 /* 400 */, "Alright, here is what\nthe results will be:"
+  191E  29B501            call                            label01B5 /* 1D9B */
+  1921  29B601            call                            label01B6 /* 1E91 */
+  1924  4E570061006E...   arg_pushs                       "Want to continue?"
+  1949  5B                add_msg                         ... "Want to continue?"
+  194A  5C                message_end
+  194B  4A3C              arg_pushb                       0x3C
+  194D  4E5900650073...   arg_pushs                       "Yes\nNo"
+  195C  51                list                            ... r60, "Yes\nNo"
+  195D  2D3C01000000...   jmpi_eq                         r60, 0x00000001, label0191 /* 0785 */
+  1965  4990010000        arg_pushl                       0x00000190
+  196A  4E4C00650061...   arg_pushs                       "Leave it to me."
+  198B  50                message                         ... 0x190 /* 400 */, "Leave it to me."
+  198C  5C                message_end
+  198D  53                fadeout
+  198E  093C3C000000      leti                            r60, 0x0000003C
+  1994  293200            call                            label0032 /* 0033 */
+  1997  4864              arg_pushr                       r100
+  1999  F939              item_delete_noreturn            ... r100
+  199B  4882              arg_pushr                       r130
+  199D  F939              item_delete_noreturn            ... r130
+  199F  087492            let                             r116, r146
+  19A2  087694            let                             r118, r148
+  19A5  B46EDC            item_create2                    r110-r121, r220
+  19A8  52                fadein
+  19A9  4990010000        arg_pushl                       0x00000190
+  19AE  4E41006C006C...   arg_pushs                       "All done!"
+  19C3  50                message                         ... 0x190 /* 400 */, "All done!"
+  19C4  4E45006E006A...   arg_pushs                       "Enjoy your VIRUS\nARMOR: LAFUTERIA!"
+  1A0B  5B                add_msg                         ... "Enjoy your VIRUS\nARMOR: LAFUTERIA!"
+  1A0C  5C                message_end
+  1A0D  4901000000        arg_pushl                       0x00000001
+  1A12  55                bgm                             ... 0x1 /* 1 */
+  1A13  4E5200650063...   arg_pushs                       "Received <color 4>VIRUS ARMOR: LAFUTERIA<color 0>\nwith <color 4>+<r116><color 0> DFP and <color 4>+<r118><color 0> EVP!"
+  1B04  5A                window_msg                      ... "Received <color 4>VIRUS ARMOR: LAFUTERIA<color 0>\nwith <color 4>+<r116><color 0> DFP and <color 4>+<r118><color 0> EVP!"
+  1B05  5E                window_msg_end
+  1B06  01                ret
+
+label01AF:
+  // Referenced by instructions at 181C, 1824, 182C
+  1B07  4990010000        arg_pushl                       0x00000190
+  1B0C  4E5400680069...   arg_pushs                       "This isn\'t VIRUS ARMOR:\nLAFUTERIA, I can\'t help you."
+  1B77  50                message                         ... 0x190 /* 400 */, "This isn\'t VIRUS ARMOR:\nLAFUTERIA, I can\'t help you."
+  1B78  5C                message_end
+  1B79  01                ret
+
+label01B0:
+  // Referenced by instructions at 1834, 183C
+  1B7A  4990010000        arg_pushl                       0x00000190
+  1B7F  4E5400680069...   arg_pushs                       "This VIRUS ARMOR: LAFUTERIA\nhas already been strengthened."
+  1BF6  50                message                         ... 0x190 /* 400 */, "This VIRUS ARMOR: LAFUTERIA\nhas already been strengthened."
+  1BF7  4E50006C0065...   arg_pushs                       "Please come back\nwith another one."
+  1C3E  5B                add_msg                         ... "Please come back\nwith another one."
+  1C3F  5C                message_end
+  1C40  01                ret
+
+label01B1:
+  // Referenced by instructions at 189D, 18A5, 18AD
+  1C41  4990010000        arg_pushl                       0x00000190
+  1C46  4E5400680069...   arg_pushs                       "This isn\'t a STINK FRAME."
+  1C7B  50                message                         ... 0x190 /* 400 */, "This isn\'t a STINK FRAME."
+  1C7C  4E50006C0065...   arg_pushs                       "Please come back\nwhen you have one."
+  1CC5  5B                add_msg                         ... "Please come back\nwhen you have one."
+  1CC6  5C                message_end
+  1CC7  01                ret
+
+label01B2:
+  // Referenced by instruction at 18B5
+  1CC8  11A0              clear                           r160
+  1CCA  3F9232000000...   jmpi_le                         r146, 0x00000032, label0001 /* 0032 */
+  1CD2  10A0              set                             r160
+  1CD4  01                ret
+
+label01B3:
+  // Referenced by instruction at 18B8
+  1CD5  11A1              clear                           r161
+  1CD7  3F9414000000...   jmpi_le                         r148, 0x00000014, label0001 /* 0032 */
+  1CDF  10A1              set                             r161
+  1CE1  01                ret
+
+label01B4:
+  // Referenced by instruction at 18BB
+  1CE2  4990010000        arg_pushl                       0x00000190
+  1CE7  4E5400680069...   arg_pushs                       "This STINK FRAME\nis too powerful."
+  1D2C  50                message                         ... 0x190 /* 400 */, "This STINK FRAME\nis too powerful."
+  1D2D  4E4900200063...   arg_pushs                       "I cannot use it."
+  1D50  5B                add_msg                         ... "I cannot use it."
+  1D51  4E50006C0065...   arg_pushs                       "Please come back\nwith another one."
+  1D98  5B                add_msg                         ... "Please come back\nwith another one."
+  1D99  5C                message_end
+  1D9A  01                ret
+
+label01B5:
+  // Referenced by instruction at 191E
+  1D9B  2DA001000000...   jmpi_eq                         r160, 0x00000001, label1114 /* 1DFA */
+  1DA3  4E4400460050...   arg_pushs                       "DFP will become <color 4>+<r146><color 0>"
+  1DF8  5B                add_msg                         ... "DFP will become <color 4>+<r146><color 0>"
+  1DF9  01                ret
+
+label1114:
+  // Referenced by instruction at 1D9B
+  1DFA  4E5400680065...   arg_pushs                       "The DFP on the\nSTINK FRAME is\ntoo powerful."
+  1E53  5B                add_msg                         ... "The DFP on the\nSTINK FRAME is\ntoo powerful."
+  1E54  4E53006F002C...   arg_pushs                       "So, DFP will\nremain at 0."
+  1E89  5B                add_msg                         ... "So, DFP will\nremain at 0."
+  1E8A  099200000000      leti                            r146, 0x00000000
+  1E90  01                ret
+
+label01B6:
+  // Referenced by instruction at 1921
+  1E91  2DA101000000...   jmpi_eq                         r161, 0x00000001, label111E /* 1EF0 */
+  1E99  4E4500560050...   arg_pushs                       "EVP will become <color 4>+<r148><color 0>"
+  1EEE  5B                add_msg                         ... "EVP will become <color 4>+<r148><color 0>"
+  1EEF  01                ret
+
+label111E:
+  // Referenced by instruction at 1E91
+  1EF0  4E5400680065...   arg_pushs                       "The EVP on the\nSTINK FRAME is\ntoo powerful."
+  1F49  5B                add_msg                         ... "The EVP on the\nSTINK FRAME is\ntoo powerful."
+  1F4A  4E53006F002C...   arg_pushs                       "So, EVP will remain at 0."
+  1F7F  5B                add_msg                         ... "So, EVP will remain at 0."
+  1F80  099400000000      leti                            r148, 0x00000000
+  1F86  01                ret
+
+label01F4:
+  // Referenced by map enemy ES-00-009 [EnemySetEntry type=0028 "TObjNpcNFM00/TObjNpcNFM00" num_children=0000 floor=0000 room=0028 wave_number=0000 wave_number2=0000 a1=0000 x=15 y=0 z=-75 x_angle=00000000 y_angle=00008000 z_angle=00000000 params=[0 0 0 500 500 0000 0000]]
+  1F87  49F4010000        arg_pushl                       0x000001F4
+  1F8C  4E3C00680065...   arg_pushs                       "<hero name>!\nIt\'s been ages."
+  1FC7  50                message                         ... 0x1F4 /* 500 */, "<hero name>!\nIt\'s been ages."
+  1FC8  4E4900270076...   arg_pushs                       "I\'ve been researching\nhow to strengthen those\nenemy weapons I made."
+  2051  5B                add_msg                         ... "I\'ve been researching\nhow to strengthen those\nenemy weapons I made."
+  2052  4E53006F006D...   arg_pushs                       "Some other trinkets\ncould probably be\nimproved too..."
+  20BF  5B                add_msg                         ... "Some other trinkets\ncould probably be\nimproved too..."
+  20C0  4E4900660020...   arg_pushs                       "If you have any,\nlet me try it."
+  2101  5B                add_msg                         ... "If you have any,\nlet me try it."
+  2102  5C                message_end
+  2103  4A3C              arg_pushb                       0x3C
+  2105  4E4700690076...   arg_pushs                       "Give weapon\nCancel"
+  212C  51                list                            ... r60, "Give weapon\nCancel"
+  212D  2D3C01000000...   jmpi_eq                         r60, 0x00000001, label01F5 /* 21E3 */
+  2135  F92A              open_pack_select
+  2137  F92C64            get_chosen_item_id              r100
+  213A  2D64FFFFFFFF...   jmpi_eq                         r100, 0xFFFFFFFF, label01F5 /* 21E3 */
+  2142  4864              arg_pushr                       r100
+  2144  4A6E              arg_pushb                       0x6E
+  2146  F93A              get_item_info                   ... r100, r110-r121
+  2148  2F6E00000000...   jmpi_ne                         r110, 0x00000000, label01F6 /* 22A2 */
+  2150  2D6F11000000...   jmpi_eq                         r111, 0x00000011, label01FE /* 236F */
+  2158  2D6F17000000...   jmpi_eq                         r111, 0x00000017, label01FE /* 236F */
+  2160  2D6F18000000...   jmpi_eq                         r111, 0x00000018, label01FE /* 236F */
+  2168  2D6F19000000...   jmpi_eq                         r111, 0x00000019, label01FE /* 236F */
+  2170  2D6F1A000000...   jmpi_eq                         r111, 0x0000001A, label01FE /* 236F */
+  2178  2D6F1B000000...   jmpi_eq                         r111, 0x0000001B, label01FE /* 236F */
+  2180  2D6F4D000000...   jmpi_eq                         r111, 0x0000004D, label01FE /* 236F */
+  2188  2D6F53000000...   jmpi_eq                         r111, 0x00000053, label01FE /* 236F */
+  2190  2D6F54000000...   jmpi_eq                         r111, 0x00000054, label01FE /* 236F */
+  2198  2D6F60000000...   jmpi_eq                         r111, 0x00000060, label01FE /* 236F */
+  21A0  2D6F62000000...   jmpi_eq                         r111, 0x00000062, label01FE /* 236F */
+  21A8  2D6F67000000...   jmpi_eq                         r111, 0x00000067, label01FE /* 236F */
+  21B0  2D6F8E000000...   jmpi_eq                         r111, 0x0000008E, label01FE /* 236F */
+  21B8  2D6F91000000...   jmpi_eq                         r111, 0x00000091, label01FE /* 236F */
+  21C0  2D6F96000000...   jmpi_eq                         r111, 0x00000096, label01FE /* 236F */
+  21C8  2D6FA0000000...   jmpi_eq                         r111, 0x000000A0, label01FE /* 236F */
+  21D0  2D6FA1000000...   jmpi_eq                         r111, 0x000000A1, label01FE /* 236F */
+  21D8  2D6FA2000000...   jmpi_eq                         r111, 0x000000A2, label01FE /* 236F */
+  21E0  28F601            jmp                             label01F6 /* 22A2 */
+
+label01F5:
+  // Referenced by instructions at 212D, 213A, 2924, 2A3B, 2ADD, 376D
+  21E3  49F4010000        arg_pushl                       0x000001F4
+  21E8  4E480061002C...   arg_pushs                       "Ha, ha, ha...\nThat\'s too bad."
+  2225  50                message                         ... 0x1F4 /* 500 */, "Ha, ha, ha...\nThat\'s too bad."
+  2226  4E570065006C...   arg_pushs                       "Well, talk to me again later."
+  2263  5B                add_msg                         ... "Well, talk to me again later."
+  2264  4E490027006C...   arg_pushs                       "I\'ll be waiting.\nHa, ha, ha."
+  229F  5B                add_msg                         ... "I\'ll be waiting.\nHa, ha, ha."
+  22A0  5C                message_end
+  22A1  01                ret
+
+label01F6:
+  // Referenced by instructions at 2148, 21E0
+  22A2  49F4010000        arg_pushl                       0x000001F4
+  22A7  4E48006D002E...   arg_pushs                       "Hm... I can\'t do\nanything with this."
+  22F2  50                message                         ... 0x1F4 /* 500 */, "Hm... I can\'t do\nanything with this."
+  22F3  4E570065006C...   arg_pushs                       "Well, talk to me again later."
+  2330  5B                add_msg                         ... "Well, talk to me again later."
+  2331  4E490027006C...   arg_pushs                       "I\'ll be waiting.\nHa, ha, ha."
+  236C  5B                add_msg                         ... "I\'ll be waiting.\nHa, ha, ha."
+  236D  5C                message_end
+  236E  01                ret
+
+label01FE:
+  // Referenced by instructions at 2150, 2158, 2160, 2168, 2170, 2178, 2180, 2188, 2190, 2198, 21A0, 21A8, 21B0, 21B8, 21C0, 21C8, 21D0, 21D8
+  236F  2D7400000000...   jmpi_eq                         r116, 0x00000000, label01FF /* 24DC */
+  2377  2D7405000000...   jmpi_eq                         r116, 0x00000005, label01FF /* 24DC */
+  237F  2D7600000000...   jmpi_eq                         r118, 0x00000000, label0200 /* 2565 */
+  2387  2D7605000000...   jmpi_eq                         r118, 0x00000005, label0200 /* 2565 */
+  238F  2D7800000000...   jmpi_eq                         r120, 0x00000000, label0201 /* 25EE */
+  2397  2D7805000000...   jmpi_eq                         r120, 0x00000005, label0201 /* 25EE */
+  239F  49F4010000        arg_pushl                       0x000001F4
+  23A4  4E48006D003F...   arg_pushs                       "Hm?"
+  23AD  50                message                         ... 0x1F4 /* 500 */, "Hm?"
+  23AE  4E490027006D...   arg_pushs                       "I\'m sorry to say that it\'s\nimpossible to add an attribute\nto a weapon with 3 already..."
+  245F  5B                add_msg                         ... "I\'m sorry to say that it\'s\nimpossible to add an attribute\nto a weapon with 3 already..."
+  2460  4E570065006C...   arg_pushs                       "Well, talk to me again later."
+  249D  5B                add_msg                         ... "Well, talk to me again later."
+  249E  4E490027006C...   arg_pushs                       "I\'ll be waiting.\nHa, ha, ha."
+  24D9  5B                add_msg                         ... "I\'ll be waiting.\nHa, ha, ha."
+  24DA  5C                message_end
+  24DB  01                ret
+
+label01FF:
+  // Referenced by instructions at 236F, 2377
+  24DC  090A00000000      leti                            r10, 0x00000000
+  24E2  29F813            call                            label13F8 /* 2510 */
+  24E5  2D7500000000...   jmpi_eq                         r117, 0x00000000, label0203 /* 2756 */
+  24ED  2D750A000000...   jmpi_eq                         r117, 0x0000000A, label0203 /* 2756 */
+  24F5  2D7514000000...   jmpi_eq                         r117, 0x00000014, label0203 /* 2756 */
+  24FD  2D751E000000...   jmpi_eq                         r117, 0x0000001E, label0203 /* 2756 */
+  2505  2D7528000000...   jmpi_eq                         r117, 0x00000028, label0203 /* 2756 */
+  250D  280202            jmp                             label0202 /* 2677 */
+
+label13F8:
+  // Referenced by instruction at 24E2
+  2510  1150              clear                           r80
+  2512  1151              clear                           r81
+  2514  1152              clear                           r82
+  2516  1153              clear                           r83
+  2518  085075            let                             r80, r117
+  251B  1F500A000000      divi                            r80, 0x0000000A
+  2521  195001000000      addi                            r80, 0x00000001
+  2527  085175            let                             r81, r117
+  252A  085275            let                             r82, r117
+  252D  19520A000000      addi                            r82, 0x0000000A
+  2533  095364000000      leti                            r83, 0x00000064
+  2539  083C75            let                             r60, r117
+  253C  1D3C02000000      muli                            r60, 0x00000002
+  2542  1A533C            sub                             r83, r60
+  2545  083CFA            let                             r60, r250
+  2548  093D03000000      leti                            r61, 0x00000003
+  254E  093E10000000      leti                            r62, 0x00000010
+  2554  093F00000000      leti                            r63, 0x00000000
+  255A  F9113C54          get_stackable_item_count        r60-r63, r84
+  255E  085554            let                             r85, r84
+  2561  1A5550            sub                             r85, r80
+  2564  01                ret
+
+label0200:
+  // Referenced by instructions at 237F, 2387
+  2565  090A01000000      leti                            r10, 0x00000001
+  256B  290214            call                            label1402 /* 2599 */
+  256E  2D7700000000...   jmpi_eq                         r119, 0x00000000, label0203 /* 2756 */
+  2576  2D770A000000...   jmpi_eq                         r119, 0x0000000A, label0203 /* 2756 */
+  257E  2D7714000000...   jmpi_eq                         r119, 0x00000014, label0203 /* 2756 */
+  2586  2D771E000000...   jmpi_eq                         r119, 0x0000001E, label0203 /* 2756 */
+  258E  2D7728000000...   jmpi_eq                         r119, 0x00000028, label0203 /* 2756 */
+  2596  280202            jmp                             label0202 /* 2677 */
+
+label1402:
+  // Referenced by instruction at 256B
+  2599  1150              clear                           r80
+  259B  1151              clear                           r81
+  259D  1152              clear                           r82
+  259F  1153              clear                           r83
+  25A1  085077            let                             r80, r119
+  25A4  1F500A000000      divi                            r80, 0x0000000A
+  25AA  195001000000      addi                            r80, 0x00000001
+  25B0  085177            let                             r81, r119
+  25B3  085277            let                             r82, r119
+  25B6  19520A000000      addi                            r82, 0x0000000A
+  25BC  095364000000      leti                            r83, 0x00000064
+  25C2  083C77            let                             r60, r119
+  25C5  1D3C02000000      muli                            r60, 0x00000002
+  25CB  1A533C            sub                             r83, r60
+  25CE  083CFA            let                             r60, r250
+  25D1  093D03000000      leti                            r61, 0x00000003
+  25D7  093E10000000      leti                            r62, 0x00000010
+  25DD  093F00000000      leti                            r63, 0x00000000
+  25E3  F9113C54          get_stackable_item_count        r60-r63, r84
+  25E7  085554            let                             r85, r84
+  25EA  1A5550            sub                             r85, r80
+  25ED  01                ret
+
+label0201:
+  // Referenced by instructions at 238F, 2397
+  25EE  090A02000000      leti                            r10, 0x00000002
+  25F4  290C14            call                            label140C /* 2622 */
+  25F7  2D7900000000...   jmpi_eq                         r121, 0x00000000, label0203 /* 2756 */
+  25FF  2D790A000000...   jmpi_eq                         r121, 0x0000000A, label0203 /* 2756 */
+  2607  2D7914000000...   jmpi_eq                         r121, 0x00000014, label0203 /* 2756 */
+  260F  2D791E000000...   jmpi_eq                         r121, 0x0000001E, label0203 /* 2756 */
+  2617  2D7928000000...   jmpi_eq                         r121, 0x00000028, label0203 /* 2756 */
+  261F  280202            jmp                             label0202 /* 2677 */
+
+label140C:
+  // Referenced by instruction at 25F4
+  2622  1150              clear                           r80
+  2624  1151              clear                           r81
+  2626  1152              clear                           r82
+  2628  1153              clear                           r83
+  262A  085079            let                             r80, r121
+  262D  1F500A000000      divi                            r80, 0x0000000A
+  2633  195001000000      addi                            r80, 0x00000001
+  2639  085179            let                             r81, r121
+  263C  085279            let                             r82, r121
+  263F  19520A000000      addi                            r82, 0x0000000A
+  2645  095364000000      leti                            r83, 0x00000064
+  264B  083C79            let                             r60, r121
+  264E  1D3C02000000      muli                            r60, 0x00000002
+  2654  1A533C            sub                             r83, r60
+  2657  083CFA            let                             r60, r250
+  265A  093D03000000      leti                            r61, 0x00000003
+  2660  093E10000000      leti                            r62, 0x00000010
+  2666  093F00000000      leti                            r63, 0x00000000
+  266C  F9113C40          get_stackable_item_count        r60-r63, r64
+  2670  085554            let                             r85, r84
+  2673  1A5550            sub                             r85, r80
+  2676  01                ret
+
+label0202:
+  // Referenced by instructions at 250D, 2596, 261F
+  2677  49F4010000        arg_pushl                       0x000001F4
+  267C  4E48006D003F...   arg_pushs                       "Hm?"
+  2685  50                message                         ... 0x1F4 /* 500 */, "Hm?"
+  2686  4E5400680069...   arg_pushs                       "This weapon cannot\nbe strengthened more."
+  26D9  5B                add_msg                         ... "This weapon cannot\nbe strengthened more."
+  26DA  4E570065006C...   arg_pushs                       "Well, talk to me again later."
+  2717  5B                add_msg                         ... "Well, talk to me again later."
+  2718  4E490027006C...   arg_pushs                       "I\'ll be waiting.\nHa, ha, ha."
+  2753  5B                add_msg                         ... "I\'ll be waiting.\nHa, ha, ha."
+  2754  5C                message_end
+  2755  01                ret
+
+label0203:
+  // Referenced by instructions at 24E5, 24ED, 24F5, 24FD, 2505, 256E, 2576, 257E, 2586, 258E, 25F7, 25FF, 2607, 260F, 2617
+  2756  2D6F11000000...   jmpi_eq                         r111, 0x00000011, label0204 /* 292D */
+  275E  49F4010000        arg_pushl                       0x000001F4
+  2763  4E5400680069...   arg_pushs                       "This <color 4>enemy weapon<color 0>\ncan be strengthened..."
+  27DA  50                message                         ... 0x1F4 /* 500 */, "This <color 4>enemy weapon<color 0>\ncan be strengthened..."
+  27DB  4E44006F0020...   arg_pushs                       "Do you want to\ngamble using\n<color 4>Photon Drops<color 0>..."
+  2858  5B                add_msg                         ... "Do you want to\ngamble using\n<color 4>Photon Drops<color 0>..."
+  2859  4E2E002E002E...   arg_pushs                       "...or use <color 4>enemy parts<color 0>\nto guarantee the upgrade?"
+  28DE  5B                add_msg                         ... "...or use <color 4>enemy parts<color 0>\nto guarantee the upgrade?"
+  28DF  5C                message_end
+  28E0  4A3C              arg_pushb                       0x3C
+  28E2  4E500068006F...   arg_pushs                       "Photon Drops\nEnemy parts\nCancel"
+  2923  51                list                            ... r60, "Photon Drops\nEnemy parts\nCancel"
+  2924  403C03080212...   switch_jmp                      r60, [label0208 /* 2A42 */, label0212 /* 35D6 */, label01F5 /* 21E3 */]
+
+label0204:
+  // Referenced by instruction at 2756
+  292D  49F4010000        arg_pushl                       0x000001F4
+  2932  4E5400680069...   arg_pushs                       "This <color 4>special weapon<color 0>\ncan be strengthened..."
+  29AD  50                message                         ... 0x1F4 /* 500 */, "This <color 4>special weapon<color 0>\ncan be strengthened..."
+  29AE  4E44006F0020...   arg_pushs                       "Do you want to try\ngambling <color 4>Photon Drops<color 0>?"
+  2A27  5B                add_msg                         ... "Do you want to try\ngambling <color 4>Photon Drops<color 0>?"
+  2A28  5C                message_end
+  2A29  4A3C              arg_pushb                       0x3C
+  2A2B  4E5900650073...   arg_pushs                       "Yes\nNo"
+  2A3A  51                list                            ... r60, "Yes\nNo"
+  2A3B  403C020802F501    switch_jmp                      r60, [label0208 /* 2A42 */, label01F5 /* 21E3 */]
+
+label0208:
+  // Referenced by instructions at 2924, 2A3B
+  2A42  49F4010000        arg_pushl                       0x000001F4
+  2A47  4E4800650072...   arg_pushs                       "Here\'s the chances..."
+  2A74  50                message                         ... 0x1F4 /* 500 */, "Here\'s the chances..."
+  2A75  5C                message_end
+  2A76  295114            call                            label1451 /* 2BC5 */
+  2A79  49F4010000        arg_pushl                       0x000001F4
+  2A7E  4E4100720065...   arg_pushs                       "Are you sure you want to try?"
+  2ABB  50                message                         ... 0x1F4 /* 500 */, "Are you sure you want to try?"
+  2ABC  5C                message_end
+  2ABD  4A3C              arg_pushb                       0x3C
+  2ABF  4E43006F006E...   arg_pushs                       "Continue\nQuit"
+  2ADC  51                list                            ... r60, "Continue\nQuit"
+  2ADD  2D3C01000000...   jmpi_eq                         r60, 0x00000001, label01F5 /* 21E3 */
+  2AE5  290902            call                            label0209 /* 2F53 */
+  2AE8  2F0000000000...   jmpi_ne                         r0, 0x00000000, label020A /* 2F76 */
+  2AF0  49F4010000        arg_pushl                       0x000001F4
+  2AF5  4E48006D003F...   arg_pushs                       "Hm?"
+  2AFE  50                message                         ... 0x1F4 /* 500 */, "Hm?"
+  2AFF  4E59006F0075...   arg_pushs                       "You don\'t have enough\nPhoton Drops."
+  2B48  5B                add_msg                         ... "You don\'t have enough\nPhoton Drops."
+  2B49  4E570065006C...   arg_pushs                       "Well, talk to me again later."
+  2B86  5B                add_msg                         ... "Well, talk to me again later."
+  2B87  4E490027006C...   arg_pushs                       "I\'ll be waiting.\nHa, ha, ha."
+  2BC2  5B                add_msg                         ... "I\'ll be waiting.\nHa, ha, ha."
+  2BC3  5C                message_end
+  2BC4  01                ret
+
+label1451:
+  // Referenced by instruction at 2A76
+  2BC5  3B5346000000...   jmpi_ge                         r83, 0x00000046, label1452 /* 2CFF */
+  2BCD  3B5328000000...   jmpi_ge                         r83, 0x00000028, label1453 /* 2E29 */
+  2BD5  49A0000000        arg_pushl                       0x000000A0
+  2BDA  4978000000        arg_pushl                       0x00000078
+  2BDF  4914000000        arg_pushl                       0x00000014
+  2BE4  4904000000        arg_pushl                       0x00000004
+  2BE9  4901000000        arg_pushl                       0x00000001
+  2BEE  4E5200650071...   arg_pushs                       "Required Photon Drops: <r80>\nOwned Photon Drops: <r84> to <r85>\nHit: <r81>% to <color 3><r82>%<color 7>\nSuccess Rate: <color 5><r83>%"
+  2CFB  F930              chat_box                        ... 0xA0 /* 160 */, 0x78 /* 120 */, 0x14 /* 20 */, 0x4 /* 4 */, 0x1 /* 1 */, "Required Photon Drops: <r80>\nOwned Photon Drops: <r84> to <r85>\nHit: <r81>% to <color 3><r82>%<color 7>\nSuccess Rate: <color 5><r83>%"
+  2CFD  5E                window_msg_end
+  2CFE  01                ret
+
+label1452:
+  // Referenced by instruction at 2BC5
+  2CFF  49A0000000        arg_pushl                       0x000000A0
+  2D04  4978000000        arg_pushl                       0x00000078
+  2D09  4914000000        arg_pushl                       0x00000014
+  2D0E  4904000000        arg_pushl                       0x00000004
+  2D13  4901000000        arg_pushl                       0x00000001
+  2D18  4E5200650071...   arg_pushs                       "Required Photon Drops: <r80>\nOwned Photon Drops: <r84> to <r85>\nHit: <r81>% to <color 3><r82>%<color 7>\nSuccess Rate: <color 2><r83>%"
+  2E25  F930              chat_box                        ... 0xA0 /* 160 */, 0x78 /* 120 */, 0x14 /* 20 */, 0x4 /* 4 */, 0x1 /* 1 */, "Required Photon Drops: <r80>\nOwned Photon Drops: <r84> to <r85>\nHit: <r81>% to <color 3><r82>%<color 7>\nSuccess Rate: <color 2><r83>%"
+  2E27  5E                window_msg_end
+  2E28  01                ret
+
+label1453:
+  // Referenced by instruction at 2BCD
+  2E29  49A0000000        arg_pushl                       0x000000A0
+  2E2E  4978000000        arg_pushl                       0x00000078
+  2E33  4914000000        arg_pushl                       0x00000014
+  2E38  4904000000        arg_pushl                       0x00000004
+  2E3D  4901000000        arg_pushl                       0x00000001
+  2E42  4E5200650071...   arg_pushs                       "Required Photon Drops: <r80>\nOwned Photon Drops: <r84> to <r85>\nHit: <r81>% to <color 3><r82>%<color 7>\nSuccess Rate: <color 6><r83>%"
+  2F4F  F930              chat_box                        ... 0xA0 /* 160 */, 0x78 /* 120 */, 0x14 /* 20 */, 0x4 /* 4 */, 0x1 /* 1 */, "Required Photon Drops: <r80>\nOwned Photon Drops: <r84> to <r85>\nHit: <r81>% to <color 3><r82>%<color 7>\nSuccess Rate: <color 6><r83>%"
+  2F51  5E                window_msg_end
+  2F52  01                ret
+
+label0209:
+  // Referenced by instruction at 2AE5
+  2F53  1100              clear                           r0
+  2F55  083CFA            let                             r60, r250
+  2F58  093D03000000      leti                            r61, 0x00000003
+  2F5E  093E10000000      leti                            r62, 0x00000010
+  2F64  093F00000000      leti                            r63, 0x00000000
+  2F6A  F9113C40          get_stackable_item_count        r60-r63, r64
+  2F6E  3640500100        jmp_lt                          r64, r80, label0001 /* 0032 */
+  2F73  1000              set                             r0
+  2F75  01                ret
+
+label020A:
+  // Referenced by instruction at 2AE8
+  2F76  53                fadeout
+  2F77  093C3C000000      leti                            r60, 0x0000003C
+  2F7D  293200            call                            label0032 /* 0033 */
+  2F80  52                fadein
+  2F81  290B02            call                            label020B /* 32EE */
+  2F84  093C00000000      leti                            r60, 0x00000000
+  2F8A  093D64000000      leti                            r61, 0x00000064
+  2F90  F89A3C3E          get_random                      r60-r61, r62
+  2F94  363E530E02        jmp_lt                          r62, r83, label020E /* 3324 */
+  2F99  4909000000        arg_pushl                       0x00000009
+  2F9E  54                sound_effect                    ... 0x9 /* 9 */
+  2F9F  49F4010000        arg_pushl                       0x000001F4
+  2FA4  4E480061002C...   arg_pushs                       "Ha, ha...\nI\'m sorry, but it failed."
+  2FED  50                message                         ... 0x1F4 /* 500 */, "Ha, ha...\nI\'m sorry, but it failed."
+  2FEE  2D6F11000000...   jmpi_eq                         r111, 0x00000011, label1465 /* 3170 */
+  2FF6  4E490027006C...   arg_pushs                       "I\'ll give you back the\n<color 4>enemy weapon<color 0> you\ngave to me."
+  3083  5B                add_msg                         ... "I\'ll give you back the\n<color 4>enemy weapon<color 0> you\ngave to me."
+  3084  4E4100740020...   arg_pushs                       "At least, this helped\nwith my research."
+  30D5  5B                add_msg                         ... "At least, this helped\nwith my research."
+  30D6  4E43006F006D...   arg_pushs                       "Come talk to me again\nwhen you feel like it."
+  3131  5B                add_msg                         ... "Come talk to me again\nwhen you feel like it."
+  3132  4E490027006C...   arg_pushs                       "I\'ll be waiting.\nHa, ha, ha."
+  316D  5B                add_msg                         ... "I\'ll be waiting.\nHa, ha, ha."
+  316E  5C                message_end
+  316F  01                ret
+
+label1465:
+  // Referenced by instruction at 2FEE
+  3170  4E490027006C...   arg_pushs                       "I\'ll give you back the\n<color 4>special weapon<color 0> you\ngave to me."
+  3201  5B                add_msg                         ... "I\'ll give you back the\n<color 4>special weapon<color 0> you\ngave to me."
+  3202  4E4100740020...   arg_pushs                       "At least, this helped\nwith my research."
+  3253  5B                add_msg                         ... "At least, this helped\nwith my research."
+  3254  4E43006F006D...   arg_pushs                       "Come talk to me again\nwhen you feel like it."
+  32AF  5B                add_msg                         ... "Come talk to me again\nwhen you feel like it."
+  32B0  4E490027006C...   arg_pushs                       "I\'ll be waiting.\nHa, ha, ha."
+  32EB  5B                add_msg                         ... "I\'ll be waiting.\nHa, ha, ha."
+  32EC  5C                message_end
+  32ED  01                ret
+
+label020B:
+  // Referenced by instruction at 2F81
+  32EE  093C03000000      leti                            r60, 0x00000003
+  32F4  093D10000000      leti                            r61, 0x00000010
+  32FA  113E              clear                           r62
+  32FC  113F              clear                           r63
+  32FE  1140              clear                           r64
+  3300  1141              clear                           r65
+  3302  1142              clear                           r66
+  3304  1143              clear                           r67
+  3306  1144              clear                           r68
+  3308  1145              clear                           r69
+  330A  1146              clear                           r70
+  330C  1147              clear                           r71
+  330E  280D02            jmp                             label020D /* 331B */
+
+label020C:
+  // Referenced by instruction at 331B
+  3311  02                sync
+  3312  B63C3F            item_delete_by_type             r60-r62, r63-r74
+  3315  1B5001000000      subi                            r80, 0x00000001
+
+label020D:
+  // Referenced by instruction at 330E
+  331B  335000000000...   jmpi_gt                         r80, 0x00000000, label020C /* 3311 */
+  3323  01                ret
+
+label020E:
+  // Referenced by instruction at 2F94
+  3324  4864              arg_pushr                       r100
+  3326  F939              item_delete_noreturn            ... r100
+  3328  410A030F0210...   switch_call                     r10, [label020F /* 35AF */, label0210 /* 35BC */, label0211 /* 35C9 */]
+  3331  4908000000        arg_pushl                       0x00000008
+  3336  54                sound_effect                    ... 0x8 /* 8 */
+  3337  49F4010000        arg_pushl                       0x000001F4
+  333C  4E480061002C...   arg_pushs                       "Ha, ha, ha...\nThe strengthening\nwas successful."
+  339D  50                message                         ... 0x1F4 /* 500 */, "Ha, ha, ha...\nThe strengthening\nwas successful."
+  339E  4E4F006E0063...   arg_pushs                       "Once again, I\'m a genius!"
+  33D3  5B                add_msg                         ... "Once again, I\'m a genius!"
+  33D4  4E4C00650074...   arg_pushs                       "Let me give you\nback your weapon."
+  3419  5B                add_msg                         ... "Let me give you\nback your weapon."
+  341A  4E480061002C...   arg_pushs                       "Ha, ha, ha."
+  3433  5B                add_msg                         ... "Ha, ha, ha."
+  3434  5C                message_end
+  3435  4901000000        arg_pushl                       0x00000001
+  343A  55                bgm                             ... 0x1 /* 1 */
+  343B  2D6F11000000...   jmpi_eq                         r111, 0x00000011, label148D /* 34F7 */
+  3443  4E4F00620074...   arg_pushs                       "Obtained strengthened\n<color 4>enemy weapon<color 0> with <color 4><r82>% Hit<color 0>!"
+  34F4  5A                window_msg                      ... "Obtained strengthened\n<color 4>enemy weapon<color 0> with <color 4><r82>% Hit<color 0>!"
+  34F5  5E                window_msg_end
+  34F6  01                ret
+
+label148D:
+  // Referenced by instruction at 343B
+  34F7  4E4F00620074...   arg_pushs                       "Obtained strengthened\n<color 4>special weapon<color 0> with <color 4><r82>% Hit<color 0>!"
+  35AC  5A                window_msg                      ... "Obtained strengthened\n<color 4>special weapon<color 0> with <color 4><r82>% Hit<color 0>!"
+  35AD  5E                window_msg_end
+  35AE  01                ret
+
+label020F:
+  // Referenced by instruction at 3328
+  35AF  097405000000      leti                            r116, 0x00000005
+  35B5  087552            let                             r117, r82
+  35B8  B46EDC            item_create2                    r110-r121, r220
+  35BB  01                ret
+
+label0210:
+  // Referenced by instruction at 3328
+  35BC  097605000000      leti                            r118, 0x00000005
+  35C2  087752            let                             r119, r82
+  35C5  B46EDC            item_create2                    r110-r121, r220
+  35C8  01                ret
+
+label0211:
+  // Referenced by instruction at 3328
+  35C9  097805000000      leti                            r120, 0x00000005
+  35CF  087952            let                             r121, r82
+  35D2  B46EDC            item_create2                    r110-r121, r220
+  35D5  01                ret
+
+label0212:
+  // Referenced by instruction at 2924
+  35D6  2D6F11000000...   jmpi_eq                         r111, 0x00000011, label0216 /* 3C81 */
+  35DE  49F4010000        arg_pushl                       0x000001F4
+  35E3  4E4800650072...   arg_pushs                       "Here\'s the chances..."
+  3610  50                message                         ... 0x1F4 /* 500 */, "Here\'s the chances..."
+  3611  5C                message_end
+  3612  49A0000000        arg_pushl                       0x000000A0
+  3617  4978000000        arg_pushl                       0x00000078
+  361C  4914000000        arg_pushl                       0x00000014
+  3621  4903000000        arg_pushl                       0x00000003
+  3626  4901000000        arg_pushl                       0x00000001
+  362B  4E5200650071...   arg_pushs                       "Required enemy parts: <r80>\nHit: <r81>% to <color 3><r82>%<color 7>\nSuccess Rate: <color 2>100%<color 7>"
+  36FE  F930              chat_box                        ... 0xA0 /* 160 */, 0x78 /* 120 */, 0x14 /* 20 */, 0x3 /* 3 */, 0x1 /* 1 */, "Required enemy parts: <r80>\nHit: <r81>% to <color 3><r82>%<color 7>\nSuccess Rate: <color 2>100%<color 7>"
+  3700  5E                window_msg_end
+  3701  49F4010000        arg_pushl                       0x000001F4
+  3706  4E4100720065...   arg_pushs                       "Are you sure you\nwant to upgrade?"
+  374B  50                message                         ... 0x1F4 /* 500 */, "Are you sure you\nwant to upgrade?"
+  374C  5C                message_end
+  374D  4A3C              arg_pushb                       0x3C
+  374F  4E43006F006E...   arg_pushs                       "Continue\nQuit"
+  376C  51                list                            ... r60, "Continue\nQuit"
+  376D  2D3C01000000...   jmpi_eq                         r60, 0x00000001, label01F5 /* 21E3 */
+  3775  291302            call                            label0213 /* 3984 */
+  3778  1128              clear                           r40
+  377A  1129              clear                           r41
+  377C  291402            call                            label0214 /* 3B6D */
+  377F  2D2901000000...   jmpi_eq                         r41, 0x00000001, label0215 /* 3BAE */
+  3787  53                fadeout
+  3788  093C3C000000      leti                            r60, 0x0000003C
+  378E  293200            call                            label0032 /* 0033 */
+  3791  52                fadein
+  3792  4864              arg_pushr                       r100
+  3794  F939              item_delete_noreturn            ... r100
+  3796  410A03B514B6...   switch_call                     r10, [label14B5 /* 395D */, label14B6 /* 396A */, label14B7 /* 3977 */]
+  379F  4908000000        arg_pushl                       0x00000008
+  37A4  54                sound_effect                    ... 0x8 /* 8 */
+  37A5  49F4010000        arg_pushl                       0x000001F4
+  37AA  4E480061002C...   arg_pushs                       "Ha, ha, ha...\nThe strengthening\nwas successful."
+  380B  50                message                         ... 0x1F4 /* 500 */, "Ha, ha, ha...\nThe strengthening\nwas successful."
+  380C  4E4F006E0063...   arg_pushs                       "Once again, I\'m a genius!"
+  3841  5B                add_msg                         ... "Once again, I\'m a genius!"
+  3842  4E4C00650074...   arg_pushs                       "Let me give you\nback your weapon."
+  3887  5B                add_msg                         ... "Let me give you\nback your weapon."
+  3888  4E480061002C...   arg_pushs                       "Ha, ha, ha."
+  38A1  5B                add_msg                         ... "Ha, ha, ha."
+  38A2  5C                message_end
+  38A3  4901000000        arg_pushl                       0x00000001
+  38A8  55                bgm                             ... 0x1 /* 1 */
+  38A9  4E4F00620074...   arg_pushs                       "Obtained strengthened\n<color 4>enemy weapon<color 0> with <color 4><r82>% Hit<color 0>!"
+  395A  5A                window_msg                      ... "Obtained strengthened\n<color 4>enemy weapon<color 0> with <color 4><r82>% Hit<color 0>!"
+  395B  5E                window_msg_end
+  395C  01                ret
+
+label14B5:
+  // Referenced by instruction at 3796
+  395D  097405000000      leti                            r116, 0x00000005
+  3963  087552            let                             r117, r82
+  3966  B46EDC            item_create2                    r110-r121, r220
+  3969  01                ret
+
+label14B6:
+  // Referenced by instruction at 3796
+  396A  097605000000      leti                            r118, 0x00000005
+  3970  087752            let                             r119, r82
+  3973  B46EDC            item_create2                    r110-r121, r220
+  3976  01                ret
+
+label14B7:
+  // Referenced by instruction at 3796
+  3977  097805000000      leti                            r120, 0x00000005
+  397D  087952            let                             r121, r82
+  3980  B46EDC            item_create2                    r110-r121, r220
+  3983  01                ret
+
+label0213:
+  // Referenced by instruction at 3775
+  3984  2D6F17000000...   jmpi_eq                         r111, 0x00000017, label14BF /* 3A0C */
+  398C  2D6F18000000...   jmpi_eq                         r111, 0x00000018, label14C0 /* 3A1F */
+  3994  2D6F19000000...   jmpi_eq                         r111, 0x00000019, label14C1 /* 3A32 */
+  399C  2D6F1A000000...   jmpi_eq                         r111, 0x0000001A, label14C2 /* 3A45 */
+  39A4  2D6F1B000000...   jmpi_eq                         r111, 0x0000001B, label14C3 /* 3A58 */
+  39AC  2D6F4D000000...   jmpi_eq                         r111, 0x0000004D, label14C4 /* 3A6B */
+  39B4  2D6F53000000...   jmpi_eq                         r111, 0x00000053, label14C5 /* 3A7E */
+  39BC  2D6F54000000...   jmpi_eq                         r111, 0x00000054, label14C6 /* 3A91 */
+  39C4  2D6F60000000...   jmpi_eq                         r111, 0x00000060, label14C7 /* 3AA4 */
+  39CC  2D6F62000000...   jmpi_eq                         r111, 0x00000062, labelCF76 /* 3AB7 */
+  39D4  2D6F67000000...   jmpi_eq                         r111, 0x00000067, labelCF77 /* 3ACA */
+  39DC  2D6F8E000000...   jmpi_eq                         r111, 0x0000008E, labelCF78 /* 3ADD */
+  39E4  2D6F91000000...   jmpi_eq                         r111, 0x00000091, labelCF79 /* 3AF0 */
+  39EC  2D6F96000000...   jmpi_eq                         r111, 0x00000096, labelCF7A /* 3B03 */
+  39F4  2D6FA0000000...   jmpi_eq                         r111, 0x000000A0, labelCF7B /* 3B16 */
+  39FC  2D6FA1000000...   jmpi_eq                         r111, 0x000000A1, labelCF7C /* 3B29 */
+  3A04  2D6FA2000000...   jmpi_eq                         r111, 0x000000A2, labelCF7D /* 3B3C */
+
+label14BF:
+  // Referenced by instruction at 3984
+  3A0C  091403000000      leti                            r20, 0x00000003
+  3A12  09150D000000      leti                            r21, 0x0000000D
+  3A18  091600000000      leti                            r22, 0x00000000
+  3A1E  01                ret
+
+label14C0:
+  // Referenced by instruction at 398C
+  3A1F  091403000000      leti                            r20, 0x00000003
+  3A25  09150D000000      leti                            r21, 0x0000000D
+  3A2B  091601000000      leti                            r22, 0x00000001
+  3A31  01                ret
+
+label14C1:
+  // Referenced by instruction at 3994
+  3A32  091403000000      leti                            r20, 0x00000003
+  3A38  09150D000000      leti                            r21, 0x0000000D
+  3A3E  091602000000      leti                            r22, 0x00000002
+  3A44  01                ret
+
+label14C2:
+  // Referenced by instruction at 399C
+  3A45  091403000000      leti                            r20, 0x00000003
+  3A4B  09150D000000      leti                            r21, 0x0000000D
+  3A51  091603000000      leti                            r22, 0x00000003
+  3A57  01                ret
+
+label14C3:
+  // Referenced by instruction at 39A4
+  3A58  091403000000      leti                            r20, 0x00000003
+  3A5E  09150D000000      leti                            r21, 0x0000000D
+  3A64  091604000000      leti                            r22, 0x00000004
+  3A6A  01                ret
+
+label14C4:
+  // Referenced by instruction at 39AC
+  3A6B  091403000000      leti                            r20, 0x00000003
+  3A71  09150D000000      leti                            r21, 0x0000000D
+  3A77  09160B000000      leti                            r22, 0x0000000B
+  3A7D  01                ret
+
+label14C5:
+  // Referenced by instruction at 39B4
+  3A7E  091403000000      leti                            r20, 0x00000003
+  3A84  09150D000000      leti                            r21, 0x0000000D
+  3A8A  091608000000      leti                            r22, 0x00000008
+  3A90  01                ret
+
+label14C6:
+  // Referenced by instruction at 39BC
+  3A91  091403000000      leti                            r20, 0x00000003
+  3A97  09150D000000      leti                            r21, 0x0000000D
+  3A9D  091609000000      leti                            r22, 0x00000009
+  3AA3  01                ret
+
+label14C7:
+  // Referenced by instruction at 39C4
+  3AA4  091403000000      leti                            r20, 0x00000003
+  3AAA  09150D000000      leti                            r21, 0x0000000D
+  3AB0  091607000000      leti                            r22, 0x00000007
+  3AB6  01                ret
+
+labelCF76:
+  // Referenced by instruction at 39CC
+  3AB7  091403000000      leti                            r20, 0x00000003
+  3ABD  09150D000000      leti                            r21, 0x0000000D
+  3AC3  091606000000      leti                            r22, 0x00000006
+  3AC9  01                ret
+
+labelCF77:
+  // Referenced by instruction at 39D4
+  3ACA  091403000000      leti                            r20, 0x00000003
+  3AD0  09150D000000      leti                            r21, 0x0000000D
+  3AD6  09160A000000      leti                            r22, 0x0000000A
+  3ADC  01                ret
+
+labelCF78:
+  // Referenced by instruction at 39DC
+  3ADD  091403000000      leti                            r20, 0x00000003
+  3AE3  09150D000000      leti                            r21, 0x0000000D
+  3AE9  09160D000000      leti                            r22, 0x0000000D
+  3AEF  01                ret
+
+labelCF79:
+  // Referenced by instruction at 39E4
+  3AF0  091403000000      leti                            r20, 0x00000003
+  3AF6  09150D000000      leti                            r21, 0x0000000D
+  3AFC  09160C000000      leti                            r22, 0x0000000C
+  3B02  01                ret
+
+labelCF7A:
+  // Referenced by instruction at 39EC
+  3B03  091403000000      leti                            r20, 0x00000003
+  3B09  09150D000000      leti                            r21, 0x0000000D
+  3B0F  091612000000      leti                            r22, 0x00000012
+  3B15  01                ret
+
+labelCF7B:
+  // Referenced by instruction at 39F4
+  3B16  091403000000      leti                            r20, 0x00000003
+  3B1C  09150D000000      leti                            r21, 0x0000000D
+  3B22  09160E000000      leti                            r22, 0x0000000E
+  3B28  01                ret
+
+labelCF7C:
+  // Referenced by instruction at 39FC
+  3B29  091403000000      leti                            r20, 0x00000003
+  3B2F  09150D000000      leti                            r21, 0x0000000D
+  3B35  091613000000      leti                            r22, 0x00000013
+  3B3B  01                ret
+
+labelCF7D:
+  // Referenced by instruction at 3A04
+  3B3C  091403000000      leti                            r20, 0x00000003
+  3B42  09150D000000      leti                            r21, 0x0000000D
+  3B48  2D7001000000...   jmpi_eq                         r112, 0x00000001, labelCF7E /* 3B5F */
+  3B50  2D7002000000...   jmpi_eq                         r112, 0x00000002, labelCF7F /* 3B66 */
+  3B58  09160F000000      leti                            r22, 0x0000000F
+  3B5E  01                ret
+
+labelCF7E:
+  // Referenced by instruction at 3B48
+  3B5F  091610000000      leti                            r22, 0x00000010
+  3B65  01                ret
+
+labelCF7F:
+  // Referenced by instruction at 3B50
+  3B66  091611000000      leti                            r22, 0x00000011
+  3B6C  01                ret
+
+label0214:
+  // Referenced by instructions at 377C, 3B85
+  3B6D  02                sync
+  3B6E  B614C8            item_delete_by_type             r20-r22, r200-r211
+  3B71  2DC8FFFFFFFF...   jmpi_eq                         r200, 0xFFFFFFFF, label14CA /* 3B8E */
+  3B79  1B5001000000      subi                            r80, 0x00000001
+  3B7F  192801000000      addi                            r40, 0x00000001
+  3B85  2F5000000000...   jmpi_ne                         r80, 0x00000000, label0214 /* 3B6D */
+  3B8D  01                ret
+
+label14CA:
+  // Referenced by instructions at 3B71, 3BA0
+  3B8E  02                sync
+  3B8F  2D2800000000...   jmpi_eq                         r40, 0x00000000, label14CB /* 3BAB */
+  3B97  B414DC            item_create2                    r20-r31, r220
+  3B9A  1B2801000000      subi                            r40, 0x00000001
+  3BA0  2F2800000000...   jmpi_ne                         r40, 0x00000000, label14CA /* 3B8E */
+  3BA8  1029              set                             r41
+  3BAA  01                ret
+
+label14CB:
+  // Referenced by instruction at 3B8F
+  3BAB  1029              set                             r41
+  3BAD  01                ret
+
+label0215:
+  // Referenced by instruction at 377F
+  3BAE  49F4010000        arg_pushl                       0x000001F4
+  3BB3  4E48006D003F...   arg_pushs                       "Hm?"
+  3BBC  50                message                         ... 0x1F4 /* 500 */, "Hm?"
+  3BBD  4E59006F0075...   arg_pushs                       "You don\'t have enough\nenemy parts."
+  3C04  5B                add_msg                         ... "You don\'t have enough\nenemy parts."
+  3C05  4E570065006C...   arg_pushs                       "Well, talk to me again later."
+  3C42  5B                add_msg                         ... "Well, talk to me again later."
+  3C43  4E490027006C...   arg_pushs                       "I\'ll be waiting.\nHa, ha, ha."
+  3C7E  5B                add_msg                         ... "I\'ll be waiting.\nHa, ha, ha."
+  3C7F  5C                message_end
+  3C80  01                ret
+
+label0216:
+  // Referenced by instruction at 35D6
+  3C81  49F4010000        arg_pushl                       0x000001F4
+  3C86  4E48006D003F...   arg_pushs                       "Hm?"
+  3C8F  50                message                         ... 0x1F4 /* 500 */, "Hm?"
+  3C90  4E5400680069...   arg_pushs                       "This weapon cannot\nbe upgraded by\nusing enemy parts..."
+  3CFF  5B                add_msg                         ... "This weapon cannot\nbe upgraded by\nusing enemy parts..."
+  3D00  4E570065006C...   arg_pushs                       "Well, talk to me again later."
+  3D3D  5B                add_msg                         ... "Well, talk to me again later."
+  3D3E  4E490027006C...   arg_pushs                       "I\'ll be waiting.\nHa, ha, ha."
+  3D79  5B                add_msg                         ... "I\'ll be waiting.\nHa, ha, ha."
+  3D7A  5C                message_end
+  3D7B  01                ret
+
+label0258:
+  // Referenced by map enemy ES-00-00A [EnemySetEntry type=00F7 "TObjNpcNgcBase(0x00F7)" num_children=0000 floor=0000 room=001E wave_number=0000 wave_number2=0000 a1=0000 x=-60 y=0 z=-140 x_angle=00000000 y_angle=00000000 z_angle=00000000 params=[0 0 0 600 600 0000 0000]]
+  3D7C  4958020000        arg_pushl                       0x00000258
+  3D81  4E4800650079...   arg_pushs                       "Hey there!\nI hand out\nfree Decoctions."
+  3DD0  50                message                         ... 0x258 /* 600 */, "Hey there!\nI hand out\nfree Decoctions."
+  3DD1  5C                message_end
+  3DD2  4A3C              arg_pushb                       0x3C
+  3DD4  4E4700690076...   arg_pushs                       "Give Decoction\nWhat\'s a Decoction?\nCancel"
+  3E29  51                list                            ... r60, "Give Decoction\nWhat\'s a Decoction?\nCancel"
+  3E2A  403C0359025A...   switch_jmp                      r60, [label0259 /* 3E33 */, label025A /* 3F2B */, label0001 /* 0032 */]
+
+label0259:
+  // Referenced by instructions at 3E2A, 40E5
+  3E33  093C03000000      leti                            r60, 0x00000003
+  3E39  093D14000000      leti                            r61, 0x00000014
+  3E3F  093E0B000000      leti                            r62, 0x0000000B
+  3E45  B33C3F            item_create                     r60-r62, r63
+  3E48  2D3FFFFFFFFF...   jmpi_eq                         r63, 0xFFFFFFFF, label177B /* 3EC2 */
+  3E50  4958020000        arg_pushl                       0x00000258
+  3E55  4E4800650072...   arg_pushs                       "Here you go!"
+  3E70  50                message                         ... 0x258 /* 600 */, "Here you go!"
+  3E71  5C                message_end
+  3E72  4E5200650063...   arg_pushs                       "Received <color 4>Decoction<color 0>!"
+  3EBF  5A                window_msg                      ... "Received <color 4>Decoction<color 0>!"
+  3EC0  5E                window_msg_end
+  3EC1  01                ret
+
+label177B:
+  // Referenced by instruction at 3E48
+  3EC2  4958020000        arg_pushl                       0x00000258
+  3EC7  4E59006F0075...   arg_pushs                       "Your inventory is full.\nPlease make some space."
+  3F28  50                message                         ... 0x258 /* 600 */, "Your inventory is full.\nPlease make some space."
+  3F29  5C                message_end
+  3F2A  01                ret
+
+label025A:
+  // Referenced by instruction at 3E2A
+  3F2B  4958020000        arg_pushl                       0x00000258
+  3F30  4E4100200044...   arg_pushs                       "A Decoction is an\nitem that will reset\nyour material usage."
+  3FA9  50                message                         ... 0x258 /* 600 */, "A Decoction is an\nitem that will reset\nyour material usage."
+  3FAA  4E4E006F0074...   arg_pushs                       "Note that it will\nnot reset HP and\nTP material usage."
+  4017  5B                add_msg                         ... "Note that it will\nnot reset HP and\nTP material usage."
+  4018  4E4600750072...   arg_pushs                       "Furthermore, the Decoction\npatch is also required\nto use one of these."
+  40A7  5B                add_msg                         ... "Furthermore, the Decoction\npatch is also required\nto use one of these."
+  40A8  4E57006F0075...   arg_pushs                       "Would you like one?"
+  40D1  5B                add_msg                         ... "Would you like one?"
+  40D2  5C                message_end
+  40D3  4A3C              arg_pushb                       0x3C
+  40D5  4E5900650073...   arg_pushs                       "Yes\nNo"
+  40E4  51                list                            ... r60, "Yes\nNo"
+  40E5  403C0259020100    switch_jmp                      r60, [label0259 /* 3E33 */, label0001 /* 0032 */]
+
+label02BC:
+  // Referenced by map enemy ES-00-00B [EnemySetEntry type=001C "TObjNpcConnoisseur" num_children=0000 floor=0000 room=001E wave_number=0000 wave_number2=0000 a1=0000 x=-15 y=-30 z=-150 x_angle=00000000 y_angle=00004000 z_angle=00000000 params=[0 0 0 700 700 0000 0000]]
+  40EC  2D0F01000000...   jmpi_eq                         r15, 0x00000001, label02D0 /* 4FA8 */
+  40F4  49BC020000        arg_pushl                       0x000002BC
+  40F9  4E59006F0075...   arg_pushs                       "You..."
+  4108  50                message                         ... 0x2BC /* 700 */, "You..."
+  4109  5C                message_end
+  410A  093C00000000      leti                            r60, 0x00000000
+  4110  093D10000000      leti                            r61, 0x00000010
+  4116  093E01000000      leti                            r62, 0x00000001
+  411C  B73C3F            find_inventory_item             r60-r62, r63
+  411F  333FFFFFFFFF...   jmpi_gt                         r63, 0xFFFFFFFF, label02C6 /* 46F7 */
+  4127  093E02000000      leti                            r62, 0x00000002
+  412D  B73C3F            find_inventory_item             r60-r62, r63
+  4130  333FFFFFFFFF...   jmpi_gt                         r63, 0xFFFFFFFF, label02C8 /* 4E0E */
+  4138  093E03000000      leti                            r62, 0x00000003
+  413E  B73C3F            find_inventory_item             r60-r62, r63
+  4141  333FFFFFFFFF...   jmpi_gt                         r63, 0xFFFFFFFF, label02C8 /* 4E0E */
+  4149  093E04000000      leti                            r62, 0x00000004
+  414F  B73C3F            find_inventory_item             r60-r62, r63
+  4152  333FFFFFFFFF...   jmpi_gt                         r63, 0xFFFFFFFF, label02C8 /* 4E0E */
+  415A  093E05000000      leti                            r62, 0x00000005
+  4160  B73C3F            find_inventory_item             r60-r62, r63
+  4163  333FFFFFFFFF...   jmpi_gt                         r63, 0xFFFFFFFF, label02C8 /* 4E0E */
+  416B  093E06000000      leti                            r62, 0x00000006
+  4171  B73C3F            find_inventory_item             r60-r62, r63
+  4174  333FFFFFFFFF...   jmpi_gt                         r63, 0xFFFFFFFF, label02C8 /* 4E0E */
+  417C  02                sync
+  417D  49BC020000        arg_pushl                       0x000002BC
+  4182  4E2E002E002E...   arg_pushs                       "......"
+  4191  50                message                         ... 0x2BC /* 700 */, "......"
+  4192  4E570061006E...   arg_pushs                       "Want to hear about the\nlegend of the 4 swords?"
+  41F1  5B                add_msg                         ... "Want to hear about the\nlegend of the 4 swords?"
+  41F2  5C                message_end
+  41F3  4A3C              arg_pushb                       0x3C
+  41F5  4E5900650073...   arg_pushs                       "Yes\nNo"
+  4204  51                list                            ... r60, "Yes\nNo"
+  4205  2D3C01000000...   jmpi_eq                         r60, 0x00000001, label02BD /* 469E */
+  420D  49BC020000        arg_pushl                       0x000002BC
+  4212  4E4C006F006E...   arg_pushs                       "Long ago, the families\nof 3 famous blacksmiths\nwere executed by a king."
+  42A3  50                message                         ... 0x2BC /* 700 */, "Long ago, the families\nof 3 famous blacksmiths\nwere executed by a king."
+  42A4  4E5400680065...   arg_pushs                       "The 3 blacksmiths wanted\nvengeance against the\nking and the nation."
+  432D  5B                add_msg                         ... "The 3 blacksmiths wanted\nvengeance against the\nking and the nation."
+  432E  4E5400680065...   arg_pushs                       "The three blacksmiths\nand one of their pupils\neach created a sword."
+  43B7  5B                add_msg                         ... "The three blacksmiths\nand one of their pupils\neach created a sword."
+  43B8  4E41006E0064...   arg_pushs                       "And their nation\ncollapsed soon after."
+  4407  5B                add_msg                         ... "And their nation\ncollapsed soon after."
+  4408  4E4900740020...   arg_pushs                       "It was said that the\nfour swords led the\nnation to ruin."
+  447B  5B                add_msg                         ... "It was said that the\nfour swords led the\nnation to ruin."
+  447C  4E5400680065...   arg_pushs                       "These 4 swords were\nsaid to have the power\nto destroy a planet."
+  44FD  5B                add_msg                         ... "These 4 swords were\nsaid to have the power\nto destroy a planet."
+  44FE  4E41006E0064...   arg_pushs                       "And Zoke, the Great\nSword, had 3 of these \n4 legendary swords."
+  457D  5B                add_msg                         ... "And Zoke, the Great\nSword, had 3 of these \n4 legendary swords."
+  457E  4E5400680065...   arg_pushs                       "The legend was so famous\nthat many created \"the\n4th legendary sword.\""
+  460B  5B                add_msg                         ... "The legend was so famous\nthat many created \"the\n4th legendary sword.\""
+  460C  4E5400680065...   arg_pushs                       "There are so many fakes.\nIt\'s difficult to tell\nwhich is the real one."
+  469B  5B                add_msg                         ... "There are so many fakes.\nIt\'s difficult to tell\nwhich is the real one."
+  469C  5C                message_end
+  469D  01                ret
+
+label02BD:
+  // Referenced by instruction at 4205
+  469E  49BC020000        arg_pushl                       0x000002BC
+  46A3  4E59006F0075...   arg_pushs                       "You aren\'t interested\nin the old story?"
+  46F4  50                message                         ... 0x2BC /* 700 */, "You aren\'t interested\nin the old story?"
+  46F5  5C                message_end
+  46F6  01                ret
+
+label02C6:
+  // Referenced by instruction at 411F
+  46F7  02                sync
+  46F8  49BC020000        arg_pushl                       0x000002BC
+  46FD  4E2E002E002E...   arg_pushs                       "......!"
+  470E  50                message                         ... 0x2BC /* 700 */, "......!"
+  470F  4E59006F0075...   arg_pushs                       "You!\nLet me see that sword!\nCould it be...?!"
+  476A  5B                add_msg                         ... "You!\nLet me see that sword!\nCould it be...?!"
+  476B  4E48006D006D...   arg_pushs                       "Hmmm...!"
+  477E  5B                add_msg                         ... "Hmmm...!"
+  477F  4E4900740020...   arg_pushs                       "It is rusted, but I\nsense something alive."
+  47D6  5B                add_msg                         ... "It is rusted, but I\nsense something alive."
+  47D7  4E4900200063...   arg_pushs                       "I can tell that the\nworkmanship is superb..."
+  4832  5B                add_msg                         ... "I can tell that the\nworkmanship is superb..."
+  4833  4E4D00610064...   arg_pushs                       "Made in 1975...\nCreated by Dousetsu.\nYes! Yes!"
+  4892  5B                add_msg                         ... "Made in 1975...\nCreated by Dousetsu.\nYes! Yes!"
+  4893  4E5400680069...   arg_pushs                       "This is really it.\nThe 4th legendary\nsword, Agito!"
+  48FA  5B                add_msg                         ... "This is really it.\nThe 4th legendary\nsword, Agito!"
+  48FB  4901000000        arg_pushl                       0x00000001
+  4900  55                bgm                             ... 0x1 /* 1 */
+  4901  4E410068002C...   arg_pushs                       "Ah, I am so drawn to\nthis sword...\nIt\'s astounding."
+  496A  5B                add_msg                         ... "Ah, I am so drawn to\nthis sword...\nIt\'s astounding."
+  496B  4E4200750074...   arg_pushs                       "But it cannot show its\ntrue power in such a\nrusted state."
+  49E0  5B                add_msg                         ... "But it cannot show its\ntrue power in such a\nrusted state."
+  49E1  4E5700680079...   arg_pushs                       "Why don\'t you leave\nAgito with me for\na while?"
+  4A40  5B                add_msg                         ... "Why don\'t you leave\nAgito with me for\na while?"
+  4A41  4E490027006C...   arg_pushs                       "I\'ll remove the rust\nfrom it and bring Agito\nto its pristine state!"
+  4ACA  5B                add_msg                         ... "I\'ll remove the rust\nfrom it and bring Agito\nto its pristine state!"
+  4ACB  5C                message_end
+  4ACC  4A3C              arg_pushb                       0x3C
+  4ACE  4E5900650073...   arg_pushs                       "Yes, please\nNo, thank you"
+  4B03  51                list                            ... r60, "Yes, please\nNo, thank you"
+  4B04  2D3C01000000...   jmpi_eq                         r60, 0x00000001, label02C7 /* 4D61 */
+  4B0C  49BC020000        arg_pushl                       0x000002BC
+  4B11  4E41006C006C...   arg_pushs                       "All right.\nTrust me."
+  4B3C  50                message                         ... 0x2BC /* 700 */, "All right.\nTrust me."
+  4B3D  5C                message_end
+  4B3E  53                fadeout
+  4B3F  093C3C000000      leti                            r60, 0x0000003C
+  4B45  293200            call                            label0032 /* 0033 */
+  4B48  52                fadein
+  4B49  093C00000000      leti                            r60, 0x00000000
+  4B4F  093D10000000      leti                            r61, 0x00000010
+  4B55  093E01000000      leti                            r62, 0x00000001
+  4B5B  B63CC8            item_delete_by_type             r60-r62, r200-r211
+  4B5E  49BC020000        arg_pushl                       0x000002BC
+  4B63  4E2E002E002E...   arg_pushs                       "......"
+  4B72  50                message                         ... 0x2BC /* 700 */, "......"
+  4B73  4E5700680061...   arg_pushs                       "What a truly excellent\nsword it is...!"
+  4BC2  5B                add_msg                         ... "What a truly excellent\nsword it is...!"
+  4BC3  4E4900200075...   arg_pushs                       "I understand why they\ncall it legendary."
+  4C16  5B                add_msg                         ... "I understand why they\ncall it legendary."
+  4C17  4E5400680065...   arg_pushs                       "The true name of Agito\nis \"OROCHI-AGITO\""
+  4C6A  5B                add_msg                         ... "The true name of Agito\nis \"OROCHI-AGITO\""
+  4C6B  4E4E006F0077...   arg_pushs                       "Now you carry on the\nlegend of the sword.\nTake this!"
+  4CD6  5B                add_msg                         ... "Now you carry on the\nlegend of the sword.\nTake this!"
+  4CD7  5C                message_end
+  4CD8  09C800000000      leti                            r200, 0x00000000
+  4CDE  09C910000000      leti                            r201, 0x00000010
+  4CE4  09CA00000000      leti                            r202, 0x00000000
+  4CEA  09CB00000000      leti                            r203, 0x00000000
+  4CF0  B4C8DC            item_create2                    r200-r211, r220
+  4CF3  4901000000        arg_pushl                       0x00000001
+  4CF8  55                bgm                             ... 0x1 /* 1 */
+  4CF9  4E47006F0074...   arg_pushs                       "Got sword, OROCHI-AGITO\nwith AGITO\'s attributes!"
+  4D5C  5A                window_msg                      ... "Got sword, OROCHI-AGITO\nwith AGITO\'s attributes!"
+  4D5D  5E                window_msg_end
+  4D5E  100F              set                             r15
+  4D60  01                ret
+
+label02C7:
+  // Referenced by instruction at 4B04
+  4D61  49BC020000        arg_pushl                       0x000002BC
+  4D66  4E4100720065...   arg_pushs                       "Are you sure?\nYou\'ll regret it later\nif you wait."
+  4DCB  50                message                         ... 0x2BC /* 700 */, "Are you sure?\nYou\'ll regret it later\nif you wait."
+  4DCC  4E4100670069...   arg_pushs                       "Agito is almost dead\nas it is."
+  4E0B  5B                add_msg                         ... "Agito is almost dead\nas it is."
+  4E0C  5C                message_end
+  4E0D  01                ret
+
+label02C8:
+  // Referenced by instructions at 4130, 4141, 4152, 4163, 4174
+  4E0E  02                sync
+  4E0F  49BC020000        arg_pushl                       0x000002BC
+  4E14  4E2E002E002E...   arg_pushs                       "......!"
+  4E25  50                message                         ... 0x2BC /* 700 */, "......!"
+  4E26  4E59006F0075...   arg_pushs                       "You!\nLet me see that sword!\nCould it be...?!"
+  4E81  5B                add_msg                         ... "You!\nLet me see that sword!\nCould it be...?!"
+  4E82  4E48006D006D...   arg_pushs                       "Hmmm...!"
+  4E95  5B                add_msg                         ... "Hmmm...!"
+  4E96  4E4900740027...   arg_pushs                       "It\'s a fake.  It\'s just\na copy of the last\nlegendary sword, Agito."
+  4F1D  5B                add_msg                         ... "It\'s a fake.  It\'s just\na copy of the last\nlegendary sword, Agito."
+  4F1E  4E5400680069...   arg_pushs                       "This isn\'t that old.\nNo master created this."
+  4F79  5B                add_msg                         ... "This isn\'t that old.\nNo master created this."
+  4F7A  4914000000        arg_pushl                       0x00000014
+  4F7F  54                sound_effect                    ... 0x14 /* 20 */
+  4F80  4E53006F0072...   arg_pushs                       "Sorry about that."
+  4FA5  5B                add_msg                         ... "Sorry about that."
+  4FA6  5C                message_end
+  4FA7  01                ret
+
+label02D0:
+  // Referenced by instruction at 40EC
+  4FA8  49BC020000        arg_pushl                       0x000002BC
+  4FAD  4E4900740020...   arg_pushs                       "It seems that...\nmy mission is over."
+  4FF8  50                message                         ... 0x2BC /* 700 */, "It seems that...\nmy mission is over."
+  4FF9  4E4100670069...   arg_pushs                       "Agito may cause\nbloodshed again, but..."
+  504A  5B                add_msg                         ... "Agito may cause\nbloodshed again, but..."
+  504B  4E490020006B...   arg_pushs                       "I know what I did was\nright. It is done."
+  509E  5B                add_msg                         ... "I know what I did was\nright. It is done."
+  509F  5C                message_end
+  50A0  01                ret
+
+label0064:
+  // Referenced by map enemy ES-00-000 [EnemySetEntry type=00FE "TObjNpcNgcBase(0x00FE)" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-113 y=0 z=19 x_angle=00000000 y_angle=00005000 z_angle=00000000 params=[0 0 0 100 100 0000 0000]]
+  50A1  2DFF01000000...   jmpi_eq                         r255, 0x00000001, label0001 /* 0032 */
+  50A9  4964000000        arg_pushl                       0x00000064
+  50AE  4E570065006C...   arg_pushs                       "Welcome! The Hunters\nGuild is here to\nenrich your life."
+  511F  50                message                         ... 0x64 /* 100 */, "Welcome! The Hunters\nGuild is here to\nenrich your life."
+  5120  4E44006F0020...   arg_pushs                       "Do you want to return\nto the lobby?"
+  5169  5B                add_msg                         ... "Do you want to return\nto the lobby?"
+  516A  5C                message_end
+  516B  4A3C              arg_pushb                       0x3C
+  516D  4E4E006F000A...   arg_pushs                       "No\nYes"
+  517C  51                list                            ... r60, "No\nYes"
+  517D  2D3C01000000...   jmpi_eq                         r60, 0x00000001, label0065 /* 5204 */
+  5185  4964000000        arg_pushl                       0x00000064
+  518A  4E43006F006D...   arg_pushs                       "Come again! The Hunters\nGuild is here to\nenrich your life."
+  5201  50                message                         ... 0x64 /* 100 */, "Come again! The Hunters\nGuild is here to\nenrich your life."
+  5202  5C                message_end
+  5203  01                ret
+
+label0065:
+  // Referenced by instruction at 517D
+  5204  4964000000        arg_pushl                       0x00000064
+  5209  4E5600650072...   arg_pushs                       "Very well.\nI will send\nyou to the lobby."
+  525C  50                message                         ... 0x64 /* 100 */, "Very well.\nI will send\nyou to the lobby."
+  525D  5C                message_end
+  525E  10FF              set                             r255
+  5260  F8C6              qexit
+  5262  01                ret
+
+label0320:
+  5263  4920030000        arg_pushl                       0x00000320
+  5268  4E5700680061...   arg_pushs                       "What would you\nlike to buy?"
+  52A1  50                message                         ... 0x320 /* 800 */, "What would you\nlike to buy?"
+  52A2  5C                message_end
+  52A3  293403            call                            label0334 /* 600E */
+  52A6  4AB9              arg_pushb                       0xB9
+  52A8  4E4D006F006E...   arg_pushs                       "Monomate (<r25>)\nDimate (<r26>)\nTrimate (<r27>)\nMonofluid (<r28>)\nDifluid (<r29>)\nTrifluid (<r30>)\nSol Atomizer (<r31>)\nMoon Atomizer (<r32>)\nStar Atomizer (<r33>)\nAntidote (<r34>)\nAntiparalysis (<r35>)\nCancel"
+  544D  51                list                            ... r185, "Monomate (<r25>)\nDimate (<r26>)\nTrimate (<r27>)\nMonofluid (<r28>)\nDifluid (<r29>)\nTrifluid (<r30>)\nSol Atomizer (<r31>)\nMoon Atomizer (<r32>)\nStar Atomizer (<r33>)\nAntidote (<r34>)\nAntiparalysis (<r35>)\nCancel"
+  544E  2DB90B000000...   jmpi_eq                         r185, 0x0000000B, label0001 /* 0032 */
+  5456  41B90B411F42...   switch_call                     r185, [label1F41 /* 55F8 */, label1F42 /* 560B */, label1F43 /* 561E */, label1F44 /* 5631 */, label1F45 /* 5644 */, label1F46 /* 5657 */, label1F47 /* 566A */, label1F48 /* 567D */, label1F49 /* 5690 */, label1F4A /* 56A3 */, label1F4B /* 56B6 */]
+  546F  4ABA              arg_pushb                       0xBA
+  5471  4E31000A0032...   arg_pushs                       "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\nCancel"
+  54AA  51                list                            ... r186, "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\nCancel"
+  54AB  2DBA0A000000...   jmpi_eq                         r186, 0x0000000A, label0001 /* 0032 */
+  54B3  19BA01000000      addi                            r186, 0x00000001
+  54B9  1CBBBA            mul                             r187, r186
+  54BC  F91FBC            get_slot_meseta                 r188-r189
+  54BF  4920030000        arg_pushl                       0x00000320
+  54C4  4E5400680069...   arg_pushs                       "This will cost <r187> meseta.\nYou currently have <r188>.\nAre you sure?"
+  5553  50                message                         ... 0x320 /* 800 */, "This will cost <r187> meseta.\nYou currently have <r188>.\nAre you sure?"
+  5554  5C                message_end
+  5555  4A3C              arg_pushb                       0x3C
+  5557  4E4200750079...   arg_pushs                       "Buy\nCancel"
+  556E  51                list                            ... r60, "Buy\nCancel"
+  556F  2D3C01000000...   jmpi_eq                         r60, 0x00000001, label0001 /* 0032 */
+  5577  36BCBB2203        jmp_lt                          r188, r187, label0322 /* 5F30 */
+  557C  08A9FA            let                             r169, r250
+  557F  09AA03000000      leti                            r170, 0x00000003
+  5585  F911A9BD          get_stackable_item_count        r169-r172, r189
+  5589  18BDBA            add                             r189, r186
+  558C  3BBD0B000000...   jmpi_ge                         r189, 0x0000000B, label0321 /* 5EE7 */
+  5594  292A03            call                            label032A /* 5F77 */
+  5597  2DBE01000000...   jmpi_eq                         r190, 0x00000001, label0001 /* 0032 */
+  559F  4920030000        arg_pushl                       0x00000320
+  55A4  4E5400680061...   arg_pushs                       "Thanks for your business."
+  55D9  50                message                         ... 0x320 /* 800 */, "Thanks for your business."
+  55DA  5C                message_end
+  55DB  F91FBC            get_slot_meseta                 r188-r189
+  55DE  41B90BA51FA6...   switch_call                     r185, [label1FA5 /* 56C9 */, label1FA6 /* 5783 */, label1FA7 /* 5839 */, label1FA8 /* 58F1 */, label1FA9 /* 59AD */, label1FAA /* 5A65 */, label1FAB /* 5B1F */, label1FAC /* 5BE1 */, label1FAD /* 5CA5 */, label1FAE /* 5D69 */, label1FAF /* 5E23 */]
+  55F7  01                ret
+
+label1F41:
+  // Referenced by instruction at 5456
+  55F8  09AB00000000      leti                            r171, 0x00000000
+  55FE  09AC00000000      leti                            r172, 0x00000000
+  5604  09BB32000000      leti                            r187, 0x00000032
+  560A  01                ret
+
+label1F42:
+  // Referenced by instruction at 5456
+  560B  09AB00000000      leti                            r171, 0x00000000
+  5611  09AC01000000      leti                            r172, 0x00000001
+  5617  09BB2C010000      leti                            r187, 0x0000012C
+  561D  01                ret
+
+label1F43:
+  // Referenced by instruction at 5456
+  561E  09AB00000000      leti                            r171, 0x00000000
+  5624  09AC02000000      leti                            r172, 0x00000002
+  562A  09BBD0070000      leti                            r187, 0x000007D0
+  5630  01                ret
+
+label1F44:
+  // Referenced by instruction at 5456
+  5631  09AB01000000      leti                            r171, 0x00000001
+  5637  09AC00000000      leti                            r172, 0x00000000
+  563D  09BB64000000      leti                            r187, 0x00000064
+  5643  01                ret
+
+label1F45:
+  // Referenced by instruction at 5456
+  5644  09AB01000000      leti                            r171, 0x00000001
+  564A  09AC01000000      leti                            r172, 0x00000001
+  5650  09BBF4010000      leti                            r187, 0x000001F4
+  5656  01                ret
+
+label1F46:
+  // Referenced by instruction at 5456
+  5657  09AB01000000      leti                            r171, 0x00000001
+  565D  09AC02000000      leti                            r172, 0x00000002
+  5663  09BB100E0000      leti                            r187, 0x00000E10
+  5669  01                ret
+
+label1F47:
+  // Referenced by instruction at 5456
+  566A  09AB03000000      leti                            r171, 0x00000003
+  5670  09AC00000000      leti                            r172, 0x00000000
+  5676  09BB2C010000      leti                            r187, 0x0000012C
+  567C  01                ret
+
+label1F48:
+  // Referenced by instruction at 5456
+  567D  09AB04000000      leti                            r171, 0x00000004
+  5683  09AC00000000      leti                            r172, 0x00000000
+  5689  09BBF4010000      leti                            r187, 0x000001F4
+  568F  01                ret
+
+label1F49:
+  // Referenced by instruction at 5456
+  5690  09AB05000000      leti                            r171, 0x00000005
+  5696  09AC00000000      leti                            r172, 0x00000000
+  569C  09BB88130000      leti                            r187, 0x00001388
+  56A2  01                ret
+
+label1F4A:
+  // Referenced by instruction at 5456
+  56A3  09AB06000000      leti                            r171, 0x00000006
+  56A9  09AC00000000      leti                            r172, 0x00000000
+  56AF  09BB3C000000      leti                            r187, 0x0000003C
+  56B5  01                ret
+
+label1F4B:
+  // Referenced by instruction at 5456
+  56B6  09AB06000000      leti                            r171, 0x00000006
+  56BC  09AC01000000      leti                            r172, 0x00000001
+  56C2  09BB3C000000      leti                            r187, 0x0000003C
+  56C8  01                ret
+
+label1FA5:
+  // Referenced by instruction at 55DE
+  56C9  4E5200650063...   arg_pushs                       "Received <color 4>Monomate x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  5780  5A                window_msg                      ... "Received <color 4>Monomate x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  5781  5E                window_msg_end
+  5782  01                ret
+
+label1FA6:
+  // Referenced by instruction at 55DE
+  5783  4E5200650063...   arg_pushs                       "Received <color 4>Dimate x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  5836  5A                window_msg                      ... "Received <color 4>Dimate x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  5837  5E                window_msg_end
+  5838  01                ret
+
+label1FA7:
+  // Referenced by instruction at 55DE
+  5839  4E5200650063...   arg_pushs                       "Received <color 4>Trimate x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  58EE  5A                window_msg                      ... "Received <color 4>Trimate x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  58EF  5E                window_msg_end
+  58F0  01                ret
+
+label1FA8:
+  // Referenced by instruction at 55DE
+  58F1  4E5200650063...   arg_pushs                       "Received <color 4>Monofluid x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  59AA  5A                window_msg                      ... "Received <color 4>Monofluid x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  59AB  5E                window_msg_end
+  59AC  01                ret
+
+label1FA9:
+  // Referenced by instruction at 55DE
+  59AD  4E5200650063...   arg_pushs                       "Received <color 4>Difluid x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  5A62  5A                window_msg                      ... "Received <color 4>Difluid x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  5A63  5E                window_msg_end
+  5A64  01                ret
+
+label1FAA:
+  // Referenced by instruction at 55DE
+  5A65  4E5200650063...   arg_pushs                       "Received <color 4>Trifluid x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  5B1C  5A                window_msg                      ... "Received <color 4>Trifluid x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  5B1D  5E                window_msg_end
+  5B1E  01                ret
+
+label1FAB:
+  // Referenced by instruction at 55DE
+  5B1F  4E5200650063...   arg_pushs                       "Received <color 4>Sol Atomizer x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  5BDE  5A                window_msg                      ... "Received <color 4>Sol Atomizer x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  5BDF  5E                window_msg_end
+  5BE0  01                ret
+
+label1FAC:
+  // Referenced by instruction at 55DE
+  5BE1  4E5200650063...   arg_pushs                       "Received <color 4>Moon Atomizer x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  5CA2  5A                window_msg                      ... "Received <color 4>Moon Atomizer x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  5CA3  5E                window_msg_end
+  5CA4  01                ret
+
+label1FAD:
+  // Referenced by instruction at 55DE
+  5CA5  4E5200650063...   arg_pushs                       "Received <color 4>Star Atomizer x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  5D66  5A                window_msg                      ... "Received <color 4>Star Atomizer x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  5D67  5E                window_msg_end
+  5D68  01                ret
+
+label1FAE:
+  // Referenced by instruction at 55DE
+  5D69  4E5200650063...   arg_pushs                       "Received <color 4>Antidote x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  5E20  5A                window_msg                      ... "Received <color 4>Antidote x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  5E21  5E                window_msg_end
+  5E22  01                ret
+
+label1FAF:
+  // Referenced by instruction at 55DE
+  5E23  4E5200650063...   arg_pushs                       "Received <color 4>Antiparalysis x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  5EE4  5A                window_msg                      ... "Received <color 4>Antiparalysis x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  5EE5  5E                window_msg_end
+  5EE6  01                ret
+
+label0321:
+  // Referenced by instruction at 558C
+  5EE7  4920030000        arg_pushl                       0x00000320
+  5EEC  4E59006F0075...   arg_pushs                       "You have too much\nof this item."
+  5F2D  50                message                         ... 0x320 /* 800 */, "You have too much\nof this item."
+  5F2E  5C                message_end
+  5F2F  01                ret
+
+label0322:
+  // Referenced by instruction at 5577
+  5F30  4920030000        arg_pushl                       0x00000320
+  5F35  4E59006F0075...   arg_pushs                       "You do not have\nenough meseta."
+  5F74  50                message                         ... 0x320 /* 800 */, "You do not have\nenough meseta."
+  5F75  5C                message_end
+  5F76  01                ret
+
+label032A:
+  // Referenced by instruction at 5594
+  5F77  11BE              clear                           r190
+  5F79  11BF              clear                           r191
+
+label032F:
+  // Referenced by instruction at 5FC8
+  5F7B  02                sync
+  5F7C  09AD00000000      leti                            r173, 0x00000000
+  5F82  09AE00000000      leti                            r174, 0x00000000
+  5F88  09AF01000000      leti                            r175, 0x00000001
+  5F8E  09B000000000      leti                            r176, 0x00000000
+  5F94  09B100000000      leti                            r177, 0x00000000
+  5F9A  09B200000000      leti                            r178, 0x00000000
+  5FA0  09B300000000      leti                            r179, 0x00000000
+  5FA6  09B400000000      leti                            r180, 0x00000000
+  5FAC  09B500000000      leti                            r181, 0x00000000
+  5FB2  B4AADC            item_create2                    r170-r181, r220
+  5FB5  2DDCFFFFFFFF...   jmpi_eq                         r220, 0xFFFFFFFF, label032B /* 5FCB */
+  5FBD  19BF01000000      addi                            r191, 0x00000001
+  5FC3  2CBFBA2C03        jmp_eq                          r191, r186, label032C /* 6006 */
+  5FC8  282F03            jmp                             label032F /* 5F7B */
+
+label032B:
+  // Referenced by instruction at 5FB5
+  5FCB  4920030000        arg_pushl                       0x00000320
+  5FD0  4E59006F0075...   arg_pushs                       "Your inventory is full."
+  6001  50                message                         ... 0x320 /* 800 */, "Your inventory is full."
+  6002  5C                message_end
+  6003  10BE              set                             r190
+  6005  01                ret
+
+label032C:
+  // Referenced by instruction at 5FC3
+  6006  08FBBB            let                             r251, r187
+  6009  F87BFAFC          take_slot_meseta                r250-r251, r252-r253
+  600D  01                ret
+
+label0334:
+  // Referenced by instruction at 52A3
+  600E  083CFA            let                             r60, r250
+  6011  093D03000000      leti                            r61, 0x00000003
+  6017  093E00000000      leti                            r62, 0x00000000
+  601D  093F00000000      leti                            r63, 0x00000000
+  6023  F9113C19          get_stackable_item_count        r60-r63, r25
+  6027  093F01000000      leti                            r63, 0x00000001
+  602D  F9113C1A          get_stackable_item_count        r60-r63, r26
+  6031  093F02000000      leti                            r63, 0x00000002
+  6037  F9113C1B          get_stackable_item_count        r60-r63, r27
+  603B  093E01000000      leti                            r62, 0x00000001
+  6041  093F00000000      leti                            r63, 0x00000000
+  6047  F9113C1C          get_stackable_item_count        r60-r63, r28
+  604B  093F01000000      leti                            r63, 0x00000001
+  6051  F9113C1D          get_stackable_item_count        r60-r63, r29
+  6055  093F02000000      leti                            r63, 0x00000002
+  605B  F9113C1E          get_stackable_item_count        r60-r63, r30
+  605F  093E03000000      leti                            r62, 0x00000003
+  6065  093F00000000      leti                            r63, 0x00000000
+  606B  F9113C1F          get_stackable_item_count        r60-r63, r31
+  606F  093E04000000      leti                            r62, 0x00000004
+  6075  F9113C20          get_stackable_item_count        r60-r63, r32
+  6079  093E05000000      leti                            r62, 0x00000005
+  607F  F9113C21          get_stackable_item_count        r60-r63, r33
+  6083  093E06000000      leti                            r62, 0x00000006
+  6089  093F00000000      leti                            r63, 0x00000000
+  608F  F9113C22          get_stackable_item_count        r60-r63, r34
+  6093  093F01000000      leti                            r63, 0x00000001
+  6099  F9113C23          get_stackable_item_count        r60-r63, r35
+  609D  01                ret
+  609E  00                nop

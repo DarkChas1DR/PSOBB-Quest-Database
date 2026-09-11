@@ -1,0 +1,454 @@
+.version BB_V4
+.quest_num 3
+.name "サイフの紐"
+.short_desc "浪費家ハンターの\n妻の憂鬱"
+.long_desc "依頼主：ハンター・ギゼルの妻\n依頼内容：\n  ウチの旦那は 浪費家で、\n  ちょっと今のよりイイ武器が\n  あったら、すぐに買い替えて\n  しまうのです。何とか説得して\n  もらえないでしょうか。\n報酬：  ３００メセタ"
+.episode Episode1
+.header_episode 0x00
+.language J
+.max_players 1
+.solo_unlock_flag 0x0065
+.solo_unlock_flag 0x0067
+.solo_unlock_flag 0x006B
+.solo_unlock_flag 0x01F9
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+start:
+  set_episode                     0x00000000
+  gget                            0x00F6, r102
+  gget                            0x00F2, r103
+  gget                            0x00F2, r110
+  gget                            0x00F1, r101
+  set_qt_exit                     label006F
+  set_qt_cancel                   label006F
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0096
+  set_floor_handler               ... 0x0 /* 0 */, label0096
+  set_qt_success                  label00FA
+  bb_map_designate                0x00, 0x00, 0x00, 0x00, 0x00
+  ret
+
+label0001@0x0001:
+  ret
+
+label006F@0x006F:
+  jmpi_eq                         r110, 0x00000001, label0001
+  gclear                          0x00F2
+  ret
+
+label0096@0x0096:
+  leti                            r60, 0x000000ED
+  leti                            r61, 0x00000000
+  leti                            r62, 0x0000014D
+  leti                            r63, 0xFFFFFFFA
+  arg_pushl                       0x00000000
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  warp_off
+  call                            label0136
+  ret
+
+label00FA@0x00FA:
+  gset                            0x0069
+  arg_pushs                       "<color 1>３００<color 0>メセタ受け取った。"
+  window_msg                      ... "<color 1>３００<color 0>メセタ受け取った。"
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x00000000
+  arg_pushl                       0x0000012C
+  pl_add_meseta                   ... 0x0 /* 0 */, 0x12C /* 300 */
+  ret
+
+label0136@0x0136:
+  // Referenced by map enemy ES-00-001 [EnemySetEntry type=0004 "TObjNpcFemaleFat/TObjNpcFemaleFat" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-3.00204 y=0 z=63.9975 x_angle=00000000 y_angle=00007800 z_angle=00000000 params=[0 0 0 100 310 0000 0000]]
+  jmpi_eq                         r255, 0x00000001, label013E
+  jmpi_eq                         r9, 0x00000001, label013D
+  jmpi_eq                         r8, 0x00000001, label013C
+  jmpi_eq                         r7, 0x00000001, label013B
+  jmpi_eq                         r5, 0x00000001, label013A
+  jmpi_eq                         r3, 0x00000001, label0139
+  jmpi_eq                         r1, 0x00000001, label0138
+  jmpi_eq                         r0, 0x00000001, label0137
+  call                            label00DE
+  arg_pushl                       0x00000064
+  arg_pushs                       "ウチの<color 1>唐変木<color 0>、\nムダってもんが 解ってないのよ。"
+  message                         ... 0x64 /* 100 */, "ウチの<color 1>唐変木<color 0>、\nムダってもんが 解ってないのよ。"
+  arg_pushs                       "ちょっとイイ武器を見つけたら\nコロコロ 買い替えちゃうの。"
+  add_msg                         ... "ちょっとイイ武器を見つけたら\nコロコロ 買い替えちゃうの。"
+  arg_pushs                       "少し我慢してお金を貯めれば、\nもっとイイ武器が\n早く 買えるようになるじゃない？"
+  add_msg                         ... "少し我慢してお金を貯めれば、\nもっとイイ武器が\n早く 買えるようになるじゃない？"
+  arg_pushs                       "同じハンターズ仲間の あんたから\n<color 5>説得<color 0>してもらえないかしらね？\nよろしく 頼むわよ。"
+  add_msg                         ... "同じハンターズ仲間の あんたから\n<color 5>説得<color 0>してもらえないかしらね？\nよろしく 頼むわよ。"
+  message_end
+  set                             r0
+  call                            label00DF
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  ret
+
+label0137@0x0137:
+  arg_pushl                       0x00000064
+  arg_pushs                       "ウチの宿六？\nどーせまた 店にでも行って\n武器でも物色してるんでしょうよ。"
+  message                         ... 0x64 /* 100 */, "ウチの宿六？\nどーせまた 店にでも行って\n武器でも物色してるんでしょうよ。"
+  message_end
+  ret
+
+label0138@0x0138:
+  arg_pushl                       0x00000064
+  arg_pushs                       "あんたねぇ。\nあんな ろくでなしに\n言いくるめられて どーすんのよ。"
+  message                         ... 0x64 /* 100 */, "あんたねぇ。\nあんな ろくでなしに\n言いくるめられて どーすんのよ。"
+  arg_pushs                       "言ってることは 間違いじゃないけど、\nその頻度が 激しいから\n効率が悪いでしょってーの。"
+  add_msg                         ... "言ってることは 間違いじゃないけど、\nその頻度が 激しいから\n効率が悪いでしょってーの。"
+  arg_pushs                       "あんたも もうちょっと\nシャキッとしなさいよ、シャキッと！"
+  add_msg                         ... "あんたも もうちょっと\nシャキッとしなさいよ、シャキッと！"
+  message_end
+  set                             r2
+  ret
+
+label0139@0x0139:
+  arg_pushl                       0x00000064
+  arg_pushs                       "あんたねぇ。\n自分で自分のこと\n頭悪いって認めて どーすんのよ。"
+  message                         ... 0x64 /* 100 */, "あんたねぇ。\n自分で自分のこと\n頭悪いって認めて どーすんのよ。"
+  arg_pushs                       "言ってることは 間違いじゃないけど、\nその頻度が 激しいから\n効率が悪いでしょってーの。"
+  add_msg                         ... "言ってることは 間違いじゃないけど、\nその頻度が 激しいから\n効率が悪いでしょってーの。"
+  arg_pushs                       "あんたも もうちょっと\nシャキッとしなさいよ、シャキッと！"
+  add_msg                         ... "あんたも もうちょっと\nシャキッとしなさいよ、シャキッと！"
+  message_end
+  set                             r4
+  ret
+
+label013A@0x013A:
+  arg_pushl                       0x00000064
+  arg_pushs                       "あんたねぇ。高いからといって\n決して強いワケじゃないとか、\nそんな細かいことはどーでもいいのよ。"
+  message                         ... 0x64 /* 100 */, "あんたねぇ。高いからといって\n決して強いワケじゃないとか、\nそんな細かいことはどーでもいいのよ。"
+  arg_pushs                       "武器を買い替えるのは いいけど、\nその頻度が 激しいから\n効率が悪いでしょって言ってるの。"
+  add_msg                         ... "武器を買い替えるのは いいけど、\nその頻度が 激しいから\n効率が悪いでしょって言ってるの。"
+  arg_pushs                       "あんたも もうちょっと\nシャキッとしなさいよ、シャキッと！"
+  add_msg                         ... "あんたも もうちょっと\nシャキッとしなさいよ、シャキッと！"
+  message_end
+  set                             r6
+  ret
+
+label013B@0x013B:
+  arg_pushl                       0x00000064
+  arg_pushs                       "解ってんじゃないの、\nあの甲斐性なし。"
+  message                         ... 0x64 /* 100 */, "解ってんじゃないの、\nあの甲斐性なし。"
+  arg_pushs                       "ありゃもう 新しものがりの\n武器フェチなのよ。"
+  add_msg                         ... "ありゃもう 新しものがりの\n武器フェチなのよ。"
+  arg_pushs                       "実益を無視して\n趣味でものを買うのには\n限度があります！"
+  add_msg                         ... "実益を無視して\n趣味でものを買うのには\n限度があります！"
+  jmp                             label013C
+
+label013C@0x013C:
+  arg_pushl                       0x00000064
+  arg_pushs                       "もう金輪際\nムダな買い物は 禁止！"
+  message                         ... 0x64 /* 100 */, "もう金輪際\nムダな買い物は 禁止！"
+  message_end
+  set                             r8
+  ret
+
+label013D@0x013D:
+  arg_pushl                       0x00000064
+  arg_pushs                       "ありがと。\nあいつも 相当\nヘコんでるみたいね。"
+  message                         ... 0x64 /* 100 */, "ありがと。\nあいつも 相当\nヘコんでるみたいね。"
+  arg_pushs                       "まぁ、少し反省したら\nまた許してあげることにするわよ。"
+  add_msg                         ... "まぁ、少し反省したら\nまた許してあげることにするわよ。"
+  arg_pushs                       "助かったわ。\n少なくて悪いけど、ギルドで\n報酬を受け取ってちょうだい。"
+  add_msg                         ... "助かったわ。\n少なくて悪いけど、ギルドで\n報酬を受け取ってちょうだい。"
+  message_end
+  set                             r255
+  arg_pushl                       0x00000000
+  bgm                             ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  playbgm_epi                     ... 0x1 /* 1 */
+  ret
+
+label013E@0x013E:
+  arg_pushl                       0x00000064
+  arg_pushs                       "ありがと。\nあいつも 相当\nヘコんでるみたいね。"
+  message                         ... 0x64 /* 100 */, "ありがと。\nあいつも 相当\nヘコんでるみたいね。"
+  arg_pushs                       "まぁ、少し反省したら\nまた許してあげることにするわよ。"
+  add_msg                         ... "まぁ、少し反省したら\nまた許してあげることにするわよ。"
+  arg_pushs                       "助かったわ。\n少なくて悪いけど、ギルドで\n報酬を受け取ってちょうだい。"
+  add_msg                         ... "助かったわ。\n少なくて悪いけど、ギルドで\n報酬を受け取ってちょうだい。"
+  message_end
+  ret
+
+label0140@0x0140:
+  // Referenced by map enemy ES-00-00F [EnemySetEntry type=000A "TObjNpcMaleDwarf/TObjNpcMaleDwarf" num_children=0000 floor=0000 room=001E wave_number=0000 wave_number2=0000 a1=0000 x=16.004 y=0 z=5.99567 x_angle=00000000 y_angle=FFFFD000 z_angle=00000000 params=[22 0 0 101 320 0001 0000]]
+  jmpi_eq                         r9, 0x00000001, label0161
+  jmpi_eq                         r8, 0x00000001, label0160
+  jmpi_eq                         r7, 0x00000001, label015F
+  jmpi_eq                         r6, 0x00000001, label0145
+  jmpi_eq                         r5, 0x00000001, label0155
+  jmpi_eq                         r4, 0x00000001, label0145
+  jmpi_eq                         r3, 0x00000001, label014D
+  jmpi_eq                         r2, 0x00000001, label0145
+  jmpi_eq                         r1, 0x00000001, label0144
+  arg_pushl                       0x00000065
+  arg_pushs                       "なんだ なんだ おまえは！"
+  message                         ... 0x65 /* 101 */, "なんだ なんだ おまえは！"
+  arg_pushs                       "なにぃ？\nウチのカカァから 頼まれた？\n武器を買い替えすぎ？"
+  add_msg                         ... "なにぃ？\nウチのカカァから 頼まれた？\n武器を買い替えすぎ？"
+  arg_pushs                       "アホか おまえは。"
+  add_msg                         ... "アホか おまえは。"
+  jmp                             label0141
+
+label0141@0x0141:
+  arg_pushl                       0x00000065
+  arg_pushs                       "高い武器であればあるほど\n強いのが 自明の理。"
+  message                         ... 0x65 /* 101 */, "高い武器であればあるほど\n強いのが 自明の理。"
+  arg_pushs                       "そうすれば 報酬の高いモンスターも\nやっつけられるし、お金は ますます\n貯まってゆくではないか。"
+  add_msg                         ... "そうすれば 報酬の高いモンスターも\nやっつけられるし、お金は ますます\n貯まってゆくではないか。"
+  arg_pushs                       "だから、少しでも 高い武器を\n買っておくのが カシコイのだよ。\nわかるか？ あぁん？"
+  add_msg                         ... "だから、少しでも 高い武器を\n買っておくのが カシコイのだよ。\nわかるか？ あぁん？"
+  message_end
+  jmp                             label0142
+
+label0142@0x0142:
+  clear                           r100
+  arg_pushb                       0x64
+  arg_pushs                       "あなたの言うとおりだ。\nわからない。"
+  list                            ... r100, "あなたの言うとおりだ。\nわからない。"
+  switch_jmp                      r100, [label0143, label014A]
+
+label0143@0x0143:
+  arg_pushl                       0x00000065
+  arg_pushs                       "そうだろ そうだろ。"
+  message                         ... 0x65 /* 101 */, "そうだろ そうだろ。"
+  jmp                             label0144
+
+label0144@0x0144:
+  arg_pushl                       0x00000065
+  arg_pushs                       "わかったら これ以上\n夫婦の問題に 口を出さないことだ。"
+  message                         ... 0x65 /* 101 */, "わかったら これ以上\n夫婦の問題に 口を出さないことだ。"
+  arg_pushs                       "ささ、行った 行った。"
+  add_msg                         ... "ささ、行った 行った。"
+  message_end
+  set                             r1
+  ret
+
+label0145@0x0145:
+  arg_pushl                       0x00000065
+  arg_pushs                       "なんだ なんだ。\nまだなんか 言い足りないのか？"
+  message                         ... 0x65 /* 101 */, "なんだ なんだ。\nまだなんか 言い足りないのか？"
+  arg_pushs                       "言っておくが\nオレの持論は 揺るがないぞ。"
+  add_msg                         ... "言っておくが\nオレの持論は 揺るがないぞ。"
+  clear                           r0
+  clear                           r1
+  clear                           r2
+  clear                           r3
+  clear                           r4
+  clear                           r5
+  clear                           r6
+  jmp                             label0141
+
+label014A@0x014A:
+  arg_pushl                       0x00000065
+  arg_pushs                       "あぁ？ 何故わからん？"
+  message                         ... 0x65 /* 101 */, "あぁ？ 何故わからん？"
+  message_end
+  jmp                             label014B
+
+label014B@0x014B:
+  clear                           r100
+  arg_pushb                       0x64
+  arg_pushs                       "頭悪いから。\n必ずしもそうとは言えないから。\nそれを言うには条件があるから。"
+  list                            ... r100, "頭悪いから。\n必ずしもそうとは言えないから。\nそれを言うには条件があるから。"
+  switch_jmp                      r100, [label014C, label0154, label015E]
+
+label014C@0x014C:
+  arg_pushl                       0x00000065
+  arg_pushs                       "そうか…そりゃ お気の毒。"
+  message                         ... 0x65 /* 101 */, "そうか…そりゃ お気の毒。"
+  jmp                             label014D
+
+label014D@0x014D:
+  arg_pushl                       0x00000065
+  arg_pushs                       "学校には ちゃんと\n行った方が いいぞ。"
+  message                         ... 0x65 /* 101 */, "学校には ちゃんと\n行った方が いいぞ。"
+  message_end
+  clear                           r5
+  set                             r3
+  ret
+
+label0154@0x0154:
+  arg_pushl                       0x00000065
+  arg_pushs                       "ああ、わかる わかる。\n高い武器が 必ずしも\nイイ武器ではないってことだろ。"
+  message                         ... 0x65 /* 101 */, "ああ、わかる わかる。\n高い武器が 必ずしも\nイイ武器ではないってことだろ。"
+  arg_pushs                       "だが、攻撃力は低いが高いという\n武器には、特殊な効果があるとか\n命中率が高いとか…"
+  add_msg                         ... "だが、攻撃力は低いが高いという\n武器には、特殊な効果があるとか\n命中率が高いとか…"
+  arg_pushs                       "それなりに オイシイ特典が\nついているのだよ。"
+  add_msg                         ... "それなりに オイシイ特典が\nついているのだよ。"
+  arg_pushs                       "要は 使い方によって、\n値段なりの効果を\n発揮するということさ。"
+  add_msg                         ... "要は 使い方によって、\n値段なりの効果を\n発揮するということさ。"
+  arg_pushs                       "そんな 物言いじゃ\nオレの心は 動かないぜ。"
+  add_msg                         ... "そんな 物言いじゃ\nオレの心は 動かないぜ。"
+  message_end
+  clear                           r3
+  set                             r5
+  ret
+
+label0155@0x0155:
+  arg_pushl                       0x00000065
+  arg_pushs                       "ま、出直してくるんだな。"
+  message                         ... 0x65 /* 101 */, "ま、出直してくるんだな。"
+  message_end
+  ret
+
+label015E@0x015E:
+  arg_pushl                       0x00000065
+  arg_pushs                       "なにぃ？"
+  message                         ... 0x65 /* 101 */, "なにぃ？"
+  arg_pushs                       "高い武器が基本的に良いのは解るが、\nその値段に対する相対的な効率向上度…"
+  add_msg                         ... "高い武器が基本的に良いのは解るが、\nその値段に対する相対的な効率向上度…"
+  arg_pushs                       "つまり、費用対効果が重要であり、\nオレの武器買い替え頻度は\nそれを無視しているというのか！"
+  add_msg                         ... "つまり、費用対効果が重要であり、\nオレの武器買い替え頻度は\nそれを無視しているというのか！"
+  arg_pushs                       "うおっ！\nそ、それを言われると イタイ。\nイタイけど…"
+  add_msg                         ... "うおっ！\nそ、それを言われると イタイ。\nイタイけど…"
+  arg_pushs                       "やめられないんだってば。\n許してくれよぅ。"
+  add_msg                         ... "やめられないんだってば。\n許してくれよぅ。"
+  message_end
+  set                             r7
+  ret
+
+label015F@0x015F:
+  arg_pushl                       0x00000065
+  arg_pushs                       "ううう…カンベンしてくれよぅ。"
+  message                         ... 0x65 /* 101 */, "ううう…カンベンしてくれよぅ。"
+  message_end
+  ret
+
+label0160@0x0160:
+  arg_pushl                       0x00000065
+  arg_pushs                       "ぶ、武器フェチ…！"
+  message                         ... 0x65 /* 101 */, "ぶ、武器フェチ…！"
+  arg_pushl                       0x00000014
+  sound_effect                    ... 0x14 /* 20 */
+  arg_pushs                       "そ、その通りだよぅ。\n見ろ この光沢！ 重量感！\nタマラないだろ？"
+  add_msg                         ... "そ、その通りだよぅ。\n見ろ この光沢！ 重量感！\nタマラないだろ？"
+  arg_pushs                       "新しい武器って\nどんなに美しくて素晴らしいか、\n興味があるじゃないかぁ。"
+  add_msg                         ... "新しい武器って\nどんなに美しくて素晴らしいか、\n興味があるじゃないかぁ。"
+  arg_pushs                       "金輪際\nムダな買い物は 禁止？"
+  add_msg                         ... "金輪際\nムダな買い物は 禁止？"
+  arg_pushs                       "ううう、そんなヒドイ…"
+  add_msg                         ... "ううう、そんなヒドイ…"
+  message_end
+  set                             r9
+  ret
+
+label0161@0x0161:
+  arg_pushl                       0x00000065
+  arg_pushs                       "ぼ、ぼくの唯一の趣味が…！"
+  message                         ... 0x65 /* 101 */, "ぼ、ぼくの唯一の趣味が…！"
+  message_end
+  ret
+
+label0168@0x0168:
+  // Referenced by map enemy ES-00-00A [EnemySetEntry type=0008 "TObjNpcMaleBase/TObjNpcMaleBase" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=83.0009 y=0 z=-10 x_angle=00000000 y_angle=00005000 z_angle=00000000 params=[24 0 0 102 360 0001 0000]]
+  jmpi_eq                         r102, 0x00000001, label016D
+  jmpi_eq                         r103, 0x00000001, label016C
+  jmpi_eq                         r101, 0x00000001, label0169
+  arg_pushl                       0x00000066
+  arg_pushs                       "…ああ…\nいいなぁ…\nあの武器…"
+  message                         ... 0x66 /* 102 */, "…ああ…\nいいなぁ…\nあの武器…"
+  message_end
+  ret
+
+label0169@0x0169:
+  arg_pushl                       0x00000066
+  arg_pushs                       "…ああ…\nいいなぁ…\nあの武器…"
+  message                         ... 0x66 /* 102 */, "…ああ…\nいいなぁ…\nあの武器…"
+  arg_pushs                       "この前、あるレンジャーが\n銃口から 炎が出る武器を\n持っていたんですよ…"
+  add_msg                         ... "この前、あるレンジャーが\n銃口から 炎が出る武器を\n持っていたんですよ…"
+  arg_pushs                       "まさに 火炎放射ですよ。\n美しい…"
+  add_msg                         ... "まさに 火炎放射ですよ。\n美しい…"
+  arg_pushs                       "あんなの 初めて見た…\nいいなぁ、ほしいなぁ。"
+  add_msg                         ... "あんなの 初めて見た…\nいいなぁ、ほしいなぁ。"
+  arg_pushs                       "おや、そのバッヂ…！\nあなたも「ウェポンズ」！？"
+  add_msg                         ... "おや、そのバッヂ…！\nあなたも「ウェポンズ」！？"
+  arg_pushs                       "ふむふむ、なるほど。\nこれから新しく入りたいと。\nいいんじゃないですか？"
+  add_msg                         ... "ふむふむ、なるほど。\nこれから新しく入りたいと。\nいいんじゃないですか？"
+  message_end
+  jmp                             label016A
+
+label016A@0x016A:
+  arg_pushs                       "<color 5>「ウェポンズ」<color 0>加入許可を得た！"
+  window_msg                      ... "<color 5>「ウェポンズ」<color 0>加入許可を得た！"
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  jmp                             label016B
+
+label016B@0x016B:
+  arg_pushl                       0x00000066
+  arg_pushs                       "ただ、お互いのことは\n詮索なしで お願いしますね。\nなにしろ 秘密結社ですから。"
+  message                         ... 0x66 /* 102 */, "ただ、お互いのことは\n詮索なしで お願いしますね。\nなにしろ 秘密結社ですから。"
+  message_end
+  gset                            0x00F2
+  set                             r103
+  ret
+
+label016C@0x016C:
+  arg_pushl                       0x00000066
+  arg_pushs                       "古くさいかもしれないけど、\nバズーカなんかも いいですよねぇ。\n味があって…"
+  message                         ... 0x66 /* 102 */, "古くさいかもしれないけど、\nバズーカなんかも いいですよねぇ。\n味があって…"
+  arg_pushs                       "武器の話は\n止まりませんよねぇ。"
+  add_msg                         ... "武器の話は\n止まりませんよねぇ。"
+  message_end
+  ret
+
+label016D@0x016D:
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000016
+  leti                            r63, 0x00000000
+  find_inventory_item             r61-r63, r64
+  jmpi_gt                         r64, 0xFFFFFFFF, label016E
+  jmp                             label016C
+  ret
+
+label016E@0x016E:
+  arg_pushl                       0x00000066
+  arg_pushs                       "おお！ それは\nボスの武器じゃないですか！"
+  message                         ... 0x66 /* 102 */, "おお！ それは\nボスの武器じゃないですか！"
+  arg_pushs                       "見た目 フライパンみたいですけど\nすごいですよぉ、その武器は。"
+  add_msg                         ... "見た目 フライパンみたいですけど\nすごいですよぉ、その武器は。"
+  arg_pushs                       "隊長なんか、５ｍは\n吹っ飛んでいきますからね！"
+  add_msg                         ... "隊長なんか、５ｍは\n吹っ飛んでいきますからね！"
+  message_end
+  ret
+
+label00CF@0x00CF:
+  leti                            r72, 0x00000000
+
+label00D0@0x00D0:
+  sync
+  addi                            r72, 0x00000001
+  jmpi_le                         r72, 0x0000001E, label00D0
+  ret
+
+label00DE@0x00DE:
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  hud_hide
+  cine_enable
+  cam_zmin
+  call                            label00CF
+  ret
+
+label00DF@0x00DF:
+  cam_zmout
+  cine_disable
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  npc_talk_on
+  p_action_enable
+  ret

@@ -1,0 +1,575 @@
+.version BB_V4
+.quest_num 2
+.name "ラグオルの大地主"
+.short_desc "土地に目がくらんだ\n強欲オヤジを\n連れ帰れ！"
+.long_desc "依頼主：ラクトンの息子\n依頼内容：\n  ラグオルの土地を手に入れん\n  と飛び出していった父ラクトン\n  を連れ帰って欲しい。\n報酬：  ７００メセタ"
+.episode Episode1
+.header_episode 0x00
+.language J
+.max_players 1
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+start:
+  set_episode                     0x00000000
+  gget                            0x00F6, r102
+  gget                            0x00F3, r103
+  gget                            0x00F1, r101
+  set_qt_exit                     label006F
+  set_qt_cancel                   label006F
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0096
+  set_floor_handler               ... 0x0 /* 0 */, label0096
+  arg_pushl                       0x00000001
+  arg_pushw                       0x0097
+  set_floor_handler               ... 0x1 /* 1 */, label0097
+  set_qt_success                  label00FA
+  bb_map_designate                0x00, 0x00, 0x00, 0x00, 0x00
+  bb_map_designate                0x01, 0x01, 0x00, 0x00, 0x01
+  ret
+
+label0001@0x0001:
+  ret
+
+label006F@0x006F:
+  jmpi_eq                         r103, 0x00000001, label0001
+  gclear                          0x00F3
+  ret
+
+label0096@0x0096:
+  arg_pushl                       0x00000001
+  set_mainwarp                    ... 0x1 /* 1 */
+  jmpi_eq                         r200, 0x00000001, label0190
+  leti                            r60, 0x000000ED
+  leti                            r61, 0x00000000
+  leti                            r62, 0x0000014D
+  leti                            r63, 0xFFFFFFFA
+  arg_pushl                       0x00000000
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  set                             r200
+  call                            label012F
+
+label0190@0x0190:
+  jmpi_eq                         r255, 0x00000000, label0001
+  leti                            r60, 0x0000011A
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000146
+  leti                            r63, 0x00000014
+  leti                            r64, 0x00000136
+  leti                            r65, 0x0000000A
+  set_obj_param                   r60-r65, r90
+  leti                            r60, 0x0000011A
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000146
+  leti                            r63, 0x00000040
+  leti                            r64, 0x00000000
+  leti                            r65, 0x00000020
+  npc_crptalk                     r60-r65
+  ret
+
+label00FA@0x00FA:
+  gset                            0x0067
+  arg_pushs                       "<color 1>７００<color 0>メセタ受け取った。\n"
+  window_msg                      ... "<color 1>７００<color 0>メセタ受け取った。\n"
+  window_msg_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  arg_pushl                       0x00000000
+  arg_pushl                       0x000002BC
+  pl_add_meseta                   ... 0x0 /* 0 */, 0x2BC /* 700 */
+  ret
+
+label0097@0x0097:
+  jmpi_eq                         r255, 0x00000001, label0001
+  leti                            r60, 0x00000091
+  leti                            r61, 0x00000000
+  leti                            r62, 0xFFFFFFEB
+  leti                            r63, 0x00000019
+  leti                            r64, 0x0000015E
+  leti                            r65, 0x0000000A
+  set_obj_param                   r60-r65, r90
+  leti                            r60, 0x00000091
+  leti                            r61, 0x00000000
+  leti                            r62, 0xFFFFFFEB
+  leti                            r63, 0x000000B4
+  leti                            r64, 0x00000000
+  leti                            r65, 0x00000020
+  npc_crptalk                     r60-r65
+  leti                            r60, 0x00000217
+  leti                            r61, 0x00000024
+  leti                            r62, 0xFFFFFF57
+  leti                            r63, 0x0000000A
+  leti                            r64, 0x00000168
+  at_coords_call                  r60-r64
+  leti                            r60, 0xFFFFFEE0
+  leti                            r61, 0x00000018
+  leti                            r62, 0xFFFFFE3F
+  leti                            r63, 0x0000000A
+  leti                            r64, 0x00000169
+  at_coords_call                  r60-r64
+  leti                            r60, 0x000001DA
+  leti                            r61, 0x0000000C
+  leti                            r62, 0x00000213
+  leti                            r63, 0x0000000A
+  leti                            r64, 0x0000016A
+  at_coords_call                  r60-r64
+  ret
+
+label012F@0x012F:
+  // Referenced by map enemy ES-00-001 [EnemySetEntry type=0008 "TObjNpcMaleBase/TObjNpcMaleBase" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-2.99986 y=0 z=64.0013 x_angle=00000000 y_angle=00007800 z_angle=00000000 params=[0 0 0 101 303 0000 0000]]
+  jmpi_eq                         r7, 0x00000001, label0133
+  jmpi_eq                         r255, 0x00000001, label0132
+  jmpi_eq                         r1, 0x00000001, label0131
+  jmpi_eq                         r0, 0x00000001, label0130
+  call                            label00DC
+  arg_pushl                       0x00000065
+  arg_pushs                       "ああっ、<hero job>さん、\nお願いします！\nウチのバカ親父、何をトチ狂ったか…"
+  message                         ... 0x65 /* 101 */, "ああっ、<hero job>さん、\nお願いします！\nウチのバカ親父、何をトチ狂ったか…"
+  arg_pushs                       "「はよぅ下に降りて、将来有望な土地を\n  確保しておくんじゃ！」なんて言って\n飛び出しちゃったんです！"
+  add_msg                         ... "「はよぅ下に降りて、将来有望な土地を\n  確保しておくんじゃ！」なんて言って\n飛び出しちゃったんです！"
+  arg_pushs                       "早い者勝ちで 土地が自分のものに\nなるワケないじゃないですか。ねぇ？"
+  add_msg                         ... "早い者勝ちで 土地が自分のものに\nなるワケないじゃないですか。ねぇ？"
+  arg_pushs                       "まだ 何がどうなってるかも判らない…\n危険すぎます！"
+  add_msg                         ... "まだ 何がどうなってるかも判らない…\n危険すぎます！"
+  arg_pushs                       "お願いです！ 早く<color 5>親父<color 0>を\n連れて帰ってきてください！"
+  add_msg                         ... "お願いです！ 早く<color 5>親父<color 0>を\n連れて帰ってきてください！"
+  set                             r0
+  message_end
+  call                            label00DD
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  ret
+
+label0130@0x0130:
+  arg_pushl                       0x00000065
+  arg_pushs                       "お願いです！ 早く 親父を\n連れて帰ってきてください！"
+  message                         ... 0x65 /* 101 */, "お願いです！ 早く 親父を\n連れて帰ってきてください！"
+  message_end
+  ret
+
+label0131@0x0131:
+  arg_pushl                       0x00000065
+  arg_pushs                       "親父は とりあえずは無事でしたか…\nよかった…"
+  message                         ... 0x65 /* 101 */, "親父は とりあえずは無事でしたか…\nよかった…"
+  message_end
+  ret
+
+label0132@0x0132:
+  arg_pushl                       0x00000065
+  arg_pushs                       "ご迷惑をおかけしました。\nもう二度とこんなことがないよう\nよく言い含めておきます。"
+  message                         ... 0x65 /* 101 */, "ご迷惑をおかけしました。\nもう二度とこんなことがないよう\nよく言い含めておきます。"
+  arg_pushs                       "どうぞ 報酬を受け取ってください。"
+  add_msg                         ... "どうぞ 報酬を受け取ってください。"
+  message_end
+  set                             r7
+  arg_pushl                       0x00000000
+  bgm                             ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  playbgm_epi                     ... 0x1 /* 1 */
+  ret
+
+label0133@0x0133:
+  arg_pushl                       0x00000065
+  arg_pushs                       "どうぞ ハンターズギルドで\n報酬を受け取ってください。"
+  message                         ... 0x65 /* 101 */, "どうぞ ハンターズギルドで\n報酬を受け取ってください。"
+  message_end
+  ret
+
+label0136@0x0136:
+  call                            label00E2
+  arg_pushl                       0x00000003
+  arg_pushs                       "怖いモンスターがいなくなったら\nまた 行こうかのう。"
+  message                         ... 0x3 /* 3 */, "怖いモンスターがいなくなったら\nまた 行こうかのう。"
+  message_end
+  call                            label00E3
+  ret
+
+label0140@0x0140:
+  // Referenced by map enemy ES-00-002 [EnemySetEntry type=002C "TObjNpcAHM01" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-13.5029 y=0 z=-64.9985 x_angle=00000000 y_angle=0000E000 z_angle=00000000 params=[0 0 0 103 320 0000 0000]]
+  jmpi_eq                         r255, 0x00000001, label0141
+  jmpi_eq                         r10, 0x00000001, label0142
+  arg_pushl                       0x00000067
+  arg_pushs                       "<color 1>ラクトン<color 0>といったら\n強欲なこと この上なし。\nあまり 気持ちのいい男とは言えんな。"
+  message                         ... 0x67 /* 103 */, "<color 1>ラクトン<color 0>といったら\n強欲なこと この上なし。\nあまり 気持ちのいい男とは言えんな。"
+  arg_pushs                       "だが、反面教師には\nなっているのだろう、\n息子は 立派な男だよ。"
+  add_msg                         ... "だが、反面教師には\nなっているのだろう、\n息子は 立派な男だよ。"
+  message_end
+  set                             r10
+  ret
+
+label0142@0x0142:
+  arg_pushl                       0x00000067
+  arg_pushs                       "ラクトンといったら\n強欲なこと この上なし。\nあまり 気持ちのいい男とは言えんな。"
+  message                         ... 0x67 /* 103 */, "ラクトンといったら\n強欲なこと この上なし。\nあまり 気持ちのいい男とは言えんな。"
+  arg_pushs                       "だが、反面教師には\nなっているのだろう、\n息子は 立派な男だよ。"
+  add_msg                         ... "だが、反面教師には\nなっているのだろう、\n息子は 立派な男だよ。"
+  message_end
+  ret
+
+label0141@0x0141:
+  arg_pushl                       0x00000067
+  arg_pushs                       "まるで コりてないようだな、\nあのラクトンという男。"
+  message                         ... 0x67 /* 103 */, "まるで コりてないようだな、\nあのラクトンという男。"
+  message_end
+  ret
+
+label014A@0x014A:
+  // Referenced by map enemy ES-00-003 [EnemySetEntry type=002B "TObjNpcNHW01" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=167.998 y=0 z=83.9969 x_angle=00000000 y_angle=0000A000 z_angle=00000000 params=[24 0 0 104 330 0001 0000]]
+  jmpi_eq                         r255, 0x00000001, label014B
+  arg_pushl                       0x00000068
+  arg_pushs                       "ラクトン？\nああ、見た見た。"
+  message                         ... 0x68 /* 104 */, "ラクトン？\nああ、見た見た。"
+  arg_pushs                       "森のあたりでモンスターから\n逃げ回ってたわよ、うん。"
+  add_msg                         ... "森のあたりでモンスターから\n逃げ回ってたわよ、うん。"
+  arg_pushs                       "何言ってんの。\n生きるか死ぬかって時に\n情けは 禁物。"
+  add_msg                         ... "何言ってんの。\n生きるか死ぬかって時に\n情けは 禁物。"
+  arg_pushs                       "依頼を受けてもいないのに\n助けるワケないでしょ。"
+  add_msg                         ... "依頼を受けてもいないのに\n助けるワケないでしょ。"
+  message_end
+  ret
+
+label014B@0x014B:
+  arg_pushl                       0x00000068
+  arg_pushs                       "あら。\n生きて戻ってきたのね、あの男。"
+  message                         ... 0x68 /* 104 */, "あら。\n生きて戻ってきたのね、あの男。"
+  arg_pushs                       "悪運が強いって、\nああいうこと言うのかしらね。"
+  add_msg                         ... "悪運が強いって、\nああいうこと言うのかしらね。"
+  message_end
+  ret
+
+label0154@0x0154:
+  // Referenced by map enemy ES-00-004 [EnemySetEntry type=0009 "TObjNpcMaleChild/TObjNpcMaleChild" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=156.003 y=0 z=-49.9997 x_angle=00000000 y_angle=0000E000 z_angle=00000000 params=[30 0 0 106 340 0001 0000]]
+  jmpi_eq                         r102, 0x00000001, label0158
+  jmpi_eq                         r103, 0x00000001, label0157
+  jmpi_eq                         r104, 0x00000001, label0157
+  jmpi_eq                         r101, 0x00000001, label0155
+  arg_pushl                       0x00000069
+  arg_pushs                       "明日のために\n身体を 鍛えなきゃ！"
+  message                         ... 0x69 /* 105 */, "明日のために\n身体を 鍛えなきゃ！"
+  message_end
+  ret
+
+label0155@0x0155:
+  arg_pushl                       0x00000069
+  arg_pushs                       "明日のために\n身体を 鍛えなきゃ！"
+  message                         ... 0x69 /* 105 */, "明日のために\n身体を 鍛えなきゃ！"
+  arg_pushs                       "もっと鍛えて、大きくなったとき\n素手でも 戦えるように\nなるんだもんね！"
+  add_msg                         ... "もっと鍛えて、大きくなったとき\n素手でも 戦えるように\nなるんだもんね！"
+  arg_pushs                       "知ってる？ キックとパンチで戦える\n格闘用の武器もあるんだよ！\nかっちいー！"
+  add_msg                         ... "知ってる？ キックとパンチで戦える\n格闘用の武器もあるんだよ！\nかっちいー！"
+  arg_pushs                       "って…あれ？\n同じ バッヂ。"
+  add_msg                         ... "って…あれ？\n同じ バッヂ。"
+  arg_pushs                       "え？\n「ウェポンズ」に入りたい？\nふーん…"
+  add_msg                         ... "え？\n「ウェポンズ」に入りたい？\nふーん…"
+  arg_pushs                       "いいんじゃない？\n入ったって。"
+  add_msg                         ... "いいんじゃない？\n入ったって。"
+  message_end
+  jmp                             label0156
+
+label0156@0x0156:
+  arg_pushs                       "<color 5>「ウェポンズ」<color 0>加入許可を得た！"
+  window_msg                      ... "<color 5>「ウェポンズ」<color 0>加入許可を得た！"
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  gset                            0x00F3
+  set                             r104
+  ret
+
+label0157@0x0157:
+  arg_pushl                       0x00000069
+  arg_pushs                       "イイ武器を使うためには\n身体を鍛えないとね！"
+  message                         ... 0x69 /* 105 */, "イイ武器を使うためには\n身体を鍛えないとね！"
+  arg_pushs                       "見合うバランスが\n重要なんだよ！"
+  add_msg                         ... "見合うバランスが\n重要なんだよ！"
+  message_end
+  ret
+
+label0158@0x0158:
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000016
+  leti                            r63, 0x00000000
+  find_inventory_item             r61-r63, r64
+  jmpi_gt                         r64, 0xFFFFFFFF, label0159
+  jmp                             label0157
+  ret
+
+label0159@0x0159:
+  arg_pushl                       0x00000069
+  arg_pushs                       "それって\nアキコおばさんのフライパンじゃん！"
+  message                         ... 0x69 /* 105 */, "それって\nアキコおばさんのフライパンじゃん！"
+  arg_pushs                       "おじさんを怒るときには\nいっつも持ってるんだ。\nいったそうなんだな あれが！"
+  add_msg                         ... "おじさんを怒るときには\nいっつも持ってるんだ。\nいったそうなんだな あれが！"
+  message_end
+  ret
+
+label015E@0x015E:
+  jmpi_eq                         r1, 0x00000001, label0137
+  call                            label00E4
+  arg_pushl                       0x00000003
+  arg_pushs                       "うひょー！"
+  message                         ... 0x3 /* 3 */, "うひょー！"
+  arg_pushs                       "こコココ、怖い！\nなんだ、ここにいる\n凶暴な動物たちは！"
+  add_msg                         ... "こコココ、怖い！\nなんだ、ここにいる\n凶暴な動物たちは！"
+  arg_pushs                       "こんなんじゃ 土地の値段が\n上がるワケがない！\nく、来るんじゃなかった！"
+  add_msg                         ... "こんなんじゃ 土地の値段が\n上がるワケがない！\nく、来るんじゃなかった！"
+  arg_pushs                       "…なに？ ワシの息子から\nワシを連れて帰れと頼まれた？"
+  add_msg                         ... "…なに？ ワシの息子から\nワシを連れて帰れと頼まれた？"
+  arg_pushs                       "…ムホン！ まぁそこまで言われちゃ\n戻ってやらないこともない。"
+  add_msg                         ... "…ムホン！ まぁそこまで言われちゃ\n戻ってやらないこともない。"
+  arg_pushs                       "しかし！ 条件があるゾイ。"
+  add_msg                         ... "しかし！ 条件があるゾイ。"
+  arg_pushs                       "わしゃすでに 目星をつけたところに\nみっつ <color 4>カプセル<color 0>をおいてきたんじゃ！"
+  add_msg                         ... "わしゃすでに 目星をつけたところに\nみっつ <color 4>カプセル<color 0>をおいてきたんじゃ！"
+  arg_pushs                       "そのカプセルを<color 5>回収<color 0>してきてくれんか。\nそしたら おとなしく\nパイオニア２に 帰ってやるわい。"
+  add_msg                         ... "そのカプセルを<color 5>回収<color 0>してきてくれんか。\nそしたら おとなしく\nパイオニア２に 帰ってやるわい。"
+  arg_pushs                       "なんでって、そりゃ\n「カプセルがもったいないから」じゃよ。"
+  add_msg                         ... "なんでって、そりゃ\n「カプセルがもったいないから」じゃよ。"
+  arg_pushs                       "手前にも この先にもあるぞ。\nさぁさぁ、早く行った行った。"
+  add_msg                         ... "手前にも この先にもあるぞ。\nさぁさぁ、早く行った行った。"
+  message_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  set                             r1
+  call                            label00E5
+  leti                            r30, 0x00000001
+  leti                            r31, 0x00000002
+  leti                            r32, 0x00000001
+  construct_delayed_object        r30-r32
+  leti                            r30, 0x00000001
+  leti                            r31, 0x00000010
+  leti                            r32, 0x00000002
+  construct_delayed_object        r30-r32
+  leti                            r30, 0x00000001
+  leti                            r31, 0x00000008
+  leti                            r32, 0x00000003
+  construct_delayed_object        r30-r32
+  ret
+
+label0137@0x0137:
+  jmpi_eq                         r2, 0x00000000, label015F
+  jmpi_eq                         r3, 0x00000000, label015F
+  jmpi_eq                         r4, 0x00000000, label015F
+  jmp                             label0160
+
+label015F@0x015F:
+  call                            label00E4
+  arg_pushl                       0x00000003
+  arg_pushs                       "なんじゃ、まだ 全部\n持ってきておらんのか。"
+  message                         ... 0x3 /* 3 */, "なんじゃ、まだ 全部\n持ってきておらんのか。"
+  arg_pushs                       "そんなことでは いつまでも\nギルドの仕事は 終わらんぞ。"
+  add_msg                         ... "そんなことでは いつまでも\nギルドの仕事は 終わらんぞ。"
+  message_end
+  call                            label00E5
+  ret
+
+label0160@0x0160:
+  jmpi_eq                         r255, 0x00000001, label0001
+  call                            label00E4
+  arg_pushl                       0x00000003
+  arg_pushs                       "ムム！\nカプセルを全部 持ってきおったか。"
+  message                         ... 0x3 /* 3 */, "ムム！\nカプセルを全部 持ってきおったか。"
+  arg_pushs                       "よよよ、よし！\nとっとと こんな危険なところから\n逃げだそう！"
+  add_msg                         ... "よよよ、よし！\nとっとと こんな危険なところから\n逃げだそう！"
+  arg_pushs                       "うひょー！"
+  add_msg                         ... "うひょー！"
+  message_end
+  set                             r255
+  arg_pushl                       0x00000000
+  bgm                             ... 0x0 /* 0 */
+  call                            label00E5
+  fadeout
+  arg_pushl                       0x00000003
+  npc_kill                        ... 0x3 /* 3 */
+  del_obj_param                   r90
+  arg_pushl                       0x00000000
+  clear_quest_board_handler       ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  clear_quest_board_handler       ... 0x1 /* 1 */
+  arg_pushl                       0x00000002
+  clear_quest_board_handler       ... 0x2 /* 2 */
+  clear                           r74
+  clear                           r75
+  clear                           r76
+  arg_pushl                       0x00000000
+  create_pipe                     ... 0x0 /* 0 */
+  fadein
+  ret
+
+label0168@0x0168:
+  jmpi_eq                         r2, 0x00000001, label0001
+  jmpi_eq                         r1, 0x00000000, label0001
+  cine_enable
+  p_action_disable
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  set                             r2
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0122
+  arg_pushs                       "「ラクトンのカプセル１」"
+  set_quest_board_handler         ... 0x0 /* 0 */, label0122, "「ラクトンのカプセル１」"
+  set                             r74
+  arg_pushs                       "<color 4>ラクトンのカプセル１<color 0>を手にいれた！"
+  window_msg                      ... "<color 4>ラクトンのカプセル１<color 0>を手にいれた！"
+  window_msg_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  p_action_enable
+  cine_disable
+  ret
+
+label0169@0x0169:
+  jmpi_eq                         r3, 0x00000001, label0001
+  jmpi_eq                         r1, 0x00000000, label0001
+  cine_enable
+  p_action_disable
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  set                             r3
+  arg_pushl                       0x00000001
+  arg_pushw                       0x0123
+  arg_pushs                       "「ラクトンのカプセル２」"
+  set_quest_board_handler         ... 0x1 /* 1 */, label0123, "「ラクトンのカプセル２」"
+  set                             r75
+  arg_pushs                       "<color 4>ラクトンのカプセル２<color 0>を手にいれた！"
+  window_msg                      ... "<color 4>ラクトンのカプセル２<color 0>を手にいれた！"
+  window_msg_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  p_action_enable
+  cine_disable
+  ret
+
+label016A@0x016A:
+  jmpi_eq                         r4, 0x00000001, label0001
+  jmpi_eq                         r1, 0x00000000, label0001
+  cine_enable
+  p_action_disable
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  set                             r4
+  arg_pushl                       0x00000002
+  arg_pushw                       0x0124
+  arg_pushs                       "「ラクトンのカプセル３」"
+  set_quest_board_handler         ... 0x2 /* 2 */, label0124, "「ラクトンのカプセル３」"
+  set                             r76
+  arg_pushs                       "<color 4>ラクトンのカプセル３<color 0>を手にいれた！"
+  window_msg                      ... "<color 4>ラクトンのカプセル３<color 0>を手にいれた！"
+  window_msg_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  p_action_enable
+  cine_disable
+  ret
+
+label0122@0x0122:
+  arg_pushs                       "●カプセルにメッセージがある。\n「ここ一帯の土地をペッカリー家当主\nラクトンの所有地と定める。」"
+  disp_msg_qb                     ... "●カプセルにメッセージがある。\n「ここ一帯の土地をペッカリー家当主\nラクトンの所有地と定める。」"
+  close_msg_qb
+  ret
+
+label0123@0x0123:
+  arg_pushs                       "●カプセルにメッセージがある。\n「ペッカリー家当主ラクトン所有地。\n不法侵入者には罰金を課す。」"
+  disp_msg_qb                     ... "●カプセルにメッセージがある。\n「ペッカリー家当主ラクトン所有地。\n不法侵入者には罰金を課す。」"
+  close_msg_qb
+  ret
+
+label0124@0x0124:
+  arg_pushs                       "●カプセルにメッセージがある。\n「土地占有権取得済み。立ち入りを禁ず。\nペッカリー家当主ラクトン」"
+  disp_msg_qb                     ... "●カプセルにメッセージがある。\n「土地占有権取得済み。立ち入りを禁ず。\nペッカリー家当主ラクトン」"
+  close_msg_qb
+  ret
+
+label00DC@0x00DC:
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  hud_hide
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000001
+  p_look_at                       ... 0x0 /* 0 */, 0x1 /* 1 */
+  cine_enable
+  cam_zmin
+  call                            label00CF
+  ret
+
+label00DD@0x00DD:
+  cam_zmout
+  cine_disable
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  npc_talk_on
+  p_action_enable
+  ret
+
+label00E2@0x00E2:
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000003
+  p_look_at                       ... 0x0 /* 0 */, 0x3 /* 3 */
+  arg_pushl                       0x00000003
+  arg_pushl                       0x00000000
+  p_look_at                       ... 0x3 /* 3 */, 0x0 /* 0 */
+  hud_hide
+  cam_zmin
+  call                            label00CF
+  ret
+
+label00E3@0x00E3:
+  cam_zmout
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  npc_talk_on
+  p_action_enable
+  ret
+
+label00E4@0x00E4:
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  arg_pushl                       0x00000000
+  p_look                          ... 0x0 /* 0 */
+  arg_pushl                       0x00000003
+  arg_pushl                       0x00000000
+  p_look_at                       ... 0x3 /* 3 */, 0x0 /* 0 */
+  hud_hide
+  cine_enable
+  cam_zmin
+  call                            label00CF
+  ret
+
+label00E5@0x00E5:
+  cam_zmout
+  cine_disable
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  npc_talk_on
+  p_action_enable
+  ret
+
+label00CF@0x00CF:
+  leti                            r72, 0x00000000
+
+label00D0@0x00D0:
+  sync
+  addi                            r72, 0x00000001
+  jmpi_le                         r72, 0x0000001E, label00D0
+  ret

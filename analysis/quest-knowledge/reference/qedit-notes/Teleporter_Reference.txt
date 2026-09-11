@@ -1,0 +1,136 @@
+Phantasy Star Online Custom Quest Development Reference
+======================================================
+Topic: Teleporter IDs, Floor IDs, Map Selectors, and Warp Objects
+Location: Qedit/Information/Teleporter_Reference.txt
+------------------------------------------------------
+
+In PSO quest editing (via Qedit and Quest ASM scripting), teleportation is handled using three distinct methods:
+1. Object 002 (Teleporter) - Used to transition players between different floors (e.g., Forest 1 -> Forest 2).
+2. Object 003 (Warp) - Used to teleport players to a precise X/Y/Z coordinate on the same floor.
+3. Script Command: set_mainwarp - Used in the script (.bin) to configure the target destination of the main Pioneer 2 teleporter.
+
+================================================================================
+1. FLOOR & AREA ID INDEX (EPISODE I, II, IV)
+================================================================================
+These IDs are used for:
+- "Area Number" in Object 002 (Teleporter) properties.
+- Script command "bb_map_designate" (First parameter).
+- Script command "set_mainwarp".
+
+EPISODE I
+---------
+ID   | Area/Floor Name
+-----+-------------------------------------------
+0    | Pioneer 2 (Episode 1 version)
+1    | Forest 1
+2    | Forest 2
+3    | Caves 1
+4    | Caves 2
+5    | Caves 3
+6    | Mines 1
+7    | Mines 2
+8    | Ruins 1
+9    | Ruins 2
+10   | Ruins 3
+11   | Dragon (Episode 1 Forest Boss Room)
+12   | De Rol Le (Episode 1 Caves Boss Room)
+13   | Vol Opt (Episode 1 Mines Boss Room)
+14   | Dark Falz (Episode 1 Ruins Boss Room)
+15   | Fake Lobby (Section ID Lobby)
+
+EPISODE II
+----------
+ID   | Area/Floor Name
+-----+-------------------------------------------
+0    | Pioneer 2 (Episode 2 version)
+1    | VR Temple Alpha
+2    | VR Temple Beta
+3    | VR Spaceship Alpha
+4    | VR Spaceship Beta
+5    | Central Control Area (CCA)
+6    | Jungle Area North
+7    | Jungle Area East
+8    | Mountain Area
+9    | Seaside Area
+10   | Seabed Upper Levels
+11   | Seabed Lower Levels
+12   | Gal Gryphon (Boss Room)
+13   | Olga Flow (Boss Room)
+14   | Barba Ray (Boss Room)
+15   | Gol Dragon (Boss Room)
+16   | Seaside Area (Night Version)
+17   | Tower (4th Floor)
+
+EPISODE IV
+----------
+ID   | Area/Floor Name
+-----+-------------------------------------------
+0    | Pioneer 2 (Episode 4 version)
+1    | Crater East
+2    | Crater West
+3    | Crater South
+4    | Crater North
+5    | Crater Interior
+6    | Desert 1
+7    | Desert 2
+8    | Desert 3
+9    | Saint Milion / Shambertin (Boss Room)
+
+================================================================================
+2. OBJECT 002: TELEPORTER (FLOOR-TO-FLOOR TRANSITION)
+================================================================================
+Place this object in Qedit when you want a standard portal to send players to another floor (e.g., placing a teleporter in Forest 1 that warps players to Forest 2).
+
+Qedit Object Properties (Unique Arguments):
+-------------------------------------------
+Arg Index | Parameter Name     | Description & Values
+----------+--------------------+------------------------------------------------
+Unique (1)| Area Number        | Target Area ID (from the index table in Section 1).
+          |                    | Example: Set to 2 if warping to Forest 2.
+Unique (2)| Color Blue         | 1 = Blue portal, 0 = Not blue.
+Unique (3)| Color Red          | 1 = Red portal, 0 = Not red.
+Unique (4)| Floor Number       | The target floor index in your quest's active 
+          |                    | floor list (usually matches the Area Number).
+Unique (5)| Display Number     | Text label index (usually left default).
+Unique (6)| No Display Number  | Must be set to 1 to render a red warp portal.
+
+Example: Teleporter in Forest 1 (Floor 1) going to Forest 2 (Floor 2)
+- Unique (1) Area Number: 2
+- Unique (2) Color Blue: 1 (makes it blue)
+- Unique (3) Color Red: 0
+- Unique (4) Floor Number: 2
+- Unique (6) No Display Number: 0
+
+================================================================================
+3. OBJECT 003: WARP (SAME-FLOOR PRECISION TELEPORT)
+================================================================================
+Use this green warp cylinder if you want a warp on a floor to send players to a specific location on the same floor.
+
+Qedit Object Properties (Unique Arguments):
+-------------------------------------------
+Arg Index | Parameter Name     | Description & Values
+----------+--------------------+------------------------------------------------
+Unique (1)| Destination X      | Target X coordinate. (Note: Must be offset by +10 in Qedit)
+Unique (2)| Destination Y      | Target Y coordinate (height).
+Unique (3)| Destination Z      | Target Z coordinate. (Note: Must be offset by +10 in Qedit)
+Unique (4)| Destination Rot Y  | Y-axis rotation direction of the player after warp.
+
+================================================================================
+4. QUEST SCRIPT (.BIN) ASM TELEPORT COMMANDS
+================================================================================
+To configure floor destinations or warp functionality at the script level:
+
+A. set_mainwarp <floor_id>
+--------------------------
+Sets the warp destination for the central Pioneer 2 teleporter.
+Example (Warp to Forest 1):
+  arg_pushl                       0x00000001
+  set_mainwarp                    ... 0x1
+
+B. bb_map_designate <area_id>, <map_id>, <unk>, <unk>, <unk>
+------------------------------------------------------------
+Declares which maps are loaded for the active floors in the quest.
+Example (Designating Forest 1 & Forest 2):
+  bb_map_designate                0x00, 0x00, 0x00, 0x00, 0x00   ; Floor 0 = Pioneer 2
+  bb_map_designate                0x01, 0x01, 0x00, 0x00, 0x01   ; Floor 1 = Forest 1 (Map variation 1)
+  bb_map_designate                0x02, 0x02, 0x00, 0x00, 0x01   ; Floor 2 = Forest 2 (Map variation 1)

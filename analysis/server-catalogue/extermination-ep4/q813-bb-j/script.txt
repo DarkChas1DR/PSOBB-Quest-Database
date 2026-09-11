@@ -1,0 +1,692 @@
+.version BB_V4
+.quest_num 813
+.name "極幻の戦火へ ３"
+.short_desc "地下砂漠の上層部で\n大量発生しつづける\nエネミーの全排除。"
+.long_desc "依頼主：軍人\n依頼内容：\n  地下砂漠の上層部で\n  エネミーが多量に\n  発生しつづける区画がある。\n  その区画のエネミーを\n  全て排除して欲しい。\n報酬：？？？メセタ\n\n"
+.episode Episode4
+.header_episode 0x00
+.language J
+.max_players 0
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+label0013@0x0013:
+  get_difficulty_level_v2         r252
+  get_client_id                   r250
+  get_number_of_players           r251
+  clear                           r245
+  ret
+
+label001A@0x001A:
+  read_switch_flag_on_floor       r1-r3
+  jmpi_ne                         r3, 0x00000000, label002A
+  arg_pushr                       r1
+  arg_pushr                       r2
+  set_switch_flag_sync            ... r1, r2
+
+label002A@0x002A:
+  ret
+
+label0019@0x0019:
+  read_switch_flag_on_floor       r1-r3
+  jmpi_eq                         r3, 0x00000000, label0004
+  arg_pushr                       r1
+  arg_pushr                       r2
+  clear_switch_flag_sync          ... r1, r2
+
+label0004@0x0004:
+  ret
+
+label0023@0x0023:
+  let                             r247, r1
+
+label0014@0x0014:
+  jmpi_le                         r247, 0x00000000, label0010
+  sync
+  subi                            r247, 0x00000001
+  jmp                             label0014
+
+label0010@0x0010:
+  ret
+
+label001C@0x001C:
+  call                            label002E
+  fadeout
+  cine_enable
+  va_start
+  arg_pushr                       r1
+  va_call                         label0023
+  va_end
+  fadein
+  ret
+
+label0032@0x0032:
+  cine_enable
+
+label002E@0x002E:
+  arg_pushr                       r250
+  disable_movement1               ... r250
+  p_action_disable
+  hud_hide
+  ret
+
+label002B@0x002B:
+  fadeout
+
+label0022@0x0022:
+  cine_disable
+
+label0011@0x0011:
+  hud_show
+  p_action_enable
+  arg_pushr                       r250
+  enable_movement1                ... r250
+  ret
+
+label0020@0x0020:
+  leti                            r60, 0xFFFFFFEA
+  leti                            r61, 0x00000000
+  leti                            r62, 0xFFFFF837
+  leti                            r63, 0x0000010E
+  arg_pushl                       0x00000000
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  addi                            r62, 0x00000005
+  arg_pushl                       0x00000001
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x1 /* 1 */, r60-r63
+  addi                            r62, 0x00000005
+  arg_pushl                       0x00000002
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x2 /* 2 */, r60-r63
+  addi                            r62, 0x00000005
+  arg_pushl                       0x00000003
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x3 /* 3 */, r60-r63
+  ret
+
+label001D@0x001D:
+  fleti                           r230, -35
+  fleti                           r231, 14.5
+  fleti                           r232, -2000
+  fleti                           r233, -54
+  fleti                           r234, 13
+  fleti                           r235, -2000
+  arg_pushb                       0xE6
+  fleti_fixed_camera              ... r230-r235
+  ret
+
+label0034@0x0034:
+  default_camera_pos2
+  ret
+
+label000E@0x000E:
+  warp_on
+  p_enablewarp
+  ret
+
+label0018@0x0018:
+  warp_off
+  p_disablewarp
+  ret
+
+label0012@0x0012:
+  get_player_state                r250, r0
+  jmpi_eq                         r0, 0x00000001, label001B
+  jmpi_eq                         r0, 0x00000002, label001B
+  jmpi_eq                         r0, 0x00000003, label001B
+  clear                           r0
+  ret
+
+label001B@0x001B:
+  set                             r0
+  ret
+
+label0028@0x0028:
+  sync
+  call                            label0012
+  jmpi_eq                         r0, 0x00000000, label0028
+  ret
+
+label0035@0x0035:
+  set                             r246
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  ret
+
+label0024@0x0024:
+  va_start
+  arg_pushl                       0x00000000
+  arg_pushl                       0x000000FF
+  va_call                         label001A
+  va_end
+  ret
+
+label0007@0x0007:
+  thread_stg                      label0008
+  ret
+
+label0008@0x0008:
+  sync
+  call                            label000E
+  jmpi_ne                         r246, 0x00000000, label0016
+  leti                            r60, 0x00000000
+  leti                            r61, 0x000000FF
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000000, label0008
+  call                            label0018
+
+label0016@0x0016:
+  ret
+
+label000B@0x000B:
+  va_start
+  arg_pushr                       r1
+  va_call                         label002D
+  va_end
+  let                             r60, r0
+  jmpi_ne                         r2, 0x00000000, label002C
+  leti                            r0, 0x00000000
+  jmpi_eq                         r60, 0x00000000, label0009
+  leti                            r0, 0x00000001
+
+label0009@0x0009:
+  ret
+
+label002C@0x002C:
+  leti                            r0, 0x00000002
+  jmpi_eq                         r60, 0x00000000, label0009
+  leti                            r0, 0x00000003
+  ret
+
+label0039@0x0039:
+  jmpi_eq                         r3, 0x00000000, label0017
+  va_start
+  arg_pushr                       r1
+  arg_pushr                       r3
+  va_call                         label000B
+  va_end
+  jmpi_le                         r0, 0x00000001, label000C
+  addi                            r0, 0x00000002
+  ret
+
+label0017@0x0017:
+  va_start
+  arg_pushr                       r1
+  arg_pushr                       r2
+  va_call                         label000B
+  va_end
+
+label000C@0x000C:
+  ret
+
+label0038@0x0038:
+  va_start
+  arg_pushr                       r1
+  va_call                         label0021
+  va_end
+  and                             r0, r245
+  ret
+
+label002D@0x002D:
+  va_start
+  arg_pushr                       r1
+  va_call                         label0038
+  va_end
+  stack_push                      r0
+  va_start
+  arg_pushr                       r1
+  va_call                         label0021
+  va_end
+  or                              r245, r0
+  stack_pop                       r0
+  ret
+
+label001E@0x001E:
+  va_start
+  arg_pushr                       r1
+  va_call                         label0038
+  va_end
+  stack_push                      r0
+  va_start
+  arg_pushr                       r1
+  va_call                         label0021
+  va_end
+  xori                            r0, 0xFFFFFFFF
+  and                             r245, r0
+  stack_pop                       r0
+  ret
+
+label0003@0x0003:
+  let                             r0, r245
+  clear                           r245
+  ret
+
+label0021@0x0021:
+  subi                            r1, 0x00000064
+  leti                            r0, 0x00000001
+  shift_left                      r0, r1
+  ret
+
+label003A@0x003A:
+  leti                            r249, 0x00000000
+  arg_pushr                       r250
+  enable_movement2                ... r250
+  p_action_enable
+  ret
+
+label0002@0x0002:
+  leti                            r249, 0x00000001
+  p_action_disable
+  arg_pushr                       r250
+  disable_movement2               ... r250
+  ret
+
+label0006@0x0006:
+  stack_pushm                     r10, 0x00000005
+  get_coord_player_detect         r1-r3, r10-r13
+  get_number_of_players           r9
+  let                             r14, r10
+  add                             r14, r11
+  add                             r14, r12
+  add                             r14, r13
+  jmp_eq                          r9, r14, label002F
+  leti                            r0, 0x00000000
+  stack_popm                      r10, 0x00000005
+  ret
+
+label002F@0x002F:
+  leti                            r0, 0x00000001
+  stack_popm                      r10, 0x00000005
+  ret
+
+start:
+  set_episode                     0x00000002
+  set_qt_exit                     label0015
+  set_qt_cancel                   label000D
+  set_qt_success                  label0030
+  set_qt_failure                  label0026
+  bb_map_designate                0x00, 0x2D, 0x00, 0x00, 0x00
+  bb_map_designate                0x06, 0x29, 0x00, 0x02, 0x00
+  arg_pushl                       0x00000000
+  initial_floor                   ... 0x0 /* 0 */
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0029
+  set_floor_handler               ... 0x0 /* 0 */, label0029
+  arg_pushl                       0x00000006
+  arg_pushw                       0x0027
+  set_floor_handler               ... 0x6 /* 6 */, label0027
+  arg_pushl                       0x00000029
+  set_mainwarp                    ... 0x29 /* 41 */
+  call                            label0013
+  ret
+
+label000D@0x000D:
+label0015@0x0015:
+  ret
+
+label0030@0x0030:
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  jmpi_eq                         r252, 0x00000000, label0037
+  jmpi_eq                         r252, 0x00000001, label001F
+  jmpi_eq                         r252, 0x00000002, label0033
+  jmpi_eq                         r252, 0x00000003, label0025
+
+label0037@0x0037:
+  arg_pushs                       "<color 1>４５００<color 0>メセタ受け取った。"
+  window_msg                      ... "<color 1>４５００<color 0>メセタ受け取った。"
+  window_msg_end
+  arg_pushl                       0x00001194
+  pl_add_meseta2                  ... 0x1194 /* 4500 */
+  ret
+
+label001F@0x001F:
+  arg_pushs                       "<color 1>９０００<color 0>メセタ受け取った。"
+  window_msg                      ... "<color 1>９０００<color 0>メセタ受け取った。"
+  window_msg_end
+  arg_pushl                       0x00002328
+  pl_add_meseta2                  ... 0x2328 /* 9000 */
+  ret
+
+label0033@0x0033:
+  arg_pushs                       "<color 1>１３５００<color 0>メセタ受け取った。"
+  window_msg                      ... "<color 1>１３５００<color 0>メセタ受け取った。"
+  window_msg_end
+  arg_pushl                       0x000034BC
+  pl_add_meseta2                  ... 0x34BC /* 13500 */
+  ret
+
+label0025@0x0025:
+  arg_pushs                       "<color 1>１８０００<color 0>メセタ受け取った。"
+  window_msg                      ... "<color 1>１８０００<color 0>メセタ受け取った。"
+  window_msg_end
+  arg_pushl                       0x00004650
+  pl_add_meseta2                  ... 0x4650 /* 18000 */
+  ret
+
+label0026@0x0026:
+  ret
+
+label0001@0x0001:
+  ret
+
+label0029@0x0029:
+  call                            label003A
+  jmpi_eq                         r254, 0x00000001, label0001
+  jmpi_eq                         r253, 0x00000001, label0001
+  jmpi_eq                         r0, 0x00000001, label0001
+  leti                            r60, 0x000000ED
+  leti                            r61, 0x00000000
+  leti                            r62, 0x0000014D
+  leti                            r63, 0xFFFFFFFA
+  arg_pushl                       0x00000000
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  leti                            r60, 0x000000F6
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000153
+  leti                            r63, 0x00000000
+  arg_pushl                       0x00000001
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x1 /* 1 */, r60-r63
+  leti                            r60, 0x000000E3
+  leti                            r61, 0x00000000
+  leti                            r62, 0x0000014D
+  leti                            r63, 0x00000000
+  arg_pushl                       0x00000002
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x2 /* 2 */, r60-r63
+  leti                            r60, 0x000000D7
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000152
+  leti                            r63, 0x00000000
+  arg_pushl                       0x00000003
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x3 /* 3 */, r60-r63
+  call                            label0478
+  ret
+
+label03E9@0x03E9:
+  p_action_disable
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  disable_movement1               ... 0x1 /* 1 */
+  arg_pushl                       0x00000002
+  disable_movement1               ... 0x2 /* 2 */
+  arg_pushl                       0x00000003
+  disable_movement1               ... 0x3 /* 3 */
+  hud_hide
+  cine_enable
+  cam_zmin
+  call                            label0385
+  ret
+
+label03EA@0x03EA:
+  cam_zmout
+  cine_disable
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  enable_movement1                ... 0x1 /* 1 */
+  arg_pushl                       0x00000002
+  enable_movement1                ... 0x2 /* 2 */
+  arg_pushl                       0x00000003
+  enable_movement1                ... 0x3 /* 3 */
+  p_action_enable
+  ret
+
+label03F3@0x03F3:
+  p_action_disable
+  cam_zmin
+  call                            label0385
+  ret
+
+label03F4@0x03F4:
+  cam_zmout
+  p_action_enable
+  ret
+
+label0385@0x0385:
+  leti                            r72, 0x00000000
+
+label0386@0x0386:
+  sync
+  addi                            r72, 0x00000001
+  jmpi_le                         r72, 0x0000001E, label0386
+  ret
+
+label0478@0x0478:
+  // Referenced by map enemy ES-00-001 [EnemySetEntry type=0019 "TObjNpcSoldierBase/TObjNpcSoldierBase" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-12.9355 y=0 z=66.5647 x_angle=00000000 y_angle=00008000 z_angle=00000000 params=[0 0 0 144 1144 0000 0000]]
+  call                            label0002
+  jmpi_eq                         r254, 0x00000001, label0005
+  jmpi_eq                         r0, 0x00000001, label000F
+  call                            label03E9
+  arg_pushl                       0x00000090
+  arg_pushs                       "最初に言っておくが、\n我々、そして依頼内容に\n対する詮索は無用だ。"
+  message                         ... 0x90 /* 144 */, "最初に言っておくが、\n我々、そして依頼内容に\n対する詮索は無用だ。"
+  arg_pushs                       "君たちは依頼内容を\n達成してくれれば\nそれで良い。"
+  add_msg                         ... "君たちは依頼内容を\n達成してくれれば\nそれで良い。"
+  arg_pushs                       "それなりの報酬は用意してある。\n余計な勘ぐりはしないことだ。"
+  add_msg                         ... "それなりの報酬は用意してある。\n余計な勘ぐりはしないことだ。"
+  arg_pushs                       "さて、今回君たちに\n頼みたい依頼だが……"
+  add_msg                         ... "さて、今回君たちに\n頼みたい依頼だが……"
+  arg_pushs                       "地下砂漠の上層部に\nエネミーが大量発生している\n区画がある。"
+  add_msg                         ... "地下砂漠の上層部に\nエネミーが大量発生している\n区画がある。"
+  arg_pushs                       "その区画のエネミーを\nすべて排除してもらいたい。\nこれ以上発生しなくなるまで、だ。"
+  add_msg                         ... "その区画のエネミーを\nすべて排除してもらいたい。\nこれ以上発生しなくなるまで、だ。"
+  arg_pushs                       "極限の戦いが強いられることになる。\n入念に準備して\n任務にあたってくれ。"
+  add_msg                         ... "極限の戦いが強いられることになる。\n入念に準備して\n任務にあたってくれ。"
+  message_end
+  set                             r0
+  call                            label03EA
+  call                            label003A
+  ret
+
+label0005@0x0005:
+  call                            label03F3
+  arg_pushl                       0x00000090
+  arg_pushs                       "任務達成だな。\nよくやってくれた。"
+  message                         ... 0x90 /* 144 */, "任務達成だな。\nよくやってくれた。"
+  arg_pushs                       "報酬はハンターズギルドの\n受付に預けてある。\n受け取ってくれ。"
+  add_msg                         ... "報酬はハンターズギルドの\n受付に預けてある。\n受け取ってくれ。"
+  message_end
+  call                            label03F4
+  call                            label003A
+  set                             r255
+  ret
+
+label000F@0x000F:
+  call                            label03F3
+  arg_pushl                       0x00000090
+  arg_pushs                       "任務が完了したら報告してくれ。\n健闘を祈る。"
+  message                         ... 0x90 /* 144 */, "任務が完了したら報告してくれ。\n健闘を祈る。"
+  message_end
+  call                            label03F4
+  call                            label003A
+  ret
+
+label0027@0x0027:
+  thread_stg                      label0031
+  leti                            r60, 0x00000A64
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000339
+  leti                            r63, 0x00000023
+  leti                            r64, 0x00000457
+  at_coords_call                  r60-r64
+  ret
+
+label0457@0x0457:
+  jmpi_eq                         r254, 0x00000001, label0001
+  thread_stg                      label000A
+  ret
+
+label000A@0x000A:
+  sync
+  jmpi_eq                         r80, 0x00000001, label0001
+  leti                            r110, 0x00000000
+  leti                            r111, 0x00000010
+  leti                            r112, 0x00000005
+  leti                            r113, 0x00000000
+  leti                            r114, 0x00000010
+  leti                            r115, 0x0000001F
+  pcam_param                      r110-r115
+  jmp                             label000A
+  ret
+
+label0031@0x0031:
+  jmpi_eq                         r101, 0x00000001, label0001
+  leti                            r100, 0x00000096
+
+label0036@0x0036:
+  sync
+  subi                            r100, 0x00000001
+  jmpi_gt                         r100, 0x00000000, label0036
+  leti                            r102, 0x00000006
+  leti                            r103, 0x0000006E
+  if_zone_clear                   r104, r102-r103
+  jmpi_eq                         r104, 0x00000000, label0031
+  fadeout
+  set                             r254
+  set                             r80
+  fadein
+  call                            label0002
+  arg_pushs                       "エネミーを殲滅しました！"
+  window_msg                      ... "エネミーを殲滅しました！"
+  window_msg_end
+  call                            label003A
+  set                             r101
+  ret
+
+label046E@0x046E:
+  // Referenced by map enemy ES-00-010 [EnemySetEntry type=001F "TObjNpcNurseBase" num_children=0000 floor=0000 room=0028 wave_number=0000 wave_number2=0000 a1=0000 x=53.4992 y=0 z=-26.4967 x_angle=00000000 y_angle=0000E000 z_angle=00000000 params=[18 0 0 134 1134 0001 0000]]
+  call                            label0002
+  arg_pushl                       0x00000086
+  arg_pushs                       "疲れて傷ついた体は\nメディカルセンターで\nリフレッシュ！"
+  message                         ... 0x86 /* 134 */, "疲れて傷ついた体は\nメディカルセンターで\nリフレッシュ！"
+  arg_pushs                       "戦う勇気も必要だけど、\n時には撤退する勇気も必要よ。"
+  add_msg                         ... "戦う勇気も必要だけど、\n時には撤退する勇気も必要よ。"
+  arg_pushs                       "決して無理をせずに\nがんばってね！"
+  add_msg                         ... "決して無理をせずに\nがんばってね！"
+  message_end
+  call                            label003A
+  ret
+
+label046F@0x046F:
+  // Referenced by map enemy ES-00-003 [EnemySetEntry type=0007 "TObjNpcFemaleTall/TObjNpcFemaleTall" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=156.003 y=0 z=-49.9997 x_angle=00000000 y_angle=0000E000 z_angle=00000000 params=[30 0 0 135 1135 0001 0000]]
+  call                            label0002
+  arg_pushl                       0x00000087
+  arg_pushs                       "ここのところ、\nこのあたりを通る人に\n緊張感が感じられるわ。"
+  message                         ... 0x87 /* 135 */, "ここのところ、\nこのあたりを通る人に\n緊張感が感じられるわ。"
+  arg_pushs                       "パイオニア２の中は\n大丈夫だけど、ラグオルは\n大変なのかしら？"
+  add_msg                         ... "パイオニア２の中は\n大丈夫だけど、ラグオルは\n大変なのかしら？"
+  message_end
+  call                            label003A
+  ret
+
+label0470@0x0470:
+  // Referenced by map enemy ES-00-004 [EnemySetEntry type=001A "TObjNpcSoldierMacho/TObjNpcSoldierMacho" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=237.999 y=0 z=-14.0001 x_angle=00000000 y_angle=0000E000 z_angle=00000000 params=[0 0 0 136 1136 0000 0000]]
+  call                            label0002
+  arg_pushl                       0x00000088
+  arg_pushs                       "ここの転送装置から\n惑星ラグオルヘと通じている。"
+  message                         ... 0x88 /* 136 */, "ここの転送装置から\n惑星ラグオルヘと通じている。"
+  arg_pushs                       "惑星ラグオルは\n隕石衝突後の収拾が\n未だ完全ではない。"
+  add_msg                         ... "惑星ラグオルは\n隕石衝突後の収拾が\n未だ完全ではない。"
+  arg_pushs                       "何があろうと動じない\n準備と心構えを怠らぬようにな。"
+  add_msg                         ... "何があろうと動じない\n準備と心構えを怠らぬようにな。"
+  message_end
+  call                            label003A
+  ret
+
+label0471@0x0471:
+  // Referenced by map enemy ES-00-005 [EnemySetEntry type=0019 "TObjNpcSoldierBase/TObjNpcSoldierBase" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=238.004 y=0 z=63.0041 x_angle=00000000 y_angle=0000A000 z_angle=00000000 params=[0 0 0 137 1137 0000 0000]]
+  call                            label0002
+  arg_pushl                       0x00000089
+  arg_pushs                       "我々軍部は、\n今回のような一大事では\n先陣を切って動かなければならん。"
+  message                         ... 0x89 /* 137 */, "我々軍部は、\n今回のような一大事では\n先陣を切って動かなければならん。"
+  arg_pushs                       "皆のために体を張って……"
+  add_msg                         ... "皆のために体を張って……"
+  arg_pushs                       "軍人とはそういうものだ。"
+  add_msg                         ... "軍人とはそういうものだ。"
+  message_end
+  call                            label003A
+  ret
+
+label0472@0x0472:
+  // Referenced by map enemy ES-00-002 [EnemySetEntry type=001A "TObjNpcSoldierMacho/TObjNpcSoldierMacho" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=168.284 y=0 z=84.5377 x_angle=00000000 y_angle=0000A000 z_angle=00000000 params=[24 0 0 138 1138 0001 0000]]
+  call                            label0002
+  arg_pushl                       0x0000008A
+  arg_pushs                       "任務中は私語は禁じられている。"
+  message                         ... 0x8A /* 138 */, "任務中は私語は禁じられている。"
+  arg_pushs                       "……のだが、\n地下砂漠はますます\n過酷な戦いが待ち受けている。"
+  add_msg                         ... "……のだが、\n地下砂漠はますます\n過酷な戦いが待ち受けている。"
+  arg_pushs                       "回復手段を万全にするよう\n準備を怠らないようにな。"
+  add_msg                         ... "回復手段を万全にするよう\n準備を怠らないようにな。"
+  message_end
+  call                            label003A
+  ret
+
+label0473@0x0473:
+  // Referenced by map enemy ES-00-006 [EnemySetEntry type=000D "TObjNpcMaleOld/TObjNpcMaleOld" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=-0.0996329 y=0 z=39.7933 x_angle=00000000 y_angle=00008000 z_angle=00000000 params=[26 0 0 139 1139 0001 0000]]
+  call                            label0002
+  arg_pushl                       0x0000008B
+  arg_pushs                       "最近、あの制服のやつらの\n動きがあわただしい。"
+  message                         ... 0x8B /* 139 */, "最近、あの制服のやつらの\n動きがあわただしい。"
+  arg_pushs                       "隕石の調査だと言っているが\nはたして……？"
+  add_msg                         ... "隕石の調査だと言っているが\nはたして……？"
+  arg_pushs                       "それにしても、\nあまりに緊迫感があるが。"
+  add_msg                         ... "それにしても、\nあまりに緊迫感があるが。"
+  message_end
+  call                            label003A
+  ret
+
+label0474@0x0474:
+  // Referenced by map enemy ES-00-007 [EnemySetEntry type=001E "TObjNpcExpertBase" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=-147 y=0 z=-7.99654 x_angle=00000000 y_angle=00006900 z_angle=00000000 params=[30 0 0 140 1140 0001 0000]]
+  call                            label0002
+  arg_pushl                       0x0000008C
+  arg_pushs                       "知っているか……？"
+  message                         ... 0x8C /* 140 */, "知っているか……？"
+  arg_pushs                       "この前、このパイオニア２が\n激しく揺れたのは隕石が\nすぐ近くをかすめたせいさ。"
+  add_msg                         ... "この前、このパイオニア２が\n激しく揺れたのは隕石が\nすぐ近くをかすめたせいさ。"
+  arg_pushs                       "その隕石はその直後\nラグオルヘと衝突したらしい。"
+  add_msg                         ... "その隕石はその直後\nラグオルヘと衝突したらしい。"
+  arg_pushs                       "しかし謎だらけだよ。\nこの事態は……"
+  add_msg                         ... "しかし謎だらけだよ。\nこの事態は……"
+  message_end
+  call                            label003A
+  ret
+
+label0475@0x0475:
+  // Referenced by map enemy ES-00-00E [EnemySetEntry type=0005 "TObjNpcFemaleMacho/TObjNpcFemaleMacho" num_children=0000 floor=0000 room=001E wave_number=0000 wave_number2=0000 a1=0000 x=16.004 y=0 z=5.99567 x_angle=00000000 y_angle=FFFFD000 z_angle=00000000 params=[22 0 0 141 1141 0001 0000]]
+  call                            label0002
+  arg_pushl                       0x0000008D
+  arg_pushs                       "今日はお買い物日和ね。\nって、私ったら\nまたここに来ちゃったわ。"
+  message                         ... 0x8D /* 141 */, "今日はお買い物日和ね。\nって、私ったら\nまたここに来ちゃったわ。"
+  arg_pushs                       "……"
+  add_msg                         ... "……"
+  arg_pushs                       "……あら、聞こえちゃった？"
+  add_msg                         ... "……あら、聞こえちゃった？"
+  message_end
+  call                            label003A
+  ret
+
+label0476@0x0476:
+  // Referenced by map enemy ES-00-008 [EnemySetEntry type=0004 "TObjNpcFemaleFat/TObjNpcFemaleFat" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=-212 y=0 z=-140 x_angle=00000000 y_angle=00000000 z_angle=00000000 params=[37 0 0 142 1142 0001 0000]]
+  call                            label0002
+  arg_pushl                       0x0000008E
+  arg_pushs                       "あんた！\nあんた！\nあんた！"
+  message                         ... 0x8E /* 142 */, "あんた！\nあんた！\nあんた！"
+  arg_pushs                       "そんなに、のんきに\nしている場合じゃないわよ！"
+  add_msg                         ... "そんなに、のんきに\nしている場合じゃないわよ！"
+  arg_pushs                       "この前のあのすごい揺れ！\nあたしゃ目ん玉が飛び出たわよ！"
+  add_msg                         ... "この前のあのすごい揺れ！\nあたしゃ目ん玉が飛び出たわよ！"
+  arg_pushs                       "まぁ、冗談だけどね……\nそれくらいスゴかったってことよ！"
+  add_msg                         ... "まぁ、冗談だけどね……\nそれくらいスゴかったってことよ！"
+  message_end
+  call                            label003A
+  ret

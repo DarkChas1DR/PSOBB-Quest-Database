@@ -1,0 +1,1738 @@
+.version BB_V4
+.quest_num 119
+.name "Fragments of a Memory"
+.short_desc "The search for\nmessage capsules\nleft in the\nRuins."
+.long_desc "Client： Military\nRequest：\n  Pioneer 1 may have left\n  message capsules in the\n  Underground Ruins on\n  Ragol.  I want you to\n  look for them.\nReward：  ??? Meseta"
+.episode Episode1
+.header_episode 0x00
+.language E
+.max_players 0
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+label0026@0x0026:
+  get_difficulty_level_v2         r252
+  get_client_id                   r250
+  get_number_of_players           r251
+  clear                           r245
+  ret
+
+label0035@0x0035:
+  read_switch_flag_on_floor       r1-r3
+  jmpi_ne                         r3, 0x00000000, label0058
+  arg_pushr                       r1
+  arg_pushr                       r2
+  set_switch_flag_sync            ... r1, r2
+
+label0058@0x0058:
+  ret
+
+label0034@0x0034:
+  read_switch_flag_on_floor       r1-r3
+  jmpi_eq                         r3, 0x00000000, label0009
+  arg_pushr                       r1
+  arg_pushr                       r2
+  clear_switch_flag_sync          ... r1, r2
+
+label0009@0x0009:
+  ret
+
+label004B@0x004B:
+  let                             r247, r1
+
+label002B@0x002B:
+  jmpi_le                         r247, 0x00000000, label001C
+  sync
+  subi                            r247, 0x00000001
+  jmp                             label002B
+
+label001C@0x001C:
+  ret
+
+label003B@0x003B:
+  call                            label0062
+  fadeout
+  cine_enable
+  va_start
+  arg_pushr                       r1
+  va_call                         label004B
+  va_end
+  fadein
+  ret
+
+label0069@0x0069:
+  cine_enable
+
+label0062@0x0062:
+  arg_pushr                       r250
+  disable_movement1               ... r250
+  p_action_disable
+  hud_hide
+  ret
+
+label0059@0x0059:
+  fadeout
+
+label0048@0x0048:
+  cine_disable
+
+label0020@0x0020:
+  hud_show
+  p_action_enable
+  arg_pushr                       r250
+  enable_movement1                ... r250
+  ret
+
+label0040@0x0040:
+  leti                            r60, 0xFFFFFFEA
+  leti                            r61, 0x00000000
+  leti                            r62, 0xFFFFF837
+  leti                            r63, 0x0000010E
+  arg_pushl                       0x00000000
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  addi                            r62, 0x00000005
+  arg_pushl                       0x00000001
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x1 /* 1 */, r60-r63
+  addi                            r62, 0x00000005
+  arg_pushl                       0x00000002
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x2 /* 2 */, r60-r63
+  addi                            r62, 0x00000005
+  arg_pushl                       0x00000003
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x3 /* 3 */, r60-r63
+  ret
+
+label003C@0x003C:
+  // Referenced by map enemy ES-00-006 [EnemySetEntry type=000D "TObjNpcMaleOld/TObjNpcMaleOld" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=-2.00188 y=0 z=35.0037 x_angle=00000000 y_angle=00008000 z_angle=00000000 params=[26 0 0 1012 60 0001 0000]]
+  fleti                           r230, -35
+  fleti                           r231, 14.5
+  fleti                           r232, -2000
+  fleti                           r233, -54
+  fleti                           r234, 13
+  fleti                           r235, -2000
+  arg_pushb                       0xE6
+  fleti_fixed_camera              ... r230-r235
+  ret
+
+label006A@0x006A:
+  default_camera_pos2
+  ret
+
+label0014@0x0014:
+  warp_on
+  p_enablewarp
+  ret
+
+label0033@0x0033:
+  warp_off
+  p_disablewarp
+  ret
+
+label0024@0x0024:
+  get_player_state                r250, r0
+  jmpi_eq                         r0, 0x00000001, label003A
+  jmpi_eq                         r0, 0x00000002, label003A
+  jmpi_eq                         r0, 0x00000003, label003A
+  clear                           r0
+  ret
+
+label003A@0x003A:
+  set                             r0
+  ret
+
+label0054@0x0054:
+  sync
+  call                            label0024
+  jmpi_eq                         r0, 0x00000000, label0054
+  ret
+
+label006B@0x006B:
+  set                             r246
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  ret
+
+label004E@0x004E:
+  va_start
+  arg_pushl                       0x00000000
+  arg_pushl                       0x000000FF
+  va_call                         label0035
+  va_end
+  ret
+
+label000E@0x000E:
+  thread_stg                      label000F
+  ret
+
+label000F@0x000F:
+  sync
+  call                            label0014
+  jmpi_ne                         r246, 0x00000000, label002E
+  leti                            r60, 0x00000000
+  leti                            r61, 0x000000FF
+  read_switch_flag_on_floor       r60-r62
+  jmpi_eq                         r62, 0x00000000, label000F
+  call                            label0033
+
+label002E@0x002E:
+  ret
+
+label0011@0x0011:
+  va_start
+  arg_pushr                       r1
+  va_call                         label005E
+  va_end
+  let                             r60, r0
+  jmpi_ne                         r2, 0x00000000, label005D
+  leti                            r0, 0x00000000
+  jmpi_eq                         r60, 0x00000000, label0010
+  leti                            r0, 0x00000001
+
+label0010@0x0010:
+  ret
+
+label005D@0x005D:
+  leti                            r0, 0x00000002
+  jmpi_eq                         r60, 0x00000000, label0010
+  leti                            r0, 0x00000003
+  ret
+
+label0075@0x0075:
+  jmpi_eq                         r3, 0x00000000, label002F
+  va_start
+  arg_pushr                       r1
+  arg_pushr                       r3
+  va_call                         label0011
+  va_end
+  jmpi_le                         r0, 0x00000001, label0012
+  addi                            r0, 0x00000002
+  ret
+
+label002F@0x002F:
+  va_start
+  arg_pushr                       r1
+  arg_pushr                       r2
+  va_call                         label0011
+  va_end
+
+label0012@0x0012:
+  ret
+
+label0070@0x0070:
+  va_start
+  arg_pushr                       r1
+  va_call                         label0044
+  va_end
+  and                             r0, r245
+  ret
+
+label005E@0x005E:
+  va_start
+  arg_pushr                       r1
+  va_call                         label0070
+  va_end
+  stack_push                      r0
+  va_start
+  arg_pushr                       r1
+  va_call                         label0044
+  va_end
+  or                              r245, r0
+  stack_pop                       r0
+  ret
+
+label003E@0x003E:
+  va_start
+  arg_pushr                       r1
+  va_call                         label0070
+  va_end
+  stack_push                      r0
+  va_start
+  arg_pushr                       r1
+  va_call                         label0044
+  va_end
+  xori                            r0, 0xFFFFFFFF
+  and                             r245, r0
+  stack_pop                       r0
+  ret
+
+label0006@0x0006:
+  let                             r0, r245
+  clear                           r245
+  ret
+
+label0044@0x0044:
+  subi                            r1, 0x00000064
+  leti                            r0, 0x00000001
+  shift_left                      r0, r1
+  ret
+
+start:
+  set_episode                     0x00000000
+  arg_pushl                       0x00000000
+  arg_pushw                       0x008C
+  set_floor_handler               ... 0x0 /* 0 */, label008C
+  arg_pushl                       0x00000008
+  arg_pushw                       0x0096
+  set_floor_handler               ... 0x8 /* 8 */, label0096
+  arg_pushl                       0x00000009
+  arg_pushw                       0x00A0
+  set_floor_handler               ... 0x9 /* 9 */, label00A0
+  arg_pushl                       0x0000000A
+  arg_pushw                       0x00AA
+  set_floor_handler               ... 0xA /* 10 */, label00AA
+  set_qt_success                  label0064
+  set_qt_failure                  label0052
+  get_difficulty_level_v2         r252
+  get_client_id                   r250
+  get_number_of_players           r251
+  bb_map_designate                0x00, 0x00, 0x00, 0x00, 0x00
+  bb_map_designate                0x08, 0x08, 0x00, 0x01, 0x00
+  bb_map_designate                0x09, 0x09, 0x00, 0x01, 0x00
+  bb_map_designate                0x0A, 0x0A, 0x00, 0x01, 0x00
+  ret
+
+label0001@0x0001:
+  ret
+
+label008C@0x008C:
+  // Referenced by map enemy ES-00-00E [EnemySetEntry type=0005 "TObjNpcFemaleMacho/TObjNpcFemaleMacho" num_children=0000 floor=0000 room=001E wave_number=0000 wave_number2=0000 a1=0000 x=16.004 y=0 z=5.99567 x_angle=00000000 y_angle=FFFFD000 z_angle=00000000 params=[22 0 0 1021 140 0001 0000]]
+  thread_stg                      label003F
+  thread_stg                      label004D
+  switch_jmp                      r0, [label008D, label008E]
+
+label008D@0x008D:
+  set                             r0
+  arg_pushl                       0x00000008
+  set_mainwarp                    ... 0x8 /* 8 */
+  switch_call                     r250, [label0015, label0016, label001A, label001D]
+  call                            label0136
+  jmpi_eq                         r250, 0x00000000, label0036
+  ret
+
+label0015@0x0015:
+  leti                            r60, 0x000000ED
+  leti                            r61, 0x00000000
+  leti                            r62, 0x0000014D
+  leti                            r63, 0xFFFFFFF1
+  arg_pushl                       0x00000000
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  ret
+
+label0016@0x0016:
+  leti                            r60, 0x000000FF
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000152
+  leti                            r63, 0xFFFFFFD5
+  arg_pushl                       0x00000001
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x1 /* 1 */, r60-r63
+  ret
+
+label001A@0x001A:
+  leti                            r60, 0x000000DE
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000142
+  leti                            r63, 0x00000019
+  arg_pushl                       0x00000002
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x2 /* 2 */, r60-r63
+  ret
+
+label001D@0x001D:
+  leti                            r60, 0x000000F8
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000143
+  leti                            r63, 0xFFFFFFEC
+  arg_pushl                       0x00000003
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x3 /* 3 */, r60-r63
+  ret
+
+label008E@0x008E:
+  warp_on
+  jmpi_eq                         r105, 0x00000001, label0050
+  ret
+
+label003D@0x003D:
+  leti                            r60, 0xFFFFFED4
+  leti                            r61, 0x00000005
+  leti                            r62, 0xFFFFFF6D
+  leti                            r63, 0x00000014
+  leti                            r64, 0x00000094
+  at_coords_talk                  r60-r64
+  ret
+
+label0094@0x0094:
+  call                            label0022
+  arg_pushb                       0x80
+  arg_pushs                       "Continue Request\nQuit Request"
+  list                            ... r128, "Continue Request\nQuit Request"
+  jmpi_eq                         r128, 0x00000000, label0001
+  qexit
+  ret
+
+label002C@0x002C:
+  call                            label005C
+  call                            label0032
+  arg_pushl                       0x00000064
+  arg_pushs                       "You are <hero name>?"
+  message                         ... 0x64 /* 100 */, "You are <hero name>?"
+  arg_pushs                       "I am <color 1>Hyde<color 0> of\nthe Pioneer 2 Military."
+  add_msg                         ... "I am <color 1>Hyde<color 0> of\nthe Pioneer 2 Military."
+  arg_pushs                       "Hmm?\nAre you missing\nsomeone?"
+  add_msg                         ... "Hmm?\nAre you missing\nsomeone?"
+  arg_pushs                       "This won\'t do.  This time,\nwe\'re taking every\nprecaution."
+  add_msg                         ... "This won\'t do.  This time,\nwe\'re taking every\nprecaution."
+  arg_pushs                       "Therefore, we can\nonly give this job\nto a party of 4."
+  add_msg                         ... "Therefore, we can\nonly give this job\nto a party of 4."
+  arg_pushs                       "Come back again\nwhen you have 4 members."
+  add_msg                         ... "Come back again\nwhen you have 4 members."
+  message_end
+  qexit
+  call                            label0060
+  ret
+
+label0064@0x0064:
+  // Referenced by map enemy ES-00-008 [EnemySetEntry type=0003 "TObjNpcFemaleDwarf/TObjNpcFemaleDwarf" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=-212 y=0 z=-140 x_angle=00000000 y_angle=00000000 z_angle=00000000 params=[37 0 0 1016 100 0001 0000]]
+  arg_pushs                       "You received <color 1>8000<color 0> meseta."
+  window_msg                      ... "You received <color 1>8000<color 0> meseta."
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x00001F40
+  pl_add_meseta2                  ... 0x1F40 /* 8000 */
+  ret
+
+label0052@0x0052:
+  arg_pushs                       "Although you\'ve failed midway,\nhere is the reward you\'ve earned\nthis time from the client."
+  window_msg                      ... "Although you\'ve failed midway,\nhere is the reward you\'ve earned\nthis time from the client."
+  arg_pushs                       "Please, accept it."
+  add_msg                         ... "Please, accept it."
+  arg_pushs                       "You received <color 1>500<color 0> meseta."
+  add_msg                         ... "You received <color 1>500<color 0> meseta."
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x000001F4
+  pl_add_meseta2                  ... 0x1F4 /* 500 */
+  ret
+
+label0096@0x0096:
+  jmpi_eq                         r254, 0x00000001, label0001
+  jmpi_eq                         r253, 0x00000001, label0001
+  jmpi_eq                         r112, 0x00000001, label0001
+  jmpi_eq                         r111, 0x00000001, label0001
+  jmpi_eq                         r110, 0x00000001, label0001
+  leti                            r60, 0x00000190
+  leti                            r61, 0x00000002
+  leti                            r62, 0x00000190
+  leti                            r63, 0x0000001A
+  leti                            r64, 0x00000161
+  at_coords_call                  r60-r64
+  thread_stg                      label015E
+  thread_stg                      label0073
+  thread_stg                      label003F
+  thread_stg                      label004D
+  ret
+
+label00A0@0x00A0:
+  jmpi_eq                         r254, 0x00000001, label0001
+  jmpi_eq                         r253, 0x00000001, label0001
+  jmpi_eq                         r112, 0x00000001, label0001
+  jmpi_eq                         r111, 0x00000001, label0001
+  jmpi_eq                         r110, 0x00000000, label000A
+  thread_stg                      label0168
+  leti                            r60, 0x00000307
+  leti                            r61, 0x00000000
+  leti                            r62, 0xFFFFFE70
+  leti                            r63, 0x00000003
+  leti                            r64, 0x0000016A
+  at_coords_call                  r60-r64
+  thread_stg                      label003F
+  thread_stg                      label004D
+  ret
+
+label00AA@0x00AA:
+  jmpi_eq                         r254, 0x00000001, label0001
+  jmpi_eq                         r253, 0x00000001, label0001
+  jmpi_eq                         r112, 0x00000001, label0001
+  leti                            r60, 0x000002DA
+  leti                            r61, 0x00000000
+  leti                            r62, 0xFFFFFA3D
+  leti                            r63, 0x0000001E
+  leti                            r64, 0x00000172
+  at_coords_call                  r60-r64
+  call                            label0173
+  leti                            r60, 0x0000068B
+  leti                            r61, 0x00000000
+  leti                            r62, 0xFFFFF894
+  leti                            r63, 0x00000003
+  leti                            r64, 0x00000174
+  at_coords_call                  r60-r64
+  p_disablewarp
+  ret
+
+label0136@0x0136:
+  // Referenced by map enemy ES-00-001 [EnemySetEntry type=001A "TObjNpcSoldierMacho/TObjNpcSoldierMacho" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-1.15001 y=0 z=58.32 x_angle=00000000 y_angle=00008000 z_angle=00000000 params=[0 0 0 100 310 0000 0000]]
+  jmpi_eq                         r253, 0x00000001, label013E
+  jmpi_eq                         r254, 0x00000001, label0138
+  jmpi_eq                         r112, 0x00000001, label0138
+  jmpi_eq                         r115, 0x00000001, label0139
+  jmpi_eq                         r111, 0x00000001, label013F
+  jmpi_eq                         r114, 0x00000001, label013B
+  jmpi_eq                         r110, 0x00000001, label013F
+  jmpi_eq                         r113, 0x00000001, label013C
+  jmpi_eq                         r109, 0x00000001, label013D
+  call                            label005C
+  arg_pushl                       0x00000064
+  arg_pushs                       "You are <hero name>?"
+  message                         ... 0x64 /* 100 */, "You are <hero name>?"
+  arg_pushs                       "I am <color 1>Hyde<color 0> of\nthe Pioneer 2 Military."
+  add_msg                         ... "I am <color 1>Hyde<color 0> of\nthe Pioneer 2 Military."
+  arg_pushs                       "We have a request for you."
+  add_msg                         ... "We have a request for you."
+  arg_pushs                       "The other day, while doing\nenvironmental research\nin the Underground Ruins,"
+  add_msg                         ... "The other day, while doing\nenvironmental research\nin the Underground Ruins,"
+  arg_pushs                       "One of my squad members\nfound a message capsule."
+  add_msg                         ... "One of my squad members\nfound a message capsule."
+  arg_pushs                       "We only found one capsule\nat that time, but others\nmay exist."
+  add_msg                         ... "We only found one capsule\nat that time, but others\nmay exist."
+  arg_pushs                       "We believe that capsule\nwas left behind by\nPioneer 1\'s military."
+  add_msg                         ... "We believe that capsule\nwas left behind by\nPioneer 1\'s military."
+  arg_pushs                       "There are many unidentified\nenemies in the Ruins, and\nwe are ill-equipped."
+  add_msg                         ... "There are many unidentified\nenemies in the Ruins, and\nwe are ill-equipped."
+  arg_pushs                       "My squad also took some\nunexpected damage during\nthe previous survey."
+  add_msg                         ... "My squad also took some\nunexpected damage during\nthe previous survey."
+  arg_pushs                       "It would have been ideal\nif we could handle things,\nbut we have to rely on you."
+  add_msg                         ... "It would have been ideal\nif we could handle things,\nbut we have to rely on you."
+  arg_pushs                       "I\'d like for you Hunters\nto go to the Ruins and look\nfor more message capsules."
+  add_msg                         ... "I\'d like for you Hunters\nto go to the Ruins and look\nfor more message capsules."
+  arg_pushs                       "Of course, this is all\nclassified."
+  add_msg                         ... "Of course, this is all\nclassified."
+  arg_pushs                       "That is all."
+  add_msg                         ... "That is all."
+  message_end
+  set                             r109
+  jmp                             label0137
+
+label013E@0x013E:
+  call                            label005C
+  arg_pushl                       0x00000064
+  arg_pushs                       "You\'ve come back, <hero name>."
+  message                         ... 0x64 /* 100 */, "You\'ve come back, <hero name>."
+  arg_pushs                       "Did you find any capsules?"
+  add_msg                         ... "Did you find any capsules?"
+  arg_pushs                       "..."
+  add_msg                         ... "..."
+  arg_pushs                       "... I see.\nSo you couldn\'t find any more..."
+  add_msg                         ... "... I see.\nSo you couldn\'t find any more..."
+  arg_pushs                       "Well, I guess that\nends our request."
+  add_msg                         ... "Well, I guess that\nends our request."
+  arg_pushs                       "Here is the reward you\'ve\nearned this time.\nPlease accept it."
+  add_msg                         ... "Here is the reward you\'ve\nearned this time.\nPlease accept it."
+  message_end
+  sync
+  arg_pushs                       "You received <color 1>500<color 0> meseta."
+  window_msg                      ... "You received <color 1>500<color 0> meseta."
+  window_msg_end
+  arg_pushl                       0x000001F4
+  pl_add_meseta2                  ... 0x1F4 /* 500 */
+  qexit
+  jmp                             label0137
+
+label013F@0x013F:
+  arg_pushl                       0x00000064
+  arg_pushs                       "What is it, <hero name>?"
+  message                         ... 0x64 /* 100 */, "What is it, <hero name>?"
+  arg_pushs                       "Go to the Ruins and\nsearch for other\nmessage capsules."
+  add_msg                         ... "Go to the Ruins and\nsearch for other\nmessage capsules."
+  arg_pushs                       "That is all."
+  add_msg                         ... "That is all."
+  message_end
+  ret
+
+label013D@0x013D:
+  arg_pushl                       0x00000064
+  arg_pushs                       "What is it, <hero name>?"
+  message                         ... 0x64 /* 100 */, "What is it, <hero name>?"
+  arg_pushs                       "You want to hear\nthe request again?"
+  add_msg                         ... "You want to hear\nthe request again?"
+  arg_pushs                       "I\'d like for you Hunters\nto go to the Ruins and look\nfor more message capsules."
+  add_msg                         ... "I\'d like for you Hunters\nto go to the Ruins and look\nfor more message capsules."
+  arg_pushs                       "Please find them as soon as\npossible without wasting\ntoo much time."
+  add_msg                         ... "Please find them as soon as\npossible without wasting\ntoo much time."
+  message_end
+  ret
+
+label013C@0x013C:
+  call                            label005C
+  arg_pushl                       0x00000064
+  arg_pushs                       "You\'ve come back, <hero name>."
+  message                         ... 0x64 /* 100 */, "You\'ve come back, <hero name>."
+  arg_pushs                       "Did you find any capsules?"
+  add_msg                         ... "Did you find any capsules?"
+  arg_pushs                       "..."
+  add_msg                         ... "..."
+  arg_pushs                       "... Oh, you did?\nGood job."
+  add_msg                         ... "... Oh, you did?\nGood job."
+  arg_pushs                       "..."
+  add_msg                         ... "..."
+  arg_pushs                       "... We believe message capsules\nare located in the next area\nof the ruins."
+  add_msg                         ... "... We believe message capsules\nare located in the next area\nof the ruins."
+  arg_pushs                       "If possible, can\nyou continue searching?"
+  add_msg                         ... "If possible, can\nyou continue searching?"
+  message_end
+  set                             r110
+  arg_pushl                       0x00000008
+  clear_mainwarp                  ... 0x8 /* 8 */
+  arg_pushl                       0x00000009
+  set_mainwarp                    ... 0x9 /* 9 */
+  arg_pushb                       0x80
+  arg_pushs                       "Search\nQuit"
+  list                            ... r128, "Search\nQuit"
+  jmpi_eq                         r128, 0x00000000, label0137
+  arg_pushl                       0x00000064
+  arg_pushs                       "... I see."
+  message                         ... 0x64 /* 100 */, "... I see."
+  arg_pushs                       "Well, I guess that\nends our request."
+  add_msg                         ... "Well, I guess that\nends our request."
+  arg_pushs                       "Here is the reward you\'ve\nearned this time.\nPlease accept it."
+  add_msg                         ... "Here is the reward you\'ve\nearned this time.\nPlease accept it."
+  message_end
+  sync
+  arg_pushs                       "You received <color 1>1000<color 0> meseta."
+  window_msg                      ... "You received <color 1>1000<color 0> meseta."
+  window_msg_end
+  arg_pushl                       0x000003E8
+  pl_add_meseta2                  ... 0x3E8 /* 1000 */
+  qexit
+  jmp                             label0137
+
+label013B@0x013B:
+  call                            label005C
+  arg_pushl                       0x00000064
+  arg_pushs                       "You\'ve come back, <hero name>."
+  message                         ... 0x64 /* 100 */, "You\'ve come back, <hero name>."
+  arg_pushs                       "Did you find any capsules?"
+  add_msg                         ... "Did you find any capsules?"
+  arg_pushs                       "..."
+  add_msg                         ... "..."
+  arg_pushs                       "... Oh, you did?\nGood job."
+  add_msg                         ... "... Oh, you did?\nGood job."
+  arg_pushs                       "..."
+  add_msg                         ... "..."
+  arg_pushs                       "... We believe message capsules\nare located in the deepest area\nof the ruins."
+  add_msg                         ... "... We believe message capsules\nare located in the deepest area\nof the ruins."
+  arg_pushs                       "If possible, can\nyou continue searching?"
+  add_msg                         ... "If possible, can\nyou continue searching?"
+  message_end
+  set                             r111
+  arg_pushl                       0x00000009
+  clear_mainwarp                  ... 0x9 /* 9 */
+  arg_pushl                       0x0000000A
+  set_mainwarp                    ... 0xA /* 10 */
+  arg_pushb                       0x80
+  arg_pushs                       "Search\nQuit"
+  list                            ... r128, "Search\nQuit"
+  jmpi_eq                         r128, 0x00000000, label0137
+  arg_pushl                       0x00000064
+  arg_pushs                       "... I see."
+  message                         ... 0x64 /* 100 */, "... I see."
+  arg_pushs                       "Well, I guess that\nends our request."
+  add_msg                         ... "Well, I guess that\nends our request."
+  arg_pushs                       "Here is the reward you\'ve\nearned this time.\nPlease accept it."
+  add_msg                         ... "Here is the reward you\'ve\nearned this time.\nPlease accept it."
+  message_end
+  sync
+  arg_pushs                       "You received <color 1>2000<color 0> meseta."
+  window_msg                      ... "You received <color 1>2000<color 0> meseta."
+  window_msg_end
+  arg_pushl                       0x000007D0
+  pl_add_meseta2                  ... 0x7D0 /* 2000 */
+  qexit
+  jmp                             label0137
+
+label0139@0x0139:
+  call                            label005C
+  arg_pushl                       0x00000064
+  arg_pushs                       "You\'ve come back, <hero name>."
+  message                         ... 0x64 /* 100 */, "You\'ve come back, <hero name>."
+  arg_pushs                       "Did you find any capsules?"
+  add_msg                         ... "Did you find any capsules?"
+  arg_pushs                       "..."
+  add_msg                         ... "..."
+  arg_pushs                       "... Oh, you did?\nGood job."
+  add_msg                         ... "... Oh, you did?\nGood job."
+  arg_pushs                       "This may be all of them."
+  add_msg                         ... "This may be all of them."
+  arg_pushs                       "Thank you for your hard work."
+  add_msg                         ... "Thank you for your hard work."
+  arg_pushs                       "The reward you\'ve earned\nthis time is at the\nHunter\'s Guild."
+  add_msg                         ... "The reward you\'ve earned\nthis time is at the\nHunter\'s Guild."
+  arg_pushs                       "Please accept it."
+  add_msg                         ... "Please accept it."
+  message_end
+  set                             r112
+  set                             r254
+  set                             r255
+  jmp                             label0137
+
+label0138@0x0138:
+  arg_pushl                       0x00000064
+  arg_pushs                       "Thank you for your hard work."
+  message                         ... 0x64 /* 100 */, "Thank you for your hard work."
+  arg_pushs                       "The reward you\'ve earned\nthis time is at the\nHunter\'s Guild."
+  add_msg                         ... "The reward you\'ve earned\nthis time is at the\nHunter\'s Guild."
+  arg_pushs                       "Please accept it."
+  add_msg                         ... "Please accept it."
+  message_end
+  ret
+
+label0137@0x0137:
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  call                            label0060
+  ret
+
+label0141@0x0141:
+  // Referenced by map enemy ES-00-002 [EnemySetEntry type=0019 "TObjNpcSoldierBase/TObjNpcSoldierBase" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=71.0478 y=0 z=-244.249 x_angle=00000000 y_angle=0000C000 z_angle=00000000 params=[0 0 0 101 321 0000 0000]]
+  jmpi_eq                         r110, 0x00000001, label0143
+  arg_pushl                       0x00000065
+  arg_pushs                       "At the Ruins, there\nare many unknown\nenemies."
+  message                         ... 0x65 /* 101 */, "At the Ruins, there\nare many unknown\nenemies."
+  arg_pushs                       "Also, it seems that\nthe enemy uses techniques\nsimilar to ours..."
+  add_msg                         ... "Also, it seems that\nthe enemy uses techniques\nsimilar to ours..."
+  arg_pushs                       "We also took some\nserious damage,\nthanks to them."
+  add_msg                         ... "We also took some\nserious damage,\nthanks to them."
+  arg_pushs                       "Well, be careful."
+  add_msg                         ... "Well, be careful."
+  message_end
+  ret
+
+label0142@0x0142:
+  // Referenced by map object KS-08-081 [ObjectSetEntry type=008D "TOCapsuleAncient01" floor=0008 group=0000 room=0007 a3=0000 x=-24.66 y=0 z=17.5 x_angle=00000000 y_angle=00004000 z_angle=00000000 params=[1 1 1 0000001F 00000066 00000142]]
+  call                            label005C
+  call                            label0032
+  arg_pushl                       0x00000066
+  arg_pushs                       "The most logical answer\nis not always the correct one."
+  message                         ... 0x66 /* 102 */, "The most logical answer\nis not always the correct one."
+  message_end
+  call                            label0060
+  ret
+
+label0143@0x0143:
+  arg_pushl                       0x00000065
+  arg_pushs                       "Because you\'re \"smart\",\nthis is probably useless advice."
+  message                         ... 0x65 /* 101 */, "Because you\'re \"smart\",\nthis is probably useless advice."
+  arg_pushs                       "If you look inside\nthat capsule..."
+  add_msg                         ... "If you look inside\nthat capsule..."
+  arg_pushs                       "... Well, just try\nnot to look inside."
+  add_msg                         ... "... Well, just try\nnot to look inside."
+  arg_pushs                       "People who are\nnosy and gossip\ntend to die early."
+  add_msg                         ... "People who are\nnosy and gossip\ntend to die early."
+  message_end
+  ret
+
+label0073@0x0073:
+  call                            label0032
+  leti                            r120, 0x00000008
+  leti                            r121, 0x00000014
+  if_zone_clear                   r122, r120-r121
+  jmpi_eq                         r122, 0x00000000, label0073
+  leti                            r60, 0x00000008
+  leti                            r61, 0x00000014
+  leti                            r62, 0x00000001
+  construct_delayed_object        r60-r62
+  ret
+
+label015E@0x015E:
+  jmpi_eq                         r113, 0x00000001, label0001
+  call                            label0032
+  leti                            r125, 0x00000008
+  leti                            r126, 0x0000002D
+  if_zone_clear                   r127, r125-r126
+  jmpi_eq                         r127, 0x00000000, label015E
+  leti                            r60, 0x00000008
+  leti                            r61, 0x0000002D
+  leti                            r62, 0x00000001
+  construct_delayed_object        r60-r62
+  leti                            r60, 0xFFFFFE25
+  leti                            r61, 0x00000000
+  leti                            r62, 0xFFFFFA24
+  leti                            r63, 0x00000003
+  leti                            r64, 0x0000015F
+  at_coords_call                  r60-r64
+  jmpi_eq                         r117, 0x00000001, label0001
+  call                            label005C
+  call                            label0032
+  arg_pushs                       "The enemy was annihilated."
+  window_msg                      ... "The enemy was annihilated."
+  window_msg_end
+  call                            label0060
+  set                             r117
+  ret
+
+label015F@0x015F:
+  jmpi_eq                         r113, 0x00000001, label0001
+  call                            label005C
+  call                            label0032
+  arg_pushs                       "Obtained <color 1>Military Capsule 1<color 0>."
+  window_msg                      ... "Obtained <color 1>Military Capsule 1<color 0>."
+  window_msg_end
+  fadeout
+  leti                            r60, 0x00000008
+  leti                            r61, 0x0000002D
+  leti                            r62, 0x00000002
+  construct_delayed_object        r60-r62
+  call                            label0032
+  fadein
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0160
+  arg_pushs                       "<color 4>Military Capsule 1<color 0>"
+  set_quest_board_handler         ... 0x0 /* 0 */, label0160, "<color 4>Military Capsule 1<color 0>"
+  set                             r74
+  call                            label0060
+  set                             r113
+  ret
+
+label0160@0x0160:
+  arg_pushs                       "The excavation team\nstarted to search\nunderground."
+  disp_msg_qb                     ... "The excavation team\nstarted to search\nunderground."
+  arg_pushs                       "Soon, the team found\nthe entrance to\nthe Ruins."
+  add_msg                         ... "Soon, the team found\nthe entrance to\nthe Ruins."
+  arg_pushs                       "Excavation of the\nRuins was ordered,\nstarting near the mine."
+  add_msg                         ... "Excavation of the\nRuins was ordered,\nstarting near the mine."
+  arg_pushs                       "The Ruins was\ndiscovered to be\nan ancient spacecraft."
+  add_msg                         ... "The Ruins was\ndiscovered to be\nan ancient spacecraft."
+  arg_pushs                       "Soon, we were able\nto fully infiltrate\nthe spacecraft."
+  add_msg                         ... "Soon, we were able\nto fully infiltrate\nthe spacecraft."
+  close_msg_qb
+  ret
+
+label0161@0x0161:
+  jmpi_eq                         r143, 0x00000001, label0001
+  set                             r143
+  call                            label0007
+  ret
+
+label0168@0x0168:
+  call                            label0032
+  leti                            r125, 0x00000009
+  leti                            r126, 0x00000041
+  if_zone_clear                   r127, r125-r126
+  jmpi_eq                         r127, 0x00000000, label0168
+  jmpi_eq                         r116, 0x00000001, label0001
+  leti                            r60, 0x00000009
+  leti                            r61, 0x00000041
+  leti                            r62, 0x00000001
+  construct_delayed_object        r60-r62
+  thread_stg                      label0169
+  ret
+
+label0169@0x0169:
+  jmpi_eq                         r116, 0x00000001, label0001
+  call                            label0032
+  leti                            r125, 0x00000009
+  leti                            r126, 0x00000003
+  read_switch_flag_on_floor       r125-r127
+  jmpi_eq                         r127, 0x00000000, label0169
+  call                            label005C
+  arg_pushs                       "Error!!"
+  window_msg                      ... "Error!!"
+  arg_pushs                       "This is a dummy switch!"
+  add_msg                         ... "This is a dummy switch!"
+  arg_pushs                       "Starting Emergency Defense System"
+  add_msg                         ... "Starting Emergency Defense System"
+  window_msg_end
+  sync
+  arg_pushs                       "<color 1>  ■Find the capsule within the time limit!<color 0>\n※Release switches will appear somewhere\nin this area.\n  Open the door by pressing all of them.\n  Please find the capsule!"
+  window_msg                      ... "<color 1>  ■Find the capsule within the time limit!<color 0>\n※Release switches will appear somewhere\nin this area.\n  Open the door by pressing all of them.\n  Please find the capsule!"
+  window_msg_end
+  leti                            r60, 0x00000009
+  leti                            r61, 0x00000002
+  leti                            r62, 0x00000001
+  construct_delayed_object        r60-r62
+  leti                            r61, 0x00000004
+  construct_delayed_object        r60-r62
+  leti                            r61, 0x0000003C
+  construct_delayed_object        r60-r62
+  leti                            r61, 0x00000050
+  construct_delayed_object        r60-r62
+  call                            label0060
+  arg_pushb                       0x56
+  arg_pushl                       0x00000001
+  sync_register2                  ... r86, 0x1 /* 1 */
+  set                             r116
+  ret
+
+label016A@0x016A:
+  jmpi_eq                         r114, 0x00000001, label0001
+  arg_pushb                       0x2B
+  arg_pushl                       0x00000001
+  sync_register2                  ... r43, 0x1 /* 1 */
+  call                            label005C
+  call                            label0032
+  arg_pushs                       "Emergency Defense System cancelled."
+  window_msg                      ... "Emergency Defense System cancelled."
+  arg_pushs                       "Obtained <color 1>Military Capsule 2<color 0>."
+  add_msg                         ... "Obtained <color 1>Military Capsule 2<color 0>."
+  window_msg_end
+  fadeout
+  leti                            r60, 0x00000009
+  leti                            r61, 0x00000005
+  leti                            r62, 0x00000001
+  construct_delayed_object        r60-r62
+  call                            label0032
+  fadein
+  arg_pushl                       0x00000001
+  arg_pushw                       0x016B
+  arg_pushs                       "<color 4>Military Capsule 2<color 0>"
+  set_quest_board_handler         ... 0x1 /* 1 */, label016B, "<color 4>Military Capsule 2<color 0>"
+  set                             r75
+  set                             r114
+  call                            label0060
+  ret
+
+label016B@0x016B:
+  arg_pushs                       "This study was done\ntogether with the\ngovernment and military,"
+  disp_msg_qb                     ... "This study was done\ntogether with the\ngovernment and military,"
+  arg_pushs                       "soon after, the\nmilitary took\nthe lead."
+  add_msg                         ... "soon after, the\nmilitary took\nthe lead."
+  arg_pushs                       "Under his command,\nwe arrived at the\ndeepest part."
+  add_msg                         ... "Under his command,\nwe arrived at the\ndeepest part."
+  arg_pushs                       "Then, we encountered\nan unknown\nlife form."
+  add_msg                         ... "Then, we encountered\nan unknown\nlife form."
+  close_msg_qb
+  ret
+
+label000A@0x000A:
+  set                             r105
+  let                             r150, r250
+  leti                            r151, 0x00000000
+  go_floor                        r150, r151
+  ret
+
+label0050@0x0050:
+  // Referenced by map enemy ES-00-003 [EnemySetEntry type=0006 "TObjNpcFemaleOld/TObjNpcFemaleOld" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=156.003 y=0 z=-49.9997 x_angle=00000000 y_angle=0000E000 z_angle=00000000 params=[30 0 0 1014 80 0001 0000]]
+  clear                           r105
+  arg_pushl                       0x00000009
+  clear_mainwarp                  ... 0x9 /* 9 */
+  call                            label005C
+  call                            label0019
+  arg_pushs                       "You may not enter this\narea without\n\"Military Capsule 1\"."
+  window_msg                      ... "You may not enter this\narea without\n\"Military Capsule 1\"."
+  window_msg_end
+  call                            label0060
+  ret
+
+label0036@0x0036:
+  leti                            r55, 0x00000000
+  leti                            r56, 0x00000002
+  get_random                      r55-r56, r57
+  arg_pushb                       0x8C
+  arg_pushr                       r57
+  sync_register2                  ... r140, r57
+  leti                            r55, 0x00000000
+  leti                            r56, 0x00000003
+  get_random                      r55-r56, r57
+  arg_pushb                       0x8D
+  arg_pushr                       r57
+  sync_register2                  ... r141, r57
+  leti                            r55, 0x00000000
+  leti                            r56, 0x00000006
+  get_random                      r55-r56, r57
+  arg_pushb                       0x8E
+  arg_pushr                       r57
+  sync_register2                  ... r142, r57
+  ret
+
+label0007@0x0007:
+  call                            label004C
+  call                            label0053
+  muli                            r141, 0x00000002
+  add                             r140, r141
+  muli                            r140, 0x00000006
+  add                             r140, r142
+  addi                            r140, 0x00000001
+  leti                            r60, 0x00000008
+  leti                            r61, 0x00000007
+  let                             r62, r140
+  construct_delayed_object        r60-r62
+  ret
+
+label004C@0x004C:
+  jmpi_eq                         r140, 0x00000001, label004F
+  leti                            r60, 0x00000008
+  leti                            r61, 0x00000002
+  leti                            r62, 0x00000002
+  construct_delayed_object        r60-r62
+  leti                            r61, 0x00000005
+  leti                            r62, 0x00000001
+  construct_delayed_object        r60-r62
+  leti                            r62, 0x00000003
+  construct_delayed_object        r60-r62
+  ret
+
+label004F@0x004F:
+  leti                            r60, 0x00000008
+  leti                            r61, 0x00000002
+  leti                            r62, 0x00000001
+  construct_delayed_object        r60-r62
+  leti                            r62, 0x00000004
+  construct_delayed_object        r60-r62
+  leti                            r61, 0x00000005
+  leti                            r62, 0x00000002
+  construct_delayed_object        r60-r62
+  ret
+
+label0053@0x0053:
+  switch_jmp                      r141, [label005F, label0066, label006E]
+  ret
+
+label005F@0x005F:
+  leti                            r60, 0x00000008
+  leti                            r61, 0x00000001
+  leti                            r62, 0x00000002
+  construct_delayed_object        r60-r62
+  leti                            r61, 0x00000003
+  leti                            r62, 0x00000001
+  construct_delayed_object        r60-r62
+  leti                            r62, 0x00000003
+  construct_delayed_object        r60-r62
+  leti                            r61, 0x00000006
+  leti                            r62, 0x00000001
+  construct_delayed_object        r60-r62
+  leti                            r62, 0x00000004
+  construct_delayed_object        r60-r62
+  ret
+
+label0066@0x0066:
+  leti                            r60, 0x00000008
+  leti                            r61, 0x00000003
+  leti                            r62, 0x00000002
+  construct_delayed_object        r60-r62
+  leti                            r61, 0x00000001
+  leti                            r62, 0x00000001
+  construct_delayed_object        r60-r62
+  leti                            r62, 0x00000003
+  construct_delayed_object        r60-r62
+  leti                            r61, 0x00000006
+  leti                            r62, 0x00000001
+  construct_delayed_object        r60-r62
+  leti                            r62, 0x00000004
+  construct_delayed_object        r60-r62
+  ret
+
+label006E@0x006E:
+  // Referenced by map enemy ES-00-010 [EnemySetEntry type=001F "TObjNpcNurseBase" num_children=0000 floor=0000 room=0028 wave_number=0000 wave_number2=0000 a1=0000 x=53.4992 y=0 z=-26.4967 x_angle=00000000 y_angle=0000E000 z_angle=00000000 params=[18 0 0 1018 110 0001 0000]]
+  leti                            r60, 0x00000008
+  leti                            r61, 0x00000006
+  leti                            r62, 0x00000002
+  construct_delayed_object        r60-r62
+  leti                            r61, 0x00000003
+  leti                            r62, 0x00000001
+  construct_delayed_object        r60-r62
+  leti                            r62, 0x00000003
+  construct_delayed_object        r60-r62
+  leti                            r61, 0x00000001
+  leti                            r62, 0x00000001
+  construct_delayed_object        r60-r62
+  leti                            r62, 0x00000004
+  construct_delayed_object        r60-r62
+  ret
+
+label003F@0x003F:
+  sync
+  jmpi_eq                         r254, 0x00000001, label0001
+  jmpi_eq                         r253, 0x00000001, label0001
+  jmpi_eq                         r86, 0x00000000, label003F
+  jmpi_gt                         r88, 0x00000000, label0008
+  gettime                         r87
+  call                            label0027
+  let                             r88, r87
+  clear                           r43
+  clear                           r44
+  clear                           r40
+
+label0008@0x0008:
+  arg_pushb                       0x5B
+  arg_pushl                       0x00000001
+  sync_register2                  ... r91, 0x1 /* 1 */
+  thread_stg                      label000B
+  ret
+
+label0027@0x0027:
+  get_number_of_players           r251
+  switch_call                     r251, [label0055, label0076, label001B, label0041, label0057]
+  switch_jmp                      r252, [label0037, label006C, label0045, label0028]
+  ret
+
+label0055@0x0055:
+  ret
+
+label0076@0x0076:
+  addi                            r87, 0x0000012C
+  ret
+
+label001B@0x001B:
+  addi                            r87, 0x00000078
+  ret
+
+label0041@0x0041:
+  addi                            r87, 0x0000003C
+  ret
+
+label0057@0x0057:
+  ret
+
+label0037@0x0037:
+  addi                            r87, 0x00000258
+  ret
+
+label006C@0x006C:
+  addi                            r87, 0x0000021C
+  ret
+
+label0045@0x0045:
+  addi                            r87, 0x000001E0
+  ret
+
+label0028@0x0028:
+  addi                            r87, 0x000001A4
+  ret
+
+label000B@0x000B:
+  leti                            r46, 0x00000000
+
+label0065@0x0065:
+  sync
+  jmpi_eq                         r253, 0x00000001, label0001
+  jmpi_eq                         r254, 0x00000001, label0001
+  jmpi_eq                         r44, 0x00000001, label0001
+  jmpi_eq                         r40, 0x00000001, label0001
+  addi                            r46, 0x00000001
+  jmpi_lt                         r46, 0x0000001E, label0065
+  jmpi_eq                         r43, 0x00000001, label000C
+  jmpi_eq                         r42, 0x00000001, label0004
+  show_timer
+
+label0004@0x0004:
+  sync
+  gettime                         r89
+  let                             r90, r88
+  sub                             r90, r89
+  winset_time                     r90
+  jmpi_eq                         r90, 0x0000001E, label0068
+  jmpi_eq                         r90, 0x0000003C, label006D
+  jmpi_eq                         r90, 0x000000B4, label0067
+
+label004A@0x004A:
+  jmpi_gt                         r90, 0x00000000, label000B
+  jmp                             label001E
+  ret
+
+label000C@0x000C:
+  ret
+
+label0005@0x0005:
+  ret
+
+label001E@0x001E:
+  arg_pushb                       0x2C
+  arg_pushl                       0x00000001
+  sync_register2                  ... r44, 0x1 /* 1 */
+  ret
+
+label0067@0x0067:
+  arg_pushl                       0x0000001C
+  sound_effect                    ... 0x1C /* 28 */
+  arg_pushl                       0x000001D6
+  arg_pushl                       0x000000B4
+  arg_pushl                       0x00000014
+  arg_pushl                       0x00000005
+  arg_pushl                       0x00000002
+  arg_pushl                       0x3F800000
+  arg_pushb                       0x5C
+  arg_pushs                       "3 minutes left\n"
+  scroll_text                     ... 0x1D6 /* 470 */, 0xB4 /* 180 */, 0x14 /* 20 */, 0x5 /* 5 */, 0x2 /* 2 */, 1, r92, "3 minutes left\n"
+
+label0061@0x0061:
+  sync
+  jmpi_eq                         r92, 0x00000000, label0061
+  window_msg_end
+  jmp                             label004A
+  ret
+
+label006D@0x006D:
+  arg_pushl                       0x0000001C
+  sound_effect                    ... 0x1C /* 28 */
+  arg_pushl                       0x000001D6
+  arg_pushl                       0x000000B4
+  arg_pushl                       0x00000014
+  arg_pushl                       0x00000005
+  arg_pushl                       0x00000002
+  arg_pushl                       0x3F800000
+  arg_pushb                       0x5C
+  arg_pushs                       "1 minute left\n"
+  scroll_text                     ... 0x1D6 /* 470 */, 0xB4 /* 180 */, 0x14 /* 20 */, 0x5 /* 5 */, 0x2 /* 2 */, 1, r92, "1 minute left\n"
+
+label0021@0x0021:
+  sync
+  jmpi_eq                         r92, 0x00000000, label0021
+  window_msg_end
+  jmp                             label004A
+  ret
+
+label0068@0x0068:
+  arg_pushl                       0x0000001C
+  sound_effect                    ... 0x1C /* 28 */
+  sync
+  sync
+  arg_pushl                       0x0000001C
+  sound_effect                    ... 0x1C /* 28 */
+  sync
+  sync
+  arg_pushl                       0x0000001C
+  sound_effect                    ... 0x1C /* 28 */
+  arg_pushl                       0x000001D6
+  arg_pushl                       0x000000B4
+  arg_pushl                       0x00000014
+  arg_pushl                       0x00000005
+  arg_pushl                       0x00000002
+  arg_pushl                       0x3F800000
+  arg_pushb                       0x5C
+  arg_pushs                       "30 seconds left\n"
+  scroll_text                     ... 0x1D6 /* 470 */, 0xB4 /* 180 */, 0x14 /* 20 */, 0x5 /* 5 */, 0x2 /* 2 */, 1, r92, "30 seconds left\n"
+
+label0017@0x0017:
+  sync
+  jmpi_eq                         r92, 0x00000000, label0017
+  window_msg_end
+  jmp                             label004A
+  ret
+
+label004D@0x004D:
+  sync
+  jmpi_eq                         r253, 0x00000001, label0001
+  jmpi_eq                         r44, 0x00000000, label004D
+  p_action_disable
+  arg_pushr                       r250
+  disable_movement1               ... r250
+  toggle_freeze_enemies
+  arg_pushl                       0x000000BE
+  arg_pushl                       0x000000B4
+  arg_pushl                       0x0000000C
+  arg_pushl                       0x00000003
+  arg_pushl                       0x00000001
+  arg_pushs                       "Time up!\n\nYou have reached the time limit."
+  chat_box                        ... 0xBE /* 190 */, 0xB4 /* 180 */, 0xC /* 12 */, 0x3 /* 3 */, 0x1 /* 1 */, "Time up!\n\nYou have reached the time limit."
+  arg_pushs                       "You were unable\nto enter the room."
+  add_msg                         ... "You were unable\nto enter the room."
+  arg_pushs                       "　\nQuest failed!"
+  add_msg                         ... "　\nQuest failed!"
+  window_msg_end
+  set                             r253
+  fadeout
+  arg_pushr                       r250
+  arg_pushb                       0x65
+  get_player_room                 ... r250, r101-r102
+  jmpi_eq                         r101, 0x00000000, label0039
+  call                            label0039
+  leti                            r60, 0x00000000
+  go_floor                        r250, r60
+  ret
+
+label0039@0x0039:
+  leti                            r60, 0x00000000
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000000
+  leti                            r63, 0x000000B4
+  fadein
+  p_disablewarp
+  arg_pushl                       0x00000008
+  clear_mainwarp                  ... 0x8 /* 8 */
+  arg_pushl                       0x00000009
+  clear_mainwarp                  ... 0x9 /* 9 */
+  arg_pushl                       0x0000000A
+  clear_mainwarp                  ... 0xA /* 10 */
+  unfreeze_enemies
+  p_action_enable
+  arg_pushr                       r250
+  enable_movement1                ... r250
+  ret
+
+label0172@0x0172:
+  jmpi_eq                         r196, 0x00000001, label0001
+  jmpi_eq                         r195, 0x00000001, label0001
+  call                            label005C
+  arg_pushs                       "    ..."
+  window_msg                      ... "    ..."
+  arg_pushs                       "    ...Turn back..."
+  add_msg                         ... "    ...Turn back..."
+  arg_pushs                       "    ...If you go any further\n    you will not be able to return..."
+  add_msg                         ... "    ...If you go any further\n    you will not be able to return..."
+  window_msg_end
+  set                             r195
+  arg_pushs                       "<color 1>  ■Don\'t get caught by the ghosts!<color 0>\n※If you are caught 10 times,\nyou will fail the quest!"
+  window_msg                      ... "<color 1>  ■Don\'t get caught by the ghosts!<color 0>\n※If you are caught 10 times,\nyou will fail the quest!"
+  window_msg_end
+  call                            label0060
+
+label0173@0x0173:
+  jmpi_eq                         r196, 0x00000001, label0001
+  jmpi_eq                         r195, 0x00000000, label0001
+  leti                            r198, 0x00000001
+  clear                           r197
+  clear                           r200
+  clear                           r201
+  thread_stg                      label0078
+  thread_stg                      label006F
+  ret
+
+label006F@0x006F:
+  sync
+  jmpi_eq                         r198, 0x00000000, label0001
+  jmpi_eq                         r198, 0x00000002, label0001
+  jmpi_eq                         r196, 0x00000001, label0001
+  jmpi_eq                         r115, 0x00000001, label0001
+  addi                            r201, 0x00000001
+  get_player_state                r250, r199
+  jmp                             label006F
+  ret
+
+label0078@0x0078:
+  // Referenced by map enemy ES-00-004 [EnemySetEntry type=001A "TObjNpcSoldierMacho/TObjNpcSoldierMacho" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=237.999 y=0 z=-14.0001 x_angle=00000000 y_angle=0000E000 z_angle=00000000 params=[0 0 0 1019 120 0000 0000]]
+  sync
+  jmpi_eq                         r198, 0x00000000, label0001
+  jmpi_eq                         r198, 0x00000002, label0001
+  jmpi_eq                         r196, 0x00000001, label0001
+  jmpi_eq                         r44, 0x00000001, label0001
+  jmpi_le                         r201, 0x0000012C, label0078
+  thread_stg                      label005A
+  ret
+
+label005A@0x005A:
+  sync
+  jmpi_eq                         r198, 0x00000000, label0001
+  jmpi_eq                         r198, 0x00000002, label0001
+  jmpi_eq                         r196, 0x00000001, label0001
+  jmpi_eq                         r44, 0x00000001, label0001
+  addi                            r200, 0x00000001
+  clear                           r30
+  clear                           r31
+  clear                           r32
+  get_coord_of_player             r30-r32, r250
+  jmpi_eq                         r199, 0x00000001, label0030
+  jmpi_eq                         r199, 0x00000007, label0030
+  jmpi_eq                         r199, 0x00000008, label0030
+  jmp                             label005B
+
+label0030@0x0030:
+  leti                            r55, 0x00000000
+  leti                            r56, 0x00000006
+  get_random                      r55-r56, r57
+  let                             r18, r57
+  leti                            r19, 0x00000002
+  call                            label0072
+  jmpi_eq                         r20, 0x00000001, label0038
+  subi                            r197, 0x00000001
+  jmpi_lt                         r197, 0x00000000, label0018
+  jmp                             label0038
+
+label0018@0x0018:
+  leti                            r197, 0x00000000
+
+label0038@0x0038:
+  call                            label0049
+  jmpi_ge                         r200, 0x000000D2, label0002
+  jmp                             label005A
+  ret
+
+label005B@0x005B:
+  call                            label0049
+  addi                            r197, 0x00000001
+  jmpi_ge                         r197, 0x0000005A, label0063
+  jmpi_ge                         r200, 0x000000D2, label0002
+  jmp                             label005A
+  ret
+
+label0043@0x0043:
+  sync
+  clear                           r30
+  clear                           r31
+  clear                           r32
+  get_coord_of_player             r30-r32, r250
+  call                            label0049
+  jmpi_eq                         r198, 0x00000002, label0043
+  ret
+
+label0002@0x0002:
+  clear                           r197
+  clear                           r200
+  clear                           r201
+  sync
+  thread_stg                      label0078
+  ret
+
+label0049@0x0049:
+  let                             r60, r30
+  let                             r61, r31
+  let                             r62, r32
+  leti                            r63, 0x00000012
+  leti                            r64, 0x00000001
+  leti                            r100, 0x0000005A
+  sub                             r100, r197
+  add                             r62, r100
+  addi                            r61, 0x0000000D
+  addi                            r60, 0x0000000A
+  particle                        r60-r64
+  let                             r60, r30
+  let                             r61, r31
+  let                             r62, r32
+  leti                            r63, 0x00000012
+  leti                            r64, 0x00000001
+  leti                            r100, 0x0000005A
+  sub                             r100, r197
+  sub                             r60, r100
+  addi                            r61, 0x0000000D
+  addi                            r62, 0x0000000A
+  particle                        r60-r64
+  let                             r60, r30
+  let                             r61, r31
+  let                             r62, r32
+  leti                            r63, 0x00000012
+  leti                            r64, 0x00000001
+  leti                            r100, 0x0000005A
+  sub                             r100, r197
+  add                             r60, r100
+  addi                            r61, 0x0000000D
+  subi                            r62, 0x0000000A
+  particle                        r60-r64
+  let                             r60, r30
+  let                             r61, r31
+  let                             r62, r32
+  leti                            r63, 0x00000012
+  leti                            r64, 0x00000001
+  leti                            r100, 0x0000005A
+  sub                             r100, r197
+  sub                             r62, r100
+  addi                            r61, 0x0000000D
+  subi                            r60, 0x0000000A
+  particle                        r60-r64
+  ret
+
+label0063@0x0063:
+  warp_off
+  leti                            r198, 0x00000002
+  thread_stg                      label0043
+
+label0FE2@0x0FE2:
+  call                            label005C
+  toggle_freeze_enemies
+  arg_pushs                       "    Don\'t come any closer..."
+  window_msg                      ... "    Don\'t come any closer..."
+  arg_pushs                       "    Turn back now."
+  add_msg                         ... "    Turn back now."
+  window_msg_end
+  addi                            r205, 0x00000001
+  jmpi_lt                         r205, 0x0000000A, label0FE3
+  arg_pushs                       "　\nQuest failed!"
+  window_msg                      ... "　\nQuest failed!"
+  window_msg_end
+  set                             r253
+  fadeout
+  arg_pushr                       r250
+  arg_pushb                       0x65
+  get_player_room                 ... r250, r101-r102
+  jmpi_eq                         r101, 0x00000000, label0039
+  call                            label0039
+  leti                            r60, 0x00000000
+  go_floor                        r250, r60
+  ret
+
+label0FE3@0x0FE3:
+  arg_pushb                       0x54
+  arg_pushl                       0x00000001
+  sync_register2                  ... r84, 0x1 /* 1 */
+  fadeout
+  call                            label0046
+  switch_call                     r250, [label000D, label0013, label001F, label0029]
+  call                            label0022
+  fadein
+  leti                            r198, 0x00000001
+  call                            label0019
+  warp_on
+  clear                           r197
+  clear                           r200
+  clear                           r201
+  sync
+  thread_stg                      label0078
+  thread_stg                      label006F
+  call                            label0060
+  unfreeze_enemies
+  ret
+
+label0046@0x0046:
+  // Referenced by map enemy ES-00-007 [EnemySetEntry type=001E "TObjNpcExpertBase" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=-147 y=0 z=-7.99654 x_angle=00000000 y_angle=00006900 z_angle=00000000 params=[30 0 0 1013 70 0001 0000]]
+  leti                            r60, 0x000002DA
+  leti                            r61, 0x00000000
+  leti                            r62, 0xFFFFFA3D
+  leti                            r63, 0x0000010E
+  ret
+
+label000D@0x000D:
+  arg_pushl                       0x00000000
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  ret
+
+label0013@0x0013:
+  arg_pushl                       0x00000001
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x1 /* 1 */, r60-r63
+  ret
+
+label001F@0x001F:
+  arg_pushl                       0x00000002
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x2 /* 2 */, r60-r63
+  ret
+
+label0029@0x0029:
+  arg_pushl                       0x00000003
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x3 /* 3 */, r60-r63
+  ret
+
+label0174@0x0174:
+  jmpi_eq                         r115, 0x00000001, label0001
+  call                            label005C
+  call                            label0032
+  arg_pushs                       "Obtained <color 1>Military Capsule 3<color 0>."
+  window_msg                      ... "Obtained <color 1>Military Capsule 3<color 0>."
+  window_msg_end
+  fadeout
+  leti                            r60, 0x0000000A
+  leti                            r61, 0x00000003
+  leti                            r62, 0x00000001
+  construct_delayed_object        r60-r62
+  call                            label0032
+  fadein
+  arg_pushl                       0x00000002
+  arg_pushw                       0x0175
+  arg_pushs                       "<color 4>Military Capsule 3<color 0>"
+  set_quest_board_handler         ... 0x2 /* 2 */, label0175, "<color 4>Military Capsule 3<color 0>"
+  set                             r76
+  set                             r115
+  call                            label0060
+  ret
+
+label0175@0x0175:
+  arg_pushs                       "The commander approached\nthe unknown life form,\nand was attacked."
+  disp_msg_qb                     ... "The commander approached\nthe unknown life form,\nand was attacked."
+  arg_pushs                       "He was injured at\nthis time."
+  add_msg                         ... "He was injured at\nthis time."
+  arg_pushs                       "We were overwhelmed\nby the power of the\nlife form, but,"
+  add_msg                         ... "We were overwhelmed\nby the power of the\nlife form, but,"
+  arg_pushs                       "it only just woke up.\nIt\'s power declined\nand we defeated \"It\"."
+  add_msg                         ... "it only just woke up.\nIt\'s power declined\nand we defeated \"It\"."
+  arg_pushs                       "It\'s corpse was\ntransported to\nthe Seabed Plant."
+  add_msg                         ... "It\'s corpse was\ntransported to\nthe Seabed Plant."
+  arg_pushs                       "The commander was\nalso taken to\nthe same plant."
+  add_msg                         ... "The commander was\nalso taken to\nthe same plant."
+  arg_pushs                       "It\'s strange to\nthink about, but I\njust recalled his name."
+  add_msg                         ... "It\'s strange to\nthink about, but I\njust recalled his name."
+  arg_pushs                       "Yes...\nIt was\nHeathcliff Flowen."
+  add_msg                         ... "Yes...\nIt was\nHeathcliff Flowen."
+  close_msg_qb
+  ret
+
+label007C@0x007C:
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  hud_hide
+  cine_enable
+  cam_zmin
+  ret
+
+label0079@0x0079:
+  cam_zmout
+  cine_disable
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  npc_talk_on
+  p_action_enable
+  ret
+
+label005C@0x005C:
+  p_action_disable
+  npc_talk_off
+  call                            label0003
+  hud_hide
+  cine_enable
+  cam_zmin
+  ret
+
+label0060@0x0060:
+  cam_zmout
+  cine_disable
+  hud_show
+  call                            label007A
+  npc_talk_on
+  p_action_enable
+  ret
+
+label007A@0x007A:
+  leti                            r249, 0x00000000
+  switch_call                     r250, [label0025, label002A, label002D, label0031]
+  p_action_enable
+  ret
+
+label0025@0x0025:
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  ret
+
+label002A@0x002A:
+  arg_pushl                       0x00000001
+  enable_movement1                ... 0x1 /* 1 */
+  ret
+
+label002D@0x002D:
+  arg_pushl                       0x00000002
+  enable_movement1                ... 0x2 /* 2 */
+  ret
+
+label0031@0x0031:
+  arg_pushl                       0x00000003
+  enable_movement1                ... 0x3 /* 3 */
+  ret
+
+label0003@0x0003:
+  leti                            r249, 0x00000001
+  switch_call                     r250, [label0071, label0074, label0077, label007B]
+  ret
+
+label0071@0x0071:
+  p_action_disable
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  ret
+
+label0074@0x0074:
+  p_action_disable
+  arg_pushl                       0x00000001
+  disable_movement1               ... 0x1 /* 1 */
+  ret
+
+label0077@0x0077:
+  p_action_disable
+  arg_pushl                       0x00000002
+  disable_movement1               ... 0x2 /* 2 */
+  ret
+
+label007B@0x007B:
+  p_action_disable
+  arg_pushl                       0x00000003
+  disable_movement1               ... 0x3 /* 3 */
+  ret
+
+label0072@0x0072:
+  let                             r17, r18
+  div                             r17, r19
+  mul                             r17, r19
+  sub                             r18, r17
+  let                             r20, r18
+  ret
+
+label00DC@0x00DC:
+  p_action_disable
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  disable_movement1               ... 0x1 /* 1 */
+  arg_pushl                       0x00000002
+  disable_movement1               ... 0x2 /* 2 */
+  arg_pushl                       0x00000003
+  disable_movement1               ... 0x3 /* 3 */
+  hud_hide
+  cine_enable
+  cam_zmin
+  ret
+
+label00DD@0x00DD:
+  cam_zmout
+  cine_disable
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  enable_movement1                ... 0x1 /* 1 */
+  arg_pushl                       0x00000002
+  enable_movement1                ... 0x2 /* 2 */
+  arg_pushl                       0x00000003
+  enable_movement1                ... 0x3 /* 3 */
+  p_action_enable
+  ret
+
+label0022@0x0022:
+  sync
+  sync
+  sync
+  sync
+  sync
+  ret
+
+label0019@0x0019:
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  ret
+
+label0042@0x0042:
+  call                            label0022
+  call                            label0019
+  ret
+
+label0023@0x0023:
+  call                            label0019
+  call                            label0019
+  ret
+
+label0032@0x0032:
+  call                            label0042
+  call                            label0042
+  ret
+
+label0051@0x0051:
+  call                            label0032
+  call                            label0042
+  ret
+
+label0047@0x0047:
+  call                            label0032
+  call                            label0032
+  ret
+
+label0056@0x0056:
+  call                            label0051
+  call                            label0051
+  ret
+  nop

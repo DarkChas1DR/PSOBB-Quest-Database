@@ -1,0 +1,3460 @@
+.version BB_V4
+.quest_num 42
+.name "Resting at the Beach"
+.short_desc "???"
+.long_desc "The Lab is closed for\nthe night..."
+.episode Episode2
+.header_episode 0x01
+.language E
+.max_players 4
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+start:
+  set_episode                     0x00000001
+  set_qt_exit                     label000A
+  set_qt_cancel                   label000A
+  set_qt_success                  label0014
+  set_qt_failure                  label000A
+  arg_pushl                       0x00000000
+  arg_pushw                       0x005A
+  set_floor_handler               ... 0x0 /* 0 */, label005A
+  arg_pushl                       0x00000010
+  arg_pushw                       0x00C8
+  set_floor_handler               ... 0x10 /* 16 */, label00C8
+  enable_keyword_detect
+  leti                            r60, 0x00000000
+  leti                            r61, 0x00000012
+  leti                            r62, 0x00000000
+  leti                            r63, 0x00000000
+  leti                            r64, 0x00000000
+  map_designate_ex                r60-r64
+  leti                            r60, 0x00000010
+  leti                            r61, 0x00000022
+  leti                            r62, 0x00000000
+  leti                            r63, 0x00000000
+  leti                            r64, 0x00000000
+  map_designate_ex                r60-r64
+  arg_pushl                       0x00000000
+  initial_floor                   ... 0x0 /* 0 */
+  arg_pushl                       0x00000010
+  set_mainwarp                    ... 0x10 /* 16 */
+  get_difficulty_level_v2         r252
+  get_client_id                   r250
+  get_number_of_players           r251
+  let                             r13, r251
+  ret
+
+label0001@0x0001:
+  ret
+
+label000A@0x000A:
+  ret
+
+label0014@0x0014:
+  ret
+
+label005A@0x005A:
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000020
+  arg_pushl                       0x00000080
+  arg_pushl                       0x00000000
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x20 /* 32 */, 0x80 /* 128 */, 0x0 /* 0 */
+  switch_call                     r150, [label00EC, label004E]
+  ret
+
+label00EC@0x00EC:
+  leti                            r140, 0x0000006E
+  arg_pushl                       0x00000000
+  arg_pushr                       r140
+  set_switch_flag_sync            ... 0x0 /* 0 */, r140
+  ret
+
+label004E@0x004E:
+  leti                            r140, 0x0000006E
+  arg_pushl                       0x00000000
+  arg_pushr                       r140
+  clear_switch_flag_sync          ... 0x0 /* 0 */, r140
+  ret
+
+label0064@0x0064:
+  call                            label00C5
+  jmpi_eq                         r248, 0x00000001, label006E
+  arg_pushl                       0x00000064
+  arg_pushs                       "What are you guys doing\nhere in middle of the\nnight?"
+  message                         ... 0x64 /* 100 */, "What are you guys doing\nhere in middle of the\nnight?"
+  arg_pushs                       "Hmm... And look at the\nfloor. It\'s all wet."
+  add_msg                         ... "Hmm... And look at the\nfloor. It\'s all wet."
+  arg_pushs                       "..."
+  add_msg                         ... "..."
+  arg_pushs                       "Well, I see..."
+  add_msg                         ... "Well, I see..."
+  arg_pushs                       "I know how things can\nbe. I\'ll let you go this\ntime."
+  add_msg                         ... "I know how things can\nbe. I\'ll let you go this\ntime."
+  arg_pushs                       "But don\'t let me catch\nyou like this again."
+  add_msg                         ... "But don\'t let me catch\nyou like this again."
+  message_end
+  set                             r248
+  call                            label00C7
+  ret
+
+label006E@0x006E:
+  arg_pushl                       0x00000064
+  arg_pushs                       "But don\'t let me catch\nyou like this again."
+  message                         ... 0x64 /* 100 */, "But don\'t let me catch\nyou like this again."
+  message_end
+  call                            label00C7
+  ret
+
+label0065@0x0065:
+  // Referenced by map enemy ES-00-002 [EnemySetEntry type=00FE "TObjNpcNgcBase(0x00FE)" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-113 y=0 z=19 x_angle=00000000 y_angle=00005000 z_angle=00000000 params=[0 0 0 101 101 0000 0000]]
+  call                            label00C5
+  arg_pushl                       0x00000065
+  arg_pushs                       "Welcome to the Hunter\'s\nGuild, where we fulfill\nthe needs of hunters!"
+  message                         ... 0x65 /* 101 */, "Welcome to the Hunter\'s\nGuild, where we fulfill\nthe needs of hunters!"
+  arg_pushs                       "Would like to return to\nthe lobby?"
+  add_msg                         ... "Would like to return to\nthe lobby?"
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "No\nYes"
+  list                            ... r60, "No\nYes"
+  switch_jmp                      r60, [label0023, label00A3]
+
+label00A3@0x00A3:
+  arg_pushl                       0x00000065
+  arg_pushs                       "OK. I will now send you\nto the lobby."
+  message                         ... 0x65 /* 101 */, "OK. I will now send you\nto the lobby."
+  message_end
+  qexit
+  set                             r255
+  ret
+
+label0023@0x0023:
+  arg_pushl                       0x00000065
+  arg_pushs                       "Please come again!"
+  message                         ... 0x65 /* 101 */, "Please come again!"
+  message_end
+  call                            label00C7
+  ret
+
+label00C8@0x00C8:
+  p_disablewarp
+  thread_stg                      label00A7
+  thread_stg                      label0099
+  enable_keyword_detect
+  thread_stg                      label0060
+  thread_stg                      label00A4
+  thread_stg                      label002A
+  thread_stg                      label0045
+  thread_stg                      label00C6
+  thread_stg                      label0032
+  ret
+
+label00A7@0x00A7:
+  sync
+  call                            label0053
+  call                            label00E3
+  jmp                             label00EA
+  ret
+
+label00E3@0x00E3:
+  get_number_of_players           r251
+  jmp_ne                          r220, r251, label0001
+  set                             r150
+  ret
+
+label0060@0x0060:
+  sync
+  jmpi_eq                         r18, 0x00000001, label0060
+  call                            label0036
+  call                            label003E
+  call                            label005D
+  call                            label0059
+  call                            label0055
+  call                            label0050
+  call                            label004B
+  call                            label0047
+  call                            label0044
+  call                            label0043
+  call                            label003D
+  call                            label0038
+  call                            label0058
+  call                            label0054
+  call                            label004F
+  call                            label004A
+  call                            label0046
+  call                            label0042
+  call                            label003C
+  call                            label0037
+  jmp                             label0060
+  ret
+
+label0036@0x0036:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "dolmolm"
+  check_for_keyword               ... r11, r250, "dolmolm"
+  switch_call                     r11, [label00DE, label0085]
+  ret
+
+label0037@0x0037:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "pop"
+  check_for_keyword               ... r11, r250, "pop"
+  switch_call                     r11, [label00DE, label009F]
+  ret
+
+label003C@0x003C:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "blam"
+  check_for_keyword               ... r11, r250, "blam"
+  switch_call                     r11, [label00DE, label009F]
+  ret
+
+label0042@0x0042:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "pyrotechnics"
+  check_for_keyword               ... r11, r250, "pyrotechnics"
+  switch_call                     r11, [label00DE, label009F]
+  ret
+
+label0046@0x0046:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "triple"
+  check_for_keyword               ... r11, r250, "triple"
+  switch_call                     r11, [label00DE, label00B6]
+  ret
+
+label004A@0x004A:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "spread"
+  check_for_keyword               ... r11, r250, "spread"
+  switch_call                     r11, [label00DE, label00B6]
+  ret
+
+label004F@0x004F:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "rocket"
+  check_for_keyword               ... r11, r250, "rocket"
+  switch_call                     r11, [label00DE, label00C3]
+  ret
+
+label0054@0x0054:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "launch"
+  check_for_keyword               ... r11, r250, "launch"
+  switch_call                     r11, [label00DE, label00C3]
+  ret
+
+label0058@0x0058:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "roman"
+  check_for_keyword               ... r11, r250, "roman"
+  switch_call                     r11, [label00DE, label00C3]
+  ret
+
+label0038@0x0038:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "shower"
+  check_for_keyword               ... r11, r250, "shower"
+  switch_call                     r11, [label00DE, label00CE]
+  ret
+
+label003D@0x003D:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "fountain"
+  check_for_keyword               ... r11, r250, "fountain"
+  switch_call                     r11, [label00DE, label00CE]
+  ret
+
+label0043@0x0043:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "illumination"
+  check_for_keyword               ... r11, r250, "illumination"
+  switch_call                     r11, [label00DE, label00CE]
+  ret
+
+label0044@0x0044:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "spinner"
+  check_for_keyword               ... r11, r250, "spinner"
+  switch_call                     r11, [label00DE, label00D9]
+  ret
+
+label0047@0x0047:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "wheel"
+  check_for_keyword               ... r11, r250, "wheel"
+  switch_call                     r11, [label00DE, label00D9]
+  ret
+
+label004B@0x004B:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "cyclone"
+  check_for_keyword               ... r11, r250, "cyclone"
+  switch_call                     r11, [label00DE, label00D9]
+  ret
+
+label0050@0x0050:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "scatter"
+  check_for_keyword               ... r11, r250, "scatter"
+  switch_call                     r11, [label00DE, label00E1]
+  ret
+
+label0055@0x0055:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "burst"
+  check_for_keyword               ... r11, r250, "burst"
+  switch_call                     r11, [label00DE, label00E1]
+  ret
+
+label0059@0x0059:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "bloom"
+  check_for_keyword               ... r11, r250, "bloom"
+  switch_call                     r11, [label00DE, label00E1]
+  ret
+
+label005D@0x005D:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "cannon"
+  check_for_keyword               ... r11, r250, "cannon"
+  switch_call                     r11, [label00DE, label00F3]
+  ret
+
+label003E@0x003E:
+  arg_pushb                       0x0B
+  arg_pushr                       r250
+  arg_pushs                       "barrage"
+  check_for_keyword               ... r11, r250, "barrage"
+  switch_call                     r11, [label00DE, label00F3]
+  ret
+
+label00DE@0x00DE:
+  ret
+
+label0085@0x0085:
+  switch_call                     r250, [label0062, label0068, label006C, label0071]
+  ret
+
+label0062@0x0062:
+  jmpi_gt                         r132, 0x00000000, label00DE
+  ori                             r132, 0x00000001
+  arg_pushb                       0x84
+  arg_pushr                       r132
+  sync_register2                  ... r132, r132
+  ret
+
+label0068@0x0068:
+  jmpi_gt                         r133, 0x00000000, label00DE
+  ori                             r133, 0x00000001
+  arg_pushb                       0x85
+  arg_pushr                       r133
+  sync_register2                  ... r133, r133
+  ret
+
+label006C@0x006C:
+  jmpi_gt                         r134, 0x00000000, label00DE
+  ori                             r134, 0x00000001
+  arg_pushb                       0x86
+  arg_pushr                       r134
+  sync_register2                  ... r134, r134
+  ret
+
+label0071@0x0071:
+  jmpi_gt                         r135, 0x00000000, label00DE
+  ori                             r135, 0x00000001
+  arg_pushb                       0x87
+  arg_pushr                       r135
+  sync_register2                  ... r135, r135
+  ret
+
+label009F@0x009F:
+  switch_call                     r250, [label0024, label0029, label002F, label0031]
+  ret
+
+label0024@0x0024:
+  jmpi_gt                         r132, 0x00000000, label00DE
+  ori                             r132, 0x00020000
+  arg_pushb                       0x84
+  arg_pushr                       r132
+  sync_register2                  ... r132, r132
+  ret
+
+label0029@0x0029:
+  jmpi_gt                         r133, 0x00000000, label00DE
+  ori                             r133, 0x00020000
+  arg_pushb                       0x85
+  arg_pushr                       r133
+  sync_register2                  ... r133, r133
+  ret
+
+label002F@0x002F:
+  jmpi_gt                         r134, 0x00000000, label00DE
+  ori                             r134, 0x00020000
+  arg_pushb                       0x86
+  arg_pushr                       r134
+  sync_register2                  ... r134, r134
+  ret
+
+label0031@0x0031:
+  jmpi_gt                         r135, 0x00000000, label00DE
+  ori                             r135, 0x00020000
+  arg_pushb                       0x87
+  arg_pushr                       r135
+  sync_register2                  ... r135, r135
+  ret
+
+label00AD@0x00AD:
+  switch_call                     r250, [label0069, label006D, label0072, label0079]
+  ret
+
+label0069@0x0069:
+  jmpi_gt                         r132, 0x00000000, label00DE
+  ori                             r132, 0x00000002
+  arg_pushb                       0x84
+  arg_pushr                       r132
+  sync_register2                  ... r132, r132
+  ret
+
+label006D@0x006D:
+  jmpi_gt                         r133, 0x00000000, label00DE
+  ori                             r133, 0x00000002
+  arg_pushb                       0x85
+  arg_pushr                       r133
+  sync_register2                  ... r133, r133
+  ret
+
+label0072@0x0072:
+  jmpi_gt                         r134, 0x00000000, label00DE
+  ori                             r134, 0x00000002
+  arg_pushb                       0x86
+  arg_pushr                       r134
+  sync_register2                  ... r134, r134
+  ret
+
+label0079@0x0079:
+  jmpi_gt                         r135, 0x00000000, label00DE
+  ori                             r135, 0x00000002
+  arg_pushb                       0x87
+  arg_pushr                       r135
+  sync_register2                  ... r135, r135
+  ret
+
+label00B6@0x00B6:
+  switch_call                     r250, [label006F, label0073, label007A, label0080]
+  ret
+
+label006F@0x006F:
+  jmpi_gt                         r132, 0x00000000, label00DE
+  ori                             r132, 0x00000004
+  arg_pushb                       0x84
+  arg_pushr                       r132
+  sync_register2                  ... r132, r132
+  ret
+
+label0073@0x0073:
+  jmpi_gt                         r133, 0x00000000, label00DE
+  ori                             r133, 0x00000004
+  arg_pushb                       0x85
+  arg_pushr                       r133
+  sync_register2                  ... r133, r133
+  ret
+
+label007A@0x007A:
+  jmpi_gt                         r134, 0x00000000, label00DE
+  ori                             r134, 0x00000004
+  arg_pushb                       0x86
+  arg_pushr                       r134
+  sync_register2                  ... r134, r134
+  ret
+
+label0080@0x0080:
+  jmpi_gt                         r135, 0x00000000, label00DE
+  ori                             r135, 0x00000004
+  arg_pushb                       0x87
+  arg_pushr                       r135
+  sync_register2                  ... r135, r135
+  ret
+
+label00C3@0x00C3:
+  switch_call                     r250, [label0074, label007B, label0081, label0086]
+  ret
+
+label0074@0x0074:
+  jmpi_gt                         r132, 0x00000000, label00DE
+  ori                             r132, 0x00000008
+  arg_pushb                       0x84
+  arg_pushr                       r132
+  sync_register2                  ... r132, r132
+  ret
+
+label007B@0x007B:
+  jmpi_gt                         r133, 0x00000000, label00DE
+  ori                             r133, 0x00000008
+  arg_pushb                       0x85
+  arg_pushr                       r133
+  sync_register2                  ... r133, r133
+  ret
+
+label0081@0x0081:
+  jmpi_gt                         r134, 0x00000000, label00DE
+  ori                             r134, 0x00000008
+  arg_pushb                       0x86
+  arg_pushr                       r134
+  sync_register2                  ... r134, r134
+  ret
+
+label0086@0x0086:
+  jmpi_gt                         r135, 0x00000000, label00DE
+  ori                             r135, 0x00000008
+  arg_pushb                       0x87
+  arg_pushr                       r135
+  sync_register2                  ... r135, r135
+  ret
+
+label00CE@0x00CE:
+  switch_call                     r250, [label007C, label0082, label0087, label008D]
+  ret
+
+label007C@0x007C:
+  jmpi_gt                         r132, 0x00000000, label00DE
+  ori                             r132, 0x00000010
+  arg_pushb                       0x84
+  arg_pushr                       r132
+  sync_register2                  ... r132, r132
+  ret
+
+label0082@0x0082:
+  jmpi_gt                         r133, 0x00000000, label00DE
+  ori                             r133, 0x00000010
+  arg_pushb                       0x85
+  arg_pushr                       r133
+  sync_register2                  ... r133, r133
+  ret
+
+label0087@0x0087:
+  jmpi_gt                         r134, 0x00000000, label00DE
+  ori                             r134, 0x00000010
+  arg_pushb                       0x86
+  arg_pushr                       r134
+  sync_register2                  ... r134, r134
+  ret
+
+label008D@0x008D:
+  jmpi_gt                         r135, 0x00000000, label00DE
+  ori                             r135, 0x00000010
+  arg_pushb                       0x87
+  arg_pushr                       r135
+  sync_register2                  ... r135, r135
+  ret
+
+label00D9@0x00D9:
+  switch_call                     r250, [label0083, label0088, label008E, label0093]
+  ret
+
+label0083@0x0083:
+  jmpi_gt                         r132, 0x00000000, label00DE
+  ori                             r132, 0x00000020
+  arg_pushb                       0x84
+  arg_pushr                       r132
+  sync_register2                  ... r132, r132
+  ret
+
+label0088@0x0088:
+  jmpi_gt                         r133, 0x00000000, label00DE
+  ori                             r133, 0x00000020
+  arg_pushb                       0x85
+  arg_pushr                       r133
+  sync_register2                  ... r133, r133
+  ret
+
+label008E@0x008E:
+  jmpi_gt                         r134, 0x00000000, label00DE
+  ori                             r134, 0x00000020
+  arg_pushb                       0x86
+  arg_pushr                       r134
+  sync_register2                  ... r134, r134
+  ret
+
+label0093@0x0093:
+  jmpi_gt                         r135, 0x00000000, label00DE
+  ori                             r135, 0x00000020
+  arg_pushb                       0x87
+  arg_pushr                       r135
+  sync_register2                  ... r135, r135
+  ret
+
+label00E1@0x00E1:
+  switch_call                     r250, [label0089, label008F, label0094, label009A]
+  ret
+
+label0089@0x0089:
+  jmpi_gt                         r132, 0x00000000, label00DE
+  ori                             r132, 0x00000040
+  arg_pushb                       0x84
+  arg_pushr                       r132
+  sync_register2                  ... r132, r132
+  ret
+
+label008F@0x008F:
+  jmpi_gt                         r133, 0x00000000, label00DE
+  ori                             r133, 0x00000040
+  arg_pushb                       0x85
+  arg_pushr                       r133
+  sync_register2                  ... r133, r133
+  ret
+
+label0094@0x0094:
+  jmpi_gt                         r134, 0x00000000, label00DE
+  ori                             r134, 0x00000040
+  arg_pushb                       0x86
+  arg_pushr                       r134
+  sync_register2                  ... r134, r134
+  ret
+
+label009A@0x009A:
+  jmpi_gt                         r135, 0x00000000, label00DE
+  ori                             r135, 0x00000040
+  arg_pushb                       0x87
+  arg_pushr                       r135
+  sync_register2                  ... r135, r135
+  ret
+
+label00F3@0x00F3:
+  switch_call                     r250, [label0090, label0095, label009B, label00A0]
+  ret
+
+label0090@0x0090:
+  jmpi_gt                         r132, 0x00000000, label00DE
+  ori                             r132, 0x00000080
+  arg_pushb                       0x84
+  arg_pushr                       r132
+  sync_register2                  ... r132, r132
+  ret
+
+label0095@0x0095:
+  jmpi_gt                         r133, 0x00000000, label00DE
+  ori                             r133, 0x00000080
+  arg_pushb                       0x85
+  arg_pushr                       r133
+  sync_register2                  ... r133, r133
+  ret
+
+label009B@0x009B:
+  jmpi_gt                         r134, 0x00000000, label00DE
+  ori                             r134, 0x00000080
+  arg_pushb                       0x86
+  arg_pushr                       r134
+  sync_register2                  ... r134, r134
+  ret
+
+label00A0@0x00A0:
+  jmpi_gt                         r135, 0x00000000, label00DE
+  ori                             r135, 0x00000080
+  arg_pushb                       0x87
+  arg_pushr                       r135
+  sync_register2                  ... r135, r135
+  ret
+
+label00A4@0x00A4:
+  sync
+  jmpi_eq                         r18, 0x00000001, label00A4
+  call                            label00ED
+  call                            label00F4
+  call                            label0002
+  call                            label000C
+  call                            label0012
+  call                            label001A
+  call                            label0003
+  call                            label0096
+  jmp                             label00A4
+  ret
+
+label00ED@0x00ED:
+  arg_pushb                       0x1E
+  arg_pushr                       r250
+  arg_pushs                       "meteor"
+  check_for_keyword               ... r30, r250, "meteor"
+  switch_call                     r30, [label003F, label00A8]
+  ret
+
+label00F4@0x00F4:
+  arg_pushb                       0x1E
+  arg_pushr                       r250
+  arg_pushs                       "comet"
+  check_for_keyword               ... r30, r250, "comet"
+  switch_call                     r30, [label003F, label00A8]
+  ret
+
+label0002@0x0002:
+  arg_pushb                       0x1E
+  arg_pushr                       r250
+  arg_pushs                       "tail"
+  check_for_keyword               ... r30, r250, "tail"
+  switch_call                     r30, [label003F, label00A8]
+  ret
+
+label000C@0x000C:
+  arg_pushb                       0x1E
+  arg_pushr                       r250
+  arg_pushs                       "stream"
+  check_for_keyword               ... r30, r250, "stream"
+  switch_call                     r30, [label003F, label00A8]
+  ret
+
+label0012@0x0012:
+  arg_pushb                       0x1E
+  arg_pushr                       r250
+  arg_pushs                       "sky"
+  check_for_keyword               ... r30, r250, "sky"
+  switch_call                     r30, [label003F, label00A8]
+  ret
+
+label001A@0x001A:
+  arg_pushb                       0x1E
+  arg_pushr                       r250
+  arg_pushs                       "blue"
+  check_for_keyword               ... r30, r250, "blue"
+  switch_call                     r30, [label003F, label00A8]
+  ret
+
+label0003@0x0003:
+  arg_pushb                       0x1E
+  arg_pushr                       r250
+  arg_pushs                       "star"
+  check_for_keyword               ... r30, r250, "star"
+  switch_call                     r30, [label003F, label00D1]
+  ret
+
+label0096@0x0096:
+  arg_pushb                       0x1E
+  arg_pushr                       r250
+  arg_pushs                       "twinkle"
+  check_for_keyword               ... r30, r250, "twinkle"
+  switch_call                     r30, [label003F, label00D1]
+  ret
+
+label003F@0x003F:
+  ret
+
+label00A8@0x00A8:
+  switch_call                     r250, [label0097, label009C, label00A1, label00A5]
+  ret
+
+label0097@0x0097:
+  jmpi_gt                         r132, 0x00000000, label003F
+  ori                             r132, 0x00000100
+  arg_pushb                       0x84
+  arg_pushr                       r132
+  sync_register2                  ... r132, r132
+  ret
+
+label009C@0x009C:
+  jmpi_gt                         r133, 0x00000000, label003F
+  ori                             r133, 0x00000100
+  arg_pushb                       0x85
+  arg_pushr                       r133
+  sync_register2                  ... r133, r133
+  ret
+
+label00A1@0x00A1:
+  jmpi_gt                         r134, 0x00000000, label003F
+  ori                             r134, 0x00000100
+  arg_pushb                       0x86
+  arg_pushr                       r134
+  sync_register2                  ... r134, r134
+  ret
+
+label00A5@0x00A5:
+  jmpi_gt                         r135, 0x00000000, label003F
+  ori                             r135, 0x00000100
+  arg_pushb                       0x87
+  arg_pushr                       r135
+  sync_register2                  ... r135, r135
+  ret
+
+label00D1@0x00D1:
+  switch_call                     r250, [label00E7, label00EE, label00F5, label0004]
+  ret
+
+label00E7@0x00E7:
+  jmpi_gt                         r132, 0x00000000, label003F
+  ori                             r132, 0x00000200
+  arg_pushb                       0x84
+  arg_pushr                       r132
+  sync_register2                  ... r132, r132
+  ret
+
+label00EE@0x00EE:
+  jmpi_gt                         r133, 0x00000000, label003F
+  ori                             r133, 0x00000200
+  arg_pushb                       0x85
+  arg_pushr                       r133
+  sync_register2                  ... r133, r133
+  ret
+
+label00F5@0x00F5:
+  jmpi_gt                         r134, 0x00000000, label003F
+  ori                             r134, 0x00000200
+  arg_pushb                       0x86
+  arg_pushr                       r134
+  sync_register2                  ... r134, r134
+  ret
+
+label0004@0x0004:
+  jmpi_gt                         r135, 0x00000000, label003F
+  ori                             r135, 0x00000200
+  arg_pushb                       0x87
+  arg_pushr                       r135
+  sync_register2                  ... r135, r135
+  ret
+
+label002A@0x002A:
+  sync
+  jmpi_eq                         r18, 0x00000001, label002A
+  call                            label00CA
+  call                            label00CF
+  call                            label00D2
+  call                            label00D5
+  call                            label00D7
+  call                            label00DA
+  call                            label00DC
+  jmp                             label002A
+  ret
+
+label00CA@0x00CA:
+  arg_pushb                       0x0E
+  arg_pushr                       r250
+  arg_pushs                       "squid"
+  check_for_keyword               ... r14, r250, "squid"
+  switch_call                     r14, [label0063, label00DD]
+  ret
+
+label00CF@0x00CF:
+  arg_pushb                       0x0E
+  arg_pushr                       r250
+  arg_pushs                       "monster"
+  check_for_keyword               ... r14, r250, "monster"
+  switch_call                     r14, [label0063, label00DD]
+  ret
+
+label00D2@0x00D2:
+  arg_pushb                       0x0E
+  arg_pushr                       r250
+  arg_pushs                       "enemy"
+  check_for_keyword               ... r14, r250, "enemy"
+  switch_call                     r14, [label0063, label00DD]
+  ret
+
+label00D5@0x00D5:
+  arg_pushb                       0x0E
+  arg_pushr                       r250
+  arg_pushs                       "beast"
+  check_for_keyword               ... r14, r250, "beast"
+  switch_call                     r14, [label0063, label00DD]
+  ret
+
+label00D7@0x00D7:
+  arg_pushb                       0x0E
+  arg_pushr                       r250
+  arg_pushs                       "creature"
+  check_for_keyword               ... r14, r250, "creature"
+  switch_call                     r14, [label0063, label00DD]
+  ret
+
+label00DA@0x00DA:
+  arg_pushb                       0x0E
+  arg_pushr                       r250
+  arg_pushs                       "icky"
+  check_for_keyword               ... r14, r250, "icky"
+  switch_call                     r14, [label0063, label00DD]
+  ret
+
+label00DC@0x00DC:
+  arg_pushb                       0x0E
+  arg_pushr                       r250
+  arg_pushs                       "tentacle"
+  check_for_keyword               ... r14, r250, "tentacle"
+  switch_call                     r14, [label0063, label00DD]
+  ret
+
+label0063@0x0063:
+  ret
+
+label00DD@0x00DD:
+  switch_call                     r250, [label00EF, label00F6, label0005, label000D]
+  ret
+
+label00EF@0x00EF:
+  jmpi_gt                         r132, 0x00000000, label0063
+  ori                             r132, 0x00000400
+  arg_pushb                       0x84
+  arg_pushr                       r132
+  sync_register2                  ... r132, r132
+  ret
+
+label00F6@0x00F6:
+  jmpi_gt                         r133, 0x00000000, label0063
+  ori                             r133, 0x00000400
+  arg_pushb                       0x85
+  arg_pushr                       r133
+  sync_register2                  ... r133, r133
+  ret
+
+label0005@0x0005:
+  jmpi_gt                         r134, 0x00000000, label0063
+  ori                             r134, 0x00000400
+  arg_pushb                       0x86
+  arg_pushr                       r134
+  sync_register2                  ... r134, r134
+  ret
+
+label000D@0x000D:
+  jmpi_gt                         r135, 0x00000000, label0063
+  ori                             r135, 0x00000400
+  arg_pushb                       0x87
+  arg_pushr                       r135
+  sync_register2                  ... r135, r135
+  ret
+
+label00C6@0x00C6:
+  sync
+  jmpi_eq                         r18, 0x00000001, label00C6
+  call                            label0075
+  call                            label007D
+  call                            label0084
+  call                            label008A
+  call                            label0091
+  jmp                             label00C6
+  ret
+
+label0075@0x0075:
+  arg_pushb                       0x0F
+  arg_pushr                       r250
+  arg_pushs                       "sparkle"
+  check_for_keyword               ... r15, r250, "sparkle"
+  switch_call                     r15, [label00D3, label00B1]
+  ret
+
+label007D@0x007D:
+  arg_pushb                       0x0F
+  arg_pushr                       r250
+  arg_pushs                       "shimmer"
+  check_for_keyword               ... r15, r250, "shimmer"
+  switch_call                     r15, [label00D3, label00B1]
+  ret
+
+label0084@0x0084:
+  arg_pushb                       0x0F
+  arg_pushr                       r250
+  arg_pushs                       "dazzle"
+  check_for_keyword               ... r15, r250, "dazzle"
+  switch_call                     r15, [label00D3, label00B1]
+  ret
+
+label008A@0x008A:
+  arg_pushb                       0x0F
+  arg_pushr                       r250
+  arg_pushs                       "dance"
+  check_for_keyword               ... r15, r250, "dance"
+  switch_call                     r15, [label00D3, label00B1]
+  ret
+
+label0091@0x0091:
+  arg_pushb                       0x0F
+  arg_pushr                       r250
+  arg_pushs                       "razzle"
+  check_for_keyword               ... r15, r250, "razzle"
+  switch_call                     r15, [label00D3, label00B1]
+  ret
+
+label00D3@0x00D3:
+  ret
+
+label00B1@0x00B1:
+  switch_call                     r250, [label00F7, label0006, label000E, label0013]
+  ret
+
+label00F7@0x00F7:
+  jmpi_gt                         r132, 0x00000000, label00D3
+  ori                             r132, 0x00000800
+  arg_pushb                       0x84
+  arg_pushr                       r132
+  sync_register2                  ... r132, r132
+  ret
+
+label0006@0x0006:
+  jmpi_gt                         r133, 0x00000000, label00D3
+  ori                             r133, 0x00000800
+  arg_pushb                       0x85
+  arg_pushr                       r133
+  sync_register2                  ... r133, r133
+  ret
+
+label000E@0x000E:
+  jmpi_gt                         r134, 0x00000000, label00D3
+  ori                             r134, 0x00000800
+  arg_pushb                       0x86
+  arg_pushr                       r134
+  sync_register2                  ... r134, r134
+  ret
+
+label0013@0x0013:
+  jmpi_gt                         r135, 0x00000000, label00D3
+  ori                             r135, 0x00000800
+  arg_pushb                       0x87
+  arg_pushr                       r135
+  sync_register2                  ... r135, r135
+  ret
+
+label0045@0x0045:
+  sync
+  jmpi_eq                         r18, 0x00000001, label0045
+  call                            label00E2
+  call                            label00E4
+  call                            label00E8
+  call                            label00F0
+  call                            label0007
+  jmp                             label0045
+  ret
+
+label00E2@0x00E2:
+  arg_pushb                       0x11
+  arg_pushr                       r250
+  arg_pushs                       "fire"
+  check_for_keyword               ... r17, r250, "fire"
+  switch_call                     r17, [label00B2, label0056]
+  ret
+
+label00E4@0x00E4:
+  arg_pushb                       0x11
+  arg_pushr                       r250
+  arg_pushs                       "camp"
+  check_for_keyword               ... r17, r250, "camp"
+  switch_call                     r17, [label00B2, label0056]
+  ret
+
+label00E8@0x00E8:
+  arg_pushb                       0x11
+  arg_pushr                       r250
+  arg_pushs                       "flames"
+  check_for_keyword               ... r17, r250, "flames"
+  switch_call                     r17, [label00B2, label0056]
+  ret
+
+label00F0@0x00F0:
+  arg_pushb                       0x11
+  arg_pushr                       r250
+  arg_pushs                       "ka-boom"
+  check_for_keyword               ... r17, r250, "ka-boom"
+  switch_call                     r17, [label00B2, label005B]
+  ret
+
+label0007@0x0007:
+  arg_pushb                       0x11
+  arg_pushr                       r250
+  arg_pushs                       "explosion"
+  check_for_keyword               ... r17, r250, "explosion"
+  switch_call                     r17, [label00B2, label005B]
+  ret
+
+label00B2@0x00B2:
+  ret
+
+label0056@0x0056:
+  switch_call                     r250, [label0008, label000F, label0015, label001B]
+  ret
+
+label0008@0x0008:
+  jmpi_gt                         r132, 0x00000000, label00B2
+  ori                             r132, 0x00001000
+  arg_pushb                       0x84
+  arg_pushr                       r132
+  sync_register2                  ... r132, r132
+  ret
+
+label000F@0x000F:
+  jmpi_gt                         r133, 0x00000000, label00B2
+  ori                             r133, 0x00001000
+  arg_pushb                       0x85
+  arg_pushr                       r133
+  sync_register2                  ... r133, r133
+  ret
+
+label0015@0x0015:
+  jmpi_gt                         r134, 0x00000000, label00B2
+  ori                             r134, 0x00001000
+  arg_pushb                       0x86
+  arg_pushr                       r134
+  sync_register2                  ... r134, r134
+  ret
+
+label001B@0x001B:
+  jmpi_gt                         r135, 0x00000000, label00B2
+  ori                             r135, 0x00001000
+  arg_pushb                       0x87
+  arg_pushr                       r135
+  sync_register2                  ... r135, r135
+  ret
+
+label005B@0x005B:
+  switch_call                     r250, [label0010, label0016, label001C, label001F]
+  ret
+
+label0010@0x0010:
+  jmpi_gt                         r132, 0x00000000, label00B2
+  ori                             r132, 0x00002000
+  arg_pushb                       0x84
+  arg_pushr                       r132
+  sync_register2                  ... r132, r132
+  ret
+
+label0016@0x0016:
+  jmpi_gt                         r133, 0x00000000, label00B2
+  ori                             r133, 0x00002000
+  arg_pushb                       0x85
+  arg_pushr                       r133
+  sync_register2                  ... r133, r133
+  ret
+
+label001C@0x001C:
+  jmpi_gt                         r134, 0x00000000, label00B2
+  ori                             r134, 0x00002000
+  arg_pushb                       0x86
+  arg_pushr                       r134
+  sync_register2                  ... r134, r134
+  ret
+
+label001F@0x001F:
+  jmpi_gt                         r135, 0x00000000, label00B2
+  ori                             r135, 0x00002000
+  arg_pushb                       0x87
+  arg_pushr                       r135
+  sync_register2                  ... r135, r135
+  ret
+
+label0032@0x0032:
+  sync
+  jmpi_eq                         r18, 0x00000001, label0032
+  call                            label008B
+  call                            label0092
+  call                            label0098
+  call                            label00AE
+  call                            label00AF
+  call                            label00B3
+  call                            label00B7
+  call                            label00BA
+  call                            label00BD
+  call                            label00C1
+  call                            label005F
+  call                            label0061
+  call                            label0066
+  call                            label006A
+  call                            label0070
+  call                            label0076
+  call                            label007E
+  jmp                             label0032
+  ret
+
+label008B@0x008B:
+  arg_pushb                       0x10
+  arg_pushr                       r250
+  arg_pushs                       "darkness"
+  check_for_keyword               ... r16, r250, "darkness"
+  switch_call                     r16, [label008C, label0026]
+  ret
+
+label0092@0x0092:
+  arg_pushb                       0x10
+  arg_pushr                       r250
+  arg_pushs                       "good night"
+  check_for_keyword               ... r16, r250, "good night"
+  switch_call                     r16, [label008C, label0026]
+  ret
+
+label0098@0x0098:
+  arg_pushb                       0x10
+  arg_pushr                       r250
+  arg_pushs                       "lights out"
+  check_for_keyword               ... r16, r250, "lights out"
+  switch_call                     r16, [label008C, label0026]
+  ret
+
+label00AE@0x00AE:
+  arg_pushb                       0x10
+  arg_pushr                       r250
+  arg_pushs                       "eerie"
+  check_for_keyword               ... r16, r250, "eerie"
+  switch_call                     r16, [label008C, label00F1]
+  ret
+
+label00AF@0x00AF:
+  arg_pushb                       0x10
+  arg_pushr                       r250
+  arg_pushs                       "plasma"
+  check_for_keyword               ... r16, r250, "plasma"
+  switch_call                     r16, [label008C, label00F1]
+  ret
+
+label00B3@0x00B3:
+  arg_pushb                       0x10
+  arg_pushr                       r250
+  arg_pushs                       "boo"
+  check_for_keyword               ... r16, r250, "boo"
+  switch_call                     r16, [label008C, label00F1]
+  ret
+
+label00B7@0x00B7:
+  arg_pushb                       0x10
+  arg_pushr                       r250
+  arg_pushs                       "scary"
+  check_for_keyword               ... r16, r250, "scary"
+  switch_call                     r16, [label008C, label00F1]
+  ret
+
+label00BA@0x00BA:
+  arg_pushb                       0x10
+  arg_pushr                       r250
+  arg_pushs                       "strange"
+  check_for_keyword               ... r16, r250, "strange"
+  switch_call                     r16, [label008C, label00F1]
+  ret
+
+label00BD@0x00BD:
+  arg_pushb                       0x10
+  arg_pushr                       r250
+  arg_pushs                       "odd"
+  check_for_keyword               ... r16, r250, "odd"
+  switch_call                     r16, [label008C, label00F1]
+  ret
+
+label00C1@0x00C1:
+  arg_pushb                       0x10
+  arg_pushr                       r250
+  arg_pushs                       "scream"
+  check_for_keyword               ... r16, r250, "scream"
+  switch_call                     r16, [label008C, label00F1]
+  ret
+
+label008C@0x008C:
+  ret
+
+label00F1@0x00F1:
+  switch_call                     r250, [label0017, label001D, label0020, label0025]
+  ret
+
+label0017@0x0017:
+  jmpi_gt                         r132, 0x00000000, label008C
+  ori                             r132, 0x00004000
+  arg_pushb                       0x84
+  arg_pushr                       r132
+  sync_register2                  ... r132, r132
+  ret
+
+label001D@0x001D:
+  jmpi_gt                         r133, 0x00000000, label008C
+  ori                             r133, 0x00004000
+  arg_pushb                       0x85
+  arg_pushr                       r133
+  sync_register2                  ... r133, r133
+  ret
+
+label0020@0x0020:
+  jmpi_gt                         r134, 0x00000000, label008C
+  ori                             r134, 0x00004000
+  arg_pushb                       0x86
+  arg_pushr                       r134
+  sync_register2                  ... r134, r134
+  ret
+
+label0025@0x0025:
+  jmpi_gt                         r135, 0x00000000, label008C
+  ori                             r135, 0x00004000
+  arg_pushb                       0x87
+  arg_pushr                       r135
+  sync_register2                  ... r135, r135
+  ret
+
+label0026@0x0026:
+  switch_call                     r250, [label0021, label0027, label002B, label0030]
+  ret
+
+label0021@0x0021:
+  jmpi_gt                         r132, 0x00000000, label008C
+  ori                             r132, 0x00010000
+  arg_pushb                       0x84
+  arg_pushr                       r132
+  sync_register2                  ... r132, r132
+  ret
+
+label0027@0x0027:
+  jmpi_gt                         r133, 0x00000000, label008C
+  ori                             r133, 0x00010000
+  arg_pushb                       0x85
+  arg_pushr                       r133
+  sync_register2                  ... r133, r133
+  ret
+
+label002B@0x002B:
+  jmpi_gt                         r134, 0x00000000, label008C
+  ori                             r134, 0x00010000
+  arg_pushb                       0x86
+  arg_pushr                       r134
+  sync_register2                  ... r134, r134
+  ret
+
+label0030@0x0030:
+  jmpi_gt                         r135, 0x00000000, label008C
+  ori                             r135, 0x00010000
+  arg_pushb                       0x87
+  arg_pushr                       r135
+  sync_register2                  ... r135, r135
+  ret
+
+label005F@0x005F:
+  arg_pushb                       0x10
+  arg_pushr                       r250
+  arg_pushs                       "hearts"
+  check_for_keyword               ... r16, r250, "hearts"
+  switch_call                     r16, [label0034, label00E9]
+  ret
+
+label0061@0x0061:
+  arg_pushb                       0x10
+  arg_pushr                       r250
+  arg_pushs                       "love"
+  check_for_keyword               ... r16, r250, "love"
+  switch_call                     r16, [label0034, label00E9]
+  ret
+
+label0066@0x0066:
+  arg_pushb                       0x10
+  arg_pushr                       r250
+  arg_pushs                       "sweet"
+  check_for_keyword               ... r16, r250, "sweet"
+  switch_call                     r16, [label0034, label00E9]
+  ret
+
+label006A@0x006A:
+  arg_pushb                       0x10
+  arg_pushr                       r250
+  arg_pushs                       "like"
+  check_for_keyword               ... r16, r250, "like"
+  switch_call                     r16, [label0034, label00E9]
+  ret
+
+label0070@0x0070:
+  arg_pushb                       0x10
+  arg_pushr                       r250
+  arg_pushs                       "cutie"
+  check_for_keyword               ... r16, r250, "cutie"
+  switch_call                     r16, [label0034, label00E9]
+  ret
+
+label0076@0x0076:
+  arg_pushb                       0x10
+  arg_pushr                       r250
+  arg_pushs                       "honey"
+  check_for_keyword               ... r16, r250, "honey"
+  switch_call                     r16, [label0034, label00E9]
+  ret
+
+label007E@0x007E:
+  arg_pushb                       0x10
+  arg_pushr                       r250
+  arg_pushs                       "dearie"
+  check_for_keyword               ... r16, r250, "dearie"
+  switch_call                     r16, [label0034, label00E9]
+  ret
+
+label0034@0x0034:
+  ret
+
+label00E9@0x00E9:
+  switch_call                     r250, [label001E, label0022, label0028, label002C]
+  ret
+
+label001E@0x001E:
+  jmpi_gt                         r132, 0x00000000, label0034
+  ori                             r132, 0x00008000
+  arg_pushb                       0x84
+  arg_pushr                       r132
+  sync_register2                  ... r132, r132
+  ret
+
+label0022@0x0022:
+  jmpi_gt                         r133, 0x00000000, label0034
+  ori                             r133, 0x00008000
+  arg_pushb                       0x85
+  arg_pushr                       r133
+  sync_register2                  ... r133, r133
+  ret
+
+label0028@0x0028:
+  jmpi_gt                         r134, 0x00000000, label0034
+  ori                             r134, 0x00008000
+  arg_pushb                       0x86
+  arg_pushr                       r134
+  sync_register2                  ... r134, r134
+  ret
+
+label002C@0x002C:
+  jmpi_gt                         r135, 0x00000000, label0034
+  ori                             r135, 0x00008000
+  arg_pushb                       0x87
+  arg_pushr                       r135
+  sync_register2                  ... r135, r135
+  ret
+
+label00CB@0x00CB:
+  clear                           r80
+
+label00DF@0x00DF:
+  sync
+  addi                            r80, 0x00000001
+  jmpi_gt                         r80, 0x000000B4, label00F8
+  jmp                             label00DF
+
+label00CC@0x00CC:
+  call                            label07E4
+  call                            label0049
+  call                            label07E5
+  call                            label0048
+  call                            label07E6
+  call                            label0048
+  call                            label07E7
+  call                            label0048
+  call                            label07E8
+  call                            label0048
+  call                            label07E9
+  call                            label0048
+  call                            label07EA
+  call                            label0048
+  call                            label07EB
+  call                            label0048
+  call                            label07EC
+  call                            label0048
+  call                            label07ED
+  call                            label0048
+  call                            label07EE
+  call                            label0049
+  call                            label07EF
+  jmp                             label00F8
+
+label07E4@0x07E4:
+  fleti                           r100, -598
+  fleti                           r101, -1
+  fleti                           r102, 829
+  leti                            r103, 0x00000089
+  fleti                           r104, 20
+  arg_pushb                       0x64
+  arg_pushr                       r103
+  arg_pushr                       r104
+  particle2                       ... r100-r102, r103, f104
+  ret
+
+label07E5@0x07E5:
+  fleti                           r100, -598
+  fleti                           r101, 20
+  fleti                           r102, 829
+  leti                            r103, 0x00000084
+  fleti                           r104, 10
+  arg_pushb                       0x64
+  arg_pushr                       r103
+  arg_pushr                       r104
+  particle2                       ... r100-r102, r103, f104
+  ret
+
+label07E6@0x07E6:
+  fleti                           r100, -598
+  fleti                           r101, 37
+  fleti                           r102, 829
+  leti                            r103, 0x00000084
+  fleti                           r104, 10
+  arg_pushb                       0x64
+  arg_pushr                       r103
+  arg_pushr                       r104
+  particle2                       ... r100-r102, r103, f104
+  ret
+
+label07E7@0x07E7:
+  fleti                           r100, -598
+  fleti                           r101, 50
+  fleti                           r102, 829
+  leti                            r103, 0x00000084
+  fleti                           r104, 10
+  arg_pushb                       0x64
+  arg_pushr                       r103
+  arg_pushr                       r104
+  particle2                       ... r100-r102, r103, f104
+  ret
+
+label07E8@0x07E8:
+  fleti                           r100, -598
+  fleti                           r101, 68
+  fleti                           r102, 829
+  leti                            r103, 0x00000084
+  fleti                           r104, 10
+  arg_pushb                       0x64
+  arg_pushr                       r103
+  arg_pushr                       r104
+  particle2                       ... r100-r102, r103, f104
+  ret
+
+label07E9@0x07E9:
+  fleti                           r100, -598
+  fleti                           r101, 90
+  fleti                           r102, 829
+  leti                            r103, 0x00000084
+  fleti                           r104, 10
+  arg_pushb                       0x64
+  arg_pushr                       r103
+  arg_pushr                       r104
+  particle2                       ... r100-r102, r103, f104
+  ret
+
+label07EA@0x07EA:
+  fleti                           r100, -598
+  fleti                           r101, 120
+  fleti                           r102, 829
+  leti                            r103, 0x00000084
+  fleti                           r104, 10
+  arg_pushb                       0x64
+  arg_pushr                       r103
+  arg_pushr                       r104
+  particle2                       ... r100-r102, r103, f104
+  ret
+
+label07EB@0x07EB:
+  fleti                           r100, -598
+  fleti                           r101, 150
+  fleti                           r102, 829
+  leti                            r103, 0x00000084
+  fleti                           r104, 10
+  arg_pushb                       0x64
+  arg_pushr                       r103
+  arg_pushr                       r104
+  particle2                       ... r100-r102, r103, f104
+  ret
+
+label07EC@0x07EC:
+  fleti                           r100, -598
+  fleti                           r101, 180
+  fleti                           r102, 829
+  leti                            r103, 0x00000084
+  fleti                           r104, 10
+  arg_pushb                       0x64
+  arg_pushr                       r103
+  arg_pushr                       r104
+  particle2                       ... r100-r102, r103, f104
+  ret
+
+label07ED@0x07ED:
+  fleti                           r100, -598
+  fleti                           r101, 210
+  fleti                           r102, 829
+  leti                            r103, 0x0000008D
+  fleti                           r104, 20
+  arg_pushb                       0x64
+  arg_pushr                       r103
+  arg_pushr                       r104
+  particle2                       ... r100-r102, r103, f104
+  ret
+
+label07EE@0x07EE:
+  fleti                           r100, -598
+  fleti                           r101, 210
+  fleti                           r102, 829
+  leti                            r103, 0x00000086
+  fleti                           r104, 30
+  arg_pushb                       0x64
+  arg_pushr                       r103
+  arg_pushr                       r104
+  particle2                       ... r100-r102, r103, f104
+  ret
+
+label07EF@0x07EF:
+  fleti                           r100, -598
+  fleti                           r101, 210
+  fleti                           r102, 830
+  leti                            r103, 0x00000087
+  fleti                           r104, 30
+  arg_pushb                       0x64
+  arg_pushr                       r103
+  arg_pushr                       r104
+  particle2                       ... r100-r102, r103, f104
+  ret
+
+label007F@0x007F:
+  call                            label0834
+  call                            label003B
+  call                            label0835
+  call                            label0048
+  call                            label0836
+  call                            label0048
+  call                            label0837
+  call                            label0048
+  call                            label0838
+  call                            label0048
+  call                            label0839
+  call                            label0048
+  call                            label083A
+  call                            label0048
+  call                            label083B
+  call                            label0048
+  call                            label083C
+  call                            label0048
+  call                            label083D
+  call                            label0048
+  call                            label083E
+  call                            label005C
+  call                            label083F
+  call                            label005C
+  call                            label005C
+  call                            label0840
+  call                            label005C
+  call                            label005C
+  call                            label0841
+  jmp                             label00F8
+
+label0834@0x0834:
+  fleti                           r60, -978.17
+  fleti                           r61, 0.19
+  fleti                           r62, 993.32
+  leti                            r63, 0x00000089
+  fleti                           r64, 15
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0835@0x0835:
+  fleti                           r60, -978.17
+  fleti                           r61, 120.19
+  fleti                           r62, 993.32
+  leti                            r63, 0x00000035
+  fleti                           r64, 10
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0836@0x0836:
+  fleti                           r60, -978.17
+  fleti                           r61, 141.19
+  fleti                           r62, 993.32
+  leti                            r63, 0x00000035
+  fleti                           r64, 10
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0837@0x0837:
+  fleti                           r60, -978.17
+  fleti                           r61, 160.19
+  fleti                           r62, 993.32
+  leti                            r63, 0x00000035
+  fleti                           r64, 10
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0838@0x0838:
+  fleti                           r60, -978.17
+  fleti                           r61, 176.19
+  fleti                           r62, 993.32
+  leti                            r63, 0x00000035
+  fleti                           r64, 10
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0839@0x0839:
+  fleti                           r60, -978.17
+  fleti                           r61, 190.19
+  fleti                           r62, 993.32
+  leti                            r63, 0x00000035
+  fleti                           r64, 10
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label083A@0x083A:
+  fleti                           r60, -978.17
+  fleti                           r61, 201.19
+  fleti                           r62, 993.32
+  leti                            r63, 0x00000035
+  fleti                           r64, 10
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label083B@0x083B:
+  fleti                           r60, -978.17
+  fleti                           r61, 210.19
+  fleti                           r62, 993.32
+  leti                            r63, 0x00000035
+  fleti                           r64, 10
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label083C@0x083C:
+  fleti                           r60, -978.17
+  fleti                           r61, 218.19
+  fleti                           r62, 993.32
+  leti                            r63, 0x00000035
+  fleti                           r64, 10
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label083D@0x083D:
+  fleti                           r60, -978.17
+  fleti                           r61, 223.19
+  fleti                           r62, 993.32
+  leti                            r63, 0x00000174
+  fleti                           r64, 5
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label083E@0x083E:
+  fleti                           r60, -978.17
+  fleti                           r61, 223.19
+  fleti                           r62, 993.32
+  leti                            r63, 0x00000086
+  fleti                           r64, 30
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label083F@0x083F:
+  fleti                           r60, -978.17
+  fleti                           r61, 223.19
+  fleti                           r62, 993.32
+  leti                            r63, 0x00000148
+  fleti                           r64, 90
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0840@0x0840:
+  fleti                           r60, -978.17
+  fleti                           r61, 195.19
+  fleti                           r62, 993.32
+  leti                            r63, 0x000001D9
+  fleti                           r64, 90
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0841@0x0841:
+  fleti                           r60, -978.17
+  fleti                           r61, 176.19
+  fleti                           r62, 993.32
+  leti                            r63, 0x000001D9
+  fleti                           r64, 90
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0018@0x0018:
+  call                            label0898
+  call                            label003B
+  call                            label0899
+  call                            label0048
+  call                            label089A
+  call                            label0048
+  call                            label089B
+  call                            label0048
+  call                            label089C
+  call                            label0048
+  call                            label089D
+  call                            label0048
+  call                            label089E
+  call                            label0048
+  call                            label089F
+  call                            label0048
+  call                            label08A0
+  call                            label0048
+  call                            label08A1
+  sync
+  call                            label08A2
+  sync
+  call                            label08A3
+  call                            label00B5
+  call                            label08CA
+  call                            label08CB
+  call                            label08CC
+  call                            label08A4
+  sync
+  call                            label08A5
+  sync
+  call                            label08A6
+  call                            label00B5
+  call                            label08CD
+  call                            label08CE
+  call                            label08CF
+  call                            label08A7
+  sync
+  call                            label08A8
+  sync
+  call                            label08A9
+  call                            label00B5
+  jmp                             label00F8
+
+label0898@0x0898:
+  fleti                           r60, -1125.32
+  fleti                           r61, 0
+  fleti                           r62, 446.32
+  leti                            r63, 0x0000001B
+  fleti                           r64, 15
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0899@0x0899:
+  fleti                           r60, -1125.32
+  fleti                           r61, 38.75
+  fleti                           r62, 446.32
+  leti                            r63, 0x000001BD
+  fleti                           r64, 12
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label089A@0x089A:
+  fleti                           r60, -1125.32
+  fleti                           r61, 69.12
+  fleti                           r62, 446.32
+  leti                            r63, 0x000001BD
+  fleti                           r64, 12
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label089B@0x089B:
+  fleti                           r60, -1125.32
+  fleti                           r61, 94.15
+  fleti                           r62, 446.32
+  leti                            r63, 0x000001BD
+  fleti                           r64, 12
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label089C@0x089C:
+  fleti                           r60, -1125.32
+  fleti                           r61, 114.21
+  fleti                           r62, 446.32
+  leti                            r63, 0x000001BD
+  fleti                           r64, 12
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label089D@0x089D:
+  fleti                           r60, -1125.32
+  fleti                           r61, 130
+  fleti                           r62, 446.32
+  leti                            r63, 0x000001BD
+  fleti                           r64, 12
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label089E@0x089E:
+  fleti                           r60, -1125.32
+  fleti                           r61, 142.89
+  fleti                           r62, 446.32
+  leti                            r63, 0x000001BD
+  fleti                           r64, 12
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label089F@0x089F:
+  fleti                           r60, -1125.32
+  fleti                           r61, 151
+  fleti                           r62, 446.32
+  leti                            r63, 0x000001BD
+  fleti                           r64, 12
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label08A0@0x08A0:
+  fleti                           r60, -1125.32
+  fleti                           r61, 158.5
+  fleti                           r62, 446.32
+  leti                            r63, 0x000001BD
+  fleti                           r64, 12
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label08A1@0x08A1:
+  fleti                           r60, -1125.32
+  fleti                           r61, 164.1
+  fleti                           r62, 446.32
+  leti                            r63, 0x00000174
+  fleti                           r64, 5
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label08A2@0x08A2:
+  fleti                           r60, -1125.32
+  fleti                           r61, 169.1
+  fleti                           r62, 446.32
+  leti                            r63, 0x00000086
+  fleti                           r64, 30
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label08A3@0x08A3:
+  fleti                           r60, -1125.32
+  fleti                           r61, 169.1
+  fleti                           r62, 446.32
+  leti                            r63, 0x00000087
+  fleti                           r64, 30
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label08A4@0x08A4:
+  flet                            r60, r41
+  flet                            r61, r42
+  flet                            r62, r43
+  leti                            r63, 0x00000174
+  fleti                           r64, 5
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label08A5@0x08A5:
+  flet                            r60, r41
+  flet                            r61, r42
+  flet                            r62, r43
+  leti                            r63, 0x0000008D
+  fleti                           r64, 25
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label08A6@0x08A6:
+  flet                            r60, r41
+  flet                            r61, r42
+  flet                            r62, r43
+  leti                            r63, 0x00000088
+  fleti                           r64, 25
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label08A7@0x08A7:
+  flet                            r60, r41
+  flet                            r61, r42
+  flet                            r62, r43
+  leti                            r63, 0x00000174
+  fleti                           r64, 5
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label08A8@0x08A8:
+  flet                            r60, r41
+  flet                            r61, r42
+  flet                            r62, r43
+  leti                            r63, 0x00000086
+  fleti                           r64, 30
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label08A9@0x08A9:
+  flet                            r60, r41
+  flet                            r61, r42
+  flet                            r62, r43
+  leti                            r63, 0x00000087
+  fleti                           r64, 30
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label08CA@0x08CA:
+  fleti                           r41, -1125.32
+  float2dec                       r81, r41
+  leti                            r55, 0xFFFFFFF1
+  leti                            r56, 0x0000001E
+  get_random                      r55-r56, r58
+  add                             r81, r58
+  dec2float                       r41, r81
+  ret
+
+label08CB@0x08CB:
+  fleti                           r42, 120.1
+  float2dec                       r81, r42
+  leti                            r55, 0xFFFFFFF1
+  leti                            r56, 0x0000001E
+  get_random                      r55-r56, r58
+  add                             r81, r58
+  dec2float                       r42, r81
+  ret
+
+label08CC@0x08CC:
+  fleti                           r43, 446.65
+  float2dec                       r81, r43
+  leti                            r55, 0xFFFFFFF1
+  leti                            r56, 0x0000001E
+  get_random                      r55-r56, r58
+  add                             r81, r58
+  dec2float                       r43, r81
+  ret
+
+label08CD@0x08CD:
+  fleti                           r41, -1125.32
+  float2dec                       r81, r41
+  leti                            r55, 0xFFFFFFF1
+  leti                            r56, 0x0000001E
+  get_random                      r56-r57, r58
+  add                             r81, r58
+  dec2float                       r41, r81
+  ret
+
+label08CE@0x08CE:
+  fleti                           r42, 120.1
+  float2dec                       r81, r42
+  leti                            r55, 0xFFFFFFF1
+  leti                            r56, 0x0000001E
+  get_random                      r56-r57, r58
+  add                             r81, r58
+  dec2float                       r42, r81
+  ret
+
+label08CF@0x08CF:
+  fleti                           r43, 446.65
+  float2dec                       r81, r43
+  leti                            r55, 0xFFFFFFF1
+  leti                            r56, 0x0000001E
+  get_random                      r56-r57, r58
+  add                             r81, r58
+  dec2float                       r43, r81
+  ret
+
+label00B8@0x00B8:
+  sync
+  clear                           r80
+  call                            label08FC
+  call                            label0049
+
+label08FD@0x08FD:
+  sync
+  dec2float                       r51, r80
+  faddi                           r51, 2
+  float2dec                       r80, r51
+  jmpi_gt                         r80, 0x00000162, label00F8
+  fleti                           r60, -698.17
+  flet                            r61, r51
+  fleti                           r62, 303.51
+  leti                            r63, 0x00000059
+  fleti                           r64, 3
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  fleti                           r60, -698.17
+  flet                            r61, r51
+  fleti                           r62, 303.51
+  leti                            r63, 0x00000110
+  fleti                           r64, 1
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  jmp                             label08FD
+  ret
+
+label08FC@0x08FC:
+  fleti                           r60, -698.17
+  fleti                           r61, 2.56
+  fleti                           r62, 303.51
+  leti                            r63, 0x000000B0
+  fleti                           r64, 20
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label00E5@0x00E5:
+  clear                           r80
+  switch_jmp                      r57, [label0961, label0962, label0963, label0964]
+
+label0961@0x0961:
+  sync
+  addi                            r80, 0x00000001
+  jmpi_gt                         r80, 0x000000B4, label00F8
+  fleti                           r60, -426.95
+  fleti                           r61, 29.74
+  fleti                           r62, 302.76
+  leti                            r63, 0x00000046
+  fleti                           r64, 1
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  fleti                           r60, -426.95
+  fleti                           r61, 29.74
+  fleti                           r62, 302.76
+  leti                            r63, 0x000001D2
+  fleti                           r64, 1
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  fleti                           r60, -426.95
+  fleti                           r61, 29.74
+  fleti                           r62, 302.76
+  leti                            r63, 0x0000012B
+  fleti                           r64, 1
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  jmp                             label0961
+
+label0962@0x0962:
+  sync
+  addi                            r80, 0x00000001
+  jmpi_gt                         r80, 0x000000B4, label00F8
+  fleti                           r60, -455.99
+  fleti                           r61, 38.16
+  fleti                           r62, 204.34
+  leti                            r63, 0x00000046
+  fleti                           r64, 1
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  fleti                           r60, -455.99
+  fleti                           r61, 38.16
+  fleti                           r62, 204.34
+  leti                            r63, 0x000001D2
+  fleti                           r64, 1
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  fleti                           r60, -455.99
+  fleti                           r61, 38.16
+  fleti                           r62, 204.34
+  leti                            r63, 0x0000012B
+  fleti                           r64, 1
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  jmp                             label0962
+
+label0963@0x0963:
+  sync
+  addi                            r80, 0x00000001
+  jmpi_gt                         r80, 0x000000B4, label00F8
+  fleti                           r60, -547.35
+  fleti                           r61, 39.66
+  fleti                           r62, 205.64
+  leti                            r63, 0x00000046
+  fleti                           r64, 1
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  fleti                           r60, -547.35
+  fleti                           r61, 39.66
+  fleti                           r62, 205.64
+  leti                            r63, 0x000001D2
+  fleti                           r64, 1
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  fleti                           r60, -547.35
+  fleti                           r61, 39.66
+  fleti                           r62, 205.64
+  leti                            r63, 0x0000012B
+  fleti                           r64, 1
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  jmp                             label0963
+
+label0964@0x0964:
+  sync
+  addi                            r80, 0x00000001
+  jmpi_gt                         r80, 0x000000B4, label00F8
+  fleti                           r60, -609.43
+  fleti                           r61, 32.55
+  fleti                           r62, 273.34
+  leti                            r63, 0x00000046
+  fleti                           r64, 1
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  fleti                           r60, -609.43
+  fleti                           r61, 32.55
+  fleti                           r62, 273.34
+  leti                            r63, 0x000001D2
+  fleti                           r64, 1
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  fleti                           r60, -609.43
+  fleti                           r61, 32.55
+  fleti                           r62, 273.34
+  leti                            r63, 0x0000012B
+  fleti                           r64, 1
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  jmp                             label0964
+  ret
+
+label00A2@0x00A2:
+  clear                           r80
+  clear                           r82
+  leti                            r95, 0x00000018
+  dec2float                       r53, r95
+  leti                            r97, 0x00000018
+  dec2float                       r54, r97
+
+label09C4@0x09C4:
+  sync
+  call                            label00EB
+  jmpi_eq                         r185, 0x00000001, label00F8
+  addi                            r80, 0x00000001
+  jmpi_gt                         r80, 0x000000B4, label00F8
+  dec2float                       r69, r187
+  dec2float                       r71, r189
+  fsubi                           r53, 0.13
+  fadd                            r69, r53
+  fsubi                           r54, 0.13
+  fsub                            r71, r54
+  addi                            r82, 0x00001554
+  arg_pushb                       0x41
+  arg_pushr                       r82
+  cos                             ... r65, r82
+  fleti                           r70, 11
+  fmul                            r70, r65
+  fadd                            r69, r70
+  flet                            r47, r69
+  addi                            r188, 0x00000003
+  dec2float                       r48, r188
+  arg_pushb                       0x43
+  arg_pushr                       r82
+  sin                             ... r67, r82
+  fleti                           r70, 11
+  fmul                            r70, r67
+  fadd                            r71, r70
+  flet                            r49, r71
+  flet                            r60, r47
+  flet                            r61, r48
+  flet                            r62, r49
+  leti                            r63, 0x00000042
+  fleti                           r64, 1
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  flet                            r60, r47
+  flet                            r61, r48
+  flet                            r62, r49
+  leti                            r63, 0x00000043
+  fleti                           r64, 1
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  jmp                             label09C4
+  ret
+
+label00C9@0x00C9:
+  fleti                           r60, -340
+  fleti                           r61, 35
+  fleti                           r62, 75
+  leti                            r63, 0x000000E1
+  fleti                           r64, 1
+  leti                            r100, 0x00000000
+
+label00A6@0x00A6:
+  sync
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  fsubi                           r60, 2
+  float2dec                       r101, r60
+  jmpi_lt                         r101, 0xFFFFFD1C, label00F8
+  switch_jmp                      r100, [label00A9, label00AB]
+
+label00A9@0x00A9:
+  faddi                           r61, 1
+  float2dec                       r101, r61
+  jmpi_ne                         r101, 0x0000002D, label00A6
+  leti                            r100, 0x00000001
+  jmp                             label00A6
+
+label00AB@0x00AB:
+  fsubi                           r61, 1
+  float2dec                       r101, r61
+  jmpi_ne                         r101, 0x00000019, label00A6
+  leti                            r100, 0x00000000
+  jmp                             label00A6
+
+label00E0@0x00E0:
+  clear                           r80
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x000000FF
+  arg_pushl                       0x0000001E
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0xFF /* 255 */, 0x1E /* 30 */
+
+label00AA@0x00AA:
+  sync
+  addi                            r80, 0x00000001
+  jmpi_gt                         r80, 0x000000B4, label00B0
+  jmp                             label00AA
+
+label00B0@0x00B0:
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000000
+  arg_pushl                       0x0000001E
+  add_color_overlay               ... 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x0 /* 0 */, 0x1E /* 30 */
+  jmp                             label00F8
+  ret
+
+label0019@0x0019:
+  call                            label0A8C
+  call                            label0048
+  call                            label0A8C
+  call                            label0048
+  call                            label0A8C
+  call                            label0048
+  call                            label0A8C
+  call                            label0048
+  call                            label0A8C
+  call                            label0048
+  call                            label0A8C
+  call                            label0048
+  call                            label0A8C
+  call                            label0048
+  call                            label0A8C
+  call                            label0048
+  call                            label0A8C
+  call                            label0048
+  jmp                             label00F8
+
+label0A8C@0x0A8C:
+  stack_pushm                     r100, 0x00000002
+  leti                            r55, 0x00000000
+  leti                            r56, 0x00000015
+  get_random                      r55-r56, r58
+  muli                            r58, 0x0000000A
+  leti                            r100, 0xFFFFFD76
+  add                             r100, r58
+  get_random                      r55-r56, r58
+  muli                            r58, 0x0000000A
+  leti                            r101, 0x000001F4
+  add                             r101, r58
+  dec2float                       r60, r100
+  fleti                           r61, 0
+  dec2float                       r62, r101
+  leti                            r63, 0x00000090
+  fleti                           r64, 15
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  stack_popm                      r100, 0x00000002
+  ret
+
+label0040@0x0040:
+  sync
+  call                            label0BB8
+  call                            label003B
+  call                            label0BB9
+  call                            label0048
+  call                            label0BBA
+  call                            label0048
+  call                            label0BBB
+  call                            label0048
+  call                            label0BBC
+  call                            label0048
+  call                            label0BBD
+  call                            label0048
+  call                            label0BBE
+  call                            label0048
+  call                            label0BBF
+  call                            label0048
+  call                            label0BC0
+  call                            label0048
+  call                            label0BC1
+  call                            label0048
+  call                            label0BC2
+  call                            label003B
+  call                            label0048
+  call                            label0BC3
+  call                            label005C
+  call                            label0BC4
+  call                            label00B5
+  jmp                             label00F8
+
+label0BB8@0x0BB8:
+  fleti                           r60, -382.73
+  fleti                           r61, 0
+  fleti                           r62, 767.81
+  leti                            r63, 0x0000001B
+  fleti                           r64, 25
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0BB9@0x0BB9:
+  fleti                           r60, -382.73
+  fleti                           r61, 96
+  fleti                           r62, 767.81
+  leti                            r63, 0x00000035
+  fleti                           r64, 20
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0BBA@0x0BBA:
+  fleti                           r60, -382.73
+  fleti                           r61, 113
+  fleti                           r62, 767.81
+  leti                            r63, 0x00000035
+  fleti                           r64, 20
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0BBB@0x0BBB:
+  fleti                           r60, -382.73
+  fleti                           r61, 128
+  fleti                           r62, 767.81
+  leti                            r63, 0x00000035
+  fleti                           r64, 20
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0BBC@0x0BBC:
+  fleti                           r60, -382.73
+  fleti                           r61, 141
+  fleti                           r62, 767.81
+  leti                            r63, 0x00000035
+  fleti                           r64, 20
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0BBD@0x0BBD:
+  fleti                           r60, -382.73
+  fleti                           r61, 152
+  fleti                           r62, 767.81
+  leti                            r63, 0x00000035
+  fleti                           r64, 20
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0BBE@0x0BBE:
+  fleti                           r60, -382.73
+  fleti                           r61, 161
+  fleti                           r62, 767.81
+  leti                            r63, 0x00000035
+  fleti                           r64, 20
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0BBF@0x0BBF:
+  fleti                           r60, -382.73
+  fleti                           r61, 168
+  fleti                           r62, 767.81
+  leti                            r63, 0x00000035
+  fleti                           r64, 20
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0BC0@0x0BC0:
+  fleti                           r60, -382.73
+  fleti                           r61, 173
+  fleti                           r62, 767.81
+  leti                            r63, 0x00000035
+  fleti                           r64, 20
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0BC1@0x0BC1:
+  fleti                           r60, -382.73
+  fleti                           r61, 176
+  fleti                           r62, 767.81
+  leti                            r63, 0x000000B9
+  fleti                           r64, 10
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0BC2@0x0BC2:
+  fleti                           r60, -382.73
+  fleti                           r61, 176
+  fleti                           r62, 767.81
+  leti                            r63, 0x000001DE
+  fleti                           r64, 15
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0BC3@0x0BC3:
+  fleti                           r60, -382.73
+  fleti                           r61, 171
+  fleti                           r62, 767.81
+  leti                            r63, 0x0000019D
+  fleti                           r64, 30
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0BC4@0x0BC4:
+  fleti                           r60, -382.73
+  fleti                           r61, 171
+  fleti                           r62, 767.81
+  leti                            r63, 0x000000AA
+  fleti                           r64, 30
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0051@0x0051:
+  call                            label0C1C
+  call                            label003B
+  call                            label0C1D
+  call                            label0048
+  call                            label0C1E
+  call                            label0048
+  call                            label0C1F
+  call                            label0048
+  call                            label0C20
+  call                            label0048
+  call                            label0C21
+  call                            label0048
+  call                            label0C22
+  call                            label0048
+  call                            label0C23
+  call                            label0048
+  call                            label0C24
+  call                            label0048
+  call                            label0C25
+  call                            label0048
+  call                            label0C26
+  call                            label005C
+  call                            label0C27
+  call                            label00B5
+  jmp                             label00F8
+
+label0C1C@0x0C1C:
+  fleti                           r60, -1257.5
+  fleti                           r61, 0
+  fleti                           r62, 559.94
+  leti                            r63, 0x00000089
+  fleti                           r64, 10
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0C1D@0x0C1D:
+  fleti                           r60, -1257.5
+  fleti                           r61, 96
+  fleti                           r62, 559.94
+  leti                            r63, 0x00000235
+  fleti                           r64, 15
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0C1E@0x0C1E:
+  fleti                           r60, -1257.5
+  fleti                           r61, 113
+  fleti                           r62, 559.94
+  leti                            r63, 0x00000235
+  fleti                           r64, 15
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0C1F@0x0C1F:
+  fleti                           r60, -1257.5
+  fleti                           r61, 128
+  fleti                           r62, 559.94
+  leti                            r63, 0x00000235
+  fleti                           r64, 15
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0C20@0x0C20:
+  fleti                           r60, -1257.5
+  fleti                           r61, 141
+  fleti                           r62, 559.94
+  leti                            r63, 0x00000235
+  fleti                           r64, 15
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0C21@0x0C21:
+  fleti                           r60, -1257.5
+  fleti                           r61, 152
+  fleti                           r62, 559.94
+  leti                            r63, 0x00000235
+  fleti                           r64, 15
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0C22@0x0C22:
+  fleti                           r60, -1257.5
+  fleti                           r61, 161
+  fleti                           r62, 559.94
+  leti                            r63, 0x00000235
+  fleti                           r64, 15
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0C23@0x0C23:
+  fleti                           r60, -1257.5
+  fleti                           r61, 168
+  fleti                           r62, 559.94
+  leti                            r63, 0x00000235
+  fleti                           r64, 15
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0C24@0x0C24:
+  fleti                           r60, -1257.5
+  fleti                           r61, 173
+  fleti                           r62, 559.94
+  leti                            r63, 0x00000235
+  fleti                           r64, 15
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0C25@0x0C25:
+  fleti                           r60, -1257.5
+  fleti                           r61, 176
+  fleti                           r62, 559.94
+  leti                            r63, 0x00000003
+  fleti                           r64, 15
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0C26@0x0C26:
+  fleti                           r60, -1257.5
+  fleti                           r61, 176
+  fleti                           r62, 559.94
+  leti                            r63, 0x00000215
+  fleti                           r64, 60
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label0C27@0x0C27:
+  fleti                           r60, -1257.5
+  fleti                           r61, 171
+  fleti                           r62, 559.94
+  leti                            r63, 0x00000215
+  fleti                           r64, 90
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  ret
+
+label009D@0x009D:
+  sync
+  leti                            r35, 0x000000AB
+  fleti                           r33, -1300
+  fleti                           r34, 457
+  flet                            r120, r33
+  flet                            r121, r34
+  fleti                           r122, 1001
+  let                             r123, r35
+  fleti                           r124, 10
+  arg_pushb                       0x78
+  arg_pushr                       r123
+  arg_pushr                       r124
+  particle2                       ... r120-r122, r123, f124
+  sync
+  sync
+  sync
+  sync
+  leti                            r35, 0x00000034
+  flet                            r120, r33
+  flet                            r121, r34
+  fleti                           r122, 1001
+  let                             r123, r35
+  fleti                           r124, 10
+  arg_pushb                       0x78
+  arg_pushr                       r123
+  arg_pushr                       r124
+  particle2                       ... r120-r122, r123, f124
+  call                            label003B
+  leti                            r35, 0x000000AF
+  fleti                           r36, 10
+
+label0057@0x0057:
+  sync
+  float2dec                       r241, r120
+  jmpi_gt                         r241, 0xFFFFFE23, label00F8
+  dec2float                       r120, r241
+  faddi                           r33, 9
+  fsubi                           r34, 3
+  flet                            r120, r33
+  flet                            r121, r34
+  fleti                           r122, 1001
+  let                             r123, r35
+  flet                            r124, r36
+  arg_pushb                       0x78
+  arg_pushr                       r123
+  arg_pushr                       r124
+  particle2                       ... r120-r122, r123, f124
+  jmp                             label0057
+  ret
+
+label0052@0x0052:
+  clear                           r80
+
+label0035@0x0035:
+  sync
+  addi                            r80, 0x00000001
+  jmpi_gt                         r80, 0x000000B4, label00F8
+  fleti                           r60, -830.15
+  fleti                           r61, 147.23
+  fleti                           r62, 845.05
+  leti                            r63, 0x00000164
+  fleti                           r64, 1
+  arg_pushb                       0x3C
+  arg_pushr                       r63
+  arg_pushr                       r64
+  particle2                       ... r60-r62, r63, f64
+  jmp                             label0035
+  ret
+
+label004C@0x004C:
+  sync
+  fleti                           r100, -519
+  fleti                           r101, 20
+  fleti                           r102, 288
+  leti                            r103, 0x00000044
+  fleti                           r104, 45
+  arg_pushb                       0x64
+  arg_pushr                       r103
+  arg_pushr                       r104
+  particle2                       ... r100-r102, r103, f104
+  jmp                             label00F8
+  ret
+
+label002D@0x002D:
+  sync
+  fleti                           r100, -519
+  fleti                           r101, 2
+  fleti                           r102, 288
+  leti                            r103, 0x00000041
+  fleti                           r104, 15
+  arg_pushb                       0x64
+  arg_pushr                       r103
+  arg_pushr                       r104
+  particle2                       ... r100-r102, r103, f104
+  jmp                             label00F8
+  ret
+
+label00D8@0x00D8:
+  call                            label0C96
+  jmp                             label00F8
+  ret
+
+label0C96@0x0C96:
+  sync
+  jmpi_lt                         r251, 0x00000002, label0001
+  leti                            r88, 0x00000000
+  leti                            r89, 0x00000001
+  get_gender                      r88, r93
+  get_gender                      r89, r94
+  add                             r93, r94
+  jmpi_lt                         r93, 0x00000001, label0C97
+  jmpi_gt                         r93, 0x00000001, label0C97
+  leti                            r90, 0x00000001
+  get_coord_of_player             r81-r83, r88
+  get_coord_of_player             r84-r86, r89
+  sub                             r81, r84
+  sub                             r83, r86
+  jmp                             label00BE
+
+label0C97@0x0C97:
+  sync
+  leti                            r88, 0x00000000
+  leti                            r89, 0x00000002
+  get_gender                      r88, r93
+  get_gender                      r89, r94
+  add                             r93, r94
+  jmpi_lt                         r93, 0x00000001, label0C98
+  jmpi_gt                         r93, 0x00000001, label0C98
+  leti                            r90, 0x00000002
+  get_coord_of_player             r81-r83, r88
+  get_coord_of_player             r84-r86, r89
+  sub                             r81, r84
+  sub                             r83, r86
+  jmp                             label00BE
+
+label0C98@0x0C98:
+  sync
+  leti                            r88, 0x00000000
+  leti                            r89, 0x00000003
+  get_gender                      r88, r93
+  get_gender                      r89, r94
+  add                             r93, r94
+  jmpi_lt                         r93, 0x00000001, label0C99
+  jmpi_gt                         r93, 0x00000001, label0C99
+  leti                            r90, 0x00000003
+  get_coord_of_player             r81-r83, r88
+  get_coord_of_player             r84-r86, r89
+  sub                             r81, r84
+  sub                             r83, r86
+  jmp                             label00BE
+
+label0C99@0x0C99:
+  sync
+  leti                            r88, 0x00000001
+  leti                            r89, 0x00000002
+  get_gender                      r88, r93
+  get_gender                      r89, r94
+  add                             r93, r94
+  jmpi_lt                         r93, 0x00000001, label0C9A
+  jmpi_gt                         r93, 0x00000001, label0C9A
+  leti                            r90, 0x00000004
+  get_coord_of_player             r81-r83, r88
+  get_coord_of_player             r84-r86, r89
+  sub                             r81, r84
+  sub                             r83, r86
+  jmp                             label00BE
+
+label0C9A@0x0C9A:
+  sync
+  leti                            r88, 0x00000001
+  leti                            r89, 0x00000003
+  get_gender                      r88, r93
+  get_gender                      r89, r94
+  add                             r93, r94
+  jmpi_lt                         r93, 0x00000001, label0C9B
+  jmpi_gt                         r93, 0x00000001, label0C9B
+  leti                            r90, 0x00000005
+  get_coord_of_player             r81-r83, r88
+  get_coord_of_player             r84-r86, r89
+  sub                             r81, r84
+  sub                             r83, r86
+  jmp                             label00BE
+
+label0C9B@0x0C9B:
+  sync
+  leti                            r88, 0x00000002
+  leti                            r89, 0x00000003
+  get_gender                      r88, r93
+  get_gender                      r89, r94
+  add                             r93, r94
+  jmpi_lt                         r93, 0x00000001, label00DB
+  jmpi_gt                         r93, 0x00000001, label00DB
+  leti                            r90, 0x00000006
+  get_coord_of_player             r81-r83, r88
+  get_coord_of_player             r84-r86, r89
+  sub                             r81, r84
+  sub                             r83, r86
+  jmp                             label00BE
+
+label00BE@0x00BE:
+  jmpi_le                         r81, 0x0000001E, label006B
+  switch_jmp                      r90, [label0C96, label0C97, label0C98, label0C99, label0C9A, label0C9B, label00DB]
+
+label006B@0x006B:
+  jmpi_ge                         r81, 0xFFFFFFE2, label00C4
+  switch_jmp                      r90, [label0C96, label0C97, label0C98, label0C99, label0C9A, label0C9B, label00DB]
+
+label00C4@0x00C4:
+  jmpi_le                         r83, 0x0000001E, label0077
+  switch_jmp                      r90, [label0C96, label0C97, label0C98, label0C99, label0C9A, label0C9B, label00DB]
+
+label0077@0x0077:
+  jmpi_ge                         r83, 0xFFFFFFE2, label0CB2
+  switch_jmp                      r90, [label0C96, label0C97, label0C98, label0C99, label0C9A, label0C9B, label00DB]
+
+label00DB@0x00DB:
+  ret
+
+label0CB2@0x0CB2:
+  get_coord_of_player             r81-r83, r88
+  get_coord_of_player             r84-r86, r89
+  let                             r110, r81
+  let                             r111, r82
+  let                             r112, r83
+  sub                             r84, r81
+  divi                            r84, 0x00000002
+  add                             r84, r110
+  sub                             r85, r82
+  divi                            r85, 0x00000002
+  add                             r85, r111
+  addi                            r85, 0x00000007
+  sub                             r86, r83
+  divi                            r86, 0x00000002
+  add                             r86, r112
+  let                             r110, r84
+  let                             r111, r85
+  let                             r112, r86
+  leti                            r113, 0x000001BE
+  leti                            r114, 0x00000019
+  particle_effect_nc              r110-r114
+  ret
+
+label0067@0x0067:
+  jmpi_eq                         r150, 0x00000000, label00F8
+  call                            label003B
+  chk_ene_num                     r23
+  jmpi_eq                         r23, 0x00000000, label0039
+  jmpi_eq                         r23, 0x00000001, label0033
+  jmpi_eq                         r23, 0x00000003, label0041
+  jmpi_eq                         r23, 0x00000006, label005E
+  jmpi_eq                         r23, 0x0000000A, label00B4
+  call                            label00B5
+  jmp                             label00F8
+
+label0039@0x0039:
+label00AC@0x00AC:
+  leti                            r80, 0x00000010
+  leti                            r81, 0x00000003
+  leti                            r82, 0x00000001
+  construct_delayed_enemy         r80-r82
+  call                            label00C0
+  jmp                             label00F8
+
+label0033@0x0033:
+  leti                            r80, 0x00000010
+  leti                            r81, 0x00000003
+  leti                            r82, 0x00000002
+  construct_delayed_enemy         r80-r82
+  call                            label00C0
+  jmp                             label00F8
+
+label0041@0x0041:
+  leti                            r80, 0x00000010
+  leti                            r81, 0x00000003
+  leti                            r82, 0x00000003
+  construct_delayed_enemy         r80-r82
+  call                            label00C0
+  jmp                             label00F8
+
+label005E@0x005E:
+  leti                            r80, 0x00000010
+  leti                            r81, 0x00000003
+  leti                            r82, 0x00000004
+  construct_delayed_enemy         r80-r82
+  call                            label00C0
+  jmp                             label00F8
+
+label00B4@0x00B4:
+  leti                            r80, 0x00000010
+  leti                            r81, 0x00000003
+  leti                            r82, 0x00000005
+  construct_delayed_enemy         r80-r82
+  call                            label00C0
+  jmp                             label00F8
+
+label00EA@0x00EA:
+  jmp_eq                          r250, r0, label0009
+  jmp                             label00A7
+
+label0009@0x0009:
+  leti                            r129, 0x00000000
+  jmpi_eq                         r18, 0x00000001, label003A
+  jmpi_gt                         r136, 0x00000000, label003A
+  leti                            r55, 0x00000000
+  leti                            r56, 0x00000004
+  get_random                      r55-r56, r57
+  arg_pushb                       0x39
+  arg_pushr                       r57
+  sync_register2                  ... r57, r57
+  jmpi_eq                         r132, 0x00000000, label0078
+  arg_pushb                       0x88
+  arg_pushr                       r132
+  sync_register2                  ... r136, r132
+  arg_pushb                       0x83
+  arg_pushl                       0x00000001
+  sync_register2                  ... r131, 0x1 /* 1 */
+  jmp                             label003A
+
+label0078@0x0078:
+  jmpi_eq                         r133, 0x00000000, label00BB
+  arg_pushb                       0x88
+  arg_pushr                       r133
+  sync_register2                  ... r136, r133
+  arg_pushb                       0x83
+  arg_pushl                       0x00000001
+  sync_register2                  ... r131, 0x1 /* 1 */
+  jmp                             label003A
+
+label00BB@0x00BB:
+  jmpi_eq                         r134, 0x00000000, label00E6
+  arg_pushb                       0x88
+  arg_pushr                       r134
+  sync_register2                  ... r136, r134
+  arg_pushb                       0x83
+  arg_pushl                       0x00000001
+  sync_register2                  ... r131, 0x1 /* 1 */
+  jmp                             label003A
+
+label00E6@0x00E6:
+  jmpi_eq                         r135, 0x00000000, label00A7
+  arg_pushb                       0x88
+  arg_pushr                       r135
+  sync_register2                  ... r136, r135
+  arg_pushb                       0x83
+  arg_pushl                       0x00000001
+  sync_register2                  ... r131, 0x1 /* 1 */
+  jmp                             label003A
+
+label003A@0x003A:
+  sync
+  arg_pushb                       0x12
+  arg_pushl                       0x00000001
+  sync_register2                  ... r18, 0x1 /* 1 */
+  addi                            r129, 0x00000001
+  jmpi_lt                         r129, 0x000000F0, label003A
+  clear                           r136
+  arg_pushb                       0x12
+  arg_pushl                       0x00000000
+  sync_register2                  ... r18, 0x0 /* 0 */
+  jmp                             label00A7
+  ret
+
+label0099@0x0099:
+  sync
+  jmpi_eq                         r131, 0x00000000, label0099
+  clear                           r131
+  let                             r130, r136
+  andi                            r130, 0x00000001
+  jmpi_gt                         r130, 0x00000000, label00CB
+  let                             r130, r136
+  andi                            r130, 0x00000002
+  jmpi_gt                         r130, 0x00000000, label007F
+  let                             r130, r136
+  andi                            r130, 0x00000004
+  jmpi_gt                         r130, 0x00000000, label0018
+  let                             r130, r136
+  andi                            r130, 0x00000008
+  jmpi_gt                         r130, 0x00000000, label00B8
+  let                             r130, r136
+  andi                            r130, 0x00000010
+  jmpi_gt                         r130, 0x00000000, label00E5
+  let                             r130, r136
+  andi                            r130, 0x00000020
+  jmpi_gt                         r130, 0x00000000, label00A2
+  let                             r130, r136
+  andi                            r130, 0x00000040
+  jmpi_gt                         r130, 0x00000000, label0040
+  let                             r130, r136
+  andi                            r130, 0x00000080
+  jmpi_gt                         r130, 0x00000000, label0051
+  let                             r130, r136
+  andi                            r130, 0x00000100
+  jmpi_gt                         r130, 0x00000000, label009D
+  let                             r130, r136
+  andi                            r130, 0x00000200
+  jmpi_gt                         r130, 0x00000000, label0052
+  let                             r130, r136
+  andi                            r130, 0x00000400
+  jmpi_gt                         r130, 0x00000000, label0067
+  let                             r130, r136
+  andi                            r130, 0x00000800
+  jmpi_gt                         r130, 0x00000000, label0019
+  let                             r130, r136
+  andi                            r130, 0x00001000
+  jmpi_gt                         r130, 0x00000000, label004C
+  let                             r130, r136
+  andi                            r130, 0x00002000
+  jmpi_gt                         r130, 0x00000000, label002D
+  let                             r130, r136
+  andi                            r130, 0x00004000
+  jmpi_gt                         r130, 0x00000000, label00C9
+  let                             r130, r136
+  andi                            r130, 0x00008000
+  jmpi_gt                         r130, 0x00000000, label00D8
+  let                             r130, r136
+  andi                            r130, 0x00010000
+  jmpi_gt                         r130, 0x00000000, label00E0
+  let                             r130, r136
+  andi                            r130, 0x00020000
+  jmpi_gt                         r130, 0x00000000, label00CC
+
+label00F8@0x00F8:
+  sync
+  clear                           r136
+  clear                           r132
+  clear                           r133
+  clear                           r134
+  clear                           r135
+  clear                           r130
+  jmp                             label0099
+  ret
+
+label00CD@0x00CD:
+  set                             r181
+  ret
+
+label00D0@0x00D0:
+  set                             r182
+  ret
+
+label00D4@0x00D4:
+  set                             r183
+  ret
+
+label00D6@0x00D6:
+  set                             r184
+  ret
+
+label0053@0x0053:
+  clear                           r220
+  clear                           r0
+  leti                            r222, 0x00000001
+  get_player_state                r222, r221
+  jmpi_eq                         r221, 0x00000000, label0011
+  arg_pushr                       r222
+  arg_pushb                       0x05
+  get_player_room                 ... r222, r5-r6
+  jmpi_ne                         r5, 0x00000010, label0011
+  addi                            r220, 0x00000001
+  leti                            r0, 0x00000001
+
+label0011@0x0011:
+  leti                            r223, 0x00000002
+  get_player_state                r223, r221
+  jmpi_eq                         r221, 0x00000000, label004D
+  arg_pushr                       r223
+  arg_pushb                       0x05
+  get_player_room                 ... r223, r5-r6
+  jmpi_ne                         r5, 0x00000010, label004D
+  addi                            r220, 0x00000001
+  jmpi_eq                         r0, 0x00000001, label004D
+  leti                            r0, 0x00000002
+
+label004D@0x004D:
+  leti                            r224, 0x00000003
+  get_player_state                r224, r221
+  jmpi_eq                         r221, 0x00000000, label009E
+  arg_pushr                       r224
+  arg_pushb                       0x05
+  get_player_room                 ... r224, r5-r6
+  jmpi_ne                         r5, 0x00000010, label009E
+  addi                            r220, 0x00000001
+  jmpi_eq                         r0, 0x00000001, label009E
+  jmpi_eq                         r0, 0x00000002, label009E
+  leti                            r0, 0x00000003
+
+label009E@0x009E:
+  leti                            r225, 0x00000000
+  get_player_state                r225, r221
+  jmpi_eq                         r221, 0x00000000, label002E
+  arg_pushr                       r225
+  arg_pushb                       0x05
+  get_player_room                 ... r225, r5-r6
+  jmpi_ne                         r5, 0x00000010, label002E
+  addi                            r220, 0x00000001
+  jmpi_gt                         r0, 0x00000000, label002E
+  leti                            r0, 0x00000000
+
+label002E@0x002E:
+  ret
+
+label00EB@0x00EB:
+  get_players_present             r1-r4
+  clear                           r185
+  leti                            r186, 0x00000000
+  jmpi_eq                         r1, 0x00000000, label00B9
+  arg_pushr                       r186
+  arg_pushb                       0x08
+  get_player_room                 ... r186, r8-r9
+  jmpi_ne                         r8, 0x00000010, label00B9
+  jmpi_ne                         r9, 0x00000003, label00B9
+  get_coord_of_player             r187-r189, r186
+  ret
+
+label00B9@0x00B9:
+  leti                            r186, 0x00000001
+  jmpi_eq                         r2, 0x00000000, label00BC
+  arg_pushr                       r186
+  arg_pushb                       0x08
+  get_player_room                 ... r186, r8-r9
+  jmpi_ne                         r8, 0x00000010, label00BC
+  jmpi_ne                         r9, 0x00000003, label00BC
+  get_coord_of_player             r187-r189, r186
+  ret
+
+label00BC@0x00BC:
+  leti                            r186, 0x00000002
+  jmpi_eq                         r3, 0x00000000, label00BF
+  arg_pushr                       r186
+  arg_pushb                       0x08
+  get_player_room                 ... r186, r8-r9
+  jmpi_ne                         r8, 0x00000010, label00BF
+  jmpi_ne                         r9, 0x00000003, label00BF
+  get_coord_of_player             r187-r189, r186
+  ret
+
+label00BF@0x00BF:
+  leti                            r186, 0x00000003
+  jmpi_eq                         r4, 0x00000000, label00C2
+  arg_pushr                       r186
+  arg_pushb                       0x08
+  get_player_room                 ... r186, r8-r9
+  jmpi_ne                         r8, 0x00000010, label00C2
+  jmpi_ne                         r9, 0x00000003, label00C2
+  get_coord_of_player             r187-r189, r186
+  ret
+
+label00C2@0x00C2:
+  set                             r185
+  ret
+
+label0048@0x0048:
+  sync
+  sync
+  sync
+  sync
+  sync
+  ret
+
+label003B@0x003B:
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  ret
+
+label0049@0x0049:
+  call                            label003B
+  call                            label003B
+  ret
+
+label005C@0x005C:
+  call                            label003B
+  call                            label003B
+  call                            label003B
+  ret
+
+label00B5@0x00B5:
+  call                            label003B
+  call                            label003B
+  call                            label003B
+  call                            label0048
+  ret
+
+label00C0@0x00C0:
+  call                            label00B5
+  call                            label00B5
+  ret
+
+label00C5@0x00C5:
+  p_action_disable
+  npc_talk_off
+  call                            label000B
+  hud_hide
+  cine_enable
+  cam_zmin
+  ret
+
+label00C7@0x00C7:
+  cam_zmout
+  cine_disable
+  hud_show
+  call                            label00F2
+  npc_talk_on
+  p_action_enable
+  ret
+
+label00F2@0x00F2:
+  leti                            r249, 0x00000000
+  arg_pushr                       r250
+  enable_movement2                ... r250
+  p_action_enable
+  ret
+
+label000B@0x000B:
+  leti                            r249, 0x00000001
+  p_action_disable
+  arg_pushr                       r250
+  disable_movement2               ... r250
+  ret

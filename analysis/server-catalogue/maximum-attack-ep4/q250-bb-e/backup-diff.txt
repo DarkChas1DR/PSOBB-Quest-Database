@@ -1,0 +1,46 @@
+--- backup-script
++++ current-script
+@@ -248,7 +248,9 @@
+   jmpi_eq                         r253, 0x00000001, label0067
+   jmpi_eq                         r41, 0x00000001, label0069
+   jmpi_eq                         r40, 0x00000001, label0066
+-  call                            label0034
++  jmp                             label0002
++
++label0005@0x0005:
+   arg_pushl                       0x00000064
+   arg_pushs                       "Hi, I\'m Tyrell."
+   message                         ... 0x64 /* 100 */, "Hi, I\'m Tyrell."
+@@ -2031,3 +2033,32 @@
+   message                         ... 0x76 /* 118 */, "Enjoy the event!"
+   message_end
+   ret
++
++label0002@0x0002:
++  arg_pushs                       "Skip startup dialogue?"
++  window_msg                      ... "Skip startup dialogue?"
++  window_msg_end
++  clear                           r192
++  arg_pushb                       0xC0
++  arg_pushs                       "YES\nNO"
++  list                            ... r192, "YES\nNO"
++  switch_jmp                      r192, [label0003, label0004]
++
++label0003@0x0003:
++  set                             r0
++  arg_pushl                       0x00000000
++  arg_pushw                       0x0070
++  arg_pushs                       "Special Telepipe"
++  set_quest_board_handler         ... 0x0 /* 0 */, label0070, "Special Telepipe"
++  set                             r74
++  leti                            r40, 0x00000001
++  call                            label0035
++  call                            label0065
++  ret
++
++label0004@0x0004:
++  call                            label0034
++  jmp                             label0005
++  nop
++  nop
++  nop

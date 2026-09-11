@@ -1,0 +1,73 @@
+--- backup-script
++++ current-script
+@@ -4,7 +4,7 @@
+ .short_desc "Christmas is here!"
+ .long_desc "Staff wants to hold\na party on Ragol, \nbut they don\'t want \nthe monsters to ruin it.\nHelp clear them out \nbefore the party starts!"
+ .episode Episode2
+-.header_episode 0x00
++.header_episode 0x02
+ .language E
+ .max_players 0
+ .solo_unlock_flag 0x0000
+@@ -153,7 +153,9 @@
+   jmpi_eq                         r253, 0x00000001, label00FC
+   jmpi_eq                         r254, 0x00000001, label00FA
+   jmpi_eq                         r0, 0x00000001, label00C9
+-  call                            label00DC
++  call                            label0003
++
++label0006@0x0006:
+   arg_pushl                       0x00000064
+   arg_pushs                       "Heya folk(s),"
+   message                         ... 0x64 /* 100 */, "Heya folk(s),"
+@@ -291,10 +293,10 @@
+   jmpi_eq                         r253, 0x00000001, label012E
+   jmpi_eq                         r254, 0x00000001, label012E
+   arg_pushl                       0x00000065
+-  arg_pushs                       "♪♪Jingle bells,\nJingle Bells♪♪"
+-  message                         ... 0x65 /* 101 */, "♪♪Jingle bells,\nJingle Bells♪♪"
+-  arg_pushs                       "♪Jingle all the...♪"
+-  add_msg                         ... "♪Jingle all the...♪"
++  arg_pushs                       "ÔÖ¬ÔÖ¬Jingle bells,\nJingle BellsÔÖ¬ÔÖ¬"
++  message                         ... 0x65 /* 101 */, "ÔÖ¬ÔÖ¬Jingle bells,\nJingle BellsÔÖ¬ÔÖ¬"
++  arg_pushs                       "ÔÖ¬Jingle all the...ÔÖ¬"
++  add_msg                         ... "ÔÖ¬Jingle all the...ÔÖ¬"
+   arg_pushs                       "Ah! Don\'t sneak up\non me like that!"
+   add_msg                         ... "Ah! Don\'t sneak up\non me like that!"
+   arg_pushs                       "I\'m Break.\nYes THE Break."
+@@ -330,8 +332,8 @@
+ 
+ label012E@0x012E:
+   arg_pushl                       0x00000065
+-  arg_pushs                       "♪♪...\'Tis the season\nto be jolly! Fa-ahhh!♪♪"
+-  message                         ... 0x65 /* 101 */, "♪♪...\'Tis the season\nto be jolly! Fa-ahhh!♪♪"
++  arg_pushs                       "ÔÖ¬ÔÖ¬...\'Tis the season\nto be jolly! Fa-ahhh!ÔÖ¬ÔÖ¬"
++  message                         ... 0x65 /* 101 */, "ÔÖ¬ÔÖ¬...\'Tis the season\nto be jolly! Fa-ahhh!ÔÖ¬ÔÖ¬"
+   arg_pushs                       "Stop doing that.\nAnyway how did it go?"
+   add_msg                         ... "Stop doing that.\nAnyway how did it go?"
+   arg_pushs                       "You know those huge\nRappies make quite a\ndelicious dinner."
+@@ -902,3 +904,24 @@
+   nop
+   nop
+   nop
++
++label0003@0x0003:
++  arg_pushs                       "Skip startup dialogue?"
++  window_msg                      ... "Skip startup dialogue?"
++  window_msg_end
++  clear                           r192
++  arg_pushb                       0xC0
++  arg_pushs                       "YES\nNO"
++  list                            ... r192, "YES\nNO"
++  switch_jmp                      r192, [label0004, label0005]
++
++label0004@0x0004:
++  set                             r74
++  arg_pushl                       0x00000001
++  bgm                             ... 0x1 /* 1 */
++  call                            label00DD
++  ret
++
++label0005@0x0005:
++  call                            label00DC
++  jmp                             label0006

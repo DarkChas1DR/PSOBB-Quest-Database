@@ -1,0 +1,442 @@
+.version BB_V4
+.quest_num 10
+.name "悪魔の食物"
+.short_desc "高度に 栄養摂取内容が\n管理された\nパイオニア２の悲劇。"
+.long_desc "依頼主：トレッカ\n  どうしても 食べたいの\n  甘いものが。\n報酬：  １５００メセタ"
+.episode Episode1
+.header_episode 0x00
+.language J
+.max_players 1
+.solo_unlock_flag 0x0065
+.solo_unlock_flag 0x0067
+.solo_unlock_flag 0x006B
+.solo_unlock_flag 0x01F9
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+start:
+  set_episode                     0x00000000
+  gget                            0x00FD, r101
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0096
+  set_floor_handler               ... 0x0 /* 0 */, label0096
+  arg_pushl                       0x00000003
+  arg_pushw                       0x0099
+  set_floor_handler               ... 0x3 /* 3 */, label0099
+  arg_pushl                       0x00000004
+  arg_pushw                       0x009A
+  set_floor_handler               ... 0x4 /* 4 */, label009A
+  arg_pushl                       0x00000005
+  arg_pushw                       0x009B
+  set_floor_handler               ... 0x5 /* 5 */, label009B
+  set_qt_success                  label00FA
+  bb_map_designate                0x00, 0x00, 0x00, 0x00, 0x00
+  bb_map_designate                0x03, 0x03, 0x00, 0x00, 0x00
+  bb_map_designate                0x04, 0x04, 0x00, 0x00, 0x00
+  bb_map_designate                0x05, 0x05, 0x00, 0x00, 0x01
+  ret
+
+label0001@0x0001:
+  ret
+
+label0096@0x0096:
+  switch_jmp                      r90, [label0097, label0098]
+  ret
+
+label0097@0x0097:
+  set                             r90
+  leti                            r60, 0x000000ED
+  leti                            r61, 0x00000000
+  leti                            r62, 0x0000014D
+  leti                            r63, 0xFFFFFFFA
+  arg_pushl                       0x00000000
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  call                            label0136
+  arg_pushl                       0x00000003
+  set_mainwarp                    ... 0x3 /* 3 */
+  ret
+
+label0098@0x0098:
+  ret
+
+label00FA@0x00FA:
+  gset                            0x0077
+  arg_pushs                       "<color 1>１５００<color 0>メセタ受け取った。"
+  window_msg                      ... "<color 1>１５００<color 0>メセタ受け取った。"
+  window_msg_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  arg_pushl                       0x00000000
+  arg_pushl                       0x000005DC
+  pl_add_meseta                   ... 0x0 /* 0 */, 0x5DC /* 1500 */
+  ret
+
+label0099@0x0099:
+  ret
+
+label009A@0x009A:
+  ret
+
+label009B@0x009B:
+  leti                            r60, 0xFFFFFF6B
+  leti                            r61, 0x00000000
+  leti                            r62, 0xFFFFFD78
+  leti                            r63, 0x0000000F
+  leti                            r64, 0x00000124
+  at_coords_call                  r60-r64
+  ret
+
+label0136@0x0136:
+  // Referenced by map enemy ES-00-001 [EnemySetEntry type=0020 "TObjNpcSecretaryBase/TObjNpcSecretaryBase" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-2.99719 y=0 z=63.9993 x_angle=00000000 y_angle=00007800 z_angle=00000000 params=[0 0 0 101 310 0000 0000]]
+  jmpi_eq                         r255, 0x00000001, label0139
+  jmpi_eq                         r2, 0x00000001, label0138
+  jmpi_eq                         r0, 0x00000001, label0137
+  call                            label00E8
+  arg_pushl                       0x00000065
+  arg_pushs                       "あの、あたし <color 1>トレッカ<color 0>といいます。\n…お恥ずかしい話ですが、\n聞いてください。"
+  message                         ... 0x65 /* 101 */, "あの、あたし <color 1>トレッカ<color 0>といいます。\n…お恥ずかしい話ですが、\n聞いてください。"
+  arg_pushs                       "パイオニア２って、\n物資消費の管理は 比較的\nおおらかだと思うんですけど…"
+  add_msg                         ... "パイオニア２って、\n物資消費の管理は 比較的\nおおらかだと思うんですけど…"
+  arg_pushs                       "栄養摂取…つまり\n食事制限が厳しい分野があって…\nそれが何といっても 甘いもの。"
+  add_msg                         ... "栄養摂取…つまり\n食事制限が厳しい分野があって…\nそれが何といっても 甘いもの。"
+  arg_pushs                       "でも あたし、甘いものに目がなくて…"
+  add_msg                         ... "でも あたし、甘いものに目がなくて…"
+  arg_pushs                       "惑星ラグオルに着いて、これでようやく\n食事制限とも お別れと思った矢先の\n着陸延期。"
+  add_msg                         ... "惑星ラグオルに着いて、これでようやく\n食事制限とも お別れと思った矢先の\n着陸延期。"
+  arg_pushs                       "ガマンにガマンを重ねた\nこの２年の ストレスが\n爆発寸前なんです！"
+  add_msg                         ... "ガマンにガマンを重ねた\nこの２年の ストレスが\n爆発寸前なんです！"
+  arg_pushs                       "それで、地表に行かれる方がいたら\nなんとか パイオニア１で 甘いものが\n手に入るんじゃないかと思って…"
+  add_msg                         ... "それで、地表に行かれる方がいたら\nなんとか パイオニア１で 甘いものが\n手に入るんじゃないかと思って…"
+  arg_pushs                       "ヘンな依頼で 気を悪くされたかも\nしれませんが、どうか お願いします。\n<color 4>甘いもの<color 0>を 持ってきてください。"
+  add_msg                         ... "ヘンな依頼で 気を悪くされたかも\nしれませんが、どうか お願いします。\n<color 4>甘いもの<color 0>を 持ってきてください。"
+  set                             r0
+  message_end
+  call                            label00E9
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  ret
+
+label0137@0x0137:
+  arg_pushl                       0x00000065
+  arg_pushs                       "ああ…甘いもの 食べたいぃ。\n食べたいんですよぅ。"
+  message                         ... 0x65 /* 101 */, "ああ…甘いもの 食べたいぃ。\n食べたいんですよぅ。"
+  message_end
+  ret
+
+label0138@0x0138:
+  arg_pushl                       0x00000065
+  arg_pushs                       "ああっ！\nそ、それは！"
+  message                         ... 0x65 /* 101 */, "ああっ！\nそ、それは！"
+  arg_pushs                       "歴史の狭間で闇に消えた、\nミッシングオブジェクト、\nけ、ケーキというものではっ！"
+  add_msg                         ... "歴史の狭間で闇に消えた、\nミッシングオブジェクト、\nけ、ケーキというものではっ！"
+  arg_pushs                       "くくくく、くださいぃぃいい！"
+  add_msg                         ... "くくくく、くださいぃぃいい！"
+  cam_quake
+  cam_quake
+  cam_quake
+  cam_quake
+  cam_quake
+  call                            label00CF
+  message_end
+  jmp                             label013A
+
+label013A@0x013A:
+  arg_pushs                       "ケーキをわたした！"
+  window_msg                      ... "ケーキをわたした！"
+  window_msg_end
+  arg_pushl                       0x00000000
+  clear_quest_board_handler       ... 0x0 /* 0 */
+  jmp                             label013B
+  ret
+
+label013B@0x013B:
+  arg_pushl                       0x00000065
+  arg_pushs                       "あ、ありがとうございました！\n報酬は ギルドカウンターで\n受け取ってください！"
+  message                         ... 0x65 /* 101 */, "あ、ありがとうございました！\n報酬は ギルドカウンターで\n受け取ってください！"
+  message_end
+  set                             r255
+  clear                           r74
+  arg_pushl                       0x00000000
+  bgm                             ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  playbgm_epi                     ... 0x1 /* 1 */
+  ret
+
+label0139@0x0139:
+  arg_pushl                       0x00000065
+  arg_pushs                       "ああ、でも こんなのまた\nパクパク食べたら 体重が…"
+  message                         ... 0x65 /* 101 */, "ああ、でも こんなのまた\nパクパク食べたら 体重が…"
+  arg_pushs                       "ホント 甘いものって\nいけませんよね。"
+  add_msg                         ... "ホント 甘いものって\nいけませんよね。"
+  message_end
+  ret
+
+label0140@0x0140:
+  // Referenced by map enemy ES-00-003 [EnemySetEntry type=002D "TObjNpcHRM01" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-7.87636 y=0 z=-66.0711 x_angle=00000000 y_angle=0000E000 z_angle=00000000 params=[0 0 0 102 320 0001 0000]]
+  jmpi_eq                         r255, 0x00000001, label0141
+  jmpi_eq                         r2, 0x00000001, label0141
+  jmpi_eq                         r1, 0x00000001, label0141
+  arg_pushl                       0x00000066
+  arg_pushs                       "ボク、いま途方に暮れてるんです。"
+  message                         ... 0x66 /* 102 */, "ボク、いま途方に暮れてるんです。"
+  arg_pushs                       "<color 5>３姉妹<color 0>が そろっていなくなったから\n探してくれって依頼を受けてるんですが\n全然 見つからなくて…"
+  add_msg                         ... "<color 5>３姉妹<color 0>が そろっていなくなったから\n探してくれって依頼を受けてるんですが\n全然 見つからなくて…"
+  arg_pushs                       "パイオニア２中 探したんですがねぇ。"
+  add_msg                         ... "パイオニア２中 探したんですがねぇ。"
+  set                             r3
+  message_end
+  ret
+
+label0141@0x0141:
+  jmpi_eq                         r3, 0x00000001, label0142
+  arg_pushl                       0x00000066
+  arg_pushs                       "ボク、いま途方に暮れてるんです。"
+  message                         ... 0x66 /* 102 */, "ボク、いま途方に暮れてるんです。"
+  arg_pushs                       "３姉妹が そろっていなくなったから\n探してくれって依頼を受けてるんですが\n全然 見つからなくて…"
+  add_msg                         ... "３姉妹が そろっていなくなったから\n探してくれって依頼を受けてるんですが\n全然 見つからなくて…"
+  message_end
+  jmp                             label0142
+
+label0142@0x0142:
+  arg_pushl                       0x00000066
+  arg_pushs                       "えっ、\nラグオルにいたんですか？\nあの三姉妹。"
+  message                         ... 0x66 /* 102 */, "えっ、\nラグオルにいたんですか？\nあの三姉妹。"
+  arg_pushs                       "…そりゃ 見つからないわけだ。"
+  add_msg                         ... "…そりゃ 見つからないわけだ。"
+  message_end
+  ret
+
+label014A@0x014A:
+  // Referenced by map enemy ES-00-002 [EnemySetEntry type=0032 "TObjNpcNFW01" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=49.1614 y=0 z=3.35355 x_angle=00000000 y_angle=0000D000 z_angle=00000000 params=[18 0 0 103 330 0001 0000]]
+  jmpi_eq                         r255, 0x00000001, label014B
+  arg_pushl                       0x00000067
+  arg_pushs                       "あのお姉さん、あたし知ってるわ。\n甘い物好きで有名だったもの。"
+  message                         ... 0x67 /* 103 */, "あのお姉さん、あたし知ってるわ。\n甘い物好きで有名だったもの。"
+  arg_pushs                       "いまでこそ あのナイスバディだけど、\n昔は そりゃ…"
+  add_msg                         ... "いまでこそ あのナイスバディだけど、\n昔は そりゃ…"
+  arg_pushs                       "っと、この先は言えないわね。\n彼女の名誉のために。"
+  add_msg                         ... "っと、この先は言えないわね。\n彼女の名誉のために。"
+  message_end
+  ret
+
+label014B@0x014B:
+  arg_pushl                       0x00000067
+  arg_pushs                       "あーあ、あの調子で\n甘いもの食べてたら\nまた あのひと…"
+  message                         ... 0x67 /* 103 */, "あーあ、あの調子で\n甘いもの食べてたら\nまた あのひと…"
+  arg_pushs                       "これだから 甘いものは こわいのよ。\n何かに魅入られたように\n食べちゃうんだもの。"
+  add_msg                         ... "これだから 甘いものは こわいのよ。\n何かに魅入られたように\n食べちゃうんだもの。"
+  message_end
+  ret
+
+label0154@0x0154:
+  // Referenced by map enemy ES-00-005 [EnemySetEntry type=0025 "TObjNpcARM00" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=156.003 y=0 z=-49.9997 x_angle=00000000 y_angle=0000E000 z_angle=00000000 params=[30 0 0 105 340 0001 0000]]
+  jmpi_eq                         r255, 0x00000001, label0155
+  jmpi_eq                         r2, 0x00000001, label0155
+  jmpi_eq                         r1, 0x00000001, label0155
+  arg_pushl                       0x00000068
+  arg_pushs                       "三姉妹失踪事件を手伝っているのだが、\n非常に手がかりが 少ないのだ。"
+  message                         ... 0x68 /* 104 */, "三姉妹失踪事件を手伝っているのだが、\n非常に手がかりが 少ないのだ。"
+  arg_pushs                       "三人は パン職人で、\n味に対して すさまじい\nこだわりを持っていたとか。"
+  add_msg                         ... "三人は パン職人で、\n味に対して すさまじい\nこだわりを持っていたとか。"
+  arg_pushs                       "アンドロイドのわたしには\n理解不能な感覚だがね。"
+  add_msg                         ... "アンドロイドのわたしには\n理解不能な感覚だがね。"
+  message_end
+  ret
+
+label0155@0x0155:
+  arg_pushl                       0x00000068
+  arg_pushs                       "別に パイオニア２でも\nパン生地作りに最適な環境は\n構築できると思うのだが…"
+  message                         ... 0x68 /* 104 */, "別に パイオニア２でも\nパン生地作りに最適な環境は\n構築できると思うのだが…"
+  arg_pushs                       "人間のやることは\n理解に苦しむよ。"
+  add_msg                         ... "人間のやることは\n理解に苦しむよ。"
+  message_end
+  ret
+
+label015E@0x015E:
+  // Referenced by map enemy ES-00-00C [EnemySetEntry type=0008 "TObjNpcMaleBase/TObjNpcMaleBase" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=59.8959 y=0 z=2.58207 x_angle=00000000 y_angle=00004000 z_angle=00000000 params=[27 0 0 106 350 0001 0000]]
+  jmpi_eq                         r255, 0x00000001, label015F
+  jmpi_eq                         r2, 0x00000001, label015F
+  jmpi_eq                         r1, 0x00000001, label015F
+  arg_pushl                       0x00000069
+  arg_pushs                       "ああ、あの３姉妹の話？"
+  message                         ... 0x69 /* 105 */, "ああ、あの３姉妹の話？"
+  arg_pushs                       "そりゃ すごいこだわり方だったよ。\n生地を練るときや寝かせるときの\n温度や湿度がどうとか…"
+  add_msg                         ... "そりゃ すごいこだわり方だったよ。\n生地を練るときや寝かせるときの\n温度や湿度がどうとか…"
+  arg_pushs                       "そのかいあって、\nできあがったパンの\nおいしいコトったら！"
+  add_msg                         ... "そのかいあって、\nできあがったパンの\nおいしいコトったら！"
+  arg_pushs                       "え？ その依頼じゃないの？"
+  add_msg                         ... "え？ その依頼じゃないの？"
+  message_end
+  ret
+
+label015F@0x015F:
+  arg_pushl                       0x00000069
+  arg_pushs                       "３姉妹、見つかったのかい？"
+  message                         ... 0x69 /* 105 */, "３姉妹、見つかったのかい？"
+  arg_pushs                       "あ、その依頼じゃないのか。"
+  add_msg                         ... "あ、その依頼じゃないのか。"
+  message_end
+  ret
+
+label0168@0x0168:
+  // Referenced by map enemy ES-05-02F [EnemySetEntry type=001D "TObjNpcCloakroomBase" num_children=0000 floor=0005 room=0028 wave_number=0000 wave_number2=0000 a1=0000 x=50.0028 y=0 z=-28.9994 x_angle=00000000 y_angle=FFFFF000 z_angle=00000000 params=[0 0 5 106 360 0000 0000]]
+  call                            label00E8
+  arg_pushl                       0x0000006A
+  arg_pushs                       "こんなところに\nケーキ屋があって\nごめんなさい！"
+  message                         ... 0x6A /* 106 */, "こんなところに\nケーキ屋があって\nごめんなさい！"
+  message_end
+  call                            label00E9
+  ret
+
+label0169@0x0169:
+  // Referenced by map enemy ES-05-02E [EnemySetEntry type=001D "TObjNpcCloakroomBase" num_children=0000 floor=0005 room=0028 wave_number=0000 wave_number2=0000 a1=0000 x=57.0028 y=0 z=19.0006 x_angle=00000000 y_angle=FFFFB000 z_angle=00000000 params=[15 0 5 107 361 0001 0000]]
+  jmpi_eq                         r1, 0x00000001, label016A
+  call                            label00E8
+  arg_pushl                       0x0000006B
+  arg_pushs                       "わたしたち、パン職人とは\n世を忍ぶ 仮の姿！"
+  message                         ... 0x6B /* 107 */, "わたしたち、パン職人とは\n世を忍ぶ 仮の姿！"
+  arg_pushs                       "本当は <color 5>ケーキ三姉妹<color 0>なのでーす。"
+  add_msg                         ... "本当は <color 5>ケーキ三姉妹<color 0>なのでーす。"
+  arg_pushs                       "どうよ、この湿度と温度！\nやっぱり 天然の環境じゃないと\n良い生地には ならないのよ！"
+  add_msg                         ... "どうよ、この湿度と温度！\nやっぱり 天然の環境じゃないと\n良い生地には ならないのよ！"
+  arg_pushs                       "パイオニア２では甘いものは作れないし\n人工の環境での生地作りに限界を感じ…\n思いあまって降りて来ちゃいましたー！"
+  add_msg                         ... "パイオニア２では甘いものは作れないし\n人工の環境での生地作りに限界を感じ…\n思いあまって降りて来ちゃいましたー！"
+  arg_pushs                       "ね、お願い。買ってって～！"
+  add_msg                         ... "ね、お願い。買ってって～！"
+  set                             r1
+  message_end
+  call                            label00E9
+  ret
+
+label016A@0x016A:
+  call                            label00E8
+  arg_pushl                       0x0000006B
+  arg_pushs                       "え？\nモンスター？"
+  message                         ... 0x6B /* 107 */, "え？\nモンスター？"
+  arg_pushs                       "ふん、あんなの わたしたちの\nケーキに燃やす 熱意と闘志と努力と\n根性の前には なんてことないわ。"
+  add_msg                         ... "ふん、あんなの わたしたちの\nケーキに燃やす 熱意と闘志と努力と\n根性の前には なんてことないわ。"
+  message_end
+  call                            label00E9
+  ret
+
+label016B@0x016B:
+  // Referenced by map enemy ES-05-030 [EnemySetEntry type=001D "TObjNpcCloakroomBase" num_children=0000 floor=0005 room=0028 wave_number=0000 wave_number2=0000 a1=0000 x=72.0028 y=8 z=-16.9994 x_angle=00000000 y_angle=FFFFD000 z_angle=00000000 params=[0 0 5 108 363 0000 0000]]
+  call                            label00E8
+  jmpi_eq                         r2, 0x00000001, label016F
+  arg_pushl                       0x0000006C
+  arg_pushs                       "いらっしゃいませ～！\nケーキ屋<color 1>「ナウラ」<color 0>へ ようこそ！"
+  message                         ... 0x6C /* 108 */, "いらっしゃいませ～！\nケーキ屋<color 1>「ナウラ」<color 0>へ ようこそ！"
+  arg_pushs                       "どちらを お買い上げいただけますか？"
+  add_msg                         ... "どちらを お買い上げいただけますか？"
+  message_end
+  jmp                             label016C
+
+label016C@0x016C:
+  arg_pushb                       0x64
+  arg_pushs                       "ケーキ\nケーキ\nケーキ"
+  list                            ... r100, "ケーキ\nケーキ\nケーキ"
+  switch_jmp                      r100, [label016D, label016D, label016D]
+
+label016D@0x016D:
+  arg_pushl                       0x0000006C
+  arg_pushs                       "ハイ！\nありがとうございました～！"
+  message                         ... 0x6C /* 108 */, "ハイ！\nありがとうございました～！"
+  message_end
+  jmp                             label016E
+
+label016F@0x016F:
+  arg_pushl                       0x0000006C
+  arg_pushs                       "ウチのケーキは 人気商品ですので、\nお一人様 一個と\nさせていただいてますぅ。"
+  message                         ... 0x6C /* 108 */, "ウチのケーキは 人気商品ですので、\nお一人様 一個と\nさせていただいてますぅ。"
+  arg_pushs                       "ごめんなさいね。"
+  add_msg                         ... "ごめんなさいね。"
+  message_end
+  call                            label00E9
+  ret
+
+label016E@0x016E:
+  arg_pushs                       "<color 4>ケーキ<color 0>を手に入れた！"
+  window_msg                      ... "<color 4>ケーキ<color 0>を手に入れた！"
+  window_msg_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  set                             r2
+  call                            label00E9
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0122
+  arg_pushs                       "「ケーキ」"
+  set_quest_board_handler         ... 0x0 /* 0 */, label0122, "「ケーキ」"
+  set                             r74
+  ret
+
+label00E8@0x00E8:
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  arg_pushl                       0x00000000
+  p_look                          ... 0x0 /* 0 */
+  hud_hide
+  cine_enable
+  cam_zmin
+  call                            label00CF
+  ret
+
+label00E9@0x00E9:
+  cam_zmout
+  cine_disable
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  npc_talk_on
+  p_action_enable
+  ret
+
+label00CF@0x00CF:
+  leti                            r72, 0x00000000
+
+label00D0@0x00D0:
+  sync
+  addi                            r72, 0x00000001
+  jmpi_le                         r72, 0x0000001E, label00D0
+  ret
+
+label00D1@0x00D1:
+  leti                            r72, 0x00000000
+
+label00D2@0x00D2:
+  sync
+  addi                            r72, 0x00000001
+  jmpi_le                         r72, 0x0000003C, label00D2
+  ret
+
+label0122@0x0122:
+  arg_pushs                       "甘くて美味しいケーキ"
+  disp_msg_qb                     ... "甘くて美味しいケーキ"
+  close_msg_qb
+  ret
+
+label0124@0x0124:
+  jmpi_eq                         r6, 0x00000001, label0001
+  p_action_disable
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  hud_hide
+  cine_enable
+  cam_zmin
+  call                            label00D1
+  arg_pushs                       "微かにだが \n甘い香りが感じられる…"
+  window_msg                      ... "微かにだが \n甘い香りが感じられる…"
+  window_msg_end
+  cam_zmout
+  cine_disable
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  p_action_enable
+  set                             r6
+  ret

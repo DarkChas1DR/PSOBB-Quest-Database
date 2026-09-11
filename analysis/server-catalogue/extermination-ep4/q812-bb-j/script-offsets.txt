@@ -1,0 +1,917 @@
+.version BB_V4
+.quest_num 812
+.name "極幻の戦火へ ２"
+.short_desc "クレーター内部で\n大量発生する\nエネミーの全排除。"
+.long_desc "依頼主：軍人\n依頼内容：\n  クレーター内部で\n  エネミーが多量に\n  発生しつづける区画がある。\n  その区画のエネミーを\n  全て排除して欲しい。\n報酬：？？？メセタ\n"
+.episode Episode4
+.header_episode 0x00
+.language J
+.max_players 0
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+// 0xF6C data bytes in script section with 95 labels
+
+label0019:
+  // Referenced by instruction at 0251
+  0000  F808FC            get_difficulty_level_v2         r252
+  0003  E6FA              get_client_id                   r250
+  0005  F809FB            get_number_of_players           r251
+  0008  11F5              clear                           r245
+  000A  01                ret
+
+label0025:
+  // Referenced by instruction at 0128
+  000B  F82E01            read_switch_flag_on_floor       r1-r3
+  000E  2F0300000000...   jmpi_ne                         r3, 0x00000000, label0039 /* 001C */
+  0016  4801              arg_pushr                       r1
+  0018  4802              arg_pushr                       r2
+  001A  F82B              set_switch_flag_sync            ... r1, r2
+
+label0039:
+  // Referenced by instruction at 000E
+  001C  01                ret
+
+label0024:
+  001D  F82E01            read_switch_flag_on_floor       r1-r3
+  0020  2D0300000000...   jmpi_eq                         r3, 0x00000000, label0005 /* 002E */
+  0028  4801              arg_pushr                       r1
+  002A  4802              arg_pushr                       r2
+  002C  F82C              clear_switch_flag_sync          ... r1, r2
+
+label0005:
+  // Referenced by instruction at 0020
+  002E  01                ret
+
+label0030:
+  // Referenced by instruction at 004D
+  002F  08F701            let                             r247, r1
+
+label001C:
+  // Referenced by instruction at 0041
+  0032  3FF700000000...   jmpi_le                         r247, 0x00000000, label0012 /* 0044 */
+  003A  02                sync
+  003B  1BF701000000      subi                            r247, 0x00000001
+  0041  281C00            jmp                             label001C /* 0032 */
+
+label0012:
+  // Referenced by instruction at 0032
+  0044  01                ret
+
+label0027:
+  0045  293F00            call                            label003F /* 0054 */
+  0048  53                fadeout
+  0049  9A                cine_enable
+  004A  05                va_start
+  004B  4801              arg_pushr                       r1
+  004D  073000            va_call                         label0030 /* 002F */
+  0050  06                va_end
+  0051  52                fadein
+  0052  01                ret
+
+label0042:
+  0053  9A                cine_enable
+
+label003F:
+  // Referenced by instruction at 0045
+  0054  48FA              arg_pushr                       r250
+  0056  72                disable_movement1               ... r250
+  0057  70                p_action_disable
+  0058  98                hud_hide
+  0059  01                ret
+
+label003A:
+  005A  53                fadeout
+
+label002F:
+  005B  9B                cine_disable
+
+label0014:
+  005C  99                hud_show
+  005D  71                p_action_enable
+  005E  48FA              arg_pushr                       r250
+  0060  73                enable_movement1                ... r250
+  0061  01                ret
+
+label002B:
+  0062  093CEAFFFFFF      leti                            r60, 0xFFFFFFEA
+  0068  093D00000000      leti                            r61, 0x00000000
+  006E  093E37F8FFFF      leti                            r62, 0xFFFFF837
+  0074  093F0E010000      leti                            r63, 0x0000010E
+  007A  4900000000        arg_pushl                       0x00000000
+  007F  4A3C              arg_pushb                       0x3C
+  0081  76                set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  0082  193E05000000      addi                            r62, 0x00000005
+  0088  4901000000        arg_pushl                       0x00000001
+  008D  4A3C              arg_pushb                       0x3C
+  008F  76                set_player_start_position       ... 0x1 /* 1 */, r60-r63
+  0090  193E05000000      addi                            r62, 0x00000005
+  0096  4902000000        arg_pushl                       0x00000002
+  009B  4A3C              arg_pushb                       0x3C
+  009D  76                set_player_start_position       ... 0x2 /* 2 */, r60-r63
+  009E  193E05000000      addi                            r62, 0x00000005
+  00A4  4903000000        arg_pushl                       0x00000003
+  00A9  4A3C              arg_pushb                       0x3C
+  00AB  76                set_player_start_position       ... 0x3 /* 3 */, r60-r63
+  00AC  01                ret
+
+label0028:
+  00AD  F904E600000CC2    fleti                           r230, -35
+  00B4  F904E700006841    fleti                           r231, 14.5
+  00BB  F904E80000FAC4    fleti                           r232, -2000
+  00C2  F904E9000058C2    fleti                           r233, -54
+  00C9  F904EA00005041    fleti                           r234, 13
+  00D0  F904EB0000FAC4    fleti                           r235, -2000
+  00D7  4AE6              arg_pushb                       0xE6
+  00D9  F8D6              fleti_fixed_camera              ... r230-r235
+  00DB  01                ret
+
+label0045:
+  00DC  F8D8              default_camera_pos2
+  00DE  01                ret
+
+label000F:
+  // Referenced by instruction at 0132
+  00DF  E4                warp_on
+  00E0  6C                p_enablewarp
+  00E1  01                ret
+
+label0023:
+  // Referenced by instruction at 0154
+  00E2  E5                warp_off
+  00E3  6B                p_disablewarp
+  00E4  01                ret
+
+label0017:
+  // Referenced by instruction at 0108
+  00E5  F88AFA00          get_player_state                r250, r0
+  00E9  2D0001000000...   jmpi_eq                         r0, 0x00000001, label0026 /* 0104 */
+  00F1  2D0002000000...   jmpi_eq                         r0, 0x00000002, label0026 /* 0104 */
+  00F9  2D0003000000...   jmpi_eq                         r0, 0x00000003, label0026 /* 0104 */
+  0101  1100              clear                           r0
+  0103  01                ret
+
+label0026:
+  // Referenced by instructions at 00E9, 00F1, 00F9
+  0104  1000              set                             r0
+  0106  01                ret
+
+label0036:
+  // Referenced by instruction at 010B
+  0107  02                sync
+  0108  291700            call                            label0017 /* 00E5 */
+  010B  2D0000000000...   jmpi_eq                         r0, 0x00000000, label0036 /* 0107 */
+  0113  01                ret
+
+label0046:
+  0114  10F6              set                             r246
+  0116  4901000000        arg_pushl                       0x00000001
+  011B  55                bgm                             ... 0x1 /* 1 */
+  011C  01                ret
+
+label0031:
+  011D  05                va_start
+  011E  4900000000        arg_pushl                       0x00000000
+  0123  49FF000000        arg_pushl                       0x000000FF
+  0128  072500            va_call                         label0025 /* 000B */
+  012B  06                va_end
+  012C  01                ret
+
+label0008:
+  012D  B10900            thread_stg                      label0009 /* 0131 */
+  0130  01                ret
+
+label0009:
+  // Referenced by instructions at 012D, 014C
+  0131  02                sync
+  0132  290F00            call                            label000F /* 00DF */
+  0135  2FF600000000...   jmpi_ne                         r246, 0x00000000, label001F /* 0157 */
+  013D  093C00000000      leti                            r60, 0x00000000
+  0143  093DFF000000      leti                            r61, 0x000000FF
+  0149  F82E3C            read_switch_flag_on_floor       r60-r62
+  014C  2D3E00000000...   jmpi_eq                         r62, 0x00000000, label0009 /* 0131 */
+  0154  292300            call                            label0023 /* 00E2 */
+
+label001F:
+  // Referenced by instruction at 0135
+  0157  01                ret
+
+label000B:
+  // Referenced by instructions at 01A1, 01B9
+  0158  05                va_start
+  0159  4801              arg_pushr                       r1
+  015B  073D00            va_call                         label003D /* 01C9 */
+  015E  06                va_end
+  015F  083C00            let                             r60, r0
+  0162  2F0200000000...   jmpi_ne                         r2, 0x00000000, label003C /* 017F */
+  016A  090000000000      leti                            r0, 0x00000000
+  0170  2D3C00000000...   jmpi_eq                         r60, 0x00000000, label000A /* 017E */
+  0178  090001000000      leti                            r0, 0x00000001
+
+label000A:
+  // Referenced by instructions at 0170, 0185
+  017E  01                ret
+
+label003C:
+  // Referenced by instruction at 0162
+  017F  090002000000      leti                            r0, 0x00000002
+  0185  2D3C00000000...   jmpi_eq                         r60, 0x00000000, label000A /* 017E */
+  018D  090003000000      leti                            r0, 0x00000003
+  0193  01                ret
+
+label004C:
+  0194  2D0300000000...   jmpi_eq                         r3, 0x00000000, label0020 /* 01B4 */
+  019C  05                va_start
+  019D  4801              arg_pushr                       r1
+  019F  4803              arg_pushr                       r3
+  01A1  070B00            va_call                         label000B /* 0158 */
+  01A4  06                va_end
+  01A5  3F0001000000...   jmpi_le                         r0, 0x00000001, label000C /* 01BD */
+  01AD  190002000000      addi                            r0, 0x00000002
+  01B3  01                ret
+
+label0020:
+  // Referenced by instruction at 0194
+  01B4  05                va_start
+  01B5  4801              arg_pushr                       r1
+  01B7  4802              arg_pushr                       r2
+  01B9  070B00            va_call                         label000B /* 0158 */
+  01BC  06                va_end
+
+label000C:
+  // Referenced by instruction at 01A5
+  01BD  01                ret
+
+label0049:
+  // Referenced by instructions at 01CC, 01E2
+  01BE  05                va_start
+  01BF  4801              arg_pushr                       r1
+  01C1  072D00            va_call                         label002D /* 0201 */
+  01C4  06                va_end
+  01C5  2000F5            and                             r0, r245
+  01C8  01                ret
+
+label003D:
+  // Referenced by instruction at 015B
+  01C9  05                va_start
+  01CA  4801              arg_pushr                       r1
+  01CC  074900            va_call                         label0049 /* 01BE */
+  01CF  06                va_end
+  01D0  4200              stack_push                      r0
+  01D2  05                va_start
+  01D3  4801              arg_pushr                       r1
+  01D5  072D00            va_call                         label002D /* 0201 */
+  01D8  06                va_end
+  01D9  22F500            or                              r245, r0
+  01DC  4300              stack_pop                       r0
+  01DE  01                ret
+
+label0029:
+  01DF  05                va_start
+  01E0  4801              arg_pushr                       r1
+  01E2  074900            va_call                         label0049 /* 01BE */
+  01E5  06                va_end
+  01E6  4200              stack_push                      r0
+  01E8  05                va_start
+  01E9  4801              arg_pushr                       r1
+  01EB  072D00            va_call                         label002D /* 0201 */
+  01EE  06                va_end
+  01EF  2500FFFFFFFF      xori                            r0, 0xFFFFFFFF
+  01F5  20F500            and                             r245, r0
+  01F8  4300              stack_pop                       r0
+  01FA  01                ret
+
+label0003:
+  01FB  0800F5            let                             r0, r245
+  01FE  11F5              clear                           r245
+  0200  01                ret
+
+label002D:
+  // Referenced by instructions at 01C1, 01D5, 01EB
+  0201  1B0164000000      subi                            r1, 0x00000064
+  0207  090001000000      leti                            r0, 0x00000001
+  020D  F8980001          shift_left                      r0, r1
+  0211  01                ret
+
+start:
+  0212  F8BC02000000      set_episode                     0x00000002
+  0218  BA1D00            set_qt_exit                     label001D /* 0259 */
+  021B  A50D00            set_qt_cancel                   label000D /* 0259 */
+  021E  A24100            set_qt_success                  label0041 /* 025A */
+  0221  A13500            set_qt_failure                  label0035 /* 03AC */
+  0224  F951002D000000    bb_map_designate                0x00, 0x2D, 0x00, 0x00, 0x00
+  022B  F9510528000000    bb_map_designate                0x05, 0x28, 0x00, 0x00, 0x00
+  0232  4900000000        arg_pushl                       0x00000000
+  0237  F945              initial_floor                   ... 0x0 /* 0 */
+  0239  4900000000        arg_pushl                       0x00000000
+  023E  4B3800            arg_pushw                       0x0038
+  0241  95                set_floor_handler               ... 0x0 /* 0 */, label0038 /* 03AE */
+  0242  4905000000        arg_pushl                       0x00000005
+  0247  4B4400            arg_pushw                       0x0044
+  024A  95                set_floor_handler               ... 0x5 /* 5 */, label0044 /* 0733 */
+  024B  4928000000        arg_pushl                       0x00000028
+  0250  93                set_mainwarp                    ... 0x28 /* 40 */
+  0251  291900            call                            label0019 /* 0000 */
+  0254  E684              get_client_id                   r132
+  0256  B986              get_difficulty_level_v1         r134
+  0258  01                ret
+
+label000D:
+label001D:
+  // Referenced by instructions at 0218, 021B
+  0259  01                ret
+
+label0041:
+  // Referenced by instruction at 021E
+  025A  4901000000        arg_pushl                       0x00000001
+  025F  55                bgm                             ... 0x1 /* 1 */
+  0260  2DFC00000000...   jmpi_eq                         r252, 0x00000000, label0047 /* 0280 */
+  0268  2DFC01000000...   jmpi_eq                         r252, 0x00000001, label002A /* 02CA */
+  0270  2DFC02000000...   jmpi_eq                         r252, 0x00000002, label0043 /* 0314 */
+  0278  2DFC03000000...   jmpi_eq                         r252, 0x00000003, label0033 /* 0360 */
+
+label0047:
+  // Referenced by instruction at 0260
+  0280  4E3C0063006F...   arg_pushs                       "<color 1>４０００<color 0>メセタ受け取った。"
+  02C1  5A                window_msg                      ... "<color 1>４０００<color 0>メセタ受け取った。"
+  02C2  5E                window_msg_end
+  02C3  49A00F0000        arg_pushl                       0x00000FA0
+  02C8  EE                pl_add_meseta2                  ... 0xFA0 /* 4000 */
+  02C9  01                ret
+
+label002A:
+  // Referenced by instruction at 0268
+  02CA  4E3C0063006F...   arg_pushs                       "<color 1>８０００<color 0>メセタ受け取った。"
+  030B  5A                window_msg                      ... "<color 1>８０００<color 0>メセタ受け取った。"
+  030C  5E                window_msg_end
+  030D  49401F0000        arg_pushl                       0x00001F40
+  0312  EE                pl_add_meseta2                  ... 0x1F40 /* 8000 */
+  0313  01                ret
+
+label0043:
+  // Referenced by instruction at 0270
+  0314  4E3C0063006F...   arg_pushs                       "<color 1>１２０００<color 0>メセタ受け取った。"
+  0357  5A                window_msg                      ... "<color 1>１２０００<color 0>メセタ受け取った。"
+  0358  5E                window_msg_end
+  0359  49E02E0000        arg_pushl                       0x00002EE0
+  035E  EE                pl_add_meseta2                  ... 0x2EE0 /* 12000 */
+  035F  01                ret
+
+label0033:
+  // Referenced by instruction at 0278
+  0360  4E3C0063006F...   arg_pushs                       "<color 1>１６０００<color 0>メセタ受け取った。"
+  03A3  5A                window_msg                      ... "<color 1>１６０００<color 0>メセタ受け取った。"
+  03A4  5E                window_msg_end
+  03A5  49803E0000        arg_pushl                       0x00003E80
+  03AA  EE                pl_add_meseta2                  ... 0x3E80 /* 16000 */
+  03AB  01                ret
+
+label0035:
+  // Referenced by instruction at 0221
+  03AC  01                ret
+
+label0001:
+  // Referenced by instructions at 03AE, 03B6, 03BE, 0733, 073F, 0747, 074F, 0777, 077F, 0787, 07B5, 07BD, 07C5, 07F3, 07FB, 0803, 0831, 0839, 0841, 086C, 0874, 087C, 08A7, 08AF, 08B7, 08DA
+  03AD  01                ret
+
+label0038:
+  // Referenced by instruction at 0241
+  03AE  2DFF01000000...   jmpi_eq                         r255, 0x00000001, label0001 /* 03AD */
+  03B6  2DFE01000000...   jmpi_eq                         r254, 0x00000001, label0001 /* 03AD */
+  03BE  2D7E01000000...   jmpi_eq                         r126, 0x00000001, label0001 /* 03AD */
+  03C6  093CED000000      leti                            r60, 0x000000ED
+  03CC  093D00000000      leti                            r61, 0x00000000
+  03D2  093E4D010000      leti                            r62, 0x0000014D
+  03D8  093FFAFFFFFF      leti                            r63, 0xFFFFFFFA
+  03DE  4900000000        arg_pushl                       0x00000000
+  03E3  4A3C              arg_pushb                       0x3C
+  03E5  76                set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  03E6  093CF6000000      leti                            r60, 0x000000F6
+  03EC  093D00000000      leti                            r61, 0x00000000
+  03F2  093E53010000      leti                            r62, 0x00000153
+  03F8  093FDFFFFFFF      leti                            r63, 0xFFFFFFDF
+  03FE  4901000000        arg_pushl                       0x00000001
+  0403  4A3C              arg_pushb                       0x3C
+  0405  76                set_player_start_position       ... 0x1 /* 1 */, r60-r63
+  0406  093CE3000000      leti                            r60, 0x000000E3
+  040C  093D00000000      leti                            r61, 0x00000000
+  0412  093E4D010000      leti                            r62, 0x0000014D
+  0418  093F00000000      leti                            r63, 0x00000000
+  041E  4902000000        arg_pushl                       0x00000002
+  0423  4A3C              arg_pushb                       0x3C
+  0425  76                set_player_start_position       ... 0x2 /* 2 */, r60-r63
+  0426  093CD7000000      leti                            r60, 0x000000D7
+  042C  093D00000000      leti                            r61, 0x00000000
+  0432  093E52010000      leti                            r62, 0x00000152
+  0438  093F00000000      leti                            r63, 0x00000000
+  043E  4903000000        arg_pushl                       0x00000003
+  0443  4A3C              arg_pushb                       0x3C
+  0445  76                set_player_start_position       ... 0x3 /* 3 */, r60-r63
+  0446  297804            call                            label0478 /* 04A6 */
+  0449  01                ret
+
+label03E9:
+  // Referenced by instruction at 04B6
+  044A  70                p_action_disable
+  044B  4900000000        arg_pushl                       0x00000000
+  0450  72                disable_movement1               ... 0x0 /* 0 */
+  0451  4901000000        arg_pushl                       0x00000001
+  0456  72                disable_movement1               ... 0x1 /* 1 */
+  0457  4902000000        arg_pushl                       0x00000002
+  045C  72                disable_movement1               ... 0x2 /* 2 */
+  045D  4903000000        arg_pushl                       0x00000003
+  0462  72                disable_movement1               ... 0x3 /* 3 */
+  0463  98                hud_hide
+  0464  9A                cine_enable
+  0465  82                cam_zmin
+  0466  298503            call                            label0385 /* 0490 */
+  0469  01                ret
+
+label03EA:
+  // Referenced by instruction at 067B
+  046A  83                cam_zmout
+  046B  9B                cine_disable
+  046C  99                hud_show
+  046D  4900000000        arg_pushl                       0x00000000
+  0472  73                enable_movement1                ... 0x0 /* 0 */
+  0473  4901000000        arg_pushl                       0x00000001
+  0478  73                enable_movement1                ... 0x1 /* 1 */
+  0479  4902000000        arg_pushl                       0x00000002
+  047E  73                enable_movement1                ... 0x2 /* 2 */
+  047F  4903000000        arg_pushl                       0x00000003
+  0484  73                enable_movement1                ... 0x3 /* 3 */
+  0485  71                p_action_enable
+  0486  01                ret
+
+label03F3:
+  // Referenced by instructions at 067F, 06F6
+  0487  70                p_action_disable
+  0488  82                cam_zmin
+  0489  298503            call                            label0385 /* 0490 */
+  048C  01                ret
+
+label03F4:
+  // Referenced by instructions at 06F0, 072F
+  048D  83                cam_zmout
+  048E  71                p_action_enable
+  048F  01                ret
+
+label0385:
+  // Referenced by instructions at 0466, 0489
+  0490  094800000000      leti                            r72, 0x00000000
+
+label0386:
+  // Referenced by instruction at 049D
+  0496  02                sync
+  0497  194801000000      addi                            r72, 0x00000001
+  049D  3F481E000000...   jmpi_le                         r72, 0x0000001E, label0386 /* 0496 */
+  04A5  01                ret
+
+label0478:
+  // Referenced by instruction at 0446
+  // Referenced by map enemy ES-00-001 [EnemySetEntry type=0019 "TObjNpcSoldierBase/TObjNpcSoldierBase" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-12.9355 y=0 z=66.5647 x_angle=00000000 y_angle=00008000 z_angle=00000000 params=[0 0 0 144 1144 0000 0000]]
+  04A6  2DFE01000000...   jmpi_eq                         r254, 0x00000001, label0006 /* 067F */
+  04AE  2D7E01000000...   jmpi_eq                         r126, 0x00000001, label0011 /* 06F6 */
+  04B6  29E903            call                            label03E9 /* 044A */
+  04B9  4990000000        arg_pushl                       0x00000090
+  04BE  4E00671D526B...   arg_pushs                       "最初に言っておくが、\n我々、そして依頼内容に\n対する詮索は無用だ。"
+  0503  50                message                         ... 0x90 /* 144 */, "最初に言っておくが、\n我々、そして依頼内容に\n対する詮索は無用だ。"
+  0504  4E1B545F3061...   arg_pushs                       "君たちは依頼内容を\n達成してくれれば\nそれで良い。"
+  0539  5B                add_msg                         ... "君たちは依頼内容を\n達成してくれれば\nそれで良い。"
+  053A  4E5D308C306A...   arg_pushs                       "それなりの報酬は用意してある。\n余計な勘ぐりはしないことだ。"
+  0579  5B                add_msg                         ... "それなりの報酬は用意してある。\n余計な勘ぐりはしないことだ。"
+  057A  4E5530663001...   arg_pushs                       "さて、今回君たちに\n頼みたい依頼だが……"
+  05A5  5B                add_msg                         ... "さて、今回君たちに\n頼みたい依頼だが……"
+  05A6  4EAF30EC30FC...   arg_pushs                       "クレーター内部に\nエネミーが大量発生している。"
+  05D7  5B                add_msg                         ... "クレーター内部に\nエネミーが大量発生している。"
+  05D8  4E5D308C3089...   arg_pushs                       "それらのエネミーを\nすべて排除してもらいたい。\nこれ以上発生しなくなるまで、だ。"
+  062B  5B                add_msg                         ... "それらのエネミーを\nすべて排除してもらいたい。\nこれ以上発生しなくなるまで、だ。"
+  062C  4E756950966E...   arg_pushs                       "極限の戦いが強いられることになる。\n入念に準備して\n任務にあたってくれ。"
+  0677  5B                add_msg                         ... "極限の戦いが強いられることになる。\n入念に準備して\n任務にあたってくれ。"
+  0678  5C                message_end
+  0679  107E              set                             r126
+  067B  29EA03            call                            label03EA /* 046A */
+  067E  01                ret
+
+label0006:
+  // Referenced by instruction at 04A6
+  067F  29F303            call                            label03F3 /* 0487 */
+  0682  4990000000        arg_pushl                       0x00000090
+  0687  4EFB4ED95254...   arg_pushs                       "任務達成だな。\nよくやってくれた。"
+  06AC  50                message                         ... 0x90 /* 144 */, "任務達成だな。\nよくやってくれた。"
+  06AD  4E31586C916F...   arg_pushs                       "報酬はハンターズギルドの\n受付に預けてある。\n受け取ってくれ。"
+  06EE  5B                add_msg                         ... "報酬はハンターズギルドの\n受付に預けてある。\n受け取ってくれ。"
+  06EF  5C                message_end
+  06F0  29F403            call                            label03F4 /* 048D */
+  06F3  10FF              set                             r255
+  06F5  01                ret
+
+label0011:
+  // Referenced by instruction at 04AE
+  06F6  29F303            call                            label03F3 /* 0487 */
+  06F9  4990000000        arg_pushl                       0x00000090
+  06FE  4EFB4ED9524C...   arg_pushs                       "任務が完了したら報告してくれ。\n健闘を祈る。"
+  072D  50                message                         ... 0x90 /* 144 */, "任務が完了したら報告してくれ。\n健闘を祈る。"
+  072E  5C                message_end
+  072F  29F403            call                            label03F4 /* 048D */
+  0732  01                ret
+
+label0044:
+  // Referenced by instruction at 024A
+  0733  2D8801000000...   jmpi_eq                         r136, 0x00000001, label0001 /* 03AD */
+  073B  B14800            thread_stg                      label0048 /* 08A7 */
+  073E  01                ret
+
+label004E:
+  // Referenced by instruction at 0769
+  073F  2D8801000000...   jmpi_eq                         r136, 0x00000001, label0001 /* 03AD */
+  0747  2D8701000000...   jmpi_eq                         r135, 0x00000001, label0001 /* 03AD */
+  074F  2D7801000000...   jmpi_eq                         r120, 0x00000001, label0001 /* 03AD */
+  0757  292200            call                            label0022 /* 09A9 */
+  075A  097305000000      leti                            r115, 0x00000005
+  0760  09740A000000      leti                            r116, 0x0000000A
+  0766  887573            if_zone_clear                   r117, r115-r116
+  0769  2D7500000000...   jmpi_eq                         r117, 0x00000000, label004E /* 073F */
+  0771  292C00            call                            label002C /* 099B */
+  0774  1078              set                             r120
+  0776  01                ret
+
+label0004:
+  // Referenced by instruction at 07A1
+  0777  2D8801000000...   jmpi_eq                         r136, 0x00000001, label0001 /* 03AD */
+  077F  2D8701000000...   jmpi_eq                         r135, 0x00000001, label0001 /* 03AD */
+  0787  2D7901000000...   jmpi_eq                         r121, 0x00000001, label0001 /* 03AD */
+  078F  292200            call                            label0022 /* 09A9 */
+  0792  097305000000      leti                            r115, 0x00000005
+  0798  097414000000      leti                            r116, 0x00000014
+  079E  887573            if_zone_clear                   r117, r115-r116
+  07A1  2D7500000000...   jmpi_eq                         r117, 0x00000000, label0004 /* 0777 */
+  07A9  292C00            call                            label002C /* 099B */
+  07AC  1079              set                             r121
+  07AE  4901000000        arg_pushl                       0x00000001
+  07B3  54                sound_effect                    ... 0x1 /* 1 */
+  07B4  01                ret
+
+label0007:
+  // Referenced by instruction at 07DF
+  07B5  2D8801000000...   jmpi_eq                         r136, 0x00000001, label0001 /* 03AD */
+  07BD  2D8701000000...   jmpi_eq                         r135, 0x00000001, label0001 /* 03AD */
+  07C5  2D7A01000000...   jmpi_eq                         r122, 0x00000001, label0001 /* 03AD */
+  07CD  292200            call                            label0022 /* 09A9 */
+  07D0  097305000000      leti                            r115, 0x00000005
+  07D6  09741E000000      leti                            r116, 0x0000001E
+  07DC  887573            if_zone_clear                   r117, r115-r116
+  07DF  2D7500000000...   jmpi_eq                         r117, 0x00000000, label0007 /* 07B5 */
+  07E7  292C00            call                            label002C /* 099B */
+  07EA  107A              set                             r122
+  07EC  4901000000        arg_pushl                       0x00000001
+  07F1  54                sound_effect                    ... 0x1 /* 1 */
+  07F2  01                ret
+
+label000E:
+  // Referenced by instruction at 081D
+  07F3  2D8801000000...   jmpi_eq                         r136, 0x00000001, label0001 /* 03AD */
+  07FB  2D8701000000...   jmpi_eq                         r135, 0x00000001, label0001 /* 03AD */
+  0803  2D7B01000000...   jmpi_eq                         r123, 0x00000001, label0001 /* 03AD */
+  080B  292200            call                            label0022 /* 09A9 */
+  080E  097305000000      leti                            r115, 0x00000005
+  0814  097428000000      leti                            r116, 0x00000028
+  081A  887573            if_zone_clear                   r117, r115-r116
+  081D  2D7500000000...   jmpi_eq                         r117, 0x00000000, label000E /* 07F3 */
+  0825  292C00            call                            label002C /* 099B */
+  0828  107B              set                             r123
+  082A  4901000000        arg_pushl                       0x00000001
+  082F  54                sound_effect                    ... 0x1 /* 1 */
+  0830  01                ret
+
+label0013:
+  // Referenced by instruction at 085B
+  0831  2D8801000000...   jmpi_eq                         r136, 0x00000001, label0001 /* 03AD */
+  0839  2D8701000000...   jmpi_eq                         r135, 0x00000001, label0001 /* 03AD */
+  0841  2D7C01000000...   jmpi_eq                         r124, 0x00000001, label0001 /* 03AD */
+  0849  292200            call                            label0022 /* 09A9 */
+  084C  097305000000      leti                            r115, 0x00000005
+  0852  097432000000      leti                            r116, 0x00000032
+  0858  887573            if_zone_clear                   r117, r115-r116
+  085B  2D7500000000...   jmpi_eq                         r117, 0x00000000, label0013 /* 0831 */
+  0863  107C              set                             r124
+  0865  4901000000        arg_pushl                       0x00000001
+  086A  54                sound_effect                    ... 0x1 /* 1 */
+  086B  01                ret
+
+label001A:
+  // Referenced by instruction at 0896
+  086C  2D8801000000...   jmpi_eq                         r136, 0x00000001, label0001 /* 03AD */
+  0874  2D8701000000...   jmpi_eq                         r135, 0x00000001, label0001 /* 03AD */
+  087C  2D7D01000000...   jmpi_eq                         r125, 0x00000001, label0001 /* 03AD */
+  0884  292200            call                            label0022 /* 09A9 */
+  0887  097305000000      leti                            r115, 0x00000005
+  088D  09743C000000      leti                            r116, 0x0000003C
+  0893  887573            if_zone_clear                   r117, r115-r116
+  0896  2D7500000000...   jmpi_eq                         r117, 0x00000000, label001A /* 086C */
+  089E  107C              set                             r124
+  08A0  4901000000        arg_pushl                       0x00000001
+  08A5  54                sound_effect                    ... 0x1 /* 1 */
+  08A6  01                ret
+
+label0048:
+  // Referenced by instructions at 073B, 08D1
+  08A7  2DFE01000000...   jmpi_eq                         r254, 0x00000001, label0001 /* 03AD */
+  08AF  2D8801000000...   jmpi_eq                         r136, 0x00000001, label0001 /* 03AD */
+  08B7  2D8701000000...   jmpi_eq                         r135, 0x00000001, label0001 /* 03AD */
+  08BF  292200            call                            label0022 /* 09A9 */
+  08C2  097305000000      leti                            r115, 0x00000005
+  08C8  09740A000000      leti                            r116, 0x0000000A
+  08CE  887573            if_zone_clear                   r117, r115-r116
+  08D1  2D7500000000...   jmpi_eq                         r117, 0x00000000, label0048 /* 08A7 */
+
+label0032:
+label0040:
+  // Referenced by instruction at 08F0
+  08D9  02                sync
+  08DA  2DFE01000000...   jmpi_eq                         r254, 0x00000001, label0001 /* 03AD */
+  08E2  117F              clear                           r127
+  08E4  1180              clear                           r128
+  08E6  1181              clear                           r129
+  08E8  1182              clear                           r130
+  08EA  4884              arg_pushr                       r132
+  08EC  4A7F              arg_pushb                       0x7F
+  08EE  F922              get_player_hp_tp                ... r132, r127-r130
+  08F0  2D8000000000...   jmpi_eq                         r128, 0x00000000, label0032 /* 08D9 */
+  08F8  293B00            call                            label003B /* 0923 */
+  08FB  293700            call                            label0037 /* 09BE */
+  08FE  4EA830CD30DF...   arg_pushs                       "エネミーを殲滅しました！ "
+  091B  5A                window_msg                      ... "エネミーを殲滅しました！ "
+  091C  5E                window_msg_end
+  091D  293E00            call                            label003E /* 092C */
+  0920  10FE              set                             r254
+  0922  01                ret
+
+label003B:
+  // Referenced by instruction at 08F8
+  0923  70                p_action_disable
+  0924  64                npc_talk_off
+  0925  290200            call                            label0002 /* 095E */
+  0928  98                hud_hide
+  0929  9A                cine_enable
+  092A  82                cam_zmin
+  092B  01                ret
+
+label003E:
+  // Referenced by instruction at 091D
+  092C  83                cam_zmout
+  092D  9B                cine_disable
+  092E  99                hud_show
+  092F  294F00            call                            label004F /* 0935 */
+  0932  65                npc_talk_on
+  0933  71                p_action_enable
+  0934  01                ret
+
+label004F:
+  // Referenced by instructions at 092F, 0A68, 0AF7, 0BAA, 0C3B, 0CB0, 0D49, 0E1A, 0E91, 0F68
+  0935  41840418001B...   switch_call                     r132, [label0018 /* 0942 */, label001B /* 0949 */, label001E /* 0950 */, label0021 /* 0957 */]
+  0940  71                p_action_enable
+  0941  01                ret
+
+label0018:
+  // Referenced by instruction at 0935
+  0942  4900000000        arg_pushl                       0x00000000
+  0947  73                enable_movement1                ... 0x0 /* 0 */
+  0948  01                ret
+
+label001B:
+  // Referenced by instruction at 0935
+  0949  4901000000        arg_pushl                       0x00000001
+  094E  73                enable_movement1                ... 0x1 /* 1 */
+  094F  01                ret
+
+label001E:
+  // Referenced by instruction at 0935
+  0950  4902000000        arg_pushl                       0x00000002
+  0955  73                enable_movement1                ... 0x2 /* 2 */
+  0956  01                ret
+
+label0021:
+  // Referenced by instruction at 0935
+  0957  4903000000        arg_pushl                       0x00000003
+  095C  73                enable_movement1                ... 0x3 /* 3 */
+  095D  01                ret
+
+label0002:
+  // Referenced by instructions at 0925, 09C5, 0A6C, 0AFB, 0BAE, 0C3F, 0CB4, 0D4D, 0E1E, 0E95
+  095E  4184044A004B...   switch_call                     r132, [label004A /* 096A */, label004B /* 0972 */, label004D /* 097A */, label0050 /* 0982 */]
+  0969  01                ret
+
+label004A:
+  // Referenced by instruction at 095E
+  096A  70                p_action_disable
+  096B  4900000000        arg_pushl                       0x00000000
+  0970  72                disable_movement1               ... 0x0 /* 0 */
+  0971  01                ret
+
+label004B:
+  // Referenced by instruction at 095E
+  0972  70                p_action_disable
+  0973  4901000000        arg_pushl                       0x00000001
+  0978  72                disable_movement1               ... 0x1 /* 1 */
+  0979  01                ret
+
+label004D:
+  // Referenced by instruction at 095E
+  097A  70                p_action_disable
+  097B  4902000000        arg_pushl                       0x00000002
+  0980  72                disable_movement1               ... 0x2 /* 2 */
+  0981  01                ret
+
+label0050:
+  // Referenced by instruction at 095E
+  0982  70                p_action_disable
+  0983  4903000000        arg_pushl                       0x00000003
+  0988  72                disable_movement1               ... 0x3 /* 3 */
+  0989  01                ret
+
+label0015:
+  // Referenced by instruction at 099B
+  098A  02                sync
+  098B  02                sync
+  098C  02                sync
+  098D  02                sync
+  098E  02                sync
+  098F  01                ret
+
+label0010:
+  // Referenced by instructions at 099E, 09A2, 09A5
+  0990  02                sync
+  0991  02                sync
+  0992  02                sync
+  0993  02                sync
+  0994  02                sync
+  0995  02                sync
+  0996  02                sync
+  0997  02                sync
+  0998  02                sync
+  0999  02                sync
+  099A  01                ret
+
+label002C:
+  // Referenced by instructions at 0771, 07A9, 07E7, 0825, 09A9, 09AC, 09B3
+  099B  291500            call                            label0015 /* 098A */
+  099E  291000            call                            label0010 /* 0990 */
+  09A1  01                ret
+
+label0016:
+  09A2  291000            call                            label0010 /* 0990 */
+  09A5  291000            call                            label0010 /* 0990 */
+  09A8  01                ret
+
+label0022:
+  // Referenced by instructions at 0757, 078F, 07CD, 080B, 0849, 0884, 08BF, 09B0, 09B7, 09BA
+  09A9  292C00            call                            label002C /* 099B */
+  09AC  292C00            call                            label002C /* 099B */
+  09AF  01                ret
+
+label0034:
+  // Referenced by instructions at 09BE, 09C1
+  09B0  292200            call                            label0022 /* 09A9 */
+  09B3  292C00            call                            label002C /* 099B */
+  09B6  01                ret
+
+label002E:
+  09B7  292200            call                            label0022 /* 09A9 */
+  09BA  292200            call                            label0022 /* 09A9 */
+  09BD  01                ret
+
+label0037:
+  // Referenced by instruction at 08FB
+  09BE  293400            call                            label0034 /* 09B0 */
+  09C1  293400            call                            label0034 /* 09B0 */
+  09C4  01                ret
+
+label046E:
+  // Referenced by map enemy ES-00-010 [EnemySetEntry type=001F "TObjNpcNurseBase" num_children=0000 floor=0000 room=0028 wave_number=0000 wave_number2=0000 a1=0000 x=53.4992 y=0 z=-26.4967 x_angle=00000000 y_angle=0000E000 z_angle=00000000 params=[18 0 0 134 1134 0001 0000]]
+  09C5  290200            call                            label0002 /* 095E */
+  09C8  4986000000        arg_pushl                       0x00000086
+  09CD  4EB2758C3066...   arg_pushs                       "疲れて傷ついた体は\nメディカルセンターで\nリフレッシュ！"
+  0A08  50                message                         ... 0x86 /* 134 */, "疲れて傷ついた体は\nメディカルセンターで\nリフレッシュ！"
+  0A09  4E26624630C7...   arg_pushs                       "戦う勇気も必要だけど、\n時には撤退する勇気も必要よ。"
+  0A40  5B                add_msg                         ... "戦う勇気も必要だけど、\n時には撤退する勇気も必要よ。"
+  0A41  4E7A6C573066...   arg_pushs                       "決して無理をせずに\nがんばってね！"
+  0A66  5B                add_msg                         ... "決して無理をせずに\nがんばってね！"
+  0A67  5C                message_end
+  0A68  294F00            call                            label004F /* 0935 */
+  0A6B  01                ret
+
+label046F:
+  // Referenced by map enemy ES-00-003 [EnemySetEntry type=0007 "TObjNpcFemaleTall/TObjNpcFemaleTall" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=156.003 y=0 z=-49.9997 x_angle=00000000 y_angle=0000E000 z_angle=00000000 params=[30 0 0 135 1135 0001 0000]]
+  0A6C  290200            call                            label0002 /* 095E */
+  0A6F  4987000000        arg_pushl                       0x00000087
+  0A74  4E533053306E...   arg_pushs                       "ここのところ、\nこのあたりを通る人に\n緊張感が感じられるわ。"
+  0AB3  50                message                         ... 0x87 /* 135 */, "ここのところ、\nこのあたりを通る人に\n緊張感が感じられるわ。"
+  0AB4  4ED130A430AA...   arg_pushs                       "パイオニア２の中は\n大丈夫だけど、ラグオルは\n大変なのかしら？"
+  0AF5  5B                add_msg                         ... "パイオニア２の中は\n大丈夫だけど、ラグオルは\n大変なのかしら？"
+  0AF6  5C                message_end
+  0AF7  294F00            call                            label004F /* 0935 */
+  0AFA  01                ret
+
+label0470:
+  // Referenced by map enemy ES-00-004 [EnemySetEntry type=001A "TObjNpcSoldierMacho/TObjNpcSoldierMacho" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=237.999 y=0 z=-14.0001 x_angle=00000000 y_angle=0000E000 z_angle=00000000 params=[0 0 0 136 1136 0000 0000]]
+  0AFB  290200            call                            label0002 /* 095E */
+  0AFE  4988000000        arg_pushl                       0x00000088
+  0B03  4E533053306E...   arg_pushs                       "ここの転送装置から\n惑星ラグオルヘと通じている。"
+  0B36  50                message                         ... 0x88 /* 136 */, "ここの転送装置から\n惑星ラグオルヘと通じている。"
+  0B37  4ED1601F66E9...   arg_pushs                       "惑星ラグオルは\n隕石衝突後の収拾が\n未だ完全ではない。"
+  0B70  5B                add_msg                         ... "惑星ラグオルは\n隕石衝突後の収拾が\n未だ完全ではない。"
+  0B71  4E554F4C3042...   arg_pushs                       "何があろうと動じない\n準備と心構えを怠らぬようにな。"
+  0BA8  5B                add_msg                         ... "何があろうと動じない\n準備と心構えを怠らぬようにな。"
+  0BA9  5C                message_end
+  0BAA  294F00            call                            label004F /* 0935 */
+  0BAD  01                ret
+
+label0471:
+  // Referenced by map enemy ES-00-005 [EnemySetEntry type=0019 "TObjNpcSoldierBase/TObjNpcSoldierBase" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=238.004 y=0 z=63.0041 x_angle=00000000 y_angle=0000A000 z_angle=00000000 params=[0 0 0 137 1137 0000 0000]]
+  0BAE  290200            call                            label0002 /* 095E */
+  0BB1  4989000000        arg_pushl                       0x00000089
+  0BB6  4E11620530CD...   arg_pushs                       "我々軍部は、\n今回のような一大事では\n先陣を切って動かなければならん。"
+  0BFF  50                message                         ... 0x89 /* 137 */, "我々軍部は、\n今回のような一大事では\n先陣を切って動かなければならん。"
+  0C00  4E86766E305F...   arg_pushs                       "皆のために体を張って……"
+  0C1B  5B                add_msg                         ... "皆のために体を張って……"
+  0C1C  4ECD8EBA4E68...   arg_pushs                       "軍人とはそういうものだ。\n"
+  0C39  5B                add_msg                         ... "軍人とはそういうものだ。\n"
+  0C3A  5C                message_end
+  0C3B  294F00            call                            label004F /* 0935 */
+  0C3E  01                ret
+
+label0472:
+  // Referenced by map enemy ES-00-002 [EnemySetEntry type=001A "TObjNpcSoldierMacho/TObjNpcSoldierMacho" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=168.284 y=0 z=84.5377 x_angle=00000000 y_angle=0000A000 z_angle=00000000 params=[24 0 0 138 1138 0001 0000]]
+  0C3F  290200            call                            label0002 /* 095E */
+  0C42  498A000000        arg_pushl                       0x0000008A
+  0C47  4EFB4ED9522D...   arg_pushs                       "任務中の私語は禁じられている。"
+  0C68  50                message                         ... 0x8A /* 138 */, "任務中の私語は禁じられている。"
+  0C69  4E262026206E...   arg_pushs                       "……のだが、\n諸事情で出動できない\n我々に代わってがんばってくれ。"
+  0CAE  5B                add_msg                         ... "……のだが、\n諸事情で出動できない\n我々に代わってがんばってくれ。"
+  0CAF  5C                message_end
+  0CB0  294F00            call                            label004F /* 0935 */
+  0CB3  01                ret
+
+label0473:
+  // Referenced by map enemy ES-00-006 [EnemySetEntry type=000D "TObjNpcMaleOld/TObjNpcMaleOld" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=-0.0996329 y=0 z=39.7933 x_angle=00000000 y_angle=00008000 z_angle=00000000 params=[26 0 0 139 1139 0001 0000]]
+  0CB4  290200            call                            label0002 /* 095E */
+  0CB7  498B000000        arg_pushl                       0x0000008B
+  0CBC  4E0067D18F01...   arg_pushs                       "最近、あの制服のやつらの\n動きがあわただしい。"
+  0CED  50                message                         ... 0x8B /* 139 */, "最近、あの制服のやつらの\n動きがあわただしい。"
+  0CEE  4E9596F3776E...   arg_pushs                       "隕石の調査だと言っているが\nはたして……？"
+  0D1B  5B                add_msg                         ... "隕石の調査だと言っているが\nはたして……？"
+  0D1C  4E5D308C306B...   arg_pushs                       "それにしても、\nあまりに緊迫感があるが。"
+  0D47  5B                add_msg                         ... "それにしても、\nあまりに緊迫感があるが。"
+  0D48  5C                message_end
+  0D49  294F00            call                            label004F /* 0935 */
+  0D4C  01                ret
+
+label0474:
+  // Referenced by map enemy ES-00-007 [EnemySetEntry type=001E "TObjNpcExpertBase" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=-147 y=0 z=-7.99654 x_angle=00000000 y_angle=00006900 z_angle=00000000 params=[30 0 0 140 1140 0001 0000]]
+  0D4D  290200            call                            label0002 /* 095E */
+  0D50  498C000000        arg_pushl                       0x0000008C
+  0D55  4EE577633066...   arg_pushs                       "知っているか……？"
+  0D6A  50                message                         ... 0x8C /* 140 */, "知っているか……？"
+  0D6B  4E53306E304D...   arg_pushs                       "この前、このパイオニア２が\n激しく揺れたのは隕石が\nすぐ近くをかすめたせいさ。"
+  0DBC  5B                add_msg                         ... "この前、このパイオニア２が\n激しく揺れたのは隕石が\nすぐ近くをかすめたせいさ。"
+  0DBD  4E5D306E3095...   arg_pushs                       "その隕石はその直後\nラグオルヘと衝突したらしい。"
+  0DF0  5B                add_msg                         ... "その隕石はその直後\nラグオルヘと衝突したらしい。"
+  0DF1  4E57304B3057...   arg_pushs                       "しかし謎だらけだよ。\nこの事態は……"
+  0E18  5B                add_msg                         ... "しかし謎だらけだよ。\nこの事態は……"
+  0E19  5C                message_end
+  0E1A  294F00            call                            label004F /* 0935 */
+  0E1D  01                ret
+
+label0475:
+  // Referenced by map enemy ES-00-00E [EnemySetEntry type=0005 "TObjNpcFemaleMacho/TObjNpcFemaleMacho" num_children=0000 floor=0000 room=001E wave_number=0000 wave_number2=0000 a1=0000 x=16.004 y=0 z=5.99567 x_angle=00000000 y_angle=FFFFD000 z_angle=00000000 params=[22 0 0 141 1141 0001 0000]]
+  0E1E  290200            call                            label0002 /* 095E */
+  0E21  498D000000        arg_pushl                       0x0000008D
+  0E26  4ECA4EE5656F...   arg_pushs                       "今日はお買い物日和ね。\nって、私ったら\nまたここに来ちゃったわ。"
+  0E69  50                message                         ... 0x8D /* 141 */, "今日はお買い物日和ね。\nって、私ったら\nまたここに来ちゃったわ。"
+  0E6A  4E262026200000    arg_pushs                       "……"
+  0E71  5B                add_msg                         ... "……"
+  0E72  4E2620262042...   arg_pushs                       "……あら、聞こえちゃった？"
+  0E8F  5B                add_msg                         ... "……あら、聞こえちゃった？"
+  0E90  5C                message_end
+  0E91  294F00            call                            label004F /* 0935 */
+  0E94  01                ret
+
+label0476:
+  // Referenced by map enemy ES-00-008 [EnemySetEntry type=0004 "TObjNpcFemaleFat/TObjNpcFemaleFat" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=-212 y=0 z=-140 x_angle=00000000 y_angle=00000000 z_angle=00000000 params=[37 0 0 142 1142 0001 0000]]
+  0E95  290200            call                            label0002 /* 095E */
+  0E98  498E000000        arg_pushl                       0x0000008E
+  0E9D  4E423093305F...   arg_pushs                       "あんた！\nあんた！\nあんた！"
+  0EBC  50                message                         ... 0x8E /* 142 */, "あんた！\nあんた！\nあんた！"
+  0EBD  4E5D3093306A...   arg_pushs                       "そんなに、のんきに\nしている場合じゃないわよ！"
+  0EEE  5B                add_msg                         ... "そんなに、のんきに\nしている場合じゃないわよ！"
+  0EEF  4E53306E304D...   arg_pushs                       "この前のあのすごい揺れ！\nあたしゃ目ん玉が飛び出たわよ！"
+  0F2A  5B                add_msg                         ... "この前のあのすごい揺れ！\nあたしゃ目ん玉が飛び出たわよ！"
+  0F2B  4E7E30413001...   arg_pushs                       "まぁ、冗談だけどね……\nそれくらいスゴかったってことよ！"
+  0F66  5B                add_msg                         ... "まぁ、冗談だけどね……\nそれくらいスゴかったってことよ！"
+  0F67  5C                message_end
+  0F68  294F00            call                            label004F /* 0935 */
+  0F6B  01                ret

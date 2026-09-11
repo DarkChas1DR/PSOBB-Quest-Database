@@ -1,0 +1,38 @@
+--- backup-script
++++ current-script
+@@ -194,7 +194,9 @@
+   jmpi_eq                         r255, 0x00000001, label0001
+   jmpi_eq                         r240, 0x00000001, label00CC
+   jmpi_eq                         r0, 0x00000001, label00CB
+-  call                            label012D
++  jmp                             label0002
++
++label0005@0x0005:
+   leti_fixed_camera               r60-r65
+   call                            label012E
+   arg_pushl                       0x00000069
+@@ -652,3 +654,24 @@
+   window_msg                      ... "Debug: This function will\ncrash you in a later build."
+   window_msg_end
+   ret
++
++label0002@0x0002:
++  arg_pushs                       "Skip startup dialogue?"
++  window_msg                      ... "Skip startup dialogue?"
++  window_msg_end
++  clear                           r192
++  arg_pushb                       0xC0
++  arg_pushs                       "YES\nNO"
++  list                            ... r192, "YES\nNO"
++  switch_jmp                      r192, [label0003, label0004]
++
++label0003@0x0003:
++  set                             r0
++  ret
++
++label0004@0x0004:
++  call                            label012D
++  jmp                             label0005
++  nop
++  nop
++  nop

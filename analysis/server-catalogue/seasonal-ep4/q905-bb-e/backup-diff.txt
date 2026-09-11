@@ -1,0 +1,50 @@
+--- backup-script
++++ current-script
+@@ -4,7 +4,7 @@
+ .short_desc "Christmas is here!"
+ .long_desc "Staff wants to hold\na party on Ragol, \nbut they don\'t want \nthe monsters to ruin it.\nHelp clear them out \nbefore the party starts!"
+ .episode Episode4
+-.header_episode 0x00
++.header_episode 0x02
+ .language E
+ .max_players 0
+ .solo_unlock_flag 0x0000
+@@ -133,7 +133,9 @@
+   jmpi_eq                         r253, 0x00000001, label00FC
+   jmpi_eq                         r254, 0x00000001, label00FA
+   jmpi_eq                         r0, 0x00000001, label00C9
+-  call                            label00DC
++  call                            label0003
++
++label0006@0x0006:
+   arg_pushl                       0x00000064
+   arg_pushs                       "Greetings!"
+   message                         ... 0x64 /* 100 */, "Greetings!"
+@@ -836,3 +838,27 @@
+   add_msg                         ... "Scripting assistance by:\n<color 4>Lee<color 0>"
+   window_msg_end
+   ret
++
++label0003@0x0003:
++  arg_pushs                       "Skip startup dialogue?"
++  window_msg                      ... "Skip startup dialogue?"
++  window_msg_end
++  clear                           r192
++  arg_pushb                       0xC0
++  arg_pushs                       "YES\nNO"
++  list                            ... r192, "YES\nNO"
++  switch_jmp                      r192, [label0004, label0005]
++
++label0004@0x0004:
++  set                             r74
++  arg_pushl                       0x00000001
++  bgm                             ... 0x1 /* 1 */
++  call                            label00DD
++  ret
++
++label0005@0x0005:
++  call                            label00DC
++  jmp                             label0006
++  nop
++  nop
++  nop

@@ -1,0 +1,494 @@
+.version BB_V4
+.quest_num 3
+.name "サイフの紐"
+.short_desc "浪費家ハンターの\n妻の憂鬱"
+.long_desc "依頼主：ハンター・ギゼルの妻\n依頼内容：\n  ウチの旦那は 浪費家で、\n  ちょっと今のよりイイ武器が\n  あったら、すぐに買い替えて\n  しまうのです。何とか説得して\n  もらえないでしょうか。\n報酬：  ３００メセタ"
+.episode Episode1
+.header_episode 0x00
+.language J
+.max_players 1
+.solo_unlock_flag 0x0065
+.solo_unlock_flag 0x0067
+.solo_unlock_flag 0x006B
+.solo_unlock_flag 0x01F9
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+// 0x135C data bytes in script section with 41 labels
+
+start:
+  0000  F8BC00000000      set_episode                     0x00000000
+  0006  17F60066          gget                            0x00F6, r102
+  000A  17F20067          gget                            0x00F2, r103
+  000E  17F2006E          gget                            0x00F2, r110
+  0012  17F10065          gget                            0x00F1, r101
+  0016  BA6F00            set_qt_exit                     label006F /* 0031 */
+  0019  A56F00            set_qt_cancel                   label006F /* 0031 */
+  001C  4900000000        arg_pushl                       0x00000000
+  0021  4B9600            arg_pushw                       0x0096
+  0024  95                set_floor_handler               ... 0x0 /* 0 */, label0096 /* 003D */
+  0025  A2FA00            set_qt_success                  label00FA /* 0062 */
+  0028  F9510000000000    bb_map_designate                0x00, 0x00, 0x00, 0x00, 0x00
+  002F  01                ret
+
+label0001:
+  // Referenced by instruction at 0031
+  0030  01                ret
+
+label006F:
+  // Referenced by instructions at 0016, 0019
+  0031  2D6E01000000...   jmpi_eq                         r110, 0x00000001, label0001 /* 0030 */
+  0039  14F200            gclear                          0x00F2
+  003C  01                ret
+
+label0096:
+  // Referenced by instruction at 0024
+  003D  093CED000000      leti                            r60, 0x000000ED
+  0043  093D00000000      leti                            r61, 0x00000000
+  0049  093E4D010000      leti                            r62, 0x0000014D
+  004F  093FFAFFFFFF      leti                            r63, 0xFFFFFFFA
+  0055  4900000000        arg_pushl                       0x00000000
+  005A  4A3C              arg_pushb                       0x3C
+  005C  76                set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  005D  E5                warp_off
+  005E  293601            call                            label0136 /* 00B8 */
+  0061  01                ret
+
+label00FA:
+  // Referenced by instruction at 0025
+  0062  136900            gset                            0x0069
+  0065  4E3C0063006F...   arg_pushs                       "<color 1>３００<color 0>メセタ受け取った。"
+  00A4  5A                window_msg                      ... "<color 1>３００<color 0>メセタ受け取った。"
+  00A5  4901000000        arg_pushl                       0x00000001
+  00AA  55                bgm                             ... 0x1 /* 1 */
+  00AB  5E                window_msg_end
+  00AC  4900000000        arg_pushl                       0x00000000
+  00B1  492C010000        arg_pushl                       0x0000012C
+  00B6  B0                pl_add_meseta                   ... 0x0 /* 0 */, 0x12C /* 300 */
+  00B7  01                ret
+
+label0136:
+  // Referenced by instruction at 005E
+  // Referenced by map enemy ES-00-001 [EnemySetEntry type=0004 "TObjNpcFemaleFat/TObjNpcFemaleFat" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-3.00204 y=0 z=63.9975 x_angle=00000000 y_angle=00007800 z_angle=00000000 params=[0 0 0 100 310 0000 0000]]
+  00B8  2DFF01000000...   jmpi_eq                         r255, 0x00000001, label013E /* 073F */
+  00C0  2D0901000000...   jmpi_eq                         r9, 0x00000001, label013D /* 0672 */
+  00C8  2D0801000000...   jmpi_eq                         r8, 0x00000001, label013C /* 0643 */
+  00D0  2D0701000000...   jmpi_eq                         r7, 0x00000001, label013B /* 05A3 */
+  00D8  2D0501000000...   jmpi_eq                         r5, 0x00000001, label013A /* 049A */
+  00E0  2D0301000000...   jmpi_eq                         r3, 0x00000001, label0139 /* 03B3 */
+  00E8  2D0101000000...   jmpi_eq                         r1, 0x00000001, label0138 /* 02C8 */
+  00F0  2D0001000000...   jmpi_eq                         r0, 0x00000001, label0137 /* 0273 */
+  00F8  29DE00            call                            label00DE /* 1341 */
+  00FB  4964000000        arg_pushl                       0x00000064
+  0100  4EA630C1306E...   arg_pushs                       "ウチの<color 1>唐変木<color 0>、\nムダってもんが 解ってないのよ。"
+  0157  50                message                         ... 0x64 /* 100 */, "ウチの<color 1>唐変木<color 0>、\nムダってもんが 解ってないのよ。"
+  0158  4E6130873063...   arg_pushs                       "ちょっとイイ武器を見つけたら\nコロコロ 買い替えちゃうの。"
+  0195  5B                add_msg                         ... "ちょっとイイ武器を見つけたら\nコロコロ 買い替えちゃうの。"
+  0196  4E115C573011...   arg_pushs                       "少し我慢してお金を貯めれば、\nもっとイイ武器が\n早く 買えるようになるじゃない？"
+  01E9  5B                add_msg                         ... "少し我慢してお金を貯めれば、\nもっとイイ武器が\n早く 買えるようになるじゃない？"
+  01EA  4E0C545830CF...   arg_pushs                       "同じハンターズ仲間の あんたから\n<color 5>説得<color 0>してもらえないかしらね？\nよろしく 頼むわよ。"
+  0265  5B                add_msg                         ... "同じハンターズ仲間の あんたから\n<color 5>説得<color 0>してもらえないかしらね？\nよろしく 頼むわよ。"
+  0266  5C                message_end
+  0267  1000              set                             r0
+  0269  29DF00            call                            label00DF /* 1350 */
+  026C  4901000000        arg_pushl                       0x00000001
+  0271  55                bgm                             ... 0x1 /* 1 */
+  0272  01                ret
+
+label0137:
+  // Referenced by instruction at 00F0
+  0273  4964000000        arg_pushl                       0x00000064
+  0278  4EA630C1306E...   arg_pushs                       "ウチの宿六？\nどーせまた 店にでも行って\n武器でも物色してるんでしょうよ。"
+  02C5  50                message                         ... 0x64 /* 100 */, "ウチの宿六？\nどーせまた 店にでも行って\n武器でも物色してるんでしょうよ。"
+  02C6  5C                message_end
+  02C7  01                ret
+
+label0138:
+  // Referenced by instruction at 00E8
+  02C8  4964000000        arg_pushl                       0x00000064
+  02CD  4E423093305F...   arg_pushs                       "あんたねぇ。\nあんな ろくでなしに\n言いくるめられて どーすんのよ。"
+  0314  50                message                         ... 0x64 /* 100 */, "あんたねぇ。\nあんな ろくでなしに\n言いくるめられて どーすんのよ。"
+  0315  4E008A633066...   arg_pushs                       "言ってることは 間違いじゃないけど、\nその頻度が 激しいから\n効率が悪いでしょってーの。"
+  0370  5B                add_msg                         ... "言ってることは 間違いじゃないけど、\nその頻度が 激しいから\n効率が悪いでしょってーの。"
+  0371  4E423093305F...   arg_pushs                       "あんたも もうちょっと\nシャキッとしなさいよ、シャキッと！"
+  03AE  5B                add_msg                         ... "あんたも もうちょっと\nシャキッとしなさいよ、シャキッと！"
+  03AF  5C                message_end
+  03B0  1002              set                             r2
+  03B2  01                ret
+
+label0139:
+  // Referenced by instruction at 00E0
+  03B3  4964000000        arg_pushl                       0x00000064
+  03B8  4E423093305F...   arg_pushs                       "あんたねぇ。\n自分で自分のこと\n頭悪いって認めて どーすんのよ。"
+  03FB  50                message                         ... 0x64 /* 100 */, "あんたねぇ。\n自分で自分のこと\n頭悪いって認めて どーすんのよ。"
+  03FC  4E008A633066...   arg_pushs                       "言ってることは 間違いじゃないけど、\nその頻度が 激しいから\n効率が悪いでしょってーの。"
+  0457  5B                add_msg                         ... "言ってることは 間違いじゃないけど、\nその頻度が 激しいから\n効率が悪いでしょってーの。"
+  0458  4E423093305F...   arg_pushs                       "あんたも もうちょっと\nシャキッとしなさいよ、シャキッと！"
+  0495  5B                add_msg                         ... "あんたも もうちょっと\nシャキッとしなさいよ、シャキッと！"
+  0496  5C                message_end
+  0497  1004              set                             r4
+  0499  01                ret
+
+label013A:
+  // Referenced by instruction at 00D8
+  049A  4964000000        arg_pushl                       0x00000064
+  049F  4E423093305F...   arg_pushs                       "あんたねぇ。高いからといって\n決して強いワケじゃないとか、\nそんな細かいことはどーでもいいのよ。"
+  0502  50                message                         ... 0x64 /* 100 */, "あんたねぇ。高いからといって\n決して強いワケじゃないとか、\nそんな細かいことはどーでもいいのよ。"
+  0503  4E666B685692...   arg_pushs                       "武器を買い替えるのは いいけど、\nその頻度が 激しいから\n効率が悪いでしょって言ってるの。"
+  0560  5B                add_msg                         ... "武器を買い替えるのは いいけど、\nその頻度が 激しいから\n効率が悪いでしょって言ってるの。"
+  0561  4E423093305F...   arg_pushs                       "あんたも もうちょっと\nシャキッとしなさいよ、シャキッと！"
+  059E  5B                add_msg                         ... "あんたも もうちょっと\nシャキッとしなさいよ、シャキッと！"
+  059F  5C                message_end
+  05A0  1006              set                             r6
+  05A2  01                ret
+
+label013B:
+  // Referenced by instruction at 00D0
+  05A3  4964000000        arg_pushl                       0x00000064
+  05A8  4EE389633066...   arg_pushs                       "解ってんじゃないの、\nあの甲斐性なし。"
+  05D1  50                message                         ... 0x64 /* 100 */, "解ってんじゃないの、\nあの甲斐性なし。"
+  05D2  4E42308A3083...   arg_pushs                       "ありゃもう 新しものがりの\n武器フェチなのよ。"
+  0603  5B                add_msg                         ... "ありゃもう 新しものがりの\n武器フェチなのよ。"
+  0604  4E9F5BCA7692...   arg_pushs                       "実益を無視して\n趣味でものを買うのには\n限度があります！"
+  063F  5B                add_msg                         ... "実益を無視して\n趣味でものを買うのには\n限度があります！"
+  0640  283C01            jmp                             label013C /* 0643 */
+
+label013C:
+  // Referenced by instructions at 00C8, 0640
+  0643  4964000000        arg_pushl                       0x00000064
+  0648  4E82304630D1...   arg_pushs                       "もう金輪際\nムダな買い物は 禁止！"
+  066D  50                message                         ... 0x64 /* 100 */, "もう金輪際\nムダな買い物は 禁止！"
+  066E  5C                message_end
+  066F  1008              set                             r8
+  0671  01                ret
+
+label013D:
+  // Referenced by instruction at 00C0
+  0672  4964000000        arg_pushl                       0x00000064
+  0677  4E42308A304C...   arg_pushs                       "ありがと。\nあいつも 相当\nヘコんでるみたいね。"
+  06AA  50                message                         ... 0x64 /* 100 */, "ありがと。\nあいつも 相当\nヘコんでるみたいね。"
+  06AB  4E7E30413001...   arg_pushs                       "まぁ、少し反省したら\nまた許してあげることにするわよ。"
+  06E4  5B                add_msg                         ... "まぁ、少し反省したら\nまた許してあげることにするわよ。"
+  06E5  4EA9524B3063...   arg_pushs                       "助かったわ。\n少なくて悪いけど、ギルドで\n報酬を受け取ってちょうだい。"
+  072E  5B                add_msg                         ... "助かったわ。\n少なくて悪いけど、ギルドで\n報酬を受け取ってちょうだい。"
+  072F  5C                message_end
+  0730  10FF              set                             r255
+  0732  4900000000        arg_pushl                       0x00000000
+  0737  55                bgm                             ... 0x0 /* 0 */
+  0738  4901000000        arg_pushl                       0x00000001
+  073D  92                playbgm_epi                     ... 0x1 /* 1 */
+  073E  01                ret
+
+label013E:
+  // Referenced by instruction at 00B8
+  073F  4964000000        arg_pushl                       0x00000064
+  0744  4E42308A304C...   arg_pushs                       "ありがと。\nあいつも 相当\nヘコんでるみたいね。"
+  0777  50                message                         ... 0x64 /* 100 */, "ありがと。\nあいつも 相当\nヘコんでるみたいね。"
+  0778  4E7E30413001...   arg_pushs                       "まぁ、少し反省したら\nまた許してあげることにするわよ。"
+  07B1  5B                add_msg                         ... "まぁ、少し反省したら\nまた許してあげることにするわよ。"
+  07B2  4EA9524B3063...   arg_pushs                       "助かったわ。\n少なくて悪いけど、ギルドで\n報酬を受け取ってちょうだい。"
+  07FB  5B                add_msg                         ... "助かったわ。\n少なくて悪いけど、ギルドで\n報酬を受け取ってちょうだい。"
+  07FC  5C                message_end
+  07FD  01                ret
+
+label0140:
+  // Referenced by map enemy ES-00-00F [EnemySetEntry type=000A "TObjNpcMaleDwarf/TObjNpcMaleDwarf" num_children=0000 floor=0000 room=001E wave_number=0000 wave_number2=0000 a1=0000 x=16.004 y=0 z=5.99567 x_angle=00000000 y_angle=FFFFD000 z_angle=00000000 params=[22 0 0 101 320 0001 0000]]
+  07FE  2D0901000000...   jmpi_eq                         r9, 0x00000001, label0161 /* 0F7D */
+  0806  2D0801000000...   jmpi_eq                         r8, 0x00000001, label0160 /* 0E8A */
+  080E  2D0701000000...   jmpi_eq                         r7, 0x00000001, label015F /* 0E61 */
+  0816  2D0601000000...   jmpi_eq                         r6, 0x00000001, label0145 /* 0A6B */
+  081E  2D0501000000...   jmpi_eq                         r5, 0x00000001, label0155 /* 0D17 */
+  0826  2D0401000000...   jmpi_eq                         r4, 0x00000001, label0145 /* 0A6B */
+  082E  2D0301000000...   jmpi_eq                         r3, 0x00000001, label014D /* 0B89 */
+  0836  2D0201000000...   jmpi_eq                         r2, 0x00000001, label0145 /* 0A6B */
+  083E  2D0101000000...   jmpi_eq                         r1, 0x00000001, label0144 /* 0A0C */
+  0846  4965000000        arg_pushl                       0x00000065
+  084B  4E6A30933060...   arg_pushs                       "なんだ なんだ おまえは！"
+  0868  50                message                         ... 0x65 /* 101 */, "なんだ なんだ おまえは！"
+  0869  4E6A306B3043...   arg_pushs                       "なにぃ？\nウチのカカァから 頼まれた？\n武器を買い替えすぎ？"
+  08A8  5B                add_msg                         ... "なにぃ？\nウチのカカァから 頼まれた？\n武器を買い替えすぎ？"
+  08A9  4EA230DB304B...   arg_pushs                       "アホか おまえは。"
+  08BE  5B                add_msg                         ... "アホか おまえは。"
+  08BF  284101            jmp                             label0141 /* 08C2 */
+
+label0141:
+  // Referenced by instructions at 08BF, 0AE0
+  08C2  4965000000        arg_pushl                       0x00000065
+  08C7  4ED89A443066...   arg_pushs                       "高い武器であればあるほど\n強いのが 自明の理。"
+  08F8  50                message                         ... 0x65 /* 101 */, "高い武器であればあるほど\n強いのが 自明の理。"
+  08F9  4E5D30463059...   arg_pushs                       "そうすれば 報酬の高いモンスターも\nやっつけられるし、お金は ますます\n貯まってゆくではないか。"
+  095C  5B                add_msg                         ... "そうすれば 報酬の高いモンスターも\nやっつけられるし、お金は ますます\n貯まってゆくではないか。"
+  095D  4E60304B3089...   arg_pushs                       "だから、少しでも 高い武器を\n買っておくのが カシコイのだよ。\nわかるか？ あぁん？"
+  09B4  5B                add_msg                         ... "だから、少しでも 高い武器を\n買っておくのが カシコイのだよ。\nわかるか？ あぁん？"
+  09B5  5C                message_end
+  09B6  284201            jmp                             label0142 /* 09B9 */
+
+label0142:
+  // Referenced by instruction at 09B6
+  09B9  1164              clear                           r100
+  09BB  4A64              arg_pushb                       0x64
+  09BD  4E42306A305F...   arg_pushs                       "あなたの言うとおりだ。\nわからない。"
+  09E4  51                list                            ... r100, "あなたの言うとおりだ。\nわからない。"
+  09E5  40640243014A01    switch_jmp                      r100, [label0143 /* 09EC */, label014A /* 0AE3 */]
+
+label0143:
+  // Referenced by instruction at 09E5
+  09EC  4965000000        arg_pushl                       0x00000065
+  09F1  4E5D30463060...   arg_pushs                       "そうだろ そうだろ。"
+  0A08  50                message                         ... 0x65 /* 101 */, "そうだろ そうだろ。"
+  0A09  284401            jmp                             label0144 /* 0A0C */
+
+label0144:
+  // Referenced by instructions at 083E, 0A09
+  0A0C  4965000000        arg_pushl                       0x00000065
+  0A11  4E8F304B3063...   arg_pushs                       "わかったら これ以上\n夫婦の問題に 口を出さないことだ。"
+  0A4C  50                message                         ... 0x65 /* 101 */, "わかったら これ以上\n夫婦の問題に 口を出さないことだ。"
+  0A4D  4E5530553001...   arg_pushs                       "ささ、行った 行った。"
+  0A66  5B                add_msg                         ... "ささ、行った 行った。"
+  0A67  5C                message_end
+  0A68  1001              set                             r1
+  0A6A  01                ret
+
+label0145:
+  // Referenced by instructions at 0816, 0826, 0836
+  0A6B  4965000000        arg_pushl                       0x00000065
+  0A70  4E6A30933060...   arg_pushs                       "なんだ なんだ。\nまだなんか 言い足りないのか？"
+  0AA3  50                message                         ... 0x65 /* 101 */, "なんだ なんだ。\nまだなんか 言い足りないのか？"
+  0AA4  4E008A633066...   arg_pushs                       "言っておくが\nオレの持論は 揺るがないぞ。"
+  0AD1  5B                add_msg                         ... "言っておくが\nオレの持論は 揺るがないぞ。"
+  0AD2  1100              clear                           r0
+  0AD4  1101              clear                           r1
+  0AD6  1102              clear                           r2
+  0AD8  1103              clear                           r3
+  0ADA  1104              clear                           r4
+  0ADC  1105              clear                           r5
+  0ADE  1106              clear                           r6
+  0AE0  284101            jmp                             label0141 /* 08C2 */
+
+label014A:
+  // Referenced by instruction at 09E5
+  0AE3  4965000000        arg_pushl                       0x00000065
+  0AE8  4E423041301F...   arg_pushs                       "あぁ？ 何故わからん？"
+  0B01  50                message                         ... 0x65 /* 101 */, "あぁ？ 何故わからん？"
+  0B02  5C                message_end
+  0B03  284B01            jmp                             label014B /* 0B06 */
+
+label014B:
+  // Referenced by instruction at 0B03
+  0B06  1164              clear                           r100
+  0B08  4A64              arg_pushb                       0x64
+  0B0A  4E2D98AA6044...   arg_pushs                       "頭悪いから。\n必ずしもそうとは言えないから。\nそれを言うには条件があるから。"
+  0B59  51                list                            ... r100, "頭悪いから。\n必ずしもそうとは言えないから。\nそれを言うには条件があるから。"
+  0B5A  4064034C0154...   switch_jmp                      r100, [label014C /* 0B63 */, label0154 /* 0BC0 */, label015E /* 0D3A */]
+
+label014C:
+  // Referenced by instruction at 0B5A
+  0B63  4965000000        arg_pushl                       0x00000065
+  0B68  4E5D3046304B...   arg_pushs                       "そうか…そりゃ お気の毒。"
+  0B85  50                message                         ... 0x65 /* 101 */, "そうか…そりゃ お気の毒。"
+  0B86  284D01            jmp                             label014D /* 0B89 */
+
+label014D:
+  // Referenced by instructions at 082E, 0B86
+  0B89  4965000000        arg_pushl                       0x00000065
+  0B8E  4E665B21686B...   arg_pushs                       "学校には ちゃんと\n行った方が いいぞ。"
+  0BB9  50                message                         ... 0x65 /* 101 */, "学校には ちゃんと\n行った方が いいぞ。"
+  0BBA  5C                message_end
+  0BBB  1105              clear                           r5
+  0BBD  1003              set                             r3
+  0BBF  01                ret
+
+label0154:
+  // Referenced by instruction at 0B5A
+  0BC0  4965000000        arg_pushl                       0x00000065
+  0BC5  4E4230423001...   arg_pushs                       "ああ、わかる わかる。\n高い武器が 必ずしも\nイイ武器ではないってことだろ。"
+  0C14  50                message                         ... 0x65 /* 101 */, "ああ、わかる わかる。\n高い武器が 必ずしも\nイイ武器ではないってことだろ。"
+  0C15  4E60304C3001...   arg_pushs                       "だが、攻撃力は低いが高いという\n武器には、特殊な効果があるとか\n命中率が高いとか…"
+  0C6A  5B                add_msg                         ... "だが、攻撃力は低いが高いという\n武器には、特殊な効果があるとか\n命中率が高いとか…"
+  0C6B  4E5D308C306A...   arg_pushs                       "それなりに オイシイ特典が\nついているのだよ。"
+  0C9C  5B                add_msg                         ... "それなりに オイシイ特典が\nついているのだよ。"
+  0C9D  4E81896F3020...   arg_pushs                       "要は 使い方によって、\n値段なりの効果を\n発揮するということさ。"
+  0CE0  5B                add_msg                         ... "要は 使い方によって、\n値段なりの効果を\n発揮するということさ。"
+  0CE1  4E5D3093306A...   arg_pushs                       "そんな 物言いじゃ\nオレの心は 動かないぜ。"
+  0D10  5B                add_msg                         ... "そんな 物言いじゃ\nオレの心は 動かないぜ。"
+  0D11  5C                message_end
+  0D12  1103              clear                           r3
+  0D14  1005              set                             r5
+  0D16  01                ret
+
+label0155:
+  // Referenced by instruction at 081E
+  0D17  4965000000        arg_pushl                       0x00000065
+  0D1C  4E7E300130FA...   arg_pushs                       "ま、出直してくるんだな。"
+  0D37  50                message                         ... 0x65 /* 101 */, "ま、出直してくるんだな。"
+  0D38  5C                message_end
+  0D39  01                ret
+
+label015E:
+  // Referenced by instruction at 0B5A
+  0D3A  4965000000        arg_pushl                       0x00000065
+  0D3F  4E6A306B3043...   arg_pushs                       "なにぃ？"
+  0D4A  50                message                         ... 0x65 /* 101 */, "なにぃ？"
+  0D4B  4ED89A443066...   arg_pushs                       "高い武器が基本的に良いのは解るが、\nその値段に対する相対的な効率向上度…"
+  0D96  5B                add_msg                         ... "高い武器が基本的に良いのは解るが、\nその値段に対する相対的な効率向上度…"
+  0D97  4E64307E308A...   arg_pushs                       "つまり、費用対効果が重要であり、\nオレの武器買い替え頻度は\nそれを無視しているというのか！"
+  0DF4  5B                add_msg                         ... "つまり、費用対効果が重要であり、\nオレの武器買い替え頻度は\nそれを無視しているというのか！"
+  0DF5  4E46304A3063...   arg_pushs                       "うおっ！\nそ、それを言われると イタイ。\nイタイけど…"
+  0E2E  5B                add_msg                         ... "うおっ！\nそ、それを言われると イタイ。\nイタイけど…"
+  0E2F  4E8430813089...   arg_pushs                       "やめられないんだってば。\n許してくれよぅ。"
+  0E5C  5B                add_msg                         ... "やめられないんだってば。\n許してくれよぅ。"
+  0E5D  5C                message_end
+  0E5E  1007              set                             r7
+  0E60  01                ret
+
+label015F:
+  // Referenced by instruction at 080E
+  0E61  4965000000        arg_pushl                       0x00000065
+  0E66  4E4630463046...   arg_pushs                       "ううう…カンベンしてくれよぅ。"
+  0E87  50                message                         ... 0x65 /* 101 */, "ううう…カンベンしてくれよぅ。"
+  0E88  5C                message_end
+  0E89  01                ret
+
+label0160:
+  // Referenced by instruction at 0806
+  0E8A  4965000000        arg_pushl                       0x00000065
+  0E8F  4E7630013066...   arg_pushs                       "ぶ、武器フェチ…！"
+  0EA4  50                message                         ... 0x65 /* 101 */, "ぶ、武器フェチ…！"
+  0EA5  4914000000        arg_pushl                       0x00000014
+  0EAA  54                sound_effect                    ... 0x14 /* 20 */
+  0EAB  4E5D3001305D...   arg_pushs                       "そ、その通りだよぅ。\n見ろ この光沢！ 重量感！\nタマラないだろ？"
+  0EF0  5B                add_msg                         ... "そ、その通りだよぅ。\n見ろ この光沢！ 重量感！\nタマラないだろ？"
+  0EF1  4EB065573044...   arg_pushs                       "新しい武器って\nどんなに美しくて素晴らしいか、\n興味があるじゃないかぁ。"
+  0F3C  5B                add_msg                         ... "新しい武器って\nどんなに美しくて素晴らしいか、\n興味があるじゃないかぁ。"
+  0F3D  4ED1912A8F9B...   arg_pushs                       "金輪際\nムダな買い物は 禁止？"
+  0F5E  5B                add_msg                         ... "金輪際\nムダな買い物は 禁止？"
+  0F5F  4E4630463046...   arg_pushs                       "ううう、そんなヒドイ…"
+  0F78  5B                add_msg                         ... "ううう、そんなヒドイ…"
+  0F79  5C                message_end
+  0F7A  1009              set                             r9
+  0F7C  01                ret
+
+label0161:
+  // Referenced by instruction at 07FE
+  0F7D  4965000000        arg_pushl                       0x00000065
+  0F82  4E7C3001307C...   arg_pushs                       "ぼ、ぼくの唯一の趣味が…！"
+  0F9F  50                message                         ... 0x65 /* 101 */, "ぼ、ぼくの唯一の趣味が…！"
+  0FA0  5C                message_end
+  0FA1  01                ret
+
+label0168:
+  // Referenced by map enemy ES-00-00A [EnemySetEntry type=0008 "TObjNpcMaleBase/TObjNpcMaleBase" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=83.0009 y=0 z=-10 x_angle=00000000 y_angle=00005000 z_angle=00000000 params=[24 0 0 102 360 0001 0000]]
+  0FA2  2D6601000000...   jmpi_eq                         r102, 0x00000001, label016D /* 1261 */
+  0FAA  2D6701000000...   jmpi_eq                         r103, 0x00000001, label016C /* 11E6 */
+  0FB2  2D6501000000...   jmpi_eq                         r101, 0x00000001, label0169 /* 0FE5 */
+  0FBA  4966000000        arg_pushl                       0x00000066
+  0FBF  4E2620423042...   arg_pushs                       "…ああ…\nいいなぁ…\nあの武器…"
+  0FE2  50                message                         ... 0x66 /* 102 */, "…ああ…\nいいなぁ…\nあの武器…"
+  0FE3  5C                message_end
+  0FE4  01                ret
+
+label0169:
+  // Referenced by instruction at 0FB2
+  0FE5  4966000000        arg_pushl                       0x00000066
+  0FEA  4E2620423042...   arg_pushs                       "…ああ…\nいいなぁ…\nあの武器…"
+  100D  50                message                         ... 0x66 /* 102 */, "…ああ…\nいいなぁ…\nあの武器…"
+  100E  4E53306E304D...   arg_pushs                       "この前、あるレンジャーが\n銃口から 炎が出る武器を\n持っていたんですよ…"
+  1059  5B                add_msg                         ... "この前、あるレンジャーが\n銃口から 炎が出る武器を\n持っていたんですよ…"
+  105A  4E7E3055306B...   arg_pushs                       "まさに 火炎放射ですよ。\n美しい…"
+  107F  5B                add_msg                         ... "まさに 火炎放射ですよ。\n美しい…"
+  1080  4E423093306A...   arg_pushs                       "あんなの 初めて見た…\nいいなぁ、ほしいなぁ。"
+  10B1  5B                add_msg                         ... "あんなの 初めて見た…\nいいなぁ、ほしいなぁ。"
+  10B2  4E4A30843001...   arg_pushs                       "おや、そのバッヂ…！\nあなたも「ウェポンズ」！？"
+  10E5  5B                add_msg                         ... "おや、そのバッヂ…！\nあなたも「ウェポンズ」！？"
+  10E6  4E7530803075...   arg_pushs                       "ふむふむ、なるほど。\nこれから新しく入りたいと。\nいいんじゃないですか？"
+  1131  5B                add_msg                         ... "ふむふむ、なるほど。\nこれから新しく入りたいと。\nいいんじゃないですか？"
+  1132  5C                message_end
+  1133  286A01            jmp                             label016A /* 1136 */
+
+label016A:
+  // Referenced by instruction at 1133
+  1136  4E3C0063006F...   arg_pushs                       "<color 5>「ウェポンズ」<color 0>加入許可を得た！"
+  117B  5A                window_msg                      ... "<color 5>「ウェポンズ」<color 0>加入許可を得た！"
+  117C  4901000000        arg_pushl                       0x00000001
+  1181  55                bgm                             ... 0x1 /* 1 */
+  1182  5E                window_msg_end
+  1183  286B01            jmp                             label016B /* 1186 */
+
+label016B:
+  // Referenced by instruction at 1183
+  1186  4966000000        arg_pushl                       0x00000066
+  118B  4E5F30603001...   arg_pushs                       "ただ、お互いのことは\n詮索なしで お願いしますね。\nなにしろ 秘密結社ですから。"
+  11DE  50                message                         ... 0x66 /* 102 */, "ただ、お互いのことは\n詮索なしで お願いしますね。\nなにしろ 秘密結社ですから。"
+  11DF  5C                message_end
+  11E0  13F200            gset                            0x00F2
+  11E3  1067              set                             r103
+  11E5  01                ret
+
+label016C:
+  // Referenced by instructions at 0FAA, 127E
+  11E6  4966000000        arg_pushl                       0x00000066
+  11EB  4EE4534F3055...   arg_pushs                       "古くさいかもしれないけど、\nバズーカなんかも いいですよねぇ。\n味があって…"
+  123A  50                message                         ... 0x66 /* 102 */, "古くさいかもしれないけど、\nバズーカなんかも いいですよねぇ。\n味があって…"
+  123B  4E666B68566E...   arg_pushs                       "武器の話は\n止まりませんよねぇ。"
+  125E  5B                add_msg                         ... "武器の話は\n止まりませんよねぇ。"
+  125F  5C                message_end
+  1260  01                ret
+
+label016D:
+  // Referenced by instruction at 0FA2
+  1261  093D00000000      leti                            r61, 0x00000000
+  1267  093E16000000      leti                            r62, 0x00000016
+  126D  093F00000000      leti                            r63, 0x00000000
+  1273  B73D40            find_inventory_item             r61-r63, r64
+  1276  3340FFFFFFFF...   jmpi_gt                         r64, 0xFFFFFFFF, label016E /* 1282 */
+  127E  286C01            jmp                             label016C /* 11E6 */
+  1281  01                ret
+
+label016E:
+  // Referenced by instruction at 1276
+  1282  4966000000        arg_pushl                       0x00000066
+  1287  4E4A304A3001...   arg_pushs                       "おお！ それは\nボスの武器じゃないですか！"
+  12B4  50                message                         ... 0x66 /* 102 */, "おお！ それは\nボスの武器じゃないですか！"
+  12B5  4E8B895F30EE...   arg_pushs                       "見た目 フライパンみたいですけど\nすごいですよぉ、その武器は。"
+  12F6  5B                add_msg                         ... "見た目 フライパンみたいですけど\nすごいですよぉ、その武器は。"
+  12F7  4E8A9677956A...   arg_pushs                       "隊長なんか、５ｍは\n吹っ飛んでいきますからね！"
+  1328  5B                add_msg                         ... "隊長なんか、５ｍは\n吹っ飛んでいきますからね！"
+  1329  5C                message_end
+  132A  01                ret
+
+label00CF:
+  // Referenced by instruction at 134C
+  132B  094800000000      leti                            r72, 0x00000000
+
+label00D0:
+  // Referenced by instruction at 1338
+  1331  02                sync
+  1332  194801000000      addi                            r72, 0x00000001
+  1338  3F481E000000...   jmpi_le                         r72, 0x0000001E, label00D0 /* 1331 */
+  1340  01                ret
+
+label00DE:
+  // Referenced by instruction at 00F8
+  1341  70                p_action_disable
+  1342  64                npc_talk_off
+  1343  4900000000        arg_pushl                       0x00000000
+  1348  72                disable_movement1               ... 0x0 /* 0 */
+  1349  98                hud_hide
+  134A  9A                cine_enable
+  134B  82                cam_zmin
+  134C  29CF00            call                            label00CF /* 132B */
+  134F  01                ret
+
+label00DF:
+  // Referenced by instruction at 0269
+  1350  83                cam_zmout
+  1351  9B                cine_disable
+  1352  99                hud_show
+  1353  4900000000        arg_pushl                       0x00000000
+  1358  73                enable_movement1                ... 0x0 /* 0 */
+  1359  65                npc_talk_on
+  135A  71                p_action_enable
+  135B  01                ret

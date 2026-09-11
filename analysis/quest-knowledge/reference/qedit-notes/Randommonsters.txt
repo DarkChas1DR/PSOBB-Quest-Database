@@ -1,0 +1,150 @@
+From Unofficial QEdit Wiki Guide
+		
+		Jump to: navigation (#column-one), search (#searchInput)
+
+		
+
+--- Contents ---
+
+- 1 Random Monsters (#Random_Monsters)
+
+- 2 Special Notes (#Special_Notes)
+
+- 3 Script to use in normal play (#Script_to_use_in_normal_play)
+
+- 4 Event Map (#Event_Map)
+
+- 5 Video Guide (#Video_Guide)
+
+--- Random Monsters ---
+
+Sega included functionality to be able to spawn random monsters. 
+
+Normally this is only available in Challenge Mode, however you can do some memory rewrites to make it available in normal play.
+
+--- Special Notes ---
+
+-  Entries per room is capped at (32), unless you do rewrites. (seen below)
+
+-  Room Entries must be in ascending sequential order. (Qedit does this automatically)
+
+-  You cannot place set enemies and random enemies in the same area.
+
+-  All monster entries must have a ratio and a config associated with them.
+
+-  Episode IV won't work with this out of the gate, you have to patch the client and server to add the EP4 monsters to the list.
+
+--- Script to use in normal play ---
+
+-  All you need to do is call function 50 in Function 0, just after you use set_episode (https://qedit.info/index.php?title=Set_episode) (if necessary) and it should work for normal play.
+
+-  Gamecube, Xbox, Blue Burst versions are included in this code.
+
+-  To note, Xbox non-TU versions are skipped due to not being able to connect online with them.
+
+-  Credits to Fuzziqer for providing the necessary memory addresses.
+
+50:      get_game_version R2
+         jmpi_=  R2, 00000004, 200
+         read1  R0, 80000003
+         jmpi_= R0, 0000004A, 51
+         jmpi_= R0, 00000045, 61
+         jmpi_= R0, 00000050, 71
+         jmp 99
+51:      read1 R1, 80000007
+         jmpi_= R1, 00000002, 52
+         jmpi_= R1, 00000003, 53
+         jmpi_= R1, 00000004, 54
+         jmpi_= R1, 00000005, 55
+         jmp 99
+52:      leti R1, 805C4DE4
+         leti R4, 80208C4C
+         leti R5, 38800080
+         jmp 100
+53:      leti R1, 805CF3AC
+         leti R4, 802094C0
+         leti R5, 38800080
+         jmp 100
+54:      leti R1, 805D682C
+         leti R4, 8020A5A8
+         leti R5, 38800080
+         jmp 100
+55:      leti R1, 805D65CC
+         leti R4, 80209FFC
+         leti R5, 38800080
+         jmp 100
+61:      read1 R1, 80000007
+         jmpi_= R1, 00000000, 62
+         jmpi_= R1, 00000001, 63
+         jmpi_= R1, 00000002, 64
+         jmp 99
+62:      leti R1, 805C56DC
+         leti R4, 80209448
+         leti R5, 38800080
+         jmp 100
+63:      leti R1, 805CC6BC
+         leti R4, 80209448
+         leti R5, 38800080
+         jmp 100
+64:      leti R1, 805D5EDC
+         leti R4, 8020A330
+         leti R5, 38800080
+         jmp 100
+71:      leti R1, 805D211C
+         leti R4, 80209D2C
+         leti R5, 38800080
+         jmp 100
+99:      leti R6, 00000002
+         ret 
+100:     leti R0, 00000004
+         write4 R1, R0
+         clear R0
+         clear R1
+         clear R2
+         clear R3
+         clear R4
+         clear R5
+         clear R6
+         clear R7
+         set R6
+         ret 
+200:     read4 R0, 00440FE0
+         leti R1, 00635448
+         leti R4, 002E740C
+         leti R5, BB800000
+         jmpi_= R0, 61657244, 100
+         read4 R0, 00440FEC
+         leti R1, 006321C8
+         leti R4, 002E742C
+         leti R5, BB800000
+         jmpi_= R0, 61657244, 100
+         read4 R0, 00441AF8
+         leti R1, 00632CC8
+         leti R4, 002E745C
+         leti R5, BB800000
+         jmpi_= R0, 61657244, 100
+         read2  R0, 00400000
+         leti R1, 00A955E0
+         jmpi_= R0, 00005A4D, 100
+         jmp 99
+0:       call 50
+
+--- Event Map ---
+
+-  At the beginning of the map event page, you must include random_waves:
+
+-  Each event requires the following: Event #, Section, wave, mindelay, maxdelay, wavesetting: A B C 0 (example below)
+
+#1
+   Section: 2
+   Wave: 1
+   Mindelay: 30
+   Maxdelay: 60
+   wavesetting: 1 2 15 0 // First number is minimum monsters, Second number is maximum monsters, 3rd number is maximum waves, 4th number is always 0.
+   Unlock 1
+
+-  You'll need to make sure map events are properly spaced. In the above example, you have 15 possible waves being called, so the next event in the list should be 16 at minimum.
+
+--- Video Guide ---
+
+Under Construction

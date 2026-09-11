@@ -1,0 +1,95 @@
+# Wrath of Forest — extermination-ep1/q63-bb-j
+
+Episode1; header quest ID 63; language J. Static scan: **296 objects, 332 enemy/NPC records, 50 events, 37 script labels.** Script roundtrip: byte-identical.
+
+This is a structural dossier, not a claim that every branch has been manually interpreted or playtested. Enemy/NPC records are not gameplay kill totals. Event IDs, wave numbers, object groups and script labels are distinct namespaces.
+
+## Read and inspect
+
+- [Script with byte offsets and map references](<script-offsets.txt>)
+- [Reassembly syntax with explicit labels](<script.txt>)
+- [Complete placements and event actions](<map.txt>)
+- [Every parsed wave and its next actions](<waves.csv>)
+- [Object fields](<objects.csv>)
+- [Enemy/NPC fields](<enemies.csv>)
+- [Explicit script references, including handlers; not a complete dynamic call graph](<script-references.csv>)
+- [State, timing and reward operation locations](<state-and-rewards.csv>)
+- [Function/label index](<labels.csv>)
+
+## Area designations
+
+Operands: floor, area, type, layout variation, entities variation.
+
+```text
+
+```
+
+## Floors
+
+| Floor | Objects | Enemy/NPC records | Events |
+|---|---:|---:|---:|
+| 0 | 33 | 23 | 0 |
+| 1 | 103 | 154 | 21 |
+| 2 | 140 | 154 | 28 |
+| 11 | 20 | 1 | 1 |
+
+## Wave progression
+
+Numbers below are decimal; delays are frames. Alternatives and parallel triggers must not be mistaken for one compulsory sequence.
+
+| Floor | Event | Room / wave | Records | Delay | Completion actions |
+|---|---:|---|---:|---:|---|
+| 1 | 111 | 11 / 1 | 15 | 50 | trigger_event(1111); stop |
+| 1 | 1111 | 11 / 2 | 15 | 50 | trigger_event(1112); stop |
+| 1 | 1112 | 11 / 3 | 15 | 50 | trigger_event(1113); stop |
+| 1 | 1113 | 11 / 4 | 15 | 50 | set_switch(5); set_switch(6); stop |
+| 1 | 101 | 10 / 1 | 6 | 1 | trigger_event(1011); stop |
+| 1 | 1011 | 10 / 2 | 3 | 1 | trigger_event(1012); stop |
+| 1 | 1012 | 10 / 3 | 3 | 1 | set_switch(7); set_switch(8); stop |
+| 1 | 51 | 5 / 1 | 10 | 1 | trigger_event(511); stop |
+| 1 | 511 | 5 / 2 | 11 | 1 | trigger_event(512); stop |
+| 1 | 512 | 5 / 3 | 12 | 1 | set_switch(1); stop |
+| 1 | 52 | 5 / 4 | 0 | 1 | stop |
+| 1 | 53 | 5 / 5 | 0 | 1 | stop |
+| 1 | 22 | 2 / 1 | 4 | 1 | trigger_event(211); stop |
+| 1 | 211 | 2 / 2 | 5 | 1 | trigger_event(212); stop |
+| 1 | 212 | 2 / 3 | 4 | 1 | set_switch(2); stop |
+| 1 | 71 | 7 / 1 | 8 | 1 | trigger_event(711); stop |
+| 1 | 711 | 7 / 2 | 8 | 1 | trigger_event(712); stop |
+| 1 | 712 | 7 / 3 | 8 | 1 | set_switch(3); stop |
+| 1 | 41 | 4 / 1 | 6 | 1 | trigger_event(411); stop |
+| 1 | 411 | 4 / 2 | 6 | 1 | set_switch(9); stop |
+| 1 | 82 | 8 / 1 | 0 | 1 | stop |
+| 2 | 21 | 2 / 1 | 1 | 1 | trigger_event(211); stop |
+| 2 | 211 | 2 / 2 | 6 | 30 | trigger_event(2111); stop |
+| 2 | 2111 | 2 / 3 | 3 | 20 | set_switch(4); set_switch(5); set_switch(6); stop |
+| 2 | 31 | 3 / 1 | 7 | 200 | stop |
+| 2 | 41 | 4 / 1 | 8 | 30 | set_switch(31); stop |
+| 2 | 61 | 6 / 1 | 5 | 1 | trigger_event(611); stop |
+| 2 | 611 | 6 / 2 | 4 | 15 | trigger_event(612); stop |
+| 2 | 612 | 6 / 3 | 3 | 30 | set_switch(2); set_switch(3); stop |
+| 2 | 71 | 7 / 1 | 0 | 100 | stop |
+| 2 | 81 | 8 / 1 | 3 | 1 | stop |
+| 2 | 101 | 10 / 1 | 12 | 1 | stop |
+| 2 | 111 | 11 / 1 | 13 | 1 | trigger_event(1111); stop |
+| 2 | 1111 | 11 / 2 | 12 | 10 | trigger_event(1112); stop |
+| 2 | 1112 | 11 / 3 | 7 | 10 | trigger_event(1113); stop |
+| 2 | 1113 | 11 / 4 | 4 | 10 | trigger_event(1114); stop |
+| 2 | 1114 | 11 / 5 | 9 | 1 | set_switch(7); set_switch(8); set_switch(11); stop |
+| 2 | 121 | 12 / 1 | 7 | 1 | trigger_event(1211); stop |
+| 2 | 1211 | 12 / 2 | 7 | 1 | set_switch(10); stop |
+| 2 | 131 | 13 / 1 | 6 | 1 | trigger_event(1311); stop |
+| 2 | 1311 | 13 / 2 | 0 | 1 | set_switch(9); stop |
+| 2 | 151 | 15 / 1 | 4 | 1 | trigger_event(1511); stop |
+| 2 | 1511 | 15 / 2 | 7 | 60 | trigger_event(1512); stop |
+| 2 | 1512 | 15 / 3 | 5 | 30 | trigger_event(1513); stop |
+| 2 | 1513 | 15 / 4 | 9 | 1 | trigger_event(1514); stop |
+| 2 | 1514 | 15 / 5 | 10 | 1 | set_switch(30); stop |
+| 2 | 152 | 15 / 6 | 0 | 1 | trigger_event(1521); stop |
+| 2 | 1521 | 15 / 7 | 0 | 30 | trigger_event(1522); stop |
+| 2 | 1522 | 15 / 8 | 0 | 10 | stop |
+| 11 | 1 | 1 / 1 | 1 | 50 | construct_objects(room=1,group_or_wave=1); stop |
+
+## Review notes
+
+No structural or event-destination issues found by these checks. This does not establish reachability or runtime correctness.

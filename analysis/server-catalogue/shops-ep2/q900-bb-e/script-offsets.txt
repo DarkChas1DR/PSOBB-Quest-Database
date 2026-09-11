@@ -1,0 +1,236 @@
+.version BB_V4
+.quest_num 900
+.name "Elly\'s Gratitude"
+.short_desc "Elly has useful rare items for sale, suitable for all hunters."
+.long_desc "Client: Elly\nQuest:\nTo show my gratitude\nfor all of you hunters, I\'m\nselling a few hard-to-find\nitems that I\'m sure you\'ll\nfind useful.\n\nReward: 0 Meseta"
+.episode Episode2
+.header_episode 0x00
+.language E
+.max_players 0
+.solo_unlock_flag 0x0000
+.solo_unlock_flag 0x0000
+.solo_unlock_flag 0x0000
+.solo_unlock_flag 0x0000
+.solo_unlock_flag 0x0000
+.solo_unlock_flag 0x0000
+.solo_unlock_flag 0x0000
+.solo_unlock_flag 0x0000
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+// 0xB18 data bytes in script section with 15 labels
+
+start:
+  0000  F8BC01000000      set_episode                     0x00000001
+  0006  F9510012000000    bb_map_designate                0x00, 0x12, 0x00, 0x00, 0x00
+  000D  F808BE            get_difficulty_level_v2         r190
+  0010  E6FA              get_client_id                   r250
+  0012  F809FB            get_number_of_players           r251
+  0015  1000              set                             r0
+
+label0001:
+  0017  01                ret
+
+label0078:
+  // Referenced by map enemy ES-00-00C [EnemySetEntry type=00FE "TObjNpcNgcBase(0x00FE)" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-113 y=0 z=19 x_angle=00000000 y_angle=00005000 z_angle=00000000 params=[0 0 0 120 120 0000 0000]]
+  0018  4978000000        arg_pushl                       0x00000078
+  001D  4E4800690020...   arg_pushs                       "Hi again! Are you all finished?\nReady to go back to the Lobby?"
+  009C  50                message                         ... 0x78 /* 120 */, "Hi again! Are you all finished?\nReady to go back to the Lobby?"
+  009D  5C                message_end
+  009E  4A01              arg_pushb                       0x01
+  00A0  4E4E006F000A...   arg_pushs                       "No\nYes"
+  00AF  51                list                            ... r1, "No\nYes"
+  00B0  4001020A001400    switch_jmp                      r1, [label000A /* 011B */, label0014 /* 00B8 */]
+  00B7  01                ret
+
+label0014:
+  // Referenced by instruction at 00B0
+  00B8  4978000000        arg_pushl                       0x00000078
+  00BD  4E5600650072...   arg_pushs                       "Very well!\nWe hope to see you again!"
+  0108  50                message                         ... 0x78 /* 120 */, "Very well!\nWe hope to see you again!"
+  0109  5C                message_end
+  010A  10FF              set                             r255
+  010C  11FA              clear                           r250
+  010E  1101              clear                           r1
+  0110  1102              clear                           r2
+  0112  F8C6              qexit
+  0114  11FF              clear                           r255
+  0116  1100              clear                           r0
+  0118  11BE              clear                           r190
+  011A  01                ret
+
+label000A:
+  // Referenced by instruction at 00B0
+  011B  4978000000        arg_pushl                       0x00000078
+  0120  4E5300750072...   arg_pushs                       "Sure! Just come speak to me\nwhen you\'re finished, okay?"
+  0191  50                message                         ... 0x78 /* 120 */, "Sure! Just come speak to me\nwhen you\'re finished, okay?"
+  0192  5C                message_end
+  0193  01                ret
+
+label0082:
+  // Referenced by map enemy ES-00-01D [EnemySetEntry type=00F8 "TObjNpcNgcBase(0x00F8)" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-96.401 y=0 z=-57.4532 x_angle=00000000 y_angle=0000157D z_angle=00000000 params=[0 0 0 130 130 0000 0000]]
+  0194  4982000000        arg_pushl                       0x00000082
+  0199  4E4900200072...   arg_pushs                       "I really appreciate all\nthat you hunters do for\nus!"
+  0202  50                message                         ... 0x82 /* 130 */, "I really appreciate all\nthat you hunters do for\nus!"
+  0203  4E4900270076...   arg_pushs                       "I\'ve got some items\nhere that any hunter should\nfind useful!"
+  027E  5B                add_msg                         ... "I\'ve got some items\nhere that any hunter should\nfind useful!"
+  027F  4E4900200077...   arg_pushs                       "I wish I didn\'t have to charge\nyou...But these things aren\'t easy\nto find, or cheap!"
+  032A  5B                add_msg                         ... "I wish I didn\'t have to charge\nyou...But these things aren\'t easy\nto find, or cheap!"
+  032B  4E4900740027...   arg_pushs                       "It\'s 800,000 meseta for\nthe units, and 50,000 for the\nAddSlots..."
+  03B0  5B                add_msg                         ... "It\'s 800,000 meseta for\nthe units, and 50,000 for the\nAddSlots..."
+  03B1  5C                message_end
+  03B2  4A02              arg_pushb                       0x02
+  03B4  4E4300750072...   arg_pushs                       "Cure/Shock\nCure/Freeze\nAddSlot\nNevermind"
+  0407  51                list                            ... r2, "Cure/Shock\nCure/Freeze\nAddSlot\nNevermind"
+  0408  40020432003C...   switch_jmp                      r2, [label0032 /* 0414 */, label003C /* 04EE */, label0046 /* 05CA */, label0BB8 /* 07C6 */]
+  0413  01                ret
+
+label0032:
+  // Referenced by instruction at 0408
+  0414  F9523C            bb_get_number_in_pack           r60
+  0417  2D3C1E000000...   jmpi_eq                         r60, 0x0000001E, label03E8 /* 069E */
+  041F  F91FC9            get_slot_meseta                 r201-r202
+  0422  37C900350C00...   jmpi_lt                         r201, 0x000C3500, label07D0 /* 077F */
+  042A  02                sync
+  042B  08C9FA            let                             r201, r250
+  042E  09CA00350C00      leti                            r202, 0x000C3500
+  0434  11CB              clear                           r203
+  0436  F87BC9CB          take_slot_meseta                r201-r202, r203-r204
+  043A  4982000000        arg_pushl                       0x00000082
+  043F  4E4F006B0061...   arg_pushs                       "Okay, one Cure/Shock!"
+  046C  50                message                         ... 0x82 /* 130 */, "Okay, one Cure/Shock!"
+  046D  4E5400680061...   arg_pushs                       "Thanks, I\'m sure you\'ll\nput it to good use!"
+  04C6  5B                add_msg                         ... "Thanks, I\'m sure you\'ll\nput it to good use!"
+  04C7  5C                message_end
+  04C8  095001000000      leti                            r80, 0x00000001
+  04CE  095103000000      leti                            r81, 0x00000003
+  04D4  095247000000      leti                            r82, 0x00000047
+  04DA  B35053            item_create                     r80-r82, r83
+  04DD  11C8              clear                           r200
+  04DF  11C9              clear                           r201
+  04E1  11CA              clear                           r202
+  04E3  11CB              clear                           r203
+  04E5  1150              clear                           r80
+  04E7  1151              clear                           r81
+  04E9  1152              clear                           r82
+  04EB  1153              clear                           r83
+  04ED  01                ret
+
+label003C:
+  // Referenced by instruction at 0408
+  04EE  F9523D            bb_get_number_in_pack           r61
+  04F1  2D3D1E000000...   jmpi_eq                         r61, 0x0000001E, label03E8 /* 069E */
+  04F9  F91FC9            get_slot_meseta                 r201-r202
+  04FC  37C900350C00...   jmpi_lt                         r201, 0x000C3500, label07D0 /* 077F */
+  0504  02                sync
+  0505  08C9FA            let                             r201, r250
+  0508  09CA00350C00      leti                            r202, 0x000C3500
+  050E  11CB              clear                           r203
+  0510  F87BC9CB          take_slot_meseta                r201-r202, r203-r204
+  0514  4982000000        arg_pushl                       0x00000082
+  0519  4E4F006B0061...   arg_pushs                       "Okay, one Cure/Freeze!"
+  0548  50                message                         ... 0x82 /* 130 */, "Okay, one Cure/Freeze!"
+  0549  4E5400680061...   arg_pushs                       "Thanks, I\'m sure you\'ll\nput it to good use!"
+  05A2  5B                add_msg                         ... "Thanks, I\'m sure you\'ll\nput it to good use!"
+  05A3  5C                message_end
+  05A4  095001000000      leti                            r80, 0x00000001
+  05AA  095103000000      leti                            r81, 0x00000003
+  05B0  095246000000      leti                            r82, 0x00000046
+  05B6  B35053            item_create                     r80-r82, r83
+  05B9  11C8              clear                           r200
+  05BB  11C9              clear                           r201
+  05BD  11CA              clear                           r202
+  05BF  11CB              clear                           r203
+  05C1  1150              clear                           r80
+  05C3  1151              clear                           r81
+  05C5  1152              clear                           r82
+  05C7  1153              clear                           r83
+  05C9  01                ret
+
+label0046:
+  // Referenced by instruction at 0408
+  05CA  F9523D            bb_get_number_in_pack           r61
+  05CD  2D3D1E000000...   jmpi_eq                         r61, 0x0000001E, label03E8 /* 069E */
+  05D5  F91FC9            get_slot_meseta                 r201-r202
+  05D8  37C950C30000...   jmpi_lt                         r201, 0x0000C350, label07D0 /* 077F */
+  05E0  02                sync
+  05E1  08C9FA            let                             r201, r250
+  05E4  09CA50C30000      leti                            r202, 0x0000C350
+  05EA  11CB              clear                           r203
+  05EC  F87BC9CB          take_slot_meseta                r201-r202, r203-r204
+  05F0  4982000000        arg_pushl                       0x00000082
+  05F5  4E4F006B0061...   arg_pushs                       "Okay, one AddSlot!"
+  061C  50                message                         ... 0x82 /* 130 */, "Okay, one AddSlot!"
+  061D  4E5400680061...   arg_pushs                       "Thanks, I\'m sure you\'ll\nput it to good use!"
+  0676  5B                add_msg                         ... "Thanks, I\'m sure you\'ll\nput it to good use!"
+  0677  5C                message_end
+  0678  095003000000      leti                            r80, 0x00000003
+  067E  09510F000000      leti                            r81, 0x0000000F
+  0684  095200000000      leti                            r82, 0x00000000
+  068A  B35053            item_create                     r80-r82, r83
+  068D  11C8              clear                           r200
+  068F  11C9              clear                           r201
+  0691  11CA              clear                           r202
+  0693  11CB              clear                           r203
+  0695  1150              clear                           r80
+  0697  1151              clear                           r81
+  0699  1152              clear                           r82
+  069B  1153              clear                           r83
+  069D  01                ret
+
+label03E8:
+  // Referenced by instructions at 0417, 04F1, 05CD
+  069E  4982000000        arg_pushl                       0x00000082
+  06A3  4E4800650079...   arg_pushs                       "Hey, I think your inventory is full!"
+  06EE  50                message                         ... 0x82 /* 130 */, "Hey, I think your inventory is full!"
+  06EF  4E5900650061...   arg_pushs                       "Yeah, it is! You should\nget rid of something,\nthen speak to me again!"
+  077C  5B                add_msg                         ... "Yeah, it is! You should\nget rid of something,\nthen speak to me again!"
+  077D  5C                message_end
+  077E  01                ret
+
+label07D0:
+  // Referenced by instructions at 0422, 04FC, 05D8
+  077F  4982000000        arg_pushl                       0x00000082
+  0784  4E59006F0075...   arg_pushs                       "You don\'t have enough money..."
+  07C3  50                message                         ... 0x82 /* 130 */, "You don\'t have enough money..."
+  07C4  5C                message_end
+  07C5  01                ret
+
+label0BB8:
+  // Referenced by instruction at 0408
+  07C6  4982000000        arg_pushl                       0x00000082
+  07CB  4E5900650061...   arg_pushs                       "Yeah, sorry about the prices. Like I said,\nthey\'re not easy to come by."
+  085C  50                message                         ... 0x82 /* 130 */, "Yeah, sorry about the prices. Like I said,\nthey\'re not easy to come by."
+  085D  4E4900660020...   arg_pushs                       "If you get the meseta, come back and see me. It\'s\nno trouble for me to meet you after the Lab closes."
+  092A  5B                add_msg                         ... "If you get the meseta, come back and see me. It\'s\nno trouble for me to meet you after the Lab closes."
+  092B  5C                message_end
+  092C  01                ret
+
+label0087:
+  // Referenced by map enemy ES-00-013 [EnemySetEntry type=00F0 "TObjNpcHosa2" num_children=0000 floor=0000 room=001E wave_number=0000 wave_number2=0000 a1=0000 x=-35 y=0 z=85 x_angle=00000000 y_angle=0000C000 z_angle=00000000 params=[0 0 0 135 135 0000 0000]]
+  092D  4987000000        arg_pushl                       0x00000087
+  0932  4E490027006D...   arg_pushs                       "I\'m sorry, but the Lab is\noff-limits at the moment!"
+  099B  50                message                         ... 0x87 /* 135 */, "I\'m sorry, but the Lab is\noff-limits at the moment!"
+  099C  5C                message_end
+  099D  01                ret
+
+label0088:
+  // Referenced by map enemy ES-00-01B [EnemySetEntry type=00FD "TObjNpcNgcBase(0x00FD)" num_children=0000 floor=0000 room=0028 wave_number=0000 wave_number2=0000 a1=0000 x=-43 y=0 z=14 x_angle=00000000 y_angle=FFFFE000 z_angle=00000000 params=[10 0 0 136 136 0001 0000]]
+  099E  4988000000        arg_pushl                       0x00000088
+  09A3  4E53006F0020...   arg_pushs                       "So much to do...\nBusy, busy!"
+  09DE  50                message                         ... 0x88 /* 136 */, "So much to do...\nBusy, busy!"
+  09DF  5C                message_end
+  09E0  01                ret
+
+label0089:
+  // Referenced by map enemy ES-00-01C [EnemySetEntry type=00FD "TObjNpcNgcBase(0x00FD)" num_children=0000 floor=0000 room=0028 wave_number=0000 wave_number2=0000 a1=0000 x=-33 y=0 z=-22 x_angle=00000000 y_angle=00001000 z_angle=00000000 params=[10 0 0 137 137 0001 0000]]
+  09E1  4989000000        arg_pushl                       0x00000089
+  09E6  4E5700650027...   arg_pushs                       "We\'re trying to build a registry of\nall the hunters who come through\nhere."
+  0A7D  50                message                         ... 0x89 /* 137 */, "We\'re trying to build a registry of\nall the hunters who come through\nhere."
+  0A7E  4E5400680065...   arg_pushs                       "There\'s quite a lot of data to be entered...\nIt\'s very tiring, I tell you!"
+  0B15  5B                add_msg                         ... "There\'s quite a lot of data to be entered...\nIt\'s very tiring, I tell you!"
+  0B16  5C                message_end
+  0B17  01                ret

@@ -1,0 +1,887 @@
+.version BB_V4
+.quest_num 18
+.name "心のかたち"
+.short_desc "死んだと思っていた\n人から 通信が？"
+.long_desc "依頼主：エリ・パーソン\n依頼内容：\n  パイオニア１のメール友達、\n  カルスから 通信が届いた。\n  カルスは 実は生きているの？\n  だったら 探しに行きたいっ！\n報酬：  ２５００メセタ"
+.episode Episode1
+.header_episode 0x00
+.language J
+.max_players 1
+.solo_unlock_flag 0x0065
+.solo_unlock_flag 0x0067
+.solo_unlock_flag 0x006B
+.solo_unlock_flag 0x0201
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+start:
+  set_episode                     0x00000000
+  gget                            0x00DE, r101
+  gget                            0x00DF, r102
+  set_qt_exit                     label006F
+  set_qt_cancel                   label006F
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0096
+  set_floor_handler               ... 0x0 /* 0 */, label0096
+  arg_pushl                       0x00000006
+  arg_pushw                       0x009C
+  set_floor_handler               ... 0x6 /* 6 */, label009C
+  set_qt_success                  label00FA
+  bb_map_designate                0x00, 0x00, 0x00, 0x00, 0x00
+  bb_map_designate                0x06, 0x06, 0x00, 0x02, 0x00
+  ret
+
+label0001@0x0001:
+  ret
+
+label0096@0x0096:
+  arg_pushl                       0x00000006
+  set_mainwarp                    ... 0x6 /* 6 */
+  jmpi_eq                         r253, 0x00000001, label00FB
+  thread_stg                      label00C8
+  jmpi_eq                         r252, 0x00000001, label00AC
+  switch_jmp                      r0, [label00AA, label00AB]
+
+label00AA@0x00AA:
+  leti                            r60, 0x000000ED
+  leti                            r61, 0x00000000
+  leti                            r62, 0x0000014D
+  leti                            r63, 0x00000000
+  arg_pushl                       0x00000000
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  leti                            r60, 0x000000E1
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000163
+  leti                            r63, 0x000000AF
+  leti                            r64, 0x00000000
+  leti                            r65, 0x00000004
+  npc_crp                         r60-r65
+  arg_pushl                       0x00000001
+  npc_stop                        ... 0x1 /* 1 */
+  leti                            r60, 0x00000128
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000013
+  leti                            r63, 0x0000001F
+  leti                            r64, 0x0000014A
+  at_coords_call                  r60-r64
+  call                            label012F
+  arg_pushl                       0x00000006
+  set_mainwarp                    ... 0x6 /* 6 */
+  ret
+
+label00AB@0x00AB:
+  leti                            r60, 0x00000128
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000013
+  leti                            r63, 0x0000001F
+  leti                            r64, 0x0000014A
+  at_coords_call                  r60-r64
+  ret
+
+label006F@0x006F:
+  jmpi_eq                         r102, 0x00000001, label0001
+  gclear                          0x00DF
+  ret
+
+label00FA@0x00FA:
+  gset                            0x0087
+  arg_pushs                       "<color 1>２５００<color 0>メセタ受け取った。"
+  window_msg                      ... "<color 1>２５００<color 0>メセタ受け取った。"
+  window_msg_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  arg_pushl                       0x00000000
+  arg_pushl                       0x000009C4
+  pl_add_meseta                   ... 0x0 /* 0 */, 0x9C4 /* 2500 */
+  ret
+
+label00FB@0x00FB:
+  p_enablewarp
+  warp_on
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  arg_pushl                       0x00000000
+  p_talk_guild                    ... 0x0 /* 0 */
+  ret
+  ret
+
+label00AC@0x00AC:
+  leti                            r60, 0x00000091
+  leti                            r61, 0x00000000
+  leti                            r62, 0x0000004D
+  leti                            r63, 0x00000064
+  leti                            r64, 0x00000178
+  at_coords_call                  r60-r64
+  ret
+
+label009C@0x009C:
+  thread_stg                      label00C8
+  arg_pushl                       0x00000050
+  switch_on                       ... 0x50 /* 80 */
+  arg_pushl                       0x00000051
+  switch_on                       ... 0x51 /* 81 */
+  thread_stg                      label00CC
+  thread_stg                      label0118
+  call                            label0107
+  leti                            r60, 0x0000002F
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000000
+  leti                            r63, 0x00000010
+  leti                            r64, 0x0000014B
+  at_coords_call                  r60-r64
+  leti                            r60, 0x000004B6
+  leti                            r61, 0x00000000
+  leti                            r62, 0x000001E1
+  leti                            r63, 0x0000000F
+  leti                            r64, 0x00000154
+  at_coords_call                  r60-r64
+  leti                            r60, 0x0000065E
+  leti                            r61, 0x00000000
+  leti                            r62, 0x000001B0
+  leti                            r63, 0x0000000F
+  leti                            r64, 0x00000155
+  at_coords_call                  r60-r64
+  leti                            r60, 0x00000A44
+  leti                            r61, 0x00000000
+  leti                            r62, 0x000004D6
+  leti                            r63, 0x0000003C
+  leti                            r64, 0x0000015F
+  at_coords_call                  r60-r64
+  leti                            r60, 0x00000B0E
+  leti                            r61, 0x00000000
+  leti                            r62, 0x0000032D
+  leti                            r63, 0x00000010
+  leti                            r64, 0x00000177
+  at_coords_call                  r60-r64
+  leti                            r60, 0x00000B0D
+  leti                            r61, 0x00000000
+  leti                            r62, 0x000002DD
+  leti                            r63, 0x00000032
+  leti                            r64, 0x00000168
+  at_coords_call                  r60-r64
+  jmpi_eq                         r101, 0x00000001, label009D
+  jmpi_eq                         r102, 0x00000001, label0001
+  ret
+
+label009D@0x009D:
+  jmpi_eq                         r86, 0x00000001, label0001
+  leti                            r60, 0x00000693
+  leti                            r61, 0x00000000
+  leti                            r62, 0xFFFFFFC4
+  leti                            r63, 0x0000014A
+  leti                            r64, 0x00000000
+  leti                            r65, 0x0000000D
+  leti                            r66, 0x00000003
+  npc_crptalk_id                  r60-r66
+  leti                            r60, 0x00000693
+  leti                            r61, 0x00000000
+  leti                            r62, 0xFFFFFFC4
+  leti                            r63, 0x00000019
+  leti                            r64, 0x00000172
+  leti                            r65, 0x0000000A
+  set_obj_param                   r60-r65, r85
+  ret
+
+label012F@0x012F:
+  leti                            r211, 0x000000E3
+  leti                            r212, 0x00000018
+  leti                            r213, 0x00000133
+  leti                            r214, 0x000000E6
+  leti                            r215, 0x00000013
+  leti                            r216, 0x00000146
+  leti_fixed_camera               r211-r216
+  call                            label00DC
+  call                            label00CF
+  call                            label00CF
+  arg_pushl                       0x00000001
+  arg_pushs                       "あたしは エリ。\n<color 1>エリ・パーソン<color 0>といいます。"
+  message                         ... 0x1 /* 1 */, "あたしは エリ。\n<color 1>エリ・パーソン<color 0>といいます。"
+  arg_pushs                       "あたし、オンラインで知り合った\n友人の<color 1>カルス<color 0>と、この携帯端末で\nメッセージの交換をしていました。"
+  add_msg                         ... "あたし、オンラインで知り合った\n友人の<color 1>カルス<color 0>と、この携帯端末で\nメッセージの交換をしていました。"
+  arg_pushs                       "カルスは パイオニア１にいる人。"
+  add_msg                         ... "カルスは パイオニア１にいる人。"
+  arg_pushs                       "すっかり 仲良くなっちゃって、\nパイオニア２がラグオルに着いたら\nぜひ会おうと 約束していたんです。"
+  add_msg                         ... "すっかり 仲良くなっちゃって、\nパイオニア２がラグオルに着いたら\nぜひ会おうと 約束していたんです。"
+  arg_pushs                       "なのに ある時から ぷっつりと\n彼からの連絡が途絶えてしまいました。"
+  add_msg                         ... "なのに ある時から ぷっつりと\n彼からの連絡が途絶えてしまいました。"
+  arg_pushs                       "ウワサでは 大事故があって\nパイオニア１は 全滅だとか…"
+  add_msg                         ... "ウワサでは 大事故があって\nパイオニア１は 全滅だとか…"
+  arg_pushs                       "でも！ ついこの間 カルスから\n<color 5>メッセージ<color 0>が届いたんです！\nカルスは 生きているんです！"
+  add_msg                         ... "でも！ ついこの間 カルスから\n<color 5>メッセージ<color 0>が届いたんです！\nカルスは 生きているんです！"
+  arg_pushs                       "カルスを助けてあげたいんです。\nどうか いっしょに<color 5>カルスを探す<color 0>のを\n手伝ってください。お願いします。"
+  add_msg                         ... "カルスを助けてあげたいんです。\nどうか いっしょに<color 5>カルスを探す<color 0>のを\n手伝ってください。お願いします。"
+  message_end
+  default_camera_pos1
+  set                             r0
+  call                            label00DD
+  arg_pushl                       0x00000000
+  npc_play                        ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  ret
+
+label014A@0x014A:
+  jmpi_eq                         r2, 0x00000001, label0001
+  jmpi_eq                         r15, 0x00000001, label0001
+  jmpi_eq                         r252, 0x00000001, label0001
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  arg_pushs                       "あの…ちょっと待ってください。"
+  message                         ... 0x1 /* 1 */, "あの…ちょっと待ってください。"
+  message_end
+  call                            label00DC
+  arg_pushl                       0x00000001
+  arg_pushs                       "カルスにメッセージを送ってみます。\n何か 返事があるかもしれません。"
+  message                         ... 0x1 /* 1 */, "カルスにメッセージを送ってみます。\n何か 返事があるかもしれません。"
+  arg_pushs                       "「カルス…\n  来たのよ、あたし。ラグオルに。\n  あなたは どこにいるの？ 教えて。」"
+  add_msg                         ... "「カルス…\n  来たのよ、あたし。ラグオルに。\n  あなたは どこにいるの？ 教えて。」"
+  arg_pushs                       "…これで 返事があれば…\nなんのあてもなく探すよりは\nいいでしょう？"
+  add_msg                         ... "…これで 返事があれば…\nなんのあてもなく探すよりは\nいいでしょう？"
+  arg_pushs                       "じゃ、行きましょう！"
+  add_msg                         ... "じゃ、行きましょう！"
+  set                             r2
+  message_end
+  call                            label00DD
+  ret
+
+label0178@0x0178:
+  jmpi_eq                         r255, 0x00000001, label0001
+  call                            label00DC
+  arg_pushl                       0x00000001
+  arg_pushs                       "……"
+  message                         ... 0x1 /* 1 */, "……"
+  arg_pushs                       "<hero name>さん\nここでいいです。"
+  add_msg                         ... "<hero name>さん\nここでいいです。"
+  arg_pushs                       "連れていってくれて\nありがとうございます。"
+  add_msg                         ... "連れていってくれて\nありがとうございます。"
+  arg_pushs                       "ちゃんと ギルドカウンターで\n報酬は受けとってくださいね。"
+  add_msg                         ... "ちゃんと ギルドカウンターで\n報酬は受けとってくださいね。"
+  arg_pushs                       "…それじゃあ。"
+  add_msg                         ... "…それじゃあ。"
+  message_end
+  set                             r255
+  fadeout
+  arg_pushl                       0x00000001
+  npc_kill                        ... 0x1 /* 1 */
+  fadein
+  call                            label00DD
+  arg_pushl                       0x00000000
+  bgm                             ... 0x0 /* 0 */
+  arg_pushl                       0x00000002
+  playbgm_epi                     ... 0x2 /* 2 */
+  ret
+
+label0136@0x0136:
+  // Referenced by map enemy ES-00-001 [EnemySetEntry type=002D "TObjNpcHRM01" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=0.756699 y=0 z=-46.0602 x_angle=00000000 y_angle=0000C000 z_angle=00000000 params=[20 0 0 101 310 0001 0000]]
+  jmpi_eq                         r252, 0x00000001, label013A
+  arg_pushl                       0x00000065
+  arg_pushs                       "＜BEE＞ってシステム、\n知ってる？"
+  message                         ... 0x65 /* 101 */, "＜BEE＞ってシステム、\n知ってる？"
+  message_end
+  arg_pushb                       0x64
+  arg_pushs                       "はい\nいいえ"
+  list                            ... r100, "はい\nいいえ"
+  switch_jmp                      r100, [label0139, label0138]
+
+label0138@0x0138:
+  arg_pushl                       0x00000065
+  arg_pushs                       "なんだ、そんなことも知らないの？\n<hero job>失格だよ？\nいい？ ＜BEE＞っていうのは…"
+  message                         ... 0x65 /* 101 */, "なんだ、そんなことも知らないの？\n<hero job>失格だよ？\nいい？ ＜BEE＞っていうのは…"
+  arg_pushs                       "ラグオル地表との交信のために\n総督府が 設置した\n最新の情報転送システムのこと。"
+  add_msg                         ... "ラグオル地表との交信のために\n総督府が 設置した\n最新の情報転送システムのこと。"
+  arg_pushs                       "これで、少し タイムラグはあるけど\nボクらも 地表から 連絡を\nつけられるようになったってわけ。"
+  add_msg                         ... "これで、少し タイムラグはあるけど\nボクらも 地表から 連絡を\nつけられるようになったってわけ。"
+  message_end
+  ret
+
+label0139@0x0139:
+  arg_pushl                       0x00000065
+  arg_pushs                       "ラグオルから 何か来たのなら、\nその＜BEE＞システムにのってきた\nメッセージだと思うよ。"
+  message                         ... 0x65 /* 101 */, "ラグオルから 何か来たのなら、\nその＜BEE＞システムにのってきた\nメッセージだと思うよ。"
+  message_end
+  ret
+
+label013A@0x013A:
+  arg_pushl                       0x00000065
+  arg_pushs                       "どうしたの？\nなんか クラいよ？"
+  message                         ... 0x65 /* 101 */, "どうしたの？\nなんか クラいよ？"
+  arg_pushs                       "…ゴメン。\nマジみたいだね。\nからかって 悪かったよ。"
+  add_msg                         ... "…ゴメン。\nマジみたいだね。\nからかって 悪かったよ。"
+  message_end
+  ret
+
+label0140@0x0140:
+  // Referenced by map enemy ES-00-00A [EnemySetEntry type=002B "TObjNpcNHW01" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=215.002 y=0 z=135.004 x_angle=00000000 y_angle=0000C000 z_angle=00000000 params=[20 0 0 102 320 0001 0000]]
+  jmpi_eq                         r252, 0x00000001, label0141
+  arg_pushl                       0x00000066
+  arg_pushs                       "ラグオルで 誰か見なかったかって？"
+  message                         ... 0x66 /* 102 */, "ラグオルで 誰か見なかったかって？"
+  arg_pushs                       "いや、見なかったよ。\nこのパイオニア２から降りてった\n調査隊以外はね。"
+  add_msg                         ... "いや、見なかったよ。\nこのパイオニア２から降りてった\n調査隊以外はね。"
+  arg_pushs                       "少しは だれか\n生き残っていないのかねぇ！"
+  add_msg                         ... "少しは だれか\n生き残っていないのかねぇ！"
+  message_end
+  ret
+
+label0141@0x0141:
+  arg_pushl                       0x00000066
+  arg_pushs                       "パイオニア１の技術者の中には、\n自立型コンピュータに\nご執心な人が いたみたいね。"
+  message                         ... 0x66 /* 102 */, "パイオニア１の技術者の中には、\n自立型コンピュータに\nご執心な人が いたみたいね。"
+  arg_pushs                       "その人は、若くして\n亡くなったって聞くけど…"
+  add_msg                         ... "その人は、若くして\n亡くなったって聞くけど…"
+  message_end
+  ret
+
+label014B@0x014B:
+  jmpi_eq                         r4, 0x00000001, label0001
+  jmpi_eq                         r15, 0x00000001, label0001
+  jmpi_eq                         r252, 0x00000001, label0001
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  arg_pushs                       "あっ！ メッセージが来ました！"
+  message                         ... 0x1 /* 1 */, "あっ！ メッセージが来ました！"
+  message_end
+  call                            label00DC
+  arg_pushl                       0x00000001
+  arg_pushs                       "「エリ？ …なのか？\n  き…だめだ。…にいるんだ。」"
+  message                         ... 0x1 /* 1 */, "「エリ？ …なのか？\n  き…だめだ。…にいるんだ。」"
+  arg_pushs                       "カルスです！\n…やっぱり 生きていたんです！"
+  add_msg                         ... "カルスです！\n…やっぱり 生きていたんです！"
+  arg_pushs                       "カルス、今 助けに行くからね…！"
+  add_msg                         ... "カルス、今 助けに行くからね…！"
+  set                             r4
+  message_end
+  call                            label00DD
+  ret
+
+label014C@0x014C:
+  jmpi_eq                         r6, 0x00000001, label0001
+  jmpi_eq                         r15, 0x00000001, label0001
+  jmpi_eq                         r252, 0x00000001, label0001
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  arg_pushs                       "あ、また受信です。"
+  message                         ... 0x1 /* 1 */, "あ、また受信です。"
+  message_end
+  call                            label00DC
+  arg_pushl                       0x00000001
+  arg_pushs                       "「ここ…近づ…ては…ダメ」"
+  message                         ... 0x1 /* 1 */, "「ここ…近づ…ては…ダメ」"
+  arg_pushs                       "何を言っているんでしょう。"
+  add_msg                         ... "何を言っているんでしょう。"
+  arg_pushs                       "もしかして 危険な場所にいるんじゃ…\n急ぎましょう。"
+  add_msg                         ... "もしかして 危険な場所にいるんじゃ…\n急ぎましょう。"
+  set                             r6
+  message_end
+  call                            label00DD
+  ret
+
+label0154@0x0154:
+  jmpi_eq                         r8, 0x00000001, label0001
+  jmpi_eq                         r15, 0x00000001, label0001
+  jmpi_eq                         r252, 0x00000001, label0001
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  arg_pushs                       "あ、また メッセージが届きました。"
+  message                         ... 0x1 /* 1 */, "あ、また メッセージが届きました。"
+  message_end
+  call                            label00E8
+  arg_pushl                       0x00000001
+  arg_pushs                       "「エリ、私なら 平気です。\n  さっきのは ほんの冗談。"
+  message                         ... 0x1 /* 1 */, "「エリ、私なら 平気です。\n  さっきのは ほんの冗談。"
+  arg_pushs                       "  実は 事故の後ずっと、\n  地下の坑道に 隠れていたんだ。"
+  add_msg                         ... "  実は 事故の後ずっと、\n  地下の坑道に 隠れていたんだ。"
+  arg_pushs                       "  早く 会いたい。\n  早く ここへ来てくれ。」"
+  add_msg                         ... "  早く 会いたい。\n  早く ここへ来てくれ。」"
+  arg_pushs                       "よかった。\n無事だったようです。"
+  add_msg                         ... "よかった。\n無事だったようです。"
+  arg_pushs                       "もう、人が悪いんだから。\nカルスって、昔からこうなんですよ。"
+  add_msg                         ... "もう、人が悪いんだから。\nカルスって、昔からこうなんですよ。"
+  arg_pushs                       "冗談が好きで…だけど それが\n全然 イヤミじゃないんです。"
+  add_msg                         ... "冗談が好きで…だけど それが\n全然 イヤミじゃないんです。"
+  arg_pushs                       "すごく 頭も切れるし、\nあたしの悩みも\n親身に 相談に乗ってくれて…"
+  add_msg                         ... "すごく 頭も切れるし、\nあたしの悩みも\n親身に 相談に乗ってくれて…"
+  arg_pushs                       "…あっ、ノロケちゃいました？"
+  add_msg                         ... "…あっ、ノロケちゃいました？"
+  arg_pushs                       "…でもまだ、\n会ったことないんですよね。"
+  add_msg                         ... "…でもまだ、\n会ったことないんですよね。"
+  arg_pushs                       "初めて 会うの、\n嬉しいような 怖いような…\nそんな気持ちです。"
+  add_msg                         ... "初めて 会うの、\n嬉しいような 怖いような…\nそんな気持ちです。"
+  arg_pushs                       "…あ あの、すみません。\n余談ばかりしていないで\n先を急ぎましょう…。"
+  add_msg                         ... "…あ あの、すみません。\n余談ばかりしていないで\n先を急ぎましょう…。"
+  set                             r8
+  message_end
+  call                            label00E9
+  ret
+
+label0155@0x0155:
+  jmpi_eq                         r10, 0x00000001, label0001
+  jmpi_eq                         r15, 0x00000001, label0001
+  jmpi_eq                         r252, 0x00000001, label0001
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  arg_pushs                       "あ、また メッセージが来ました。"
+  message                         ... 0x1 /* 1 */, "あ、また メッセージが来ました。"
+  message_end
+  call                            label00E8
+  arg_pushl                       0x00000001
+  arg_pushs                       "「そのまま 行くと、\n  坑道への 入口がある。\n  そこから 入ってきてくれ」"
+  message                         ... 0x1 /* 1 */, "「そのまま 行くと、\n  坑道への 入口がある。\n  そこから 入ってきてくれ」"
+  arg_pushs                       "どうやら 近づいてきたみたいです。\n急ぎましょう。"
+  add_msg                         ... "どうやら 近づいてきたみたいです。\n急ぎましょう。"
+  set                             r10
+  message_end
+  call                            label00E9
+  ret
+
+label015E@0x015E:
+  jmpi_eq                         r12, 0x00000001, label0001
+  jmpi_eq                         r15, 0x00000001, label0001
+  jmpi_eq                         r252, 0x00000001, label0001
+  call                            label00DC
+  arg_pushl                       0x00000001
+  arg_pushs                       "カルス…こんなところに…？"
+  message                         ... 0x1 /* 1 */, "カルス…こんなところに…？"
+  arg_pushs                       "思えば 長いこと、\nメッセージだけのつきあいでしたけど、\nいよいよ 本当に会えるんですね。"
+  add_msg                         ... "思えば 長いこと、\nメッセージだけのつきあいでしたけど、\nいよいよ 本当に会えるんですね。"
+  arg_pushs                       "ああ、カルス…危険な目に\nあってなければいいんだけど。"
+  add_msg                         ... "ああ、カルス…危険な目に\nあってなければいいんだけど。"
+  set                             r12
+  message_end
+  call                            label00DD
+  ret
+
+label015F@0x015F:
+  jmpi_eq                         r14, 0x00000001, label0001
+  jmpi_eq                         r15, 0x00000001, label0001
+  jmpi_eq                         r252, 0x00000001, label0001
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  arg_pushs                       "受信です！"
+  message                         ... 0x1 /* 1 */, "受信です！"
+  message_end
+  call                            label00DC
+  arg_pushl                       0x00000001
+  arg_pushs                       "「きちゃ だめだ\n  帰れ エリ 」…"
+  message                         ... 0x1 /* 1 */, "「きちゃ だめだ\n  帰れ エリ 」…"
+  arg_pushs                       "???"
+  add_msg                         ... "???"
+  arg_pushs                       "…どういうこと？"
+  add_msg                         ... "…どういうこと？"
+  set                             r14
+  message_end
+  arg_pushl                       0x00000263
+  setevt                          ... 0x263 /* 611 */
+  call                            label00DD
+  ret
+
+label0168@0x0168:
+  jmpi_eq                         r252, 0x00000001, label0001
+  jmpi_eq                         r15, 0x00000001, label0001
+  call                            label00DE
+  arg_pushl                       0x00000002
+  playbgm_epi                     ... 0x2 /* 2 */
+  arg_pushs                       "… … …"
+  window_msg                      ... "… … …"
+  arg_pushs                       "… … …"
+  add_msg                         ... "… … …"
+  arg_pushs                       "エリ…よかった、無事で。"
+  add_msg                         ... "エリ…よかった、無事で。"
+  window_msg_end
+  call                            label00CF
+  arg_pushl                       0x00000001
+  npc_stop                        ... 0x1 /* 1 */
+  leti                            r60, 0x00000B15
+  leti                            r61, 0x00000000
+  leti                            r62, 0x000002FB
+  leti                            r63, 0x00000001
+  pl_walk                         r60-r63
+  arg_pushl                       0x00000000
+  npc_play                        ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  arg_pushs                       "！！！！"
+  message                         ... 0x1 /* 1 */, "！！！！"
+  message_end
+  arg_pushl                       0x00000001
+  npc_stop                        ... 0x1 /* 1 */
+  leti                            r60, 0x00000B13
+  leti                            r61, 0x00000000
+  leti                            r62, 0x000002E6
+  leti                            r63, 0x00000001
+  pl_walk                         r60-r63
+  arg_pushl                       0x00000001
+  arg_pushs                       "..."
+  message                         ... 0x1 /* 1 */, "..."
+  arg_pushs                       "これが、カルス…？"
+  add_msg                         ... "これが、カルス…？"
+  arg_pushs                       "カルスが…機械…！"
+  add_msg                         ... "カルスが…機械…！"
+  message_end
+  arg_pushs                       "エリ…\nオンラインでの 君とのおしゃべりは\n本当に 楽しかった。"
+  window_msg                      ... "エリ…\nオンラインでの 君とのおしゃべりは\n本当に 楽しかった。"
+  arg_pushs                       "こんな姿 見られたくはなかったけど…\nいつまでも ウソをついてるのは\nイヤだったし…"
+  add_msg                         ... "こんな姿 見られたくはなかったけど…\nいつまでも ウソをついてるのは\nイヤだったし…"
+  arg_pushs                       "なにより…君に会いたかった…\n会って 話がしたかった…"
+  add_msg                         ... "なにより…君に会いたかった…\n会って 話がしたかった…"
+  arg_pushs                       "パイオニア２が ラグオルに着いたら…\n会って すべてを明かそうと思った。"
+  add_msg                         ... "パイオニア２が ラグオルに着いたら…\n会って すべてを明かそうと思った。"
+  arg_pushs                       "そんなときだ。\nあの大事故が起きたのは。"
+  add_msg                         ... "そんなときだ。\nあの大事故が起きたのは。"
+  arg_pushs                       "詳しいことは ワタシにも判らない。\nただ確かなことは…"
+  add_msg                         ... "詳しいことは ワタシにも判らない。\nただ確かなことは…"
+  arg_pushs                       "そのときから、何者かに\nハッキングを受け始めたのだ。"
+  add_msg                         ... "そのときから、何者かに\nハッキングを受け始めたのだ。"
+  arg_pushs                       "見えないものに 身体を浸食されていく…\n自分が 自分でなくなっていく…\nそんな感覚だ…"
+  add_msg                         ... "見えないものに 身体を浸食されていく…\n自分が 自分でなくなっていく…\nそんな感覚だ…"
+  arg_pushs                       "解る…自分でないモノが、\n何か 有機体の肉体を欲していること…"
+  add_msg                         ... "解る…自分でないモノが、\n何か 有機体の肉体を欲していること…"
+  arg_pushs                       "パイオニア１のメカを改造し、\n意のままに操り、パイオニア２からの\n調査隊を 手に掛けていること…"
+  add_msg                         ... "パイオニア１のメカを改造し、\n意のままに操り、パイオニア２からの\n調査隊を 手に掛けていること…"
+  arg_pushs                       "エリには…来て欲しくなかった。\nもしかしたら 自分でない自分が\nエリを殺してしまうかもしれない。"
+  add_msg                         ... "エリには…来て欲しくなかった。\nもしかしたら 自分でない自分が\nエリを殺してしまうかもしれない。"
+  arg_pushs                       "でも、自分でない自分が\nエリを呼んでしまうのだ。"
+  add_msg                         ... "でも、自分でない自分が\nエリを呼んでしまうのだ。"
+  arg_pushs                       "でも…よかった、エリが無事で…"
+  add_msg                         ... "でも…よかった、エリが無事で…"
+  arg_pushs                       "最期に、エリに会えて…"
+  add_msg                         ... "最期に、エリに会えて…"
+  window_msg_end
+  arg_pushl                       0x00000001
+  arg_pushs                       "最期…？\n最期って どういうことよ、カルス？"
+  message                         ... 0x1 /* 1 */, "最期…？\n最期って どういうことよ、カルス？"
+  message_end
+  arg_pushs                       "ワタシは ハッキングに懸命に抵抗した。\nしかし…ネットワークも断絶し、\nオートリカバーも もう限界だ…"
+  window_msg                      ... "ワタシは ハッキングに懸命に抵抗した。\nしかし…ネットワークも断絶し、\nオートリカバーも もう限界だ…"
+  arg_pushs                       "最終的には、システムを\nダウンするしかないという\n結論に達した…"
+  add_msg                         ... "最終的には、システムを\nダウンするしかないという\n結論に達した…"
+  arg_pushs                       "もうすぐ システムは落ちる…\nワタシは いなくなるのだ…"
+  add_msg                         ... "もうすぐ システムは落ちる…\nワタシは いなくなるのだ…"
+  window_msg_end
+  arg_pushl                       0x00000001
+  arg_pushs                       "待って！\n待ってよ、カルス！"
+  message                         ... 0x1 /* 1 */, "待って！\n待ってよ、カルス！"
+  arg_pushs                       "どうしよう。\nどうすればいいの？\nあなたが いなくなるなんて、そんな…"
+  add_msg                         ... "どうしよう。\nどうすればいいの？\nあなたが いなくなるなんて、そんな…"
+  arg_pushs                       "そうだ。\nなんとか バックアップを\n取っておければ…！"
+  add_msg                         ... "そうだ。\nなんとか バックアップを\n取っておければ…！"
+  message_end
+  arg_pushs                       "・"
+  window_msg                      ... "・"
+  arg_pushs                       "・・"
+  add_msg                         ... "・・"
+  arg_pushs                       "・・・"
+  add_msg                         ... "・・・"
+  arg_pushs                       "・・・・"
+  add_msg                         ... "・・・・"
+  arg_pushs                       "バックアップ終了。"
+  add_msg                         ... "バックアップ終了。"
+  window_msg_end
+  arg_pushl                       0x00000001
+  arg_pushs                       "カルス…"
+  message                         ... 0x1 /* 1 */, "カルス…"
+  message_end
+  set                             r252
+  call                            label00DF
+  arg_pushl                       0x00000000
+  npc_play                        ... 0x0 /* 0 */
+  ret
+
+label0171@0x0171:
+  // Referenced by map object KS-06-023 [ObjectSetEntry type=0104 "TOComputerMachine01" floor=0006 group=0000 room=0007 a3=0000 x=0 y=0 z=39 x_angle=00000000 y_angle=FFFF8000 z_angle=00000000 params=[1 1 1 -0000001 00000078 00000171]]
+  call                            label00DE
+  arg_pushs                       "… … …"
+  window_msg                      ... "… … …"
+  window_msg_end
+  call                            label00DF
+  ret
+
+label0177@0x0177:
+  jmpi_eq                         r252, 0x00000000, label0001
+  jmpi_eq                         r254, 0x00000001, label0001
+  call                            label00DE
+  arg_pushl                       0x00000001
+  arg_pushs                       "… … …"
+  message                         ... 0x1 /* 1 */, "… … …"
+  arg_pushs                       "… … …"
+  add_msg                         ... "… … …"
+  arg_pushs                       "<hero name>さん。"
+  add_msg                         ... "<hero name>さん。"
+  arg_pushs                       "…戻りましょう。\nパイオニア２へ。"
+  add_msg                         ... "…戻りましょう。\nパイオニア２へ。"
+  message_end
+  set                             r254
+  fadeout
+  leti                            r60, 0x00000B04
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000316
+  leti                            r63, 0x00000000
+  pos_pipe                        r60-r63
+  call                            label00DF
+  fadein
+  ret
+
+label0172@0x0172:
+  call                            label00E2
+  arg_pushl                       0x00000003
+  arg_pushs                       "<hero name>！\nあんたも しぶといほうだな。"
+  message                         ... 0x3 /* 3 */, "<hero name>！\nあんたも しぶといほうだな。"
+  arg_pushs                       "オレの仲間も １人やられたよ…\nあんたとも もう会えないかと\n思ってたが…うれしいね。"
+  add_msg                         ... "オレの仲間も １人やられたよ…\nあんたとも もう会えないかと\n思ってたが…うれしいね。"
+  arg_pushs                       "この辺も 気を緩めると\nやばいとこばかりだ…"
+  add_msg                         ... "この辺も 気を緩めると\nやばいとこばかりだ…"
+  arg_pushs                       "ときに、この下に出るモンスター…\nありゃ なんだ？ オレには\nこの世のものと 思えねえな…"
+  add_msg                         ... "ときに、この下に出るモンスター…\nありゃ なんだ？ オレには\nこの世のものと 思えねえな…"
+  arg_pushs                       "パイオニア１の軍の残骸は\n転がっていやがるし…\n奥に なにがあるっていうんだ？"
+  add_msg                         ... "パイオニア１の軍の残骸は\n転がっていやがるし…\n奥に なにがあるっていうんだ？"
+  arg_pushs                       "… … …"
+  add_msg                         ... "… … …"
+  arg_pushs                       "何かの採掘をしていたここと\nその下にあった古代遺跡…\nそして軍の残骸…"
+  add_msg                         ... "何かの採掘をしていたここと\nその下にあった古代遺跡…\nそして軍の残骸…"
+  arg_pushs                       "裏が だんだん読めてきたな…"
+  add_msg                         ... "裏が だんだん読めてきたな…"
+  arg_pushs                       "…と、\nこうしちゃいられねぇ。"
+  add_msg                         ... "…と、\nこうしちゃいられねぇ。"
+  arg_pushs                       "すまんな。\n仲間を探してる\n途中だったんだ。"
+  add_msg                         ... "すまんな。\n仲間を探してる\n途中だったんだ。"
+  arg_pushs                       "…あんたとは また会いてえな。\nむろん、お互い生きていたらだがな。"
+  add_msg                         ... "…あんたとは また会いてえな。\nむろん、お互い生きていたらだがな。"
+  arg_pushs                       "じゃあな！"
+  add_msg                         ... "じゃあな！"
+  gset                            0x00DF
+  set                             r86
+  message_end
+  fadeout
+  arg_pushl                       0x00000003
+  npc_kill                        ... 0x3 /* 3 */
+  call                            label00CF
+  del_obj_param                   r85
+  fadein
+  call                            label00E3
+  ret
+
+label00DC@0x00DC:
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  hud_hide
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000001
+  p_look_at                       ... 0x0 /* 0 */, 0x1 /* 1 */
+  arg_pushl                       0x00000001
+  arg_pushl                       0x00000000
+  p_look_at                       ... 0x1 /* 1 */, 0x0 /* 0 */
+  cine_enable
+  cam_zmin
+  call                            label00CF
+  ret
+
+label00DD@0x00DD:
+  cam_zmout
+  cine_disable
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  npc_talk_on
+  p_action_enable
+  ret
+
+label00DE@0x00DE:
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  hud_hide
+  cine_enable
+  cam_zmin
+  call                            label00CF
+  ret
+
+label00DF@0x00DF:
+  cam_zmout
+  cine_disable
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  npc_talk_on
+  p_action_enable
+  ret
+
+label00E0@0x00E0:
+  p_action_disable
+
+label00E1@0x00E1:
+  p_action_enable
+
+label00E2@0x00E2:
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  arg_pushl                       0x00000000
+  arg_pushl                       0x00000003
+  p_look_at                       ... 0x0 /* 0 */, 0x3 /* 3 */
+  arg_pushl                       0x00000003
+  arg_pushl                       0x00000000
+  p_look_at                       ... 0x3 /* 3 */, 0x0 /* 0 */
+  hud_hide
+  cam_zmin
+  call                            label00CF
+  ret
+
+label00E3@0x00E3:
+  cam_zmout
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  npc_talk_on
+  p_action_enable
+  ret
+
+label00E4@0x00E4:
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  arg_pushl                       0x00000000
+  p_look                          ... 0x0 /* 0 */
+  arg_pushl                       0x00000003
+  arg_pushl                       0x00000000
+  p_look_at                       ... 0x3 /* 3 */, 0x0 /* 0 */
+  hud_hide
+  cine_enable
+  cam_zmin
+  call                            label00CF
+  ret
+
+label00E5@0x00E5:
+  cam_zmout
+  cine_disable
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  npc_talk_on
+  p_action_enable
+  ret
+
+label00E8@0x00E8:
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  hud_hide
+  cine_enable
+  call                            label00CF
+  ret
+
+label00E9@0x00E9:
+  cine_disable
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  npc_talk_on
+  p_action_enable
+  ret
+
+label00CF@0x00CF:
+  leti                            r72, 0x00000000
+
+label00D0@0x00D0:
+  sync
+  addi                            r72, 0x00000001
+  jmpi_le                         r72, 0x0000001E, label00D0
+  ret
+
+label00CD@0x00CD:
+  leti                            r70, 0x00000000
+
+label00CE@0x00CE:
+  sync
+  addi                            r70, 0x00000001
+  jmpi_le                         r70, 0x00000096, label00CD
+  ret
+
+label00CC@0x00CC:
+  jmpi_eq                         r6, 0x00000001, label0001
+  sync
+  leti                            r54, 0x00000006
+  leti                            r55, 0x0000003C
+  if_zone_clear                   r56, r54-r55
+  jmpi_eq                         r56, 0x00000000, label00CC
+  call                            label00CF
+  call                            label014C
+  ret
+
+label0118@0x0118:
+  jmpi_eq                         r12, 0x00000001, label0001
+  sync
+  leti                            r54, 0x00000006
+  leti                            r55, 0x00000034
+  if_zone_clear                   r56, r54-r55
+  jmpi_eq                         r56, 0x00000000, label0118
+  call                            label00CF
+  call                            label015E
+  ret
+
+label00C8@0x00C8:
+  sync
+  arg_pushb                       0x3A
+  arg_pushl                       0x00000000
+  p_dead                          ... r58, 0x0 /* 0 */
+  jmpi_eq                         r58, 0x00000001, label00CA
+  arg_pushb                       0xEE
+  arg_pushl                       0x00000001
+  p_dead                          ... r238, 0x1 /* 1 */
+  jmpi_eq                         r238, 0x00000000, label00C8
+  warp_off
+  p_disablewarp
+
+label00C9@0x00C9:
+  call                            label00CF
+  call                            label00CF
+  set                             r253
+  fadeout
+  arg_pushl                       0x00000001
+  npc_kill                        ... 0x1 /* 1 */
+  p_return_guild
+  ret
+
+label00CA@0x00CA:
+  ret
+
+label0107@0x0107:
+  arg_pushl                       0x00000004
+  arg_pushs                       "いや…！！カルス…！"
+  npc_text                        ... 0x4 /* 4 */, "いや…！！カルス…！"
+  arg_pushl                       0x0000000E
+  arg_pushs                       "きゃああっ！"
+  npc_text                        ... 0xE /* 14 */, "きゃああっ！"
+  arg_pushl                       0x00000011
+  arg_pushs                       "ありがと！\n"
+  npc_text                        ... 0x11 /* 17 */, "ありがと！\n"
+  ret
+  nop
+  nop
+  nop

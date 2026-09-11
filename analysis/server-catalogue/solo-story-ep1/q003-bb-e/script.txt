@@ -1,0 +1,456 @@
+.version BB_V4
+.quest_num 3
+.name "The Value of Money"
+.short_desc "A wife is\ndepressed."
+.long_desc "Client: Gizel\'s wife\nQuest:\n  I want my husband to\n  stop wasting money. He\n  buys too many weapons.\nReward: 300 Meseta"
+.episode Episode1
+.header_episode 0x00
+.language E
+.max_players 1
+.solo_unlock_flag 0x0065
+.solo_unlock_flag 0x0067
+.solo_unlock_flag 0x006B
+.solo_unlock_flag 0x01F9
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+start:
+  set_episode                     0x00000000
+  gget                            0x00F6, r102
+  gget                            0x00F2, r103
+  gget                            0x00F2, r110
+  gget                            0x00F1, r101
+  set_qt_exit                     label006F
+  set_qt_cancel                   label006F
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0096
+  set_floor_handler               ... 0x0 /* 0 */, label0096
+  set_qt_success                  label00FA
+  bb_map_designate                0x00, 0x00, 0x00, 0x00, 0x00
+  ret
+
+label0001@0x0001:
+  ret
+
+label006F@0x006F:
+  jmpi_eq                         r110, 0x00000001, label0001
+  gclear                          0x00F2
+  ret
+
+label0096@0x0096:
+  leti                            r60, 0x000000ED
+  leti                            r61, 0x00000000
+  leti                            r62, 0x0000014D
+  leti                            r63, 0xFFFFFFFA
+  arg_pushl                       0x00000000
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  warp_off
+  call                            label0136
+  ret
+
+label00FA@0x00FA:
+  gset                            0x0069
+  arg_pushs                       "You\'ve been awarded 300 Meseta!"
+  window_msg                      ... "You\'ve been awarded 300 Meseta!"
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  arg_pushl                       0x00000000
+  arg_pushl                       0x0000012C
+  pl_add_meseta                   ... 0x0 /* 0 */, 0x12C /* 300 */
+  ret
+
+label0136@0x0136:
+  // Referenced by map enemy ES-00-001 [EnemySetEntry type=0004 "TObjNpcFemaleFat/TObjNpcFemaleFat" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-3.00204 y=0 z=63.9975 x_angle=00000000 y_angle=00007800 z_angle=00000000 params=[0 0 0 100 310 0000 0000]]
+  jmpi_eq                         r255, 0x00000001, label013E
+  jmpi_eq                         r9, 0x00000001, label013D
+  jmpi_eq                         r8, 0x00000001, label013C
+  jmpi_eq                         r7, 0x00000001, label013B
+  jmpi_eq                         r5, 0x00000001, label013A
+  jmpi_eq                         r3, 0x00000001, label0139
+  jmpi_eq                         r1, 0x00000001, label0138
+  jmpi_eq                         r0, 0x00000001, label0137
+  call                            label00DE
+  arg_pushl                       0x00000064
+  arg_pushs                       "I don\'t think he knows\nthe meaning of the word\n\"waste.\""
+  message                         ... 0x64 /* 100 */, "I don\'t think he knows\nthe meaning of the word\n\"waste.\""
+  arg_pushs                       "He buys weapons without\na second thought."
+  add_msg                         ... "He buys weapons without\na second thought."
+  arg_pushs                       "He could buy much better\nweapons earlier if he\nsaved his money, right?"
+  add_msg                         ... "He could buy much better\nweapons earlier if he\nsaved his money, right?"
+  arg_pushs                       "He\'ll listen to you\nsince you\'re also a\nhunter. Convince him."
+  add_msg                         ... "He\'ll listen to you\nsince you\'re also a\nhunter. Convince him."
+  message_end
+  set                             r0
+  call                            label00DF
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  ret
+
+label0137@0x0137:
+  arg_pushl                       0x00000064
+  arg_pushs                       "My husband?  He may be\nat the shop, browsing\nfor weapons again."
+  message                         ... 0x64 /* 100 */, "My husband?  He may be\nat the shop, browsing\nfor weapons again."
+  message_end
+  ret
+
+label0138@0x0138:
+  arg_pushl                       0x00000064
+  arg_pushs                       "I can\'t believe it.\nHe snubbed you?\nMy goodness..."
+  message                         ... 0x64 /* 100 */, "I can\'t believe it.\nHe snubbed you?\nMy goodness..."
+  arg_pushs                       "What he\'s saying isn\'t\nwrong, but he\'s not\nbeing economical."
+  add_msg                         ... "What he\'s saying isn\'t\nwrong, but he\'s not\nbeing economical."
+  arg_pushs                       "Take a firm stand!\nOK?"
+  add_msg                         ... "Take a firm stand!\nOK?"
+  message_end
+  set                             r2
+  ret
+
+label0139@0x0139:
+  arg_pushl                       0x00000064
+  arg_pushs                       "You were fooled by him,\nweren\'t you?\nI can\'t believe it."
+  message                         ... 0x64 /* 100 */, "You were fooled by him,\nweren\'t you?\nI can\'t believe it."
+  arg_pushs                       "I said he\'s not\neconomical \'cause he\nbuys without thinking."
+  add_msg                         ... "I said he\'s not\neconomical \'cause he\nbuys without thinking."
+  arg_pushs                       "Take a firm stand!\nOK?"
+  add_msg                         ... "Take a firm stand!\nOK?"
+  message_end
+  set                             r4
+  ret
+
+label013A@0x013A:
+  arg_pushl                       0x00000064
+  arg_pushs                       "Expensive weapons aren\'t\nalways strong?  I\'m not\ntalking about that."
+  message                         ... 0x64 /* 100 */, "Expensive weapons aren\'t\nalways strong?  I\'m not\ntalking about that."
+  arg_pushs                       "Buying weapons is fine,\nbut he needs to be smart\nwhen he buys things."
+  add_msg                         ... "Buying weapons is fine,\nbut he needs to be smart\nwhen he buys things."
+  arg_pushs                       "Take a firm stand!\nOK?"
+  add_msg                         ... "Take a firm stand!\nOK?"
+  message_end
+  set                             r6
+  ret
+
+label013B@0x013B:
+  arg_pushl                       0x00000064
+  arg_pushs                       "Did he finally\nunderstand?"
+  message                         ... 0x64 /* 100 */, "Did he finally\nunderstand?"
+  arg_pushs                       "Now I know.  He has a\nweapon-fetish."
+  add_msg                         ... "Now I know.  He has a\nweapon-fetish."
+  arg_pushs                       "But we can\'t afford to\nwaste money to keep him\nhappy all the time."
+  add_msg                         ... "But we can\'t afford to\nwaste money to keep him\nhappy all the time."
+  jmp                             label013C
+
+label013C@0x013C:
+  arg_pushl                       0x00000064
+  arg_pushs                       "Tell him,\nNO MORE SHOPPING."
+  message                         ... 0x64 /* 100 */, "Tell him,\nNO MORE SHOPPING."
+  message_end
+  set                             r8
+  ret
+
+label013D@0x013D:
+  arg_pushl                       0x00000064
+  arg_pushs                       "Thank you.\nWas he really\nthat disappointed?"
+  message                         ... 0x64 /* 100 */, "Thank you.\nWas he really\nthat disappointed?"
+  arg_pushs                       "I\'ll allow him to buy\nweapons later."
+  add_msg                         ... "I\'ll allow him to buy\nweapons later."
+  arg_pushs                       "Good job.\nPlease go and receive\nyour money at the Guild."
+  add_msg                         ... "Good job.\nPlease go and receive\nyour money at the Guild."
+  message_end
+  set                             r255
+  arg_pushl                       0x00000000
+  bgm                             ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  playbgm_epi                     ... 0x1 /* 1 */
+  ret
+
+label013E@0x013E:
+  arg_pushl                       0x00000064
+  arg_pushs                       "Thank you.\nWas he really\nthat disappointed?"
+  message                         ... 0x64 /* 100 */, "Thank you.\nWas he really\nthat disappointed?"
+  arg_pushs                       "I\'ll allow him to buy\nweapons later."
+  add_msg                         ... "I\'ll allow him to buy\nweapons later."
+  arg_pushs                       "Good job.\nPlease go and receive\nyour money at the Guild."
+  add_msg                         ... "Good job.\nPlease go and receive\nyour money at the Guild."
+  message_end
+  ret
+
+label0140@0x0140:
+  // Referenced by map enemy ES-00-00F [EnemySetEntry type=000A "TObjNpcMaleDwarf/TObjNpcMaleDwarf" num_children=0000 floor=0000 room=001E wave_number=0000 wave_number2=0000 a1=0000 x=16.004 y=0 z=5.99567 x_angle=00000000 y_angle=FFFFD000 z_angle=00000000 params=[22 0 0 101 320 0001 0000]]
+  jmpi_eq                         r9, 0x00000001, label0161
+  jmpi_eq                         r8, 0x00000001, label0160
+  jmpi_eq                         r7, 0x00000001, label015F
+  jmpi_eq                         r6, 0x00000001, label0145
+  jmpi_eq                         r5, 0x00000001, label0155
+  jmpi_eq                         r4, 0x00000001, label0145
+  jmpi_eq                         r3, 0x00000001, label014D
+  jmpi_eq                         r2, 0x00000001, label0145
+  jmpi_eq                         r1, 0x00000001, label0144
+  arg_pushl                       0x00000065
+  arg_pushs                       "What?  Who are you?"
+  message                         ... 0x65 /* 101 */, "What?  Who are you?"
+  arg_pushs                       "An errand from my wife?\nI\'m buying weapons\ntoo often?"
+  add_msg                         ... "An errand from my wife?\nI\'m buying weapons\ntoo often?"
+  arg_pushs                       "Shut up."
+  add_msg                         ... "Shut up."
+  jmp                             label0141
+
+label0141@0x0141:
+  arg_pushl                       0x00000065
+  arg_pushs                       "Expensive weapons are\nstrong."
+  message                         ... 0x65 /* 101 */, "Expensive weapons are\nstrong."
+  arg_pushs                       "With strong weapons, I can\nkill expensive monsters,\nand I can be rich."
+  add_msg                         ... "With strong weapons, I can\nkill expensive monsters,\nand I can be rich."
+  arg_pushs                       "So, it\'s smart of me to\nbuy better weapons.\nUnderstand?"
+  add_msg                         ... "So, it\'s smart of me to\nbuy better weapons.\nUnderstand?"
+  message_end
+  jmp                             label0142
+
+label0142@0x0142:
+  clear                           r100
+  arg_pushb                       0x64
+  arg_pushs                       "Yes, you\'re right.\nNo, I don\'t understand."
+  list                            ... r100, "Yes, you\'re right.\nNo, I don\'t understand."
+  switch_jmp                      r100, [label0143, label014A]
+
+label0143@0x0143:
+  arg_pushl                       0x00000065
+  arg_pushs                       "Good, good."
+  message                         ... 0x65 /* 101 */, "Good, good."
+  jmp                             label0144
+
+label0144@0x0144:
+  arg_pushl                       0x00000065
+  arg_pushs                       "This issue is just\nbetween my wife and me."
+  message                         ... 0x65 /* 101 */, "This issue is just\nbetween my wife and me."
+  arg_pushs                       "Well, you can go now."
+  add_msg                         ... "Well, you can go now."
+  message_end
+  set                             r1
+  ret
+
+label0145@0x0145:
+  arg_pushl                       0x00000065
+  arg_pushs                       "What, what?  Did ya\nforget to say something?"
+  message                         ... 0x65 /* 101 */, "What, what?  Did ya\nforget to say something?"
+  arg_pushs                       "You can\'t convince me.\nI\'m not wrong."
+  add_msg                         ... "You can\'t convince me.\nI\'m not wrong."
+  clear                           r0
+  clear                           r1
+  clear                           r2
+  clear                           r3
+  clear                           r4
+  clear                           r5
+  clear                           r6
+  jmp                             label0141
+
+label014A@0x014A:
+  arg_pushl                       0x00000065
+  arg_pushs                       "Why don\'t ya understand?"
+  message                         ... 0x65 /* 101 */, "Why don\'t ya understand?"
+  message_end
+  jmp                             label014B
+
+label014B@0x014B:
+  clear                           r100
+  arg_pushb                       0x64
+  arg_pushs                       "Because I\'m a fool.\nIt\'s not always true.\nBecause you\'re a fool."
+  list                            ... r100, "Because I\'m a fool.\nIt\'s not always true.\nBecause you\'re a fool."
+  switch_jmp                      r100, [label014C, label0154, label015E]
+
+label014C@0x014C:
+  arg_pushl                       0x00000065
+  arg_pushs                       "Oh, that\'s too bad."
+  message                         ... 0x65 /* 101 */, "Oh, that\'s too bad."
+  jmp                             label014D
+
+label014D@0x014D:
+  arg_pushl                       0x00000065
+  arg_pushs                       "You\'d better go to\nschool every day."
+  message                         ... 0x65 /* 101 */, "You\'d better go to\nschool every day."
+  message_end
+  clear                           r5
+  set                             r3
+  ret
+
+label0154@0x0154:
+  arg_pushl                       0x00000065
+  arg_pushs                       "You\'re saying that the\nexpensive weapons aren\'t\nalways strong, right?"
+  message                         ... 0x65 /* 101 */, "You\'re saying that the\nexpensive weapons aren\'t\nalways strong, right?"
+  arg_pushs                       "But listen.  Even if its\nattack power isn\'t very\nhigh, it may be good."
+  add_msg                         ... "But listen.  Even if its\nattack power isn\'t very\nhigh, it may be good."
+  arg_pushs                       "For example, it may have\na good hitting ratio."
+  add_msg                         ... "For example, it may have\na good hitting ratio."
+  arg_pushs                       "The most important thing\nto get is a good point\nfor the price you pay."
+  add_msg                         ... "The most important thing\nto get is a good point\nfor the price you pay."
+  arg_pushs                       "You can\'t convince me.\nThat\'s it?"
+  add_msg                         ... "You can\'t convince me.\nThat\'s it?"
+  message_end
+  clear                           r3
+  set                             r5
+  ret
+
+label0155@0x0155:
+  arg_pushl                       0x00000065
+  arg_pushs                       "Bye now."
+  message                         ... 0x65 /* 101 */, "Bye now."
+  message_end
+  ret
+
+label015E@0x015E:
+  arg_pushl                       0x00000065
+  arg_pushs                       "What?"
+  message                         ... 0x65 /* 101 */, "What?"
+  arg_pushs                       "Am I wasting money by\nbuying all the time?"
+  add_msg                         ... "Am I wasting money by\nbuying all the time?"
+  arg_pushs                       "Am I changing weapons\ntoo quickly, ignoring\ncost vs. performance?"
+  add_msg                         ... "Am I changing weapons\ntoo quickly, ignoring\ncost vs. performance?"
+  arg_pushs                       "I... I can\'t rebut it.\nYou\'re right...\nBut... I..."
+  add_msg                         ... "I... I can\'t rebut it.\nYou\'re right...\nBut... I..."
+  arg_pushs                       "I can\'t stop buying\nweapons.  Forgive me."
+  add_msg                         ... "I can\'t stop buying\nweapons.  Forgive me."
+  message_end
+  set                             r7
+  ret
+
+label015F@0x015F:
+  arg_pushl                       0x00000065
+  arg_pushs                       "Please, forgive me..."
+  message                         ... 0x65 /* 101 */, "Please, forgive me..."
+  message_end
+  ret
+
+label0160@0x0160:
+  arg_pushl                       0x00000065
+  arg_pushs                       "Weapon-fetish?!"
+  message                         ... 0x65 /* 101 */, "Weapon-fetish?!"
+  arg_pushl                       0x00000014
+  sound_effect                    ... 0x14 /* 20 */
+  arg_pushs                       "Y...yes, I am!\nLook at this luster!\nBeautiful... I love it."
+  add_msg                         ... "Y...yes, I am!\nLook at this luster!\nBeautiful... I love it."
+  arg_pushs                       "New weapons are so\nbeautiful and shiny.\nI love buying them."
+  add_msg                         ... "New weapons are so\nbeautiful and shiny.\nI love buying them."
+  arg_pushs                       "What??\nNO MORE SHOPPING?"
+  add_msg                         ... "What??\nNO MORE SHOPPING?"
+  arg_pushs                       "It\'s too cruel..."
+  add_msg                         ... "It\'s too cruel..."
+  message_end
+  set                             r9
+  ret
+
+label0161@0x0161:
+  arg_pushl                       0x00000065
+  arg_pushs                       "It was my only..."
+  message                         ... 0x65 /* 101 */, "It was my only..."
+  message_end
+  ret
+
+label0168@0x0168:
+  // Referenced by map enemy ES-00-00A [EnemySetEntry type=0008 "TObjNpcMaleBase/TObjNpcMaleBase" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=83.0009 y=0 z=-10 x_angle=00000000 y_angle=00005000 z_angle=00000000 params=[24 0 0 102 360 0001 0000]]
+  jmpi_eq                         r102, 0x00000001, label016D
+  jmpi_eq                         r103, 0x00000001, label016C
+  jmpi_eq                         r101, 0x00000001, label0169
+  arg_pushl                       0x00000066
+  arg_pushs                       "Oh...(sigh)...\nThat weapon was great...\nreally great..."
+  message                         ... 0x66 /* 102 */, "Oh...(sigh)...\nThat weapon was great...\nreally great..."
+  message_end
+  ret
+
+label0169@0x0169:
+  arg_pushl                       0x00000066
+  arg_pushs                       "...(sigh)...\nIt was awesome...\nreally awesome..."
+  message                         ... 0x66 /* 102 */, "...(sigh)...\nIt was awesome...\nreally awesome..."
+  arg_pushs                       "I saw a Ranger holding\nan unknown weapon that\nspread flames..."
+  add_msg                         ... "I saw a Ranger holding\nan unknown weapon that\nspread flames..."
+  arg_pushs                       "It was like a beautiful\nflame sprayer."
+  add_msg                         ... "It was like a beautiful\nflame sprayer."
+  arg_pushs                       "I\'ve never seen such an\ninnovative weapon\nbefore... I want it..."
+  add_msg                         ... "I\'ve never seen such an\ninnovative weapon\nbefore... I want it..."
+  arg_pushs                       "Oh, that emblem... Are\nyou a \"WEAPONS,\" too?"
+  add_msg                         ... "Oh, that emblem... Are\nyou a \"WEAPONS,\" too?"
+  arg_pushs                       "I see.  You want to join\nus. I think that\'s fine."
+  add_msg                         ... "I see.  You want to join\nus. I think that\'s fine."
+  message_end
+  jmp                             label016A
+
+label016A@0x016A:
+  arg_pushs                       "Got an approval!"
+  window_msg                      ... "Got an approval!"
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  window_msg_end
+  jmp                             label016B
+
+label016B@0x016B:
+  arg_pushl                       0x00000066
+  arg_pushs                       "Remember!  Don\'t try to\nlearn too much about us.\nWe\'re Freemasons."
+  message                         ... 0x66 /* 102 */, "Remember!  Don\'t try to\nlearn too much about us.\nWe\'re Freemasons."
+  message_end
+  gset                            0x00F2
+  set                             r103
+  ret
+
+label016C@0x016C:
+  arg_pushl                       0x00000066
+  arg_pushs                       "I know it\'s an old-\nfashioned weapon, but\nI love bazookas, too."
+  message                         ... 0x66 /* 102 */, "I know it\'s an old-\nfashioned weapon, but\nI love bazookas, too."
+  arg_pushs                       "Oh, sorry.  I can\'t stop\ntalking about weapons!"
+  add_msg                         ... "Oh, sorry.  I can\'t stop\ntalking about weapons!"
+  message_end
+  ret
+
+label016D@0x016D:
+  leti                            r61, 0x00000000
+  leti                            r62, 0x00000016
+  leti                            r63, 0x00000000
+  find_inventory_item             r61-r63, r64
+  jmpi_gt                         r64, 0xFFFFFFFF, label016E
+  jmp                             label016C
+  ret
+
+label016E@0x016E:
+  arg_pushl                       0x00000066
+  arg_pushs                       "Hey, did you get that\nfrom our boss?!"
+  message                         ... 0x66 /* 102 */, "Hey, did you get that\nfrom our boss?!"
+  arg_pushs                       "It may look like an\nordinary frying pan, but\nit\'s really powerful!"
+  add_msg                         ... "It may look like an\nordinary frying pan, but\nit\'s really powerful!"
+  arg_pushs                       "It always makes him fly\nover 20 feet away!"
+  add_msg                         ... "It always makes him fly\nover 20 feet away!"
+  message_end
+  ret
+
+label00CF@0x00CF:
+  leti                            r72, 0x00000000
+
+label00D0@0x00D0:
+  sync
+  addi                            r72, 0x00000001
+  jmpi_le                         r72, 0x0000001E, label00D0
+  ret
+
+label00DE@0x00DE:
+  p_action_disable
+  npc_talk_off
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  hud_hide
+  cine_enable
+  cam_zmin
+  call                            label00CF
+  ret
+
+label00DF@0x00DF:
+  cam_zmout
+  cine_disable
+  hud_show
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  npc_talk_on
+  p_action_enable
+  ret
+  nop
+  nop

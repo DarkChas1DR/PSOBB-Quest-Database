@@ -1,0 +1,1783 @@
+.version BB_V4
+.quest_num 47
+.name "The Lab"
+.short_desc "Come visit\nthe lab!\n\n* Job can be joined\n  while in progress."
+.long_desc "Client: NOL\nQuest:\n  Hiya! I\'ve been\n  working at the lab\n  on Pioneer 2 and\n  would like to invite\n  you to come! We\n  have useful things\n  for everyone!"
+.episode Episode2
+.header_episode 0x01
+.language J
+.max_players 4
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+start:
+  set_episode                     0x00000001
+  leti                            r60, 0x00000000
+  leti                            r61, 0x00000012
+  leti                            r62, 0x00000000
+  leti                            r63, 0x00000000
+  leti                            r64, 0x00000000
+  map_designate_ex                r60-r64
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0096
+  set_floor_handler               ... 0x0 /* 0 */, label0096
+  get_client_id                   r250
+
+label0001@0x0001:
+  ret
+
+label0032@0x0032:
+  sync
+  subi                            r60, 0x00000001
+  jmpi_ne                         r60, 0x00000000, label0032
+  ret
+
+label0096@0x0096:
+  ret
+
+label012C@0x012C:
+  // Referenced by map enemy ES-00-007 [EnemySetEntry type=0025 "TObjNpcARM00" num_children=0000 floor=0000 room=0028 wave_number=0000 wave_number2=0000 a1=0000 x=-75 y=0 z=-135 x_angle=00000000 y_angle=00004955 z_angle=00000000 params=[0 0 0 300 300 0000 0000]]
+  arg_pushl                       0x0000012C
+  arg_pushs                       "Hello there."
+  message                         ... 0x12C /* 300 */, "Hello there."
+  arg_pushs                       "I\'ve recently figured\nout how to modify\ncommon weapon photons."
+  add_msg                         ... "I\'ve recently figured\nout how to modify\ncommon weapon photons."
+  arg_pushs                       "If you\'d like, I\ncan change the color\nof common weapons."
+  add_msg                         ... "If you\'d like, I\ncan change the color\nof common weapons."
+  arg_pushs                       "It will cost <color 4>1<color 0> Photon Drop."
+  add_msg                         ... "It will cost <color 4>1<color 0> Photon Drop."
+  arg_pushs                       "Interested?"
+  add_msg                         ... "Interested?"
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "Yes\nNo"
+  list                            ... r60, "Yes\nNo"
+  jmpi_eq                         r60, 0x00000000, label012E
+
+label012D@0x012D:
+  arg_pushl                       0x0000012C
+  arg_pushs                       "That\'s too bad."
+  message                         ... 0x12C /* 300 */, "That\'s too bad."
+  arg_pushs                       "Come back if you\nchange your mind!"
+  add_msg                         ... "Come back if you\nchange your mind!"
+  message_end
+  ret
+
+label012E@0x012E:
+  arg_pushl                       0x0000012C
+  arg_pushs                       "Alright, what weapon\ndo you want to change?"
+  message                         ... 0x12C /* 300 */, "Alright, what weapon\ndo you want to change?"
+  message_end
+  clear                           r50
+  clear                           r51
+  open_pack_select
+  get_chosen_item_id              r100
+  jmpi_eq                         r100, 0xFFFFFFFF, label012D
+  arg_pushr                       r100
+  arg_pushb                       0x6E
+  get_item_info                   ... r100, r110-r121
+  jmpi_ne                         r110, 0x00000000, label012F
+  jmpi_le                         r111, 0x00000009, label0130
+  jmpi_le                         r111, 0x0000000C, label0131
+
+label012F@0x012F:
+  arg_pushl                       0x0000012C
+  arg_pushs                       "This isn\'t a\ncommon weapon."
+  message                         ... 0x12C /* 300 */, "This isn\'t a\ncommon weapon."
+  arg_pushs                       "I cannot help\nyou modify this."
+  add_msg                         ... "I cannot help\nyou modify this."
+  message_end
+  ret
+
+label0130@0x0130:
+  jmpi_le                         r112, 0x00000004, label0136
+  jmp                             label012F
+
+label0131@0x0131:
+  set                             r50
+  jmpi_le                         r112, 0x00000003, label0136
+  jmp                             label012F
+
+label0136@0x0136:
+  arg_pushl                       0x0000012C
+  arg_pushs                       "What color should\nI change this into?"
+  message                         ... 0x12C /* 300 */, "What color should\nI change this into?"
+  message_end
+  arg_pushb                       0x50
+  arg_pushs                       "Green\nBlue\nPurple\nRed\nYellow\nCancel"
+  list                            ... r80, "Green\nBlue\nPurple\nRed\nYellow\nCancel"
+  jmpi_eq                         r80, 0x00000005, label012D
+  call                            label0C1D
+  jmpi_eq                         r51, 0x00000001, label0C1E
+  arg_pushl                       0x0000012C
+  arg_pushs                       "Are you ready?\nRemember, this costs\n<color 4>1<color 0> Photon Drop."
+  message                         ... 0x12C /* 300 */, "Are you ready?\nRemember, this costs\n<color 4>1<color 0> Photon Drop."
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "Yes\nNo"
+  list                            ... r60, "Yes\nNo"
+  jmpi_eq                         r60, 0x00000001, label012D
+  let                             r60, r250
+  leti                            r61, 0x00000003
+  leti                            r62, 0x00000010
+  leti                            r63, 0x00000000
+  get_stackable_item_count        r60-r63, r64
+  jmpi_eq                         r64, 0x00000000, label0137
+  item_delete_by_type             r61-r63, r64-r75
+  sync
+  arg_pushr                       r100
+  item_delete_noreturn            ... r100
+  let                             r112, r80
+  leti                            r113, 0x00000000
+  item_create2                    r110-r121, r220
+  arg_pushl                       0x0000012C
+  arg_pushs                       "All done for you, enjoy!"
+  message                         ... 0x12C /* 300 */, "All done for you, enjoy!"
+  message_end
+  ret
+
+label0C1D@0x0C1D:
+  jmpi_eq                         r50, 0x00000000, label0001
+  jmpi_le                         r80, 0x00000003, label0001
+  set                             r51
+  ret
+
+label0C1E@0x0C1E:
+  arg_pushl                       0x0000012C
+  arg_pushs                       "I cannot change\nthis to Yellow."
+  message                         ... 0x12C /* 300 */, "I cannot change\nthis to Yellow."
+  arg_pushs                       "Let\'s start over."
+  add_msg                         ... "Let\'s start over."
+  message_end
+  ret
+
+label0137@0x0137:
+  arg_pushl                       0x0000012C
+  arg_pushs                       "You don\'t have\nany Photon Drops."
+  message                         ... 0x12C /* 300 */, "You don\'t have\nany Photon Drops."
+  message_end
+  ret
+
+label0190@0x0190:
+  // Referenced by map enemy ES-00-008 [EnemySetEntry type=0027 "TObjNpcHFW00/TObjNpcHFW00" num_children=0000 floor=0000 room=001E wave_number=0000 wave_number2=0000 a1=0000 x=-110 y=0 z=-40 x_angle=00000000 y_angle=00004000 z_angle=00000000 params=[0 0 0 400 400 0000 0000]]
+  arg_pushl                       0x00000190
+  arg_pushs                       "Hi there!"
+  message                         ... 0x190 /* 400 */, "Hi there!"
+  arg_pushs                       "My name is Alicia."
+  add_msg                         ... "My name is Alicia."
+  arg_pushs                       "I\'ve been researching\nhow to strengthen\nvarious equipment."
+  add_msg                         ... "I\'ve been researching\nhow to strengthen\nvarious equipment."
+  arg_pushs                       "Can I help you?"
+  add_msg                         ... "Can I help you?"
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "LOVE HEART\nSAFETY HEART\nVIRUS ARMOR:LAFUTERIA\nCancel"
+  list                            ... r60, "LOVE HEART\nSAFETY HEART\nVIRUS ARMOR:LAFUTERIA\nCancel"
+  jmpi_eq                         r60, 0x00000000, label019A
+  jmpi_eq                         r60, 0x00000001, label01A4
+  jmpi_eq                         r60, 0x00000002, label01AE
+
+label0191@0x0191:
+  arg_pushl                       0x00000190
+  arg_pushs                       "Talk later!"
+  message                         ... 0x190 /* 400 */, "Talk later!"
+  message_end
+  ret
+
+label019A@0x019A:
+  arg_pushl                       0x00000190
+  arg_pushs                       "If you have a\nLOVE HEART, I\ncan strengthen it."
+  message                         ... 0x190 /* 400 */, "If you have a\nLOVE HEART, I\ncan strengthen it."
+  arg_pushs                       "To do this, I will\nneed a SPIRIT GARMENT."
+  add_msg                         ... "To do this, I will\nneed a SPIRIT GARMENT."
+  arg_pushs                       "I won\'t be able to\nstrengthen one that\'s\nalready strengthened."
+  add_msg                         ... "I won\'t be able to\nstrengthen one that\'s\nalready strengthened."
+  arg_pushs                       "Interested?"
+  add_msg                         ... "Interested?"
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "Yes\nNo"
+  list                            ... r60, "Yes\nNo"
+  jmpi_eq                         r60, 0x00000001, label0191
+  arg_pushl                       0x00000190
+  arg_pushs                       "Please select the LOVE HEART."
+  message                         ... 0x190 /* 400 */, "Please select the LOVE HEART."
+  message_end
+  open_pack_select
+  get_chosen_item_id              r100
+  jmpi_eq                         r100, 0xFFFFFFFF, label0191
+  arg_pushr                       r100
+  arg_pushb                       0x6E
+  get_item_info                   ... r100, r110-r121
+  jmpi_ne                         r110, 0x00000001, label019B
+  jmpi_ne                         r111, 0x00000001, label019B
+  jmpi_ne                         r112, 0x0000002D, label019B
+  jmpi_ne                         r116, 0x00000000, label019C
+  jmpi_ne                         r118, 0x00000000, label019C
+  arg_pushl                       0x00000190
+  arg_pushs                       "Please select the SPIRIT GARMENT."
+  message                         ... 0x190 /* 400 */, "Please select the SPIRIT GARMENT."
+  message_end
+  open_pack_select
+  get_chosen_item_id              r130
+  jmpi_eq                         r130, 0xFFFFFFFF, label0191
+  arg_pushr                       r130
+  arg_pushb                       0x8C
+  get_item_info                   ... r130, r140-r151
+  jmpi_ne                         r140, 0x00000001, label019D
+  jmpi_ne                         r141, 0x00000001, label019D
+  jmpi_ne                         r142, 0x0000001C, label019D
+  call                            label019E
+  call                            label019F
+  arg_pushl                       0x00000190
+  arg_pushs                       "Alright, here is what\nthe results will be:"
+  message                         ... 0x190 /* 400 */, "Alright, here is what\nthe results will be:"
+  arg_pushs                       "DFP: <color 4>+<r80><color 0>/50"
+  add_msg                         ... "DFP: <color 4>+<r80><color 0>/50"
+  arg_pushs                       "EVP: <color 4>+<r81><color 0>/20"
+  add_msg                         ... "EVP: <color 4>+<r81><color 0>/20"
+  arg_pushs                       "Want to continue?"
+  add_msg                         ... "Want to continue?"
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "Yes\nNo"
+  list                            ... r60, "Yes\nNo"
+  jmpi_eq                         r60, 0x00000001, label0191
+  arg_pushl                       0x00000190
+  arg_pushs                       "Leave it to me."
+  message                         ... 0x190 /* 400 */, "Leave it to me."
+  message_end
+  fadeout
+  leti                            r60, 0x0000003C
+  call                            label0032
+  arg_pushr                       r100
+  item_delete_noreturn            ... r100
+  arg_pushr                       r130
+  item_delete_noreturn            ... r130
+  let                             r116, r80
+  let                             r118, r81
+  item_create2                    r110-r121, r220
+  fadein
+  arg_pushl                       0x00000190
+  arg_pushs                       "All done!"
+  message                         ... 0x190 /* 400 */, "All done!"
+  arg_pushs                       "Enjoy your LOVE HEART!"
+  add_msg                         ... "Enjoy your LOVE HEART!"
+  message_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  arg_pushs                       "Received <color 4>LOVE HEART<color 0>\nwith <color 4>+<r80><color 0> DFP and <color 4>+<r81><color 0> EVP!"
+  window_msg                      ... "Received <color 4>LOVE HEART<color 0>\nwith <color 4>+<r80><color 0> DFP and <color 4>+<r81><color 0> EVP!"
+  window_msg_end
+  ret
+
+label019B@0x019B:
+  arg_pushl                       0x00000190
+  arg_pushs                       "This isn\'t LOVE HEART,\nI can\'t help you."
+  message                         ... 0x190 /* 400 */, "This isn\'t LOVE HEART,\nI can\'t help you."
+  message_end
+  ret
+
+label019C@0x019C:
+  arg_pushl                       0x00000190
+  arg_pushs                       "This LOVE HEART has\nalready been strengthened."
+  message                         ... 0x190 /* 400 */, "This LOVE HEART has\nalready been strengthened."
+  arg_pushs                       "Please come back\nwith another one."
+  add_msg                         ... "Please come back\nwith another one."
+  message_end
+  ret
+
+label019D@0x019D:
+  arg_pushl                       0x00000190
+  arg_pushs                       "This isn\'t a SPIRIT GARMENT."
+  message                         ... 0x190 /* 400 */, "This isn\'t a SPIRIT GARMENT."
+  arg_pushs                       "Please come back\nwhen you have one."
+  add_msg                         ... "Please come back\nwhen you have one."
+  message_end
+  ret
+
+label019E@0x019E:
+  let                             r80, r146
+  muli                            r80, 0x00000007
+  jmpi_eq                         r80, 0x00000031, label102E
+  ret
+
+label102E@0x102E:
+  leti                            r80, 0x00000032
+  ret
+
+label019F@0x019F:
+  let                             r81, r148
+  muli                            r81, 0x00000004
+  ret
+
+label01A4@0x01A4:
+  arg_pushl                       0x00000190
+  arg_pushs                       "If you have a\nSAFETY HEART, I\ncan strengthen it."
+  message                         ... 0x190 /* 400 */, "If you have a\nSAFETY HEART, I\ncan strengthen it."
+  arg_pushs                       "To do this, I will\nneed an INVISIBLE GUARD."
+  add_msg                         ... "To do this, I will\nneed an INVISIBLE GUARD."
+  arg_pushs                       "I won\'t be able to\nstrengthen one that\'s\nalready strengthened."
+  add_msg                         ... "I won\'t be able to\nstrengthen one that\'s\nalready strengthened."
+  arg_pushs                       "Please note that\nif you are not\nusing any bug fixes..."
+  add_msg                         ... "Please note that\nif you are not\nusing any bug fixes..."
+  arg_pushs                       "...any DFP values\nabove +15 will\nbecome +0."
+  add_msg                         ... "...any DFP values\nabove +15 will\nbecome +0."
+  arg_pushs                       "Interested?"
+  add_msg                         ... "Interested?"
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "Yes\nNo"
+  list                            ... r60, "Yes\nNo"
+  jmpi_eq                         r60, 0x00000001, label0191
+  arg_pushl                       0x00000190
+  arg_pushs                       "Please select the SAFETY HEART."
+  message                         ... 0x190 /* 400 */, "Please select the SAFETY HEART."
+  message_end
+  open_pack_select
+  get_chosen_item_id              r100
+  jmpi_eq                         r100, 0xFFFFFFFF, label0191
+  arg_pushr                       r100
+  arg_pushb                       0x6E
+  get_item_info                   ... r100, r110-r121
+  jmpi_ne                         r110, 0x00000001, label01A5
+  jmpi_ne                         r111, 0x00000002, label01A5
+  jmpi_ne                         r112, 0x0000002A, label01A5
+  jmpi_ne                         r116, 0x00000000, label01A6
+  jmpi_ne                         r118, 0x00000000, label01A6
+  arg_pushl                       0x00000190
+  arg_pushs                       "Please select the INVISIBLE GUARD."
+  message                         ... 0x190 /* 400 */, "Please select the INVISIBLE GUARD."
+  message_end
+  open_pack_select
+  get_chosen_item_id              r130
+  jmpi_eq                         r130, 0x0FFFFFFF, label0191
+  arg_pushr                       r130
+  arg_pushb                       0x8C
+  get_item_info                   ... r130, r140-r151
+  jmpi_ne                         r140, 0x00000001, label01A7
+  jmpi_ne                         r141, 0x00000002, label01A7
+  jmpi_ne                         r142, 0x00000015, label01A7
+  call                            label01A8
+  call                            label01A9
+  arg_pushl                       0x00000190
+  arg_pushs                       "Alright, here is what\nthe results will be:"
+  message                         ... 0x190 /* 400 */, "Alright, here is what\nthe results will be:"
+  arg_pushs                       "DFP: <color 4>+<r80><color 0>/50"
+  add_msg                         ... "DFP: <color 4>+<r80><color 0>/50"
+  arg_pushs                       "EVP: <color 4>+<r81><color 0>/15"
+  add_msg                         ... "EVP: <color 4>+<r81><color 0>/15"
+  arg_pushs                       "Want to continue?"
+  add_msg                         ... "Want to continue?"
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "Yes\nNo"
+  list                            ... r60, "Yes\nNo"
+  jmpi_eq                         r60, 0x00000001, label0191
+  arg_pushl                       0x00000190
+  arg_pushs                       "Leave it to me."
+  message                         ... 0x190 /* 400 */, "Leave it to me."
+  message_end
+  fadeout
+  leti                            r60, 0x0000003C
+  call                            label0032
+  arg_pushr                       r100
+  item_delete_noreturn            ... r100
+  arg_pushr                       r130
+  item_delete_noreturn            ... r130
+  let                             r116, r80
+  let                             r118, r81
+  item_create2                    r110-r121, r220
+  fadein
+  arg_pushl                       0x00000190
+  arg_pushs                       "All done!"
+  message                         ... 0x190 /* 400 */, "All done!"
+  arg_pushs                       "Enjoy your SAFETY HEART!"
+  add_msg                         ... "Enjoy your SAFETY HEART!"
+  message_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  arg_pushs                       "Received <color 4>SAFETY HEART<color 0>\nwith <color 4>+<r80><color 0> DFP and <color 4>+<r81><color 0> EVP!"
+  window_msg                      ... "Received <color 4>SAFETY HEART<color 0>\nwith <color 4>+<r80><color 0> DFP and <color 4>+<r81><color 0> EVP!"
+  window_msg_end
+  ret
+
+label01A5@0x01A5:
+  arg_pushl                       0x00000190
+  arg_pushs                       "This isn\'t SAFETY HEART,\nI can\'t help you."
+  message                         ... 0x190 /* 400 */, "This isn\'t SAFETY HEART,\nI can\'t help you."
+  message_end
+  ret
+
+label01A6@0x01A6:
+  arg_pushl                       0x00000190
+  arg_pushs                       "This SAFETY HEART has\nalready been strengthened."
+  message                         ... 0x190 /* 400 */, "This SAFETY HEART has\nalready been strengthened."
+  arg_pushs                       "Please come back\nwith another one."
+  add_msg                         ... "Please come back\nwith another one."
+  message_end
+  ret
+
+label01A7@0x01A7:
+  arg_pushl                       0x00000190
+  arg_pushs                       "This isn\'t an INVISIBLE GUARD."
+  message                         ... 0x190 /* 400 */, "This isn\'t an INVISIBLE GUARD."
+  arg_pushs                       "Please come back\nwhen you have one."
+  add_msg                         ... "Please come back\nwhen you have one."
+  message_end
+  ret
+
+label01A8@0x01A8:
+  let                             r80, r146
+  muli                            r80, 0x00000006
+  jmpi_eq                         r80, 0x00000030, label1092
+  ret
+
+label1092@0x1092:
+  leti                            r80, 0x00000032
+  ret
+
+label01A9@0x01A9:
+  let                             r81, r148
+  muli                            r81, 0x00000002
+  jmpi_eq                         r81, 0x00000010, label109C
+  ret
+
+label109C@0x109C:
+  leti                            r81, 0x0000000F
+  ret
+
+label01AE@0x01AE:
+  arg_pushl                       0x00000190
+  arg_pushs                       "I can strengthen a\nVIRUS ARMOR: LAFUTERIA."
+  message                         ... 0x190 /* 400 */, "I can strengthen a\nVIRUS ARMOR: LAFUTERIA."
+  arg_pushs                       "To do this, I will\nneed a STINK FRAME."
+  add_msg                         ... "To do this, I will\nneed a STINK FRAME."
+  arg_pushs                       "The VIRUS ARMOR\ncannot be\nstrengthened and..."
+  add_msg                         ... "The VIRUS ARMOR\ncannot be\nstrengthened and..."
+  arg_pushs                       "...the STINK FRAME\ncannot be\ntoo powerful."
+  add_msg                         ... "...the STINK FRAME\ncannot be\ntoo powerful."
+  arg_pushs                       "Interested?"
+  add_msg                         ... "Interested?"
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "Yes\nNo"
+  list                            ... r60, "Yes\nNo"
+  jmpi_eq                         r60, 0x00000001, label0191
+  arg_pushl                       0x00000190
+  arg_pushs                       "Please select the\nVIRUS ARMOR: LAFUTERIA."
+  message                         ... 0x190 /* 400 */, "Please select the\nVIRUS ARMOR: LAFUTERIA."
+  message_end
+  open_pack_select
+  get_chosen_item_id              r100
+  jmpi_eq                         r100, 0xFFFFFFFF, label0191
+  arg_pushr                       r100
+  arg_pushb                       0x6E
+  get_item_info                   ... r100, r110-r121
+  jmpi_ne                         r110, 0x00000001, label01AF
+  jmpi_ne                         r111, 0x00000001, label01AF
+  jmpi_ne                         r112, 0x0000002F, label01AF
+  jmpi_ne                         r116, 0x00000000, label01B0
+  jmpi_ne                         r118, 0x00000000, label01B0
+  arg_pushl                       0x00000190
+  arg_pushs                       "Please select the STINK FRAME."
+  message                         ... 0x190 /* 400 */, "Please select the STINK FRAME."
+  message_end
+  open_pack_select
+  get_chosen_item_id              r130
+  jmpi_eq                         r130, 0xFFFFFFFF, label0191
+  arg_pushr                       r130
+  arg_pushb                       0x8C
+  get_item_info                   ... r130, r140-r151
+  jmpi_ne                         r140, 0x00000001, label01B1
+  jmpi_ne                         r141, 0x00000001, label01B1
+  jmpi_ne                         r142, 0x0000001D, label01B1
+  call                            label01B2
+  call                            label01B3
+  jmp_on                          label01B4, [r160, r161]
+  arg_pushl                       0x00000190
+  arg_pushs                       "Alright, here is what\nthe results will be:"
+  message                         ... 0x190 /* 400 */, "Alright, here is what\nthe results will be:"
+  call                            label01B5
+  call                            label01B6
+  arg_pushs                       "Want to continue?"
+  add_msg                         ... "Want to continue?"
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "Yes\nNo"
+  list                            ... r60, "Yes\nNo"
+  jmpi_eq                         r60, 0x00000001, label0191
+  arg_pushl                       0x00000190
+  arg_pushs                       "Leave it to me."
+  message                         ... 0x190 /* 400 */, "Leave it to me."
+  message_end
+  fadeout
+  leti                            r60, 0x0000003C
+  call                            label0032
+  arg_pushr                       r100
+  item_delete_noreturn            ... r100
+  arg_pushr                       r130
+  item_delete_noreturn            ... r130
+  let                             r116, r146
+  let                             r118, r148
+  item_create2                    r110-r121, r220
+  fadein
+  arg_pushl                       0x00000190
+  arg_pushs                       "All done!"
+  message                         ... 0x190 /* 400 */, "All done!"
+  arg_pushs                       "Enjoy your VIRUS\nARMOR: LAFUTERIA!"
+  add_msg                         ... "Enjoy your VIRUS\nARMOR: LAFUTERIA!"
+  message_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  arg_pushs                       "Received <color 4>VIRUS ARMOR: LAFUTERIA<color 0>\nwith <color 4>+<r116><color 0> DFP and <color 4>+<r118><color 0> EVP!"
+  window_msg                      ... "Received <color 4>VIRUS ARMOR: LAFUTERIA<color 0>\nwith <color 4>+<r116><color 0> DFP and <color 4>+<r118><color 0> EVP!"
+  window_msg_end
+  ret
+
+label01AF@0x01AF:
+  arg_pushl                       0x00000190
+  arg_pushs                       "This isn\'t VIRUS ARMOR:\nLAFUTERIA, I can\'t help you."
+  message                         ... 0x190 /* 400 */, "This isn\'t VIRUS ARMOR:\nLAFUTERIA, I can\'t help you."
+  message_end
+  ret
+
+label01B0@0x01B0:
+  arg_pushl                       0x00000190
+  arg_pushs                       "This VIRUS ARMOR: LAFUTERIA\nhas already been strengthened."
+  message                         ... 0x190 /* 400 */, "This VIRUS ARMOR: LAFUTERIA\nhas already been strengthened."
+  arg_pushs                       "Please come back\nwith another one."
+  add_msg                         ... "Please come back\nwith another one."
+  message_end
+  ret
+
+label01B1@0x01B1:
+  arg_pushl                       0x00000190
+  arg_pushs                       "This isn\'t a STINK FRAME."
+  message                         ... 0x190 /* 400 */, "This isn\'t a STINK FRAME."
+  arg_pushs                       "Please come back\nwhen you have one."
+  add_msg                         ... "Please come back\nwhen you have one."
+  message_end
+  ret
+
+label01B2@0x01B2:
+  clear                           r160
+  jmpi_le                         r146, 0x00000032, label0001
+  set                             r160
+  ret
+
+label01B3@0x01B3:
+  clear                           r161
+  jmpi_le                         r148, 0x00000014, label0001
+  set                             r161
+  ret
+
+label01B4@0x01B4:
+  arg_pushl                       0x00000190
+  arg_pushs                       "This STINK FRAME\nis too powerful."
+  message                         ... 0x190 /* 400 */, "This STINK FRAME\nis too powerful."
+  arg_pushs                       "I cannot use it."
+  add_msg                         ... "I cannot use it."
+  arg_pushs                       "Please come back\nwith another one."
+  add_msg                         ... "Please come back\nwith another one."
+  message_end
+  ret
+
+label01B5@0x01B5:
+  jmpi_eq                         r160, 0x00000001, label1114
+  arg_pushs                       "DFP will become <color 4>+<r146><color 0>"
+  add_msg                         ... "DFP will become <color 4>+<r146><color 0>"
+  ret
+
+label1114@0x1114:
+  arg_pushs                       "The DFP on the\nSTINK FRAME is\ntoo powerful."
+  add_msg                         ... "The DFP on the\nSTINK FRAME is\ntoo powerful."
+  arg_pushs                       "So, DFP will\nremain at 0."
+  add_msg                         ... "So, DFP will\nremain at 0."
+  leti                            r146, 0x00000000
+  ret
+
+label01B6@0x01B6:
+  jmpi_eq                         r161, 0x00000001, label111E
+  arg_pushs                       "EVP will become <color 4>+<r148><color 0>"
+  add_msg                         ... "EVP will become <color 4>+<r148><color 0>"
+  ret
+
+label111E@0x111E:
+  arg_pushs                       "The EVP on the\nSTINK FRAME is\ntoo powerful."
+  add_msg                         ... "The EVP on the\nSTINK FRAME is\ntoo powerful."
+  arg_pushs                       "So, EVP will remain at 0."
+  add_msg                         ... "So, EVP will remain at 0."
+  leti                            r148, 0x00000000
+  ret
+
+label01F4@0x01F4:
+  // Referenced by map enemy ES-00-009 [EnemySetEntry type=0028 "TObjNpcNFM00/TObjNpcNFM00" num_children=0000 floor=0000 room=0028 wave_number=0000 wave_number2=0000 a1=0000 x=15 y=0 z=-75 x_angle=00000000 y_angle=00008000 z_angle=00000000 params=[0 0 0 500 500 0000 0000]]
+  arg_pushl                       0x000001F4
+  arg_pushs                       "<hero name>!\nIt\'s been ages."
+  message                         ... 0x1F4 /* 500 */, "<hero name>!\nIt\'s been ages."
+  arg_pushs                       "I\'ve been researching\nhow to strengthen those\nenemy weapons I made."
+  add_msg                         ... "I\'ve been researching\nhow to strengthen those\nenemy weapons I made."
+  arg_pushs                       "Some other trinkets\ncould probably be\nimproved too..."
+  add_msg                         ... "Some other trinkets\ncould probably be\nimproved too..."
+  arg_pushs                       "If you have any,\nlet me try it."
+  add_msg                         ... "If you have any,\nlet me try it."
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "Give weapon\nCancel"
+  list                            ... r60, "Give weapon\nCancel"
+  jmpi_eq                         r60, 0x00000001, label01F5
+  open_pack_select
+  get_chosen_item_id              r100
+  jmpi_eq                         r100, 0xFFFFFFFF, label01F5
+  arg_pushr                       r100
+  arg_pushb                       0x6E
+  get_item_info                   ... r100, r110-r121
+  jmpi_ne                         r110, 0x00000000, label01F6
+  jmpi_eq                         r111, 0x00000011, label01FE
+  jmpi_eq                         r111, 0x00000017, label01FE
+  jmpi_eq                         r111, 0x00000018, label01FE
+  jmpi_eq                         r111, 0x00000019, label01FE
+  jmpi_eq                         r111, 0x0000001A, label01FE
+  jmpi_eq                         r111, 0x0000001B, label01FE
+  jmpi_eq                         r111, 0x0000004D, label01FE
+  jmpi_eq                         r111, 0x00000053, label01FE
+  jmpi_eq                         r111, 0x00000054, label01FE
+  jmpi_eq                         r111, 0x00000060, label01FE
+  jmpi_eq                         r111, 0x00000062, label01FE
+  jmpi_eq                         r111, 0x00000067, label01FE
+  jmpi_eq                         r111, 0x0000008E, label01FE
+  jmpi_eq                         r111, 0x00000091, label01FE
+  jmpi_eq                         r111, 0x00000096, label01FE
+  jmpi_eq                         r111, 0x000000A0, label01FE
+  jmpi_eq                         r111, 0x000000A1, label01FE
+  jmpi_eq                         r111, 0x000000A2, label01FE
+  jmp                             label01F6
+
+label01F5@0x01F5:
+  arg_pushl                       0x000001F4
+  arg_pushs                       "Ha, ha, ha...\nThat\'s too bad."
+  message                         ... 0x1F4 /* 500 */, "Ha, ha, ha...\nThat\'s too bad."
+  arg_pushs                       "Well, talk to me again later."
+  add_msg                         ... "Well, talk to me again later."
+  arg_pushs                       "I\'ll be waiting.\nHa, ha, ha."
+  add_msg                         ... "I\'ll be waiting.\nHa, ha, ha."
+  message_end
+  ret
+
+label01F6@0x01F6:
+  arg_pushl                       0x000001F4
+  arg_pushs                       "Hm... I can\'t do\nanything with this."
+  message                         ... 0x1F4 /* 500 */, "Hm... I can\'t do\nanything with this."
+  arg_pushs                       "Well, talk to me again later."
+  add_msg                         ... "Well, talk to me again later."
+  arg_pushs                       "I\'ll be waiting.\nHa, ha, ha."
+  add_msg                         ... "I\'ll be waiting.\nHa, ha, ha."
+  message_end
+  ret
+
+label01FE@0x01FE:
+  jmpi_eq                         r116, 0x00000000, label01FF
+  jmpi_eq                         r116, 0x00000005, label01FF
+  jmpi_eq                         r118, 0x00000000, label0200
+  jmpi_eq                         r118, 0x00000005, label0200
+  jmpi_eq                         r120, 0x00000000, label0201
+  jmpi_eq                         r120, 0x00000005, label0201
+  arg_pushl                       0x000001F4
+  arg_pushs                       "Hm?"
+  message                         ... 0x1F4 /* 500 */, "Hm?"
+  arg_pushs                       "I\'m sorry to say that it\'s\nimpossible to add an attribute\nto a weapon with 3 already..."
+  add_msg                         ... "I\'m sorry to say that it\'s\nimpossible to add an attribute\nto a weapon with 3 already..."
+  arg_pushs                       "Well, talk to me again later."
+  add_msg                         ... "Well, talk to me again later."
+  arg_pushs                       "I\'ll be waiting.\nHa, ha, ha."
+  add_msg                         ... "I\'ll be waiting.\nHa, ha, ha."
+  message_end
+  ret
+
+label01FF@0x01FF:
+  leti                            r10, 0x00000000
+  call                            label13F8
+  jmpi_eq                         r117, 0x00000000, label0203
+  jmpi_eq                         r117, 0x0000000A, label0203
+  jmpi_eq                         r117, 0x00000014, label0203
+  jmpi_eq                         r117, 0x0000001E, label0203
+  jmpi_eq                         r117, 0x00000028, label0203
+  jmp                             label0202
+
+label13F8@0x13F8:
+  clear                           r80
+  clear                           r81
+  clear                           r82
+  clear                           r83
+  let                             r80, r117
+  divi                            r80, 0x0000000A
+  addi                            r80, 0x00000001
+  let                             r81, r117
+  let                             r82, r117
+  addi                            r82, 0x0000000A
+  leti                            r83, 0x00000064
+  let                             r60, r117
+  muli                            r60, 0x00000002
+  sub                             r83, r60
+  let                             r60, r250
+  leti                            r61, 0x00000003
+  leti                            r62, 0x00000010
+  leti                            r63, 0x00000000
+  get_stackable_item_count        r60-r63, r84
+  let                             r85, r84
+  sub                             r85, r80
+  ret
+
+label0200@0x0200:
+  leti                            r10, 0x00000001
+  call                            label1402
+  jmpi_eq                         r119, 0x00000000, label0203
+  jmpi_eq                         r119, 0x0000000A, label0203
+  jmpi_eq                         r119, 0x00000014, label0203
+  jmpi_eq                         r119, 0x0000001E, label0203
+  jmpi_eq                         r119, 0x00000028, label0203
+  jmp                             label0202
+
+label1402@0x1402:
+  clear                           r80
+  clear                           r81
+  clear                           r82
+  clear                           r83
+  let                             r80, r119
+  divi                            r80, 0x0000000A
+  addi                            r80, 0x00000001
+  let                             r81, r119
+  let                             r82, r119
+  addi                            r82, 0x0000000A
+  leti                            r83, 0x00000064
+  let                             r60, r119
+  muli                            r60, 0x00000002
+  sub                             r83, r60
+  let                             r60, r250
+  leti                            r61, 0x00000003
+  leti                            r62, 0x00000010
+  leti                            r63, 0x00000000
+  get_stackable_item_count        r60-r63, r84
+  let                             r85, r84
+  sub                             r85, r80
+  ret
+
+label0201@0x0201:
+  leti                            r10, 0x00000002
+  call                            label140C
+  jmpi_eq                         r121, 0x00000000, label0203
+  jmpi_eq                         r121, 0x0000000A, label0203
+  jmpi_eq                         r121, 0x00000014, label0203
+  jmpi_eq                         r121, 0x0000001E, label0203
+  jmpi_eq                         r121, 0x00000028, label0203
+  jmp                             label0202
+
+label140C@0x140C:
+  clear                           r80
+  clear                           r81
+  clear                           r82
+  clear                           r83
+  let                             r80, r121
+  divi                            r80, 0x0000000A
+  addi                            r80, 0x00000001
+  let                             r81, r121
+  let                             r82, r121
+  addi                            r82, 0x0000000A
+  leti                            r83, 0x00000064
+  let                             r60, r121
+  muli                            r60, 0x00000002
+  sub                             r83, r60
+  let                             r60, r250
+  leti                            r61, 0x00000003
+  leti                            r62, 0x00000010
+  leti                            r63, 0x00000000
+  get_stackable_item_count        r60-r63, r64
+  let                             r85, r84
+  sub                             r85, r80
+  ret
+
+label0202@0x0202:
+  arg_pushl                       0x000001F4
+  arg_pushs                       "Hm?"
+  message                         ... 0x1F4 /* 500 */, "Hm?"
+  arg_pushs                       "This weapon cannot\nbe strengthened more."
+  add_msg                         ... "This weapon cannot\nbe strengthened more."
+  arg_pushs                       "Well, talk to me again later."
+  add_msg                         ... "Well, talk to me again later."
+  arg_pushs                       "I\'ll be waiting.\nHa, ha, ha."
+  add_msg                         ... "I\'ll be waiting.\nHa, ha, ha."
+  message_end
+  ret
+
+label0203@0x0203:
+  jmpi_eq                         r111, 0x00000011, label0204
+  arg_pushl                       0x000001F4
+  arg_pushs                       "This <color 4>enemy weapon<color 0>\ncan be strengthened..."
+  message                         ... 0x1F4 /* 500 */, "This <color 4>enemy weapon<color 0>\ncan be strengthened..."
+  arg_pushs                       "Do you want to\ngamble using\n<color 4>Photon Drops<color 0>..."
+  add_msg                         ... "Do you want to\ngamble using\n<color 4>Photon Drops<color 0>..."
+  arg_pushs                       "...or use <color 4>enemy parts<color 0>\nto guarantee the upgrade?"
+  add_msg                         ... "...or use <color 4>enemy parts<color 0>\nto guarantee the upgrade?"
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "Photon Drops\nEnemy parts\nCancel"
+  list                            ... r60, "Photon Drops\nEnemy parts\nCancel"
+  switch_jmp                      r60, [label0208, label0212, label01F5]
+
+label0204@0x0204:
+  arg_pushl                       0x000001F4
+  arg_pushs                       "This <color 4>special weapon<color 0>\ncan be strengthened..."
+  message                         ... 0x1F4 /* 500 */, "This <color 4>special weapon<color 0>\ncan be strengthened..."
+  arg_pushs                       "Do you want to try\ngambling <color 4>Photon Drops<color 0>?"
+  add_msg                         ... "Do you want to try\ngambling <color 4>Photon Drops<color 0>?"
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "Yes\nNo"
+  list                            ... r60, "Yes\nNo"
+  switch_jmp                      r60, [label0208, label01F5]
+
+label0208@0x0208:
+  arg_pushl                       0x000001F4
+  arg_pushs                       "Here\'s the chances..."
+  message                         ... 0x1F4 /* 500 */, "Here\'s the chances..."
+  message_end
+  call                            label1451
+  arg_pushl                       0x000001F4
+  arg_pushs                       "Are you sure you want to try?"
+  message                         ... 0x1F4 /* 500 */, "Are you sure you want to try?"
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "Continue\nQuit"
+  list                            ... r60, "Continue\nQuit"
+  jmpi_eq                         r60, 0x00000001, label01F5
+  call                            label0209
+  jmpi_ne                         r0, 0x00000000, label020A
+  arg_pushl                       0x000001F4
+  arg_pushs                       "Hm?"
+  message                         ... 0x1F4 /* 500 */, "Hm?"
+  arg_pushs                       "You don\'t have enough\nPhoton Drops."
+  add_msg                         ... "You don\'t have enough\nPhoton Drops."
+  arg_pushs                       "Well, talk to me again later."
+  add_msg                         ... "Well, talk to me again later."
+  arg_pushs                       "I\'ll be waiting.\nHa, ha, ha."
+  add_msg                         ... "I\'ll be waiting.\nHa, ha, ha."
+  message_end
+  ret
+
+label1451@0x1451:
+  jmpi_ge                         r83, 0x00000046, label1452
+  jmpi_ge                         r83, 0x00000028, label1453
+  arg_pushl                       0x000000A0
+  arg_pushl                       0x00000078
+  arg_pushl                       0x00000014
+  arg_pushl                       0x00000004
+  arg_pushl                       0x00000001
+  arg_pushs                       "Required Photon Drops: <r80>\nOwned Photon Drops: <r84> to <r85>\nHit: <r81>% to <color 3><r82>%<color 7>\nSuccess Rate: <color 5><r83>%"
+  chat_box                        ... 0xA0 /* 160 */, 0x78 /* 120 */, 0x14 /* 20 */, 0x4 /* 4 */, 0x1 /* 1 */, "Required Photon Drops: <r80>\nOwned Photon Drops: <r84> to <r85>\nHit: <r81>% to <color 3><r82>%<color 7>\nSuccess Rate: <color 5><r83>%"
+  window_msg_end
+  ret
+
+label1452@0x1452:
+  arg_pushl                       0x000000A0
+  arg_pushl                       0x00000078
+  arg_pushl                       0x00000014
+  arg_pushl                       0x00000004
+  arg_pushl                       0x00000001
+  arg_pushs                       "Required Photon Drops: <r80>\nOwned Photon Drops: <r84> to <r85>\nHit: <r81>% to <color 3><r82>%<color 7>\nSuccess Rate: <color 2><r83>%"
+  chat_box                        ... 0xA0 /* 160 */, 0x78 /* 120 */, 0x14 /* 20 */, 0x4 /* 4 */, 0x1 /* 1 */, "Required Photon Drops: <r80>\nOwned Photon Drops: <r84> to <r85>\nHit: <r81>% to <color 3><r82>%<color 7>\nSuccess Rate: <color 2><r83>%"
+  window_msg_end
+  ret
+
+label1453@0x1453:
+  arg_pushl                       0x000000A0
+  arg_pushl                       0x00000078
+  arg_pushl                       0x00000014
+  arg_pushl                       0x00000004
+  arg_pushl                       0x00000001
+  arg_pushs                       "Required Photon Drops: <r80>\nOwned Photon Drops: <r84> to <r85>\nHit: <r81>% to <color 3><r82>%<color 7>\nSuccess Rate: <color 6><r83>%"
+  chat_box                        ... 0xA0 /* 160 */, 0x78 /* 120 */, 0x14 /* 20 */, 0x4 /* 4 */, 0x1 /* 1 */, "Required Photon Drops: <r80>\nOwned Photon Drops: <r84> to <r85>\nHit: <r81>% to <color 3><r82>%<color 7>\nSuccess Rate: <color 6><r83>%"
+  window_msg_end
+  ret
+
+label0209@0x0209:
+  clear                           r0
+  let                             r60, r250
+  leti                            r61, 0x00000003
+  leti                            r62, 0x00000010
+  leti                            r63, 0x00000000
+  get_stackable_item_count        r60-r63, r64
+  jmp_lt                          r64, r80, label0001
+  set                             r0
+  ret
+
+label020A@0x020A:
+  fadeout
+  leti                            r60, 0x0000003C
+  call                            label0032
+  fadein
+  call                            label020B
+  leti                            r60, 0x00000000
+  leti                            r61, 0x00000064
+  get_random                      r60-r61, r62
+  jmp_lt                          r62, r83, label020E
+  arg_pushl                       0x00000009
+  sound_effect                    ... 0x9 /* 9 */
+  arg_pushl                       0x000001F4
+  arg_pushs                       "Ha, ha...\nI\'m sorry, but it failed."
+  message                         ... 0x1F4 /* 500 */, "Ha, ha...\nI\'m sorry, but it failed."
+  jmpi_eq                         r111, 0x00000011, label1465
+  arg_pushs                       "I\'ll give you back the\n<color 4>enemy weapon<color 0> you\ngave to me."
+  add_msg                         ... "I\'ll give you back the\n<color 4>enemy weapon<color 0> you\ngave to me."
+  arg_pushs                       "At least, this helped\nwith my research."
+  add_msg                         ... "At least, this helped\nwith my research."
+  arg_pushs                       "Come talk to me again\nwhen you feel like it."
+  add_msg                         ... "Come talk to me again\nwhen you feel like it."
+  arg_pushs                       "I\'ll be waiting.\nHa, ha, ha."
+  add_msg                         ... "I\'ll be waiting.\nHa, ha, ha."
+  message_end
+  ret
+
+label1465@0x1465:
+  arg_pushs                       "I\'ll give you back the\n<color 4>special weapon<color 0> you\ngave to me."
+  add_msg                         ... "I\'ll give you back the\n<color 4>special weapon<color 0> you\ngave to me."
+  arg_pushs                       "At least, this helped\nwith my research."
+  add_msg                         ... "At least, this helped\nwith my research."
+  arg_pushs                       "Come talk to me again\nwhen you feel like it."
+  add_msg                         ... "Come talk to me again\nwhen you feel like it."
+  arg_pushs                       "I\'ll be waiting.\nHa, ha, ha."
+  add_msg                         ... "I\'ll be waiting.\nHa, ha, ha."
+  message_end
+  ret
+
+label020B@0x020B:
+  leti                            r60, 0x00000003
+  leti                            r61, 0x00000010
+  clear                           r62
+  clear                           r63
+  clear                           r64
+  clear                           r65
+  clear                           r66
+  clear                           r67
+  clear                           r68
+  clear                           r69
+  clear                           r70
+  clear                           r71
+  jmp                             label020D
+
+label020C@0x020C:
+  sync
+  item_delete_by_type             r60-r62, r63-r74
+  subi                            r80, 0x00000001
+
+label020D@0x020D:
+  jmpi_gt                         r80, 0x00000000, label020C
+  ret
+
+label020E@0x020E:
+  arg_pushr                       r100
+  item_delete_noreturn            ... r100
+  switch_call                     r10, [label020F, label0210, label0211]
+  arg_pushl                       0x00000008
+  sound_effect                    ... 0x8 /* 8 */
+  arg_pushl                       0x000001F4
+  arg_pushs                       "Ha, ha, ha...\nThe strengthening\nwas successful."
+  message                         ... 0x1F4 /* 500 */, "Ha, ha, ha...\nThe strengthening\nwas successful."
+  arg_pushs                       "Once again, I\'m a genius!"
+  add_msg                         ... "Once again, I\'m a genius!"
+  arg_pushs                       "Let me give you\nback your weapon."
+  add_msg                         ... "Let me give you\nback your weapon."
+  arg_pushs                       "Ha, ha, ha."
+  add_msg                         ... "Ha, ha, ha."
+  message_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  jmpi_eq                         r111, 0x00000011, label148D
+  arg_pushs                       "Obtained strengthened\n<color 4>enemy weapon<color 0> with <color 4><r82>% Hit<color 0>!"
+  window_msg                      ... "Obtained strengthened\n<color 4>enemy weapon<color 0> with <color 4><r82>% Hit<color 0>!"
+  window_msg_end
+  ret
+
+label148D@0x148D:
+  arg_pushs                       "Obtained strengthened\n<color 4>special weapon<color 0> with <color 4><r82>% Hit<color 0>!"
+  window_msg                      ... "Obtained strengthened\n<color 4>special weapon<color 0> with <color 4><r82>% Hit<color 0>!"
+  window_msg_end
+  ret
+
+label020F@0x020F:
+  leti                            r116, 0x00000005
+  let                             r117, r82
+  item_create2                    r110-r121, r220
+  ret
+
+label0210@0x0210:
+  leti                            r118, 0x00000005
+  let                             r119, r82
+  item_create2                    r110-r121, r220
+  ret
+
+label0211@0x0211:
+  leti                            r120, 0x00000005
+  let                             r121, r82
+  item_create2                    r110-r121, r220
+  ret
+
+label0212@0x0212:
+  jmpi_eq                         r111, 0x00000011, label0216
+  arg_pushl                       0x000001F4
+  arg_pushs                       "Here\'s the chances..."
+  message                         ... 0x1F4 /* 500 */, "Here\'s the chances..."
+  message_end
+  arg_pushl                       0x000000A0
+  arg_pushl                       0x00000078
+  arg_pushl                       0x00000014
+  arg_pushl                       0x00000003
+  arg_pushl                       0x00000001
+  arg_pushs                       "Required enemy parts: <r80>\nHit: <r81>% to <color 3><r82>%<color 7>\nSuccess Rate: <color 2>100%<color 7>"
+  chat_box                        ... 0xA0 /* 160 */, 0x78 /* 120 */, 0x14 /* 20 */, 0x3 /* 3 */, 0x1 /* 1 */, "Required enemy parts: <r80>\nHit: <r81>% to <color 3><r82>%<color 7>\nSuccess Rate: <color 2>100%<color 7>"
+  window_msg_end
+  arg_pushl                       0x000001F4
+  arg_pushs                       "Are you sure you\nwant to upgrade?"
+  message                         ... 0x1F4 /* 500 */, "Are you sure you\nwant to upgrade?"
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "Continue\nQuit"
+  list                            ... r60, "Continue\nQuit"
+  jmpi_eq                         r60, 0x00000001, label01F5
+  call                            label0213
+  clear                           r40
+  clear                           r41
+  call                            label0214
+  jmpi_eq                         r41, 0x00000001, label0215
+  fadeout
+  leti                            r60, 0x0000003C
+  call                            label0032
+  fadein
+  arg_pushr                       r100
+  item_delete_noreturn            ... r100
+  switch_call                     r10, [label14B5, label14B6, label14B7]
+  arg_pushl                       0x00000008
+  sound_effect                    ... 0x8 /* 8 */
+  arg_pushl                       0x000001F4
+  arg_pushs                       "Ha, ha, ha...\nThe strengthening\nwas successful."
+  message                         ... 0x1F4 /* 500 */, "Ha, ha, ha...\nThe strengthening\nwas successful."
+  arg_pushs                       "Once again, I\'m a genius!"
+  add_msg                         ... "Once again, I\'m a genius!"
+  arg_pushs                       "Let me give you\nback your weapon."
+  add_msg                         ... "Let me give you\nback your weapon."
+  arg_pushs                       "Ha, ha, ha."
+  add_msg                         ... "Ha, ha, ha."
+  message_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  arg_pushs                       "Obtained strengthened\n<color 4>enemy weapon<color 0> with <color 4><r82>% Hit<color 0>!"
+  window_msg                      ... "Obtained strengthened\n<color 4>enemy weapon<color 0> with <color 4><r82>% Hit<color 0>!"
+  window_msg_end
+  ret
+
+label14B5@0x14B5:
+  leti                            r116, 0x00000005
+  let                             r117, r82
+  item_create2                    r110-r121, r220
+  ret
+
+label14B6@0x14B6:
+  leti                            r118, 0x00000005
+  let                             r119, r82
+  item_create2                    r110-r121, r220
+  ret
+
+label14B7@0x14B7:
+  leti                            r120, 0x00000005
+  let                             r121, r82
+  item_create2                    r110-r121, r220
+  ret
+
+label0213@0x0213:
+  jmpi_eq                         r111, 0x00000017, label14BF
+  jmpi_eq                         r111, 0x00000018, label14C0
+  jmpi_eq                         r111, 0x00000019, label14C1
+  jmpi_eq                         r111, 0x0000001A, label14C2
+  jmpi_eq                         r111, 0x0000001B, label14C3
+  jmpi_eq                         r111, 0x0000004D, label14C4
+  jmpi_eq                         r111, 0x00000053, label14C5
+  jmpi_eq                         r111, 0x00000054, label14C6
+  jmpi_eq                         r111, 0x00000060, label14C7
+  jmpi_eq                         r111, 0x00000062, labelCF76
+  jmpi_eq                         r111, 0x00000067, labelCF77
+  jmpi_eq                         r111, 0x0000008E, labelCF78
+  jmpi_eq                         r111, 0x00000091, labelCF79
+  jmpi_eq                         r111, 0x00000096, labelCF7A
+  jmpi_eq                         r111, 0x000000A0, labelCF7B
+  jmpi_eq                         r111, 0x000000A1, labelCF7C
+  jmpi_eq                         r111, 0x000000A2, labelCF7D
+
+label14BF@0x14BF:
+  leti                            r20, 0x00000003
+  leti                            r21, 0x0000000D
+  leti                            r22, 0x00000000
+  ret
+
+label14C0@0x14C0:
+  leti                            r20, 0x00000003
+  leti                            r21, 0x0000000D
+  leti                            r22, 0x00000001
+  ret
+
+label14C1@0x14C1:
+  leti                            r20, 0x00000003
+  leti                            r21, 0x0000000D
+  leti                            r22, 0x00000002
+  ret
+
+label14C2@0x14C2:
+  leti                            r20, 0x00000003
+  leti                            r21, 0x0000000D
+  leti                            r22, 0x00000003
+  ret
+
+label14C3@0x14C3:
+  leti                            r20, 0x00000003
+  leti                            r21, 0x0000000D
+  leti                            r22, 0x00000004
+  ret
+
+label14C4@0x14C4:
+  leti                            r20, 0x00000003
+  leti                            r21, 0x0000000D
+  leti                            r22, 0x0000000B
+  ret
+
+label14C5@0x14C5:
+  leti                            r20, 0x00000003
+  leti                            r21, 0x0000000D
+  leti                            r22, 0x00000008
+  ret
+
+label14C6@0x14C6:
+  leti                            r20, 0x00000003
+  leti                            r21, 0x0000000D
+  leti                            r22, 0x00000009
+  ret
+
+label14C7@0x14C7:
+  leti                            r20, 0x00000003
+  leti                            r21, 0x0000000D
+  leti                            r22, 0x00000007
+  ret
+
+labelCF76@0xCF76:
+  leti                            r20, 0x00000003
+  leti                            r21, 0x0000000D
+  leti                            r22, 0x00000006
+  ret
+
+labelCF77@0xCF77:
+  leti                            r20, 0x00000003
+  leti                            r21, 0x0000000D
+  leti                            r22, 0x0000000A
+  ret
+
+labelCF78@0xCF78:
+  leti                            r20, 0x00000003
+  leti                            r21, 0x0000000D
+  leti                            r22, 0x0000000D
+  ret
+
+labelCF79@0xCF79:
+  leti                            r20, 0x00000003
+  leti                            r21, 0x0000000D
+  leti                            r22, 0x0000000C
+  ret
+
+labelCF7A@0xCF7A:
+  leti                            r20, 0x00000003
+  leti                            r21, 0x0000000D
+  leti                            r22, 0x00000012
+  ret
+
+labelCF7B@0xCF7B:
+  leti                            r20, 0x00000003
+  leti                            r21, 0x0000000D
+  leti                            r22, 0x0000000E
+  ret
+
+labelCF7C@0xCF7C:
+  leti                            r20, 0x00000003
+  leti                            r21, 0x0000000D
+  leti                            r22, 0x00000013
+  ret
+
+labelCF7D@0xCF7D:
+  leti                            r20, 0x00000003
+  leti                            r21, 0x0000000D
+  jmpi_eq                         r112, 0x00000001, labelCF7E
+  jmpi_eq                         r112, 0x00000002, labelCF7F
+  leti                            r22, 0x0000000F
+  ret
+
+labelCF7E@0xCF7E:
+  leti                            r22, 0x00000010
+  ret
+
+labelCF7F@0xCF7F:
+  leti                            r22, 0x00000011
+  ret
+
+label0214@0x0214:
+  sync
+  item_delete_by_type             r20-r22, r200-r211
+  jmpi_eq                         r200, 0xFFFFFFFF, label14CA
+  subi                            r80, 0x00000001
+  addi                            r40, 0x00000001
+  jmpi_ne                         r80, 0x00000000, label0214
+  ret
+
+label14CA@0x14CA:
+  sync
+  jmpi_eq                         r40, 0x00000000, label14CB
+  item_create2                    r20-r31, r220
+  subi                            r40, 0x00000001
+  jmpi_ne                         r40, 0x00000000, label14CA
+  set                             r41
+  ret
+
+label14CB@0x14CB:
+  set                             r41
+  ret
+
+label0215@0x0215:
+  arg_pushl                       0x000001F4
+  arg_pushs                       "Hm?"
+  message                         ... 0x1F4 /* 500 */, "Hm?"
+  arg_pushs                       "You don\'t have enough\nenemy parts."
+  add_msg                         ... "You don\'t have enough\nenemy parts."
+  arg_pushs                       "Well, talk to me again later."
+  add_msg                         ... "Well, talk to me again later."
+  arg_pushs                       "I\'ll be waiting.\nHa, ha, ha."
+  add_msg                         ... "I\'ll be waiting.\nHa, ha, ha."
+  message_end
+  ret
+
+label0216@0x0216:
+  arg_pushl                       0x000001F4
+  arg_pushs                       "Hm?"
+  message                         ... 0x1F4 /* 500 */, "Hm?"
+  arg_pushs                       "This weapon cannot\nbe upgraded by\nusing enemy parts..."
+  add_msg                         ... "This weapon cannot\nbe upgraded by\nusing enemy parts..."
+  arg_pushs                       "Well, talk to me again later."
+  add_msg                         ... "Well, talk to me again later."
+  arg_pushs                       "I\'ll be waiting.\nHa, ha, ha."
+  add_msg                         ... "I\'ll be waiting.\nHa, ha, ha."
+  message_end
+  ret
+
+label0258@0x0258:
+  // Referenced by map enemy ES-00-00A [EnemySetEntry type=00F7 "TObjNpcNgcBase(0x00F7)" num_children=0000 floor=0000 room=001E wave_number=0000 wave_number2=0000 a1=0000 x=-60 y=0 z=-140 x_angle=00000000 y_angle=00000000 z_angle=00000000 params=[0 0 0 600 600 0000 0000]]
+  arg_pushl                       0x00000258
+  arg_pushs                       "Hey there!\nI hand out\nfree Decoctions."
+  message                         ... 0x258 /* 600 */, "Hey there!\nI hand out\nfree Decoctions."
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "Give Decoction\nWhat\'s a Decoction?\nCancel"
+  list                            ... r60, "Give Decoction\nWhat\'s a Decoction?\nCancel"
+  switch_jmp                      r60, [label0259, label025A, label0001]
+
+label0259@0x0259:
+  leti                            r60, 0x00000003
+  leti                            r61, 0x00000014
+  leti                            r62, 0x0000000B
+  item_create                     r60-r62, r63
+  jmpi_eq                         r63, 0xFFFFFFFF, label177B
+  arg_pushl                       0x00000258
+  arg_pushs                       "Here you go!"
+  message                         ... 0x258 /* 600 */, "Here you go!"
+  message_end
+  arg_pushs                       "Received <color 4>Decoction<color 0>!"
+  window_msg                      ... "Received <color 4>Decoction<color 0>!"
+  window_msg_end
+  ret
+
+label177B@0x177B:
+  arg_pushl                       0x00000258
+  arg_pushs                       "Your inventory is full.\nPlease make some space."
+  message                         ... 0x258 /* 600 */, "Your inventory is full.\nPlease make some space."
+  message_end
+  ret
+
+label025A@0x025A:
+  arg_pushl                       0x00000258
+  arg_pushs                       "A Decoction is an\nitem that will reset\nyour material usage."
+  message                         ... 0x258 /* 600 */, "A Decoction is an\nitem that will reset\nyour material usage."
+  arg_pushs                       "Note that it will\nnot reset HP and\nTP material usage."
+  add_msg                         ... "Note that it will\nnot reset HP and\nTP material usage."
+  arg_pushs                       "Furthermore, the Decoction\npatch is also required\nto use one of these."
+  add_msg                         ... "Furthermore, the Decoction\npatch is also required\nto use one of these."
+  arg_pushs                       "Would you like one?"
+  add_msg                         ... "Would you like one?"
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "Yes\nNo"
+  list                            ... r60, "Yes\nNo"
+  switch_jmp                      r60, [label0259, label0001]
+
+label02BC@0x02BC:
+  // Referenced by map enemy ES-00-00B [EnemySetEntry type=001C "TObjNpcConnoisseur" num_children=0000 floor=0000 room=001E wave_number=0000 wave_number2=0000 a1=0000 x=-15 y=-30 z=-150 x_angle=00000000 y_angle=00004000 z_angle=00000000 params=[0 0 0 700 700 0000 0000]]
+  jmpi_eq                         r15, 0x00000001, label02D0
+  arg_pushl                       0x000002BC
+  arg_pushs                       "You..."
+  message                         ... 0x2BC /* 700 */, "You..."
+  message_end
+  leti                            r60, 0x00000000
+  leti                            r61, 0x00000010
+  leti                            r62, 0x00000001
+  find_inventory_item             r60-r62, r63
+  jmpi_gt                         r63, 0xFFFFFFFF, label02C6
+  leti                            r62, 0x00000002
+  find_inventory_item             r60-r62, r63
+  jmpi_gt                         r63, 0xFFFFFFFF, label02C8
+  leti                            r62, 0x00000003
+  find_inventory_item             r60-r62, r63
+  jmpi_gt                         r63, 0xFFFFFFFF, label02C8
+  leti                            r62, 0x00000004
+  find_inventory_item             r60-r62, r63
+  jmpi_gt                         r63, 0xFFFFFFFF, label02C8
+  leti                            r62, 0x00000005
+  find_inventory_item             r60-r62, r63
+  jmpi_gt                         r63, 0xFFFFFFFF, label02C8
+  leti                            r62, 0x00000006
+  find_inventory_item             r60-r62, r63
+  jmpi_gt                         r63, 0xFFFFFFFF, label02C8
+  sync
+  arg_pushl                       0x000002BC
+  arg_pushs                       "......"
+  message                         ... 0x2BC /* 700 */, "......"
+  arg_pushs                       "Want to hear about the\nlegend of the 4 swords?"
+  add_msg                         ... "Want to hear about the\nlegend of the 4 swords?"
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "Yes\nNo"
+  list                            ... r60, "Yes\nNo"
+  jmpi_eq                         r60, 0x00000001, label02BD
+  arg_pushl                       0x000002BC
+  arg_pushs                       "Long ago, the families\nof 3 famous blacksmiths\nwere executed by a king."
+  message                         ... 0x2BC /* 700 */, "Long ago, the families\nof 3 famous blacksmiths\nwere executed by a king."
+  arg_pushs                       "The 3 blacksmiths wanted\nvengeance against the\nking and the nation."
+  add_msg                         ... "The 3 blacksmiths wanted\nvengeance against the\nking and the nation."
+  arg_pushs                       "The three blacksmiths\nand one of their pupils\neach created a sword."
+  add_msg                         ... "The three blacksmiths\nand one of their pupils\neach created a sword."
+  arg_pushs                       "And their nation\ncollapsed soon after."
+  add_msg                         ... "And their nation\ncollapsed soon after."
+  arg_pushs                       "It was said that the\nfour swords led the\nnation to ruin."
+  add_msg                         ... "It was said that the\nfour swords led the\nnation to ruin."
+  arg_pushs                       "These 4 swords were\nsaid to have the power\nto destroy a planet."
+  add_msg                         ... "These 4 swords were\nsaid to have the power\nto destroy a planet."
+  arg_pushs                       "And Zoke, the Great\nSword, had 3 of these \n4 legendary swords."
+  add_msg                         ... "And Zoke, the Great\nSword, had 3 of these \n4 legendary swords."
+  arg_pushs                       "The legend was so famous\nthat many created \"the\n4th legendary sword.\""
+  add_msg                         ... "The legend was so famous\nthat many created \"the\n4th legendary sword.\""
+  arg_pushs                       "There are so many fakes.\nIt\'s difficult to tell\nwhich is the real one."
+  add_msg                         ... "There are so many fakes.\nIt\'s difficult to tell\nwhich is the real one."
+  message_end
+  ret
+
+label02BD@0x02BD:
+  arg_pushl                       0x000002BC
+  arg_pushs                       "You aren\'t interested\nin the old story?"
+  message                         ... 0x2BC /* 700 */, "You aren\'t interested\nin the old story?"
+  message_end
+  ret
+
+label02C6@0x02C6:
+  sync
+  arg_pushl                       0x000002BC
+  arg_pushs                       "......!"
+  message                         ... 0x2BC /* 700 */, "......!"
+  arg_pushs                       "You!\nLet me see that sword!\nCould it be...?!"
+  add_msg                         ... "You!\nLet me see that sword!\nCould it be...?!"
+  arg_pushs                       "Hmmm...!"
+  add_msg                         ... "Hmmm...!"
+  arg_pushs                       "It is rusted, but I\nsense something alive."
+  add_msg                         ... "It is rusted, but I\nsense something alive."
+  arg_pushs                       "I can tell that the\nworkmanship is superb..."
+  add_msg                         ... "I can tell that the\nworkmanship is superb..."
+  arg_pushs                       "Made in 1975...\nCreated by Dousetsu.\nYes! Yes!"
+  add_msg                         ... "Made in 1975...\nCreated by Dousetsu.\nYes! Yes!"
+  arg_pushs                       "This is really it.\nThe 4th legendary\nsword, Agito!"
+  add_msg                         ... "This is really it.\nThe 4th legendary\nsword, Agito!"
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  arg_pushs                       "Ah, I am so drawn to\nthis sword...\nIt\'s astounding."
+  add_msg                         ... "Ah, I am so drawn to\nthis sword...\nIt\'s astounding."
+  arg_pushs                       "But it cannot show its\ntrue power in such a\nrusted state."
+  add_msg                         ... "But it cannot show its\ntrue power in such a\nrusted state."
+  arg_pushs                       "Why don\'t you leave\nAgito with me for\na while?"
+  add_msg                         ... "Why don\'t you leave\nAgito with me for\na while?"
+  arg_pushs                       "I\'ll remove the rust\nfrom it and bring Agito\nto its pristine state!"
+  add_msg                         ... "I\'ll remove the rust\nfrom it and bring Agito\nto its pristine state!"
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "Yes, please\nNo, thank you"
+  list                            ... r60, "Yes, please\nNo, thank you"
+  jmpi_eq                         r60, 0x00000001, label02C7
+  arg_pushl                       0x000002BC
+  arg_pushs                       "All right.\nTrust me."
+  message                         ... 0x2BC /* 700 */, "All right.\nTrust me."
+  message_end
+  fadeout
+  leti                            r60, 0x0000003C
+  call                            label0032
+  fadein
+  leti                            r60, 0x00000000
+  leti                            r61, 0x00000010
+  leti                            r62, 0x00000001
+  item_delete_by_type             r60-r62, r200-r211
+  arg_pushl                       0x000002BC
+  arg_pushs                       "......"
+  message                         ... 0x2BC /* 700 */, "......"
+  arg_pushs                       "What a truly excellent\nsword it is...!"
+  add_msg                         ... "What a truly excellent\nsword it is...!"
+  arg_pushs                       "I understand why they\ncall it legendary."
+  add_msg                         ... "I understand why they\ncall it legendary."
+  arg_pushs                       "The true name of Agito\nis \"OROCHI-AGITO\""
+  add_msg                         ... "The true name of Agito\nis \"OROCHI-AGITO\""
+  arg_pushs                       "Now you carry on the\nlegend of the sword.\nTake this!"
+  add_msg                         ... "Now you carry on the\nlegend of the sword.\nTake this!"
+  message_end
+  leti                            r200, 0x00000000
+  leti                            r201, 0x00000010
+  leti                            r202, 0x00000000
+  leti                            r203, 0x00000000
+  item_create2                    r200-r211, r220
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  arg_pushs                       "Got sword, OROCHI-AGITO\nwith AGITO\'s attributes!"
+  window_msg                      ... "Got sword, OROCHI-AGITO\nwith AGITO\'s attributes!"
+  window_msg_end
+  set                             r15
+  ret
+
+label02C7@0x02C7:
+  arg_pushl                       0x000002BC
+  arg_pushs                       "Are you sure?\nYou\'ll regret it later\nif you wait."
+  message                         ... 0x2BC /* 700 */, "Are you sure?\nYou\'ll regret it later\nif you wait."
+  arg_pushs                       "Agito is almost dead\nas it is."
+  add_msg                         ... "Agito is almost dead\nas it is."
+  message_end
+  ret
+
+label02C8@0x02C8:
+  sync
+  arg_pushl                       0x000002BC
+  arg_pushs                       "......!"
+  message                         ... 0x2BC /* 700 */, "......!"
+  arg_pushs                       "You!\nLet me see that sword!\nCould it be...?!"
+  add_msg                         ... "You!\nLet me see that sword!\nCould it be...?!"
+  arg_pushs                       "Hmmm...!"
+  add_msg                         ... "Hmmm...!"
+  arg_pushs                       "It\'s a fake.  It\'s just\na copy of the last\nlegendary sword, Agito."
+  add_msg                         ... "It\'s a fake.  It\'s just\na copy of the last\nlegendary sword, Agito."
+  arg_pushs                       "This isn\'t that old.\nNo master created this."
+  add_msg                         ... "This isn\'t that old.\nNo master created this."
+  arg_pushl                       0x00000014
+  sound_effect                    ... 0x14 /* 20 */
+  arg_pushs                       "Sorry about that."
+  add_msg                         ... "Sorry about that."
+  message_end
+  ret
+
+label02D0@0x02D0:
+  arg_pushl                       0x000002BC
+  arg_pushs                       "It seems that...\nmy mission is over."
+  message                         ... 0x2BC /* 700 */, "It seems that...\nmy mission is over."
+  arg_pushs                       "Agito may cause\nbloodshed again, but..."
+  add_msg                         ... "Agito may cause\nbloodshed again, but..."
+  arg_pushs                       "I know what I did was\nright. It is done."
+  add_msg                         ... "I know what I did was\nright. It is done."
+  message_end
+  ret
+
+label0064@0x0064:
+  // Referenced by map enemy ES-00-000 [EnemySetEntry type=00FE "TObjNpcNgcBase(0x00FE)" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-113 y=0 z=19 x_angle=00000000 y_angle=00005000 z_angle=00000000 params=[0 0 0 100 100 0000 0000]]
+  jmpi_eq                         r255, 0x00000001, label0001
+  arg_pushl                       0x00000064
+  arg_pushs                       "Welcome! The Hunters\nGuild is here to\nenrich your life."
+  message                         ... 0x64 /* 100 */, "Welcome! The Hunters\nGuild is here to\nenrich your life."
+  arg_pushs                       "Do you want to return\nto the lobby?"
+  add_msg                         ... "Do you want to return\nto the lobby?"
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "No\nYes"
+  list                            ... r60, "No\nYes"
+  jmpi_eq                         r60, 0x00000001, label0065
+  arg_pushl                       0x00000064
+  arg_pushs                       "Come again! The Hunters\nGuild is here to\nenrich your life."
+  message                         ... 0x64 /* 100 */, "Come again! The Hunters\nGuild is here to\nenrich your life."
+  message_end
+  ret
+
+label0065@0x0065:
+  arg_pushl                       0x00000064
+  arg_pushs                       "Very well.\nI will send\nyou to the lobby."
+  message                         ... 0x64 /* 100 */, "Very well.\nI will send\nyou to the lobby."
+  message_end
+  set                             r255
+  qexit
+  ret
+
+label0320@0x0320:
+  arg_pushl                       0x00000320
+  arg_pushs                       "What would you\nlike to buy?"
+  message                         ... 0x320 /* 800 */, "What would you\nlike to buy?"
+  message_end
+  call                            label0334
+  arg_pushb                       0xB9
+  arg_pushs                       "Monomate (<r25>)\nDimate (<r26>)\nTrimate (<r27>)\nMonofluid (<r28>)\nDifluid (<r29>)\nTrifluid (<r30>)\nSol Atomizer (<r31>)\nMoon Atomizer (<r32>)\nStar Atomizer (<r33>)\nAntidote (<r34>)\nAntiparalysis (<r35>)\nCancel"
+  list                            ... r185, "Monomate (<r25>)\nDimate (<r26>)\nTrimate (<r27>)\nMonofluid (<r28>)\nDifluid (<r29>)\nTrifluid (<r30>)\nSol Atomizer (<r31>)\nMoon Atomizer (<r32>)\nStar Atomizer (<r33>)\nAntidote (<r34>)\nAntiparalysis (<r35>)\nCancel"
+  jmpi_eq                         r185, 0x0000000B, label0001
+  switch_call                     r185, [label1F41, label1F42, label1F43, label1F44, label1F45, label1F46, label1F47, label1F48, label1F49, label1F4A, label1F4B]
+  arg_pushb                       0xBA
+  arg_pushs                       "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\nCancel"
+  list                            ... r186, "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\nCancel"
+  jmpi_eq                         r186, 0x0000000A, label0001
+  addi                            r186, 0x00000001
+  mul                             r187, r186
+  get_slot_meseta                 r188-r189
+  arg_pushl                       0x00000320
+  arg_pushs                       "This will cost <r187> meseta.\nYou currently have <r188>.\nAre you sure?"
+  message                         ... 0x320 /* 800 */, "This will cost <r187> meseta.\nYou currently have <r188>.\nAre you sure?"
+  message_end
+  arg_pushb                       0x3C
+  arg_pushs                       "Buy\nCancel"
+  list                            ... r60, "Buy\nCancel"
+  jmpi_eq                         r60, 0x00000001, label0001
+  jmp_lt                          r188, r187, label0322
+  let                             r169, r250
+  leti                            r170, 0x00000003
+  get_stackable_item_count        r169-r172, r189
+  add                             r189, r186
+  jmpi_ge                         r189, 0x0000000B, label0321
+  call                            label032A
+  jmpi_eq                         r190, 0x00000001, label0001
+  arg_pushl                       0x00000320
+  arg_pushs                       "Thanks for your business."
+  message                         ... 0x320 /* 800 */, "Thanks for your business."
+  message_end
+  get_slot_meseta                 r188-r189
+  switch_call                     r185, [label1FA5, label1FA6, label1FA7, label1FA8, label1FA9, label1FAA, label1FAB, label1FAC, label1FAD, label1FAE, label1FAF]
+  ret
+
+label1F41@0x1F41:
+  leti                            r171, 0x00000000
+  leti                            r172, 0x00000000
+  leti                            r187, 0x00000032
+  ret
+
+label1F42@0x1F42:
+  leti                            r171, 0x00000000
+  leti                            r172, 0x00000001
+  leti                            r187, 0x0000012C
+  ret
+
+label1F43@0x1F43:
+  leti                            r171, 0x00000000
+  leti                            r172, 0x00000002
+  leti                            r187, 0x000007D0
+  ret
+
+label1F44@0x1F44:
+  leti                            r171, 0x00000001
+  leti                            r172, 0x00000000
+  leti                            r187, 0x00000064
+  ret
+
+label1F45@0x1F45:
+  leti                            r171, 0x00000001
+  leti                            r172, 0x00000001
+  leti                            r187, 0x000001F4
+  ret
+
+label1F46@0x1F46:
+  leti                            r171, 0x00000001
+  leti                            r172, 0x00000002
+  leti                            r187, 0x00000E10
+  ret
+
+label1F47@0x1F47:
+  leti                            r171, 0x00000003
+  leti                            r172, 0x00000000
+  leti                            r187, 0x0000012C
+  ret
+
+label1F48@0x1F48:
+  leti                            r171, 0x00000004
+  leti                            r172, 0x00000000
+  leti                            r187, 0x000001F4
+  ret
+
+label1F49@0x1F49:
+  leti                            r171, 0x00000005
+  leti                            r172, 0x00000000
+  leti                            r187, 0x00001388
+  ret
+
+label1F4A@0x1F4A:
+  leti                            r171, 0x00000006
+  leti                            r172, 0x00000000
+  leti                            r187, 0x0000003C
+  ret
+
+label1F4B@0x1F4B:
+  leti                            r171, 0x00000006
+  leti                            r172, 0x00000001
+  leti                            r187, 0x0000003C
+  ret
+
+label1FA5@0x1FA5:
+  arg_pushs                       "Received <color 4>Monomate x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg                      ... "Received <color 4>Monomate x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg_end
+  ret
+
+label1FA6@0x1FA6:
+  arg_pushs                       "Received <color 4>Dimate x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg                      ... "Received <color 4>Dimate x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg_end
+  ret
+
+label1FA7@0x1FA7:
+  arg_pushs                       "Received <color 4>Trimate x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg                      ... "Received <color 4>Trimate x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg_end
+  ret
+
+label1FA8@0x1FA8:
+  arg_pushs                       "Received <color 4>Monofluid x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg                      ... "Received <color 4>Monofluid x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg_end
+  ret
+
+label1FA9@0x1FA9:
+  arg_pushs                       "Received <color 4>Difluid x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg                      ... "Received <color 4>Difluid x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg_end
+  ret
+
+label1FAA@0x1FAA:
+  arg_pushs                       "Received <color 4>Trifluid x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg                      ... "Received <color 4>Trifluid x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg_end
+  ret
+
+label1FAB@0x1FAB:
+  arg_pushs                       "Received <color 4>Sol Atomizer x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg                      ... "Received <color 4>Sol Atomizer x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg_end
+  ret
+
+label1FAC@0x1FAC:
+  arg_pushs                       "Received <color 4>Moon Atomizer x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg                      ... "Received <color 4>Moon Atomizer x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg_end
+  ret
+
+label1FAD@0x1FAD:
+  arg_pushs                       "Received <color 4>Star Atomizer x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg                      ... "Received <color 4>Star Atomizer x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg_end
+  ret
+
+label1FAE@0x1FAE:
+  arg_pushs                       "Received <color 4>Antidote x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg                      ... "Received <color 4>Antidote x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg_end
+  ret
+
+label1FAF@0x1FAF:
+  arg_pushs                       "Received <color 4>Antiparalysis x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg                      ... "Received <color 4>Antiparalysis x<r186><color 0>!\nYou now have <color 1><r188><color 0> meseta."
+  window_msg_end
+  ret
+
+label0321@0x0321:
+  arg_pushl                       0x00000320
+  arg_pushs                       "You have too much\nof this item."
+  message                         ... 0x320 /* 800 */, "You have too much\nof this item."
+  message_end
+  ret
+
+label0322@0x0322:
+  arg_pushl                       0x00000320
+  arg_pushs                       "You do not have\nenough meseta."
+  message                         ... 0x320 /* 800 */, "You do not have\nenough meseta."
+  message_end
+  ret
+
+label032A@0x032A:
+  clear                           r190
+  clear                           r191
+
+label032F@0x032F:
+  sync
+  leti                            r173, 0x00000000
+  leti                            r174, 0x00000000
+  leti                            r175, 0x00000001
+  leti                            r176, 0x00000000
+  leti                            r177, 0x00000000
+  leti                            r178, 0x00000000
+  leti                            r179, 0x00000000
+  leti                            r180, 0x00000000
+  leti                            r181, 0x00000000
+  item_create2                    r170-r181, r220
+  jmpi_eq                         r220, 0xFFFFFFFF, label032B
+  addi                            r191, 0x00000001
+  jmp_eq                          r191, r186, label032C
+  jmp                             label032F
+
+label032B@0x032B:
+  arg_pushl                       0x00000320
+  arg_pushs                       "Your inventory is full."
+  message                         ... 0x320 /* 800 */, "Your inventory is full."
+  message_end
+  set                             r190
+  ret
+
+label032C@0x032C:
+  let                             r251, r187
+  take_slot_meseta                r250-r251, r252-r253
+  ret
+
+label0334@0x0334:
+  let                             r60, r250
+  leti                            r61, 0x00000003
+  leti                            r62, 0x00000000
+  leti                            r63, 0x00000000
+  get_stackable_item_count        r60-r63, r25
+  leti                            r63, 0x00000001
+  get_stackable_item_count        r60-r63, r26
+  leti                            r63, 0x00000002
+  get_stackable_item_count        r60-r63, r27
+  leti                            r62, 0x00000001
+  leti                            r63, 0x00000000
+  get_stackable_item_count        r60-r63, r28
+  leti                            r63, 0x00000001
+  get_stackable_item_count        r60-r63, r29
+  leti                            r63, 0x00000002
+  get_stackable_item_count        r60-r63, r30
+  leti                            r62, 0x00000003
+  leti                            r63, 0x00000000
+  get_stackable_item_count        r60-r63, r31
+  leti                            r62, 0x00000004
+  get_stackable_item_count        r60-r63, r32
+  leti                            r62, 0x00000005
+  get_stackable_item_count        r60-r63, r33
+  leti                            r62, 0x00000006
+  leti                            r63, 0x00000000
+  get_stackable_item_count        r60-r63, r34
+  leti                            r63, 0x00000001
+  get_stackable_item_count        r60-r63, r35
+  ret
+  nop

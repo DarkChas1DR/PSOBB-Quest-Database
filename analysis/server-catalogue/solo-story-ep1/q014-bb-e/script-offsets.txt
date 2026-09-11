@@ -1,0 +1,1334 @@
+.version BB_V4
+.quest_num 14
+.name "Secret Delivery"
+.short_desc "Deliver a top\nsecret package\nunderground!"
+.long_desc "Client: Simons\nQuest:\n  I want this package\n  to be dropped off\n  on Ragol, underground,\n  immediately.\nReward: 3000 Meseta"
+.episode Episode1
+.header_episode 0x00
+.language E
+.max_players 1
+.solo_unlock_flag 0x0065
+.solo_unlock_flag 0x0067
+.solo_unlock_flag 0x006B
+.solo_unlock_flag 0x01F9
+.allow_create_item 001600000000000000000000
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+// 0x357C data bytes in script section with 93 labels
+
+start:
+  0000  F8BC00000000      set_episode                     0x00000000
+  0006  17650065          gget                            0x0065, r101
+  000A  17F10066          gget                            0x00F1, r102
+  000E  17F1006D          gget                            0x00F1, r109
+  0012  17F20067          gget                            0x00F2, r103
+  0016  17F30068          gget                            0x00F3, r104
+  001A  17F40069          gget                            0x00F4, r105
+  001E  17F5006A          gget                            0x00F5, r106
+  0022  17F6006C          gget                            0x00F6, r108
+  0026  BA6F00            set_qt_exit                     label006F /* 0061 */
+  0029  A56F00            set_qt_cancel                   label006F /* 0061 */
+  002C  4900000000        arg_pushl                       0x00000000
+  0031  4B9600            arg_pushw                       0x0096
+  0034  95                set_floor_handler               ... 0x0 /* 0 */, label0096 /* 006D */
+  0035  4903000000        arg_pushl                       0x00000003
+  003A  4B9900            arg_pushw                       0x0099
+  003D  95                set_floor_handler               ... 0x3 /* 3 */, label0099 /* 0122 */
+  003E  4904000000        arg_pushl                       0x00000004
+  0043  4B9A00            arg_pushw                       0x009A
+  0046  95                set_floor_handler               ... 0x4 /* 4 */, label009A /* 0213 */
+  0047  A2FA00            set_qt_success                  label00FA /* 00AC */
+  004A  F9510000000000    bb_map_designate                0x00, 0x00, 0x00, 0x00, 0x00
+  0051  F9510303000001    bb_map_designate                0x03, 0x03, 0x00, 0x00, 0x01
+  0058  F9510404000000    bb_map_designate                0x04, 0x04, 0x00, 0x00, 0x00
+  005F  01                ret
+
+label0001:
+  // Referenced by instructions at 0061, 0078, 0192, 0346, 03B4, 03D1, 1844, 3424, 344A, 3476, 3509, 3511, 3519
+  0060  01                ret
+
+label006F:
+  // Referenced by instructions at 0026, 0029
+  0061  2D6D01000000...   jmpi_eq                         r109, 0x00000001, label0001 /* 0060 */
+  0069  14F100            gclear                          0x00F1
+  006C  01                ret
+
+label0096:
+  // Referenced by instruction at 0034
+  006D  B1D100            thread_stg                      label00D1 /* 3509 */
+  0070  2DFD01000000...   jmpi_eq                         r253, 0x00000001, label00FB /* 0106 */
+  0078  2D5F01000000...   jmpi_eq                         r95, 0x00000001, label0001 /* 0060 */
+  0080  093CED000000      leti                            r60, 0x000000ED
+  0086  093D00000000      leti                            r61, 0x00000000
+  008C  093E4D010000      leti                            r62, 0x0000014D
+  0092  093FFAFFFFFF      leti                            r63, 0xFFFFFFFA
+  0098  4900000000        arg_pushl                       0x00000000
+  009D  4A3C              arg_pushb                       0x3C
+  009F  76                set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  00A0  293601            call                            label0136 /* 03E2 */
+  00A3  105F              set                             r95
+  00A5  4903000000        arg_pushl                       0x00000003
+  00AA  93                set_mainwarp                    ... 0x3 /* 3 */
+  00AB  01                ret
+
+label00FA:
+  // Referenced by instruction at 0047
+  00AC  137F00            gset                            0x007F
+  00AF  4E59006F0075...   arg_pushs                       "You\'ve been awarded 3000 Meseta."
+  00F2  5A                window_msg                      ... "You\'ve been awarded 3000 Meseta."
+  00F3  5E                window_msg_end
+  00F4  4901000000        arg_pushl                       0x00000001
+  00F9  55                bgm                             ... 0x1 /* 1 */
+  00FA  4900000000        arg_pushl                       0x00000000
+  00FF  49B80B0000        arg_pushl                       0x00000BB8
+  0104  B0                pl_add_meseta                   ... 0x0 /* 0 */, 0xBB8 /* 3000 */
+  0105  01                ret
+
+label00FB:
+  // Referenced by instruction at 0070
+  0106  4900000000        arg_pushl                       0x00000000
+  010B  72                disable_movement1               ... 0x0 /* 0 */
+  010C  02                sync
+  010D  C3                pl_pkoff
+  010E  02                sync
+  010F  4901000000        arg_pushl                       0x00000001
+  0114  63                npc_kill                        ... 0x1 /* 1 */
+  0115  4902000000        arg_pushl                       0x00000002
+  011A  63                npc_kill                        ... 0x2 /* 2 */
+  011B  4900000000        arg_pushl                       0x00000000
+  0120  78                p_talk_guild                    ... 0x0 /* 0 */
+  0121  01                ret
+
+label0099:
+  // Referenced by instruction at 003D
+  0122  B1D100            thread_stg                      label00D1 /* 3509 */
+  0125  093C03020000      leti                            r60, 0x00000203
+  012B  093D01000000      leti                            r61, 0x00000001
+  0131  093ED6FCFFFF      leti                            r62, 0xFFFFFCD6
+  0137  093F00000000      leti                            r63, 0x00000000
+  013D  094000000000      leti                            r64, 0x00000000
+  0143  09410D000000      leti                            r65, 0x0000000D
+  0149  7D3C              npc_crptalk                     r60-r65
+  014B  093C03020000      leti                            r60, 0x00000203
+  0151  093D01000000      leti                            r61, 0x00000001
+  0157  093ED6FCFFFF      leti                            r62, 0xFFFFFCD6
+  015D  093F1E000000      leti                            r63, 0x0000001E
+  0163  094054010000      leti                            r64, 0x00000154
+  0169  09410A000000      leti                            r65, 0x0000000A
+  016F  943C55            set_obj_param                   r60-r65, r85
+  0172  093C00000000      leti                            r60, 0x00000000
+  0178  093D00000000      leti                            r61, 0x00000000
+  017E  093EDAFDFFFF      leti                            r62, 0xFFFFFDDA
+  0184  093F32000000      leti                            r63, 0x00000032
+  018A  09401D010000      leti                            r64, 0x0000011D
+  0190  8C3C              at_coords_call                  r60-r64
+  0192  2D5A01000000...   jmpi_eq                         r90, 0x00000001, label0001 /* 0060 */
+  019A  093CA0000000      leti                            r60, 0x000000A0
+  01A0  093D00000000      leti                            r61, 0x00000000
+  01A6  093EE8FEFFFF      leti                            r62, 0xFFFFFEE8
+  01AC  093F1E000000      leti                            r63, 0x0000001E
+  01B2  09405E010000      leti                            r64, 0x0000015E
+  01B8  09410A000000      leti                            r65, 0x0000000A
+  01BE  943C56            set_obj_param                   r60-r65, r86
+  01C1  093CA0000000      leti                            r60, 0x000000A0
+  01C7  093D00000000      leti                            r61, 0x00000000
+  01CD  093EE8FEFFFF      leti                            r62, 0xFFFFFEE8
+  01D3  093FA6FFFFFF      leti                            r63, 0xFFFFFFA6
+  01D9  094000000000      leti                            r64, 0x00000000
+  01DF  094118000000      leti                            r65, 0x00000018
+  01E5  094201000000      leti                            r66, 0x00000001
+  01EB  7C3C              npc_crppk                       r60-r66
+  01ED  4901000000        arg_pushl                       0x00000001
+  01F2  61                npc_stop                        ... 0x1 /* 1 */
+  01F3  C3                pl_pkoff
+  01F4  01                ret
+
+label011D:
+  01F5  4950000000        arg_pushl                       0x00000050
+  01FA  90                switch_on                       ... 0x50 /* 80 */
+  01FB  4951000000        arg_pushl                       0x00000051
+  0200  90                switch_on                       ... 0x51 /* 81 */
+  0201  2D0401000000...   jmpi_eq                         r4, 0x00000001, label0122 /* 020A */
+  0209  01                ret
+
+label0122:
+  // Referenced by instruction at 0201
+  020A  4901000000        arg_pushl                       0x00000001
+  020F  63                npc_kill                        ... 0x1 /* 1 */
+  0210  C3                pl_pkoff
+  0211  6C                p_enablewarp
+  0212  01                ret
+
+label009A:
+  // Referenced by instruction at 0046
+  0213  B1D100            thread_stg                      label00D1 /* 3509 */
+  0216  093C00000000      leti                            r60, 0x00000000
+  021C  093D00000000      leti                            r61, 0x00000000
+  0222  093EAEFCFFFF      leti                            r62, 0xFFFFFCAE
+  0228  093F32000000      leti                            r63, 0x00000032
+  022E  09401E010000      leti                            r64, 0x0000011E
+  0234  8C3C              at_coords_call                  r60-r64
+  0236  093C2EFFFFFF      leti                            r60, 0xFFFFFF2E
+  023C  093D00000000      leti                            r61, 0x00000000
+  0242  093E76FDFFFF      leti                            r62, 0xFFFFFD76
+  0248  093F32000000      leti                            r63, 0x00000032
+  024E  09401F010000      leti                            r64, 0x0000011F
+  0254  8C3C              at_coords_call                  r60-r64
+  0256  093C38FFFFFF      leti                            r60, 0xFFFFFF38
+  025C  093D00000000      leti                            r61, 0x00000000
+  0262  093E4AF7FFFF      leti                            r62, 0xFFFFF74A
+  0268  093F32000000      leti                            r63, 0x00000032
+  026E  094020010000      leti                            r64, 0x00000120
+  0274  8C3C              at_coords_call                  r60-r64
+  0276  28D600            jmp                             label00D6 /* 027A */
+  0279  01                ret
+
+label00D6:
+  // Referenced by instruction at 0276
+  027A  2D5B01000000...   jmpi_eq                         r91, 0x00000001, label00D7 /* 02E0 */
+  0282  093C00000000      leti                            r60, 0x00000000
+  0288  093D00000000      leti                            r61, 0x00000000
+  028E  093E19FBFFFF      leti                            r62, 0xFFFFFB19
+  0294  093F00000000      leti                            r63, 0x00000000
+  029A  094000000000      leti                            r64, 0x00000000
+  02A0  094118000000      leti                            r65, 0x00000018
+  02A6  094201000000      leti                            r66, 0x00000001
+  02AC  7C3C              npc_crppk                       r60-r66
+  02AE  C3                pl_pkoff
+  02AF  4901000000        arg_pushl                       0x00000001
+  02B4  61                npc_stop                        ... 0x1 /* 1 */
+  02B5  093C00000000      leti                            r60, 0x00000000
+  02BB  093D00000000      leti                            r61, 0x00000000
+  02C1  093E19FBFFFF      leti                            r62, 0xFFFFFB19
+  02C7  093F1E000000      leti                            r63, 0x0000001E
+  02CD  09407C010000      leti                            r64, 0x0000017C
+  02D3  09410A000000      leti                            r65, 0x0000000A
+  02D9  943C58            set_obj_param                   r60-r65, r88
+  02DC  28D700            jmp                             label00D7 /* 02E0 */
+  02DF  01                ret
+
+label00D7:
+  // Referenced by instructions at 027A, 02DC
+  02E0  2D5C01000000...   jmpi_eq                         r92, 0x00000001, label00D8 /* 0346 */
+  02E8  093C0CFEFFFF      leti                            r60, 0xFFFFFE0C
+  02EE  093D00000000      leti                            r61, 0x00000000
+  02F4  093E11FEFFFF      leti                            r62, 0xFFFFFE11
+  02FA  093FB4000000      leti                            r63, 0x000000B4
+  0300  094000000000      leti                            r64, 0x00000000
+  0306  094119000000      leti                            r65, 0x00000019
+  030C  094202000000      leti                            r66, 0x00000002
+  0312  7C3C              npc_crppk                       r60-r66
+  0314  C3                pl_pkoff
+  0315  4902000000        arg_pushl                       0x00000002
+  031A  61                npc_stop                        ... 0x2 /* 2 */
+  031B  093C0CFEFFFF      leti                            r60, 0xFFFFFE0C
+  0321  093D00000000      leti                            r61, 0x00000000
+  0327  093E11FEFFFF      leti                            r62, 0xFFFFFE11
+  032D  093F1E000000      leti                            r63, 0x0000001E
+  0333  094086010000      leti                            r64, 0x00000186
+  0339  09410A000000      leti                            r65, 0x0000000A
+  033F  943C59            set_obj_param                   r60-r65, r89
+  0342  28D800            jmp                             label00D8 /* 0346 */
+  0345  01                ret
+
+label00D8:
+  // Referenced by instructions at 02E0, 0342
+  0346  2DFE01000000...   jmpi_eq                         r254, 0x00000001, label0001 /* 0060 */
+  034E  093CD7000000      leti                            r60, 0x000000D7
+  0354  093D00000000      leti                            r61, 0x00000000
+  035A  093E9CF7FFFF      leti                            r62, 0xFFFFF79C
+  0360  093F01000000      leti                            r63, 0x00000001
+  0366  094001000000      leti                            r64, 0x00000001
+  036C  09410F000000      leti                            r65, 0x0000000F
+  0372  7D3C              npc_crptalk                     r60-r65
+  0374  4903000000        arg_pushl                       0x00000003
+  0379  61                npc_stop                        ... 0x3 /* 3 */
+  037A  093CC8000000      leti                            r60, 0x000000C8
+  0380  093D00000000      leti                            r61, 0x00000000
+  0386  093E9AF7FFFF      leti                            r62, 0xFFFFF79A
+  038C  093F32000000      leti                            r63, 0x00000032
+  0392  094068010000      leti                            r64, 0x00000168
+  0398  8C3C              at_coords_call                  r60-r64
+  039A  01                ret
+
+label0120:
+  039B  4956000000        arg_pushl                       0x00000056
+  03A0  90                switch_on                       ... 0x56 /* 86 */
+  03A1  4914000000        arg_pushl                       0x00000014
+  03A6  90                switch_on                       ... 0x14 /* 20 */
+  03A7  01                ret
+
+label011E:
+  03A8  4950000000        arg_pushl                       0x00000050
+  03AD  90                switch_on                       ... 0x50 /* 80 */
+  03AE  4951000000        arg_pushl                       0x00000051
+  03B3  90                switch_on                       ... 0x51 /* 81 */
+  03B4  2D0600000000...   jmpi_eq                         r6, 0x00000000, label0001 /* 0060 */
+  03BC  4901000000        arg_pushl                       0x00000001
+  03C1  63                npc_kill                        ... 0x1 /* 1 */
+  03C2  C3                pl_pkoff
+  03C3  6C                p_enablewarp
+  03C4  01                ret
+
+label011F:
+  03C5  4952000000        arg_pushl                       0x00000052
+  03CA  90                switch_on                       ... 0x52 /* 82 */
+  03CB  4953000000        arg_pushl                       0x00000053
+  03D0  90                switch_on                       ... 0x53 /* 83 */
+  03D1  2D0800000000...   jmpi_eq                         r8, 0x00000000, label0001 /* 0060 */
+  03D9  4902000000        arg_pushl                       0x00000002
+  03DE  63                npc_kill                        ... 0x2 /* 2 */
+  03DF  C3                pl_pkoff
+  03E0  6C                p_enablewarp
+  03E1  01                ret
+
+label0136:
+  // Referenced by instruction at 00A0
+  // Referenced by map enemy ES-00-001 [EnemySetEntry type=000E "TObjNpcMaleTall/TObjNpcMaleTall" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-2.99719 y=0 z=63.9993 x_angle=00000000 y_angle=00007800 z_angle=00000000 params=[0 0 0 101 310 0000 0000]]
+  03E2  2D0301000000...   jmpi_eq                         r3, 0x00000001, label0139 /* 0B1D */
+  03EA  2DFE01000000...   jmpi_eq                         r254, 0x00000001, label0138 /* 09BC */
+  03F2  2D0001000000...   jmpi_eq                         r0, 0x00000001, label0137 /* 08F5 */
+  03FA  29E800            call                            label00E8 /* 320D */
+  03FD  4965000000        arg_pushl                       0x00000065
+  0402  4E53006F0020...   arg_pushs                       "So you\'re <hero name>.\nI\'m Simons Olo.  I work\nat the lab."
+  0479  50                message                         ... 0x65 /* 101 */, "So you\'re <hero name>.\nI\'m Simons Olo.  I work\nat the lab."
+  047A  4E50006C0065...   arg_pushs                       "Please deliver this box\nto Ragol as soon as\npossible!"
+  04E7  5B                add_msg                         ... "Please deliver this box\nto Ragol as soon as\npossible!"
+  04E8  4E53006F0072...   arg_pushs                       "Sorry, it\'s heavy.\nIt contains...um...\nI can\'t tell you."
+  055B  5B                add_msg                         ... "Sorry, it\'s heavy.\nIt contains...um...\nI can\'t tell you."
+  055C  4E4900200074...   arg_pushs                       "I think you\'ve heard\nabout the mutants\nin the underground."
+  05D3  5B                add_msg                         ... "I think you\'ve heard\nabout the mutants\nin the underground."
+  05D4  4E5400680069...   arg_pushs                       "This box will be used to\nstudy those animals!\nGot it?"
+  0641  5B                add_msg                         ... "This box will be used to\nstudy those animals!\nGot it?"
+  0642  4E41006E0079...   arg_pushs                       "Anyway, we have no time\nto waste!  Finish this\njob as soon as you can!"
+  06D1  5B                add_msg                         ... "Anyway, we have no time\nto waste!  Finish this\njob as soon as you can!"
+  06D2  4E5700680061...   arg_pushs                       "What should I do if\nDr. Montague discovers\nwhat I\'ve done...!"
+  074F  5B                add_msg                         ... "What should I do if\nDr. Montague discovers\nwhat I\'ve done...!"
+  0750  4E4E006F0077...   arg_pushs                       "Now, please hand it to\nYN-0117 on floor B2!\nQuickly!"
+  07BB  5B                add_msg                         ... "Now, please hand it to\nYN-0117 on floor B2!\nQuickly!"
+  07BC  4E4A00750073...   arg_pushs                       "Just put it on YN-0117\ndirectly.  It\'s easy."
+  0817  5B                add_msg                         ... "Just put it on YN-0117\ndirectly.  It\'s easy."
+  0818  4E59006F0075...   arg_pushs                       "You can contribute to\nthe mission... Err!\nI mean, the study."
+  0893  5B                add_msg                         ... "You can contribute to\nthe mission... Err!\nI mean, the study."
+  0894  1000              set                             r0
+  0896  B1D100            thread_stg                      label00D1 /* 3509 */
+  0899  5C                message_end
+  089A  4E47006F0074...   arg_pushs                       "Got Secret device!"
+  08C1  5A                window_msg                      ... "Got Secret device!"
+  08C2  5E                window_msg_end
+  08C3  4901000000        arg_pushl                       0x00000001
+  08C8  55                bgm                             ... 0x1 /* 1 */
+  08C9  29E900            call                            label00E9 /* 3222 */
+  08CC  4900000000        arg_pushl                       0x00000000
+  08D1  4B2801            arg_pushw                       0x0128
+  08D4  4E5300650063...   arg_pushs                       "Secret device"
+  08F1  CB                set_quest_board_handler         ... 0x0 /* 0 */, label0128 /* 3499 */, "Secret device"
+  08F2  104A              set                             r74
+  08F4  01                ret
+
+label0137:
+  // Referenced by instruction at 03F2
+  08F5  4965000000        arg_pushl                       0x00000065
+  08FA  4E59006F0075...   arg_pushs                       "You\'re running out of\ntime!  Please go!"
+  094B  50                message                         ... 0x65 /* 101 */, "You\'re running out of\ntime!  Please go!"
+  094C  4E4900660020...   arg_pushs                       "If you\'re late,\nYN-0117 will...!\nOh, my poor YN-0117!"
+  09B9  5B                add_msg                         ... "If you\'re late,\nYN-0117 will...!\nOh, my poor YN-0117!"
+  09BA  5C                message_end
+  09BB  01                ret
+
+label0138:
+  // Referenced by instruction at 03EA
+  09BC  4965000000        arg_pushl                       0x00000065
+  09C1  4E4400690064...   arg_pushs                       "Did you make it in time?\nExcellent!"
+  0A0A  50                message                         ... 0x65 /* 101 */, "Did you make it in time?\nExcellent!"
+  0A0B  4E5400680061...   arg_pushs                       "Thank you!  You saved\nmy life!"
+  0A4A  5B                add_msg                         ... "Thank you!  You saved\nmy life!"
+  0A4B  4E4900200077...   arg_pushs                       "I won\'t get scolded now!\nThank you very much."
+  0AA8  5B                add_msg                         ... "I won\'t get scolded now!\nThank you very much."
+  0AA9  4E50006C0065...   arg_pushs                       "Please visit the Guild\ncounter for your reward."
+  0B0A  5B                add_msg                         ... "Please visit the Guild\ncounter for your reward."
+  0B0B  5C                message_end
+  0B0C  1003              set                             r3
+  0B0E  10FF              set                             r255
+  0B10  4900000000        arg_pushl                       0x00000000
+  0B15  55                bgm                             ... 0x0 /* 0 */
+  0B16  4901000000        arg_pushl                       0x00000001
+  0B1B  92                playbgm_epi                     ... 0x1 /* 1 */
+  0B1C  01                ret
+
+label0139:
+  // Referenced by instruction at 03E2
+  0B1D  4965000000        arg_pushl                       0x00000065
+  0B22  4E59004E002D...   arg_pushs                       "YN-0117, please come\nback.  I\'m anxiously\nwaiting for your return."
+  0BA9  50                message                         ... 0x65 /* 101 */, "YN-0117, please come\nback.  I\'m anxiously\nwaiting for your return."
+  0BAA  5C                message_end
+  0BAB  01                ret
+
+label0140:
+  // Referenced by map enemy ES-00-002 [EnemySetEntry type=0019 "TObjNpcSoldierBase/TObjNpcSoldierBase" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=31.1719 y=0 z=63.6673 x_angle=00000000 y_angle=0000A000 z_angle=00000000 params=[0 0 0 102 320 0000 0000]]
+  0BAC  2DFE01000000...   jmpi_eq                         r254, 0x00000001, label0141 /* 0C73 */
+  0BB4  4966000000        arg_pushl                       0x00000066
+  0BB9  4E490020006A...   arg_pushs                       "I just don\'t understand\nscientists at all!"
+  0C10  50                message                         ... 0x66 /* 102 */, "I just don\'t understand\nscientists at all!"
+  0C11  4E48006F0077...   arg_pushs                       "How do they get so attached\nto their machines?"
+  0C70  5B                add_msg                         ... "How do they get so attached\nto their machines?"
+  0C71  5C                message_end
+  0C72  01                ret
+
+label0141:
+  // Referenced by instruction at 0BAC
+  0C73  4966000000        arg_pushl                       0x00000066
+  0C78  4E5700610073...   arg_pushs                       "Was it completed?\nThank you."
+  0CB3  50                message                         ... 0x66 /* 102 */, "Was it completed?\nThank you."
+  0CB4  4E530069006D...   arg_pushs                       "Simons will tell you\nabout the reward."
+  0D03  5B                add_msg                         ... "Simons will tell you\nabout the reward."
+  0D04  5C                message_end
+  0D05  01                ret
+
+label014A:
+  // Referenced by map enemy ES-00-003 [EnemySetEntry type=001A "TObjNpcSoldierMacho/TObjNpcSoldierMacho" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-67.9301 y=0 z=9.18253 x_angle=00000000 y_angle=00005000 z_angle=00000000 params=[0 0 0 103 330 0000 0000]]
+  0D06  2DFE01000000...   jmpi_eq                         r254, 0x00000001, label014B /* 0DE3 */
+  0D0E  4967000000        arg_pushl                       0x00000067
+  0D13  4E5700680079...   arg_pushs                       "Why are you still here?\nDon\'t you know how\ncritical this missing..."
+  0D9C  50                message                         ... 0x67 /* 103 */, "Why are you still here?\nDon\'t you know how\ncritical this missing..."
+  0D9D  4E5500680068...   arg_pushs                       "Uhh... nothing.\nForget about it."
+  0DE0  5B                add_msg                         ... "Uhh... nothing.\nForget about it."
+  0DE1  5C                message_end
+  0DE2  01                ret
+
+label014B:
+  // Referenced by instruction at 0D06
+  0DE3  4967000000        arg_pushl                       0x00000067
+  0DE8  4E47006F006F...   arg_pushs                       "Good job."
+  0DFD  50                message                         ... 0x67 /* 103 */, "Good job."
+  0DFE  4E4E006F0077...   arg_pushs                       "Now we can proceed with\nthe mi...research."
+  0E55  5B                add_msg                         ... "Now we can proceed with\nthe mi...research."
+  0E56  5C                message_end
+  0E57  01                ret
+
+label0154:
+  0E58  29E200            call                            label00E2 /* 3147 */
+  0E5B  2DFE01000000...   jmpi_eq                         r254, 0x00000001, label015A /* 11B7 */
+  0E63  2D0101000000...   jmpi_eq                         r1, 0x00000001, label0159 /* 1061 */
+  0E6B  4903000000        arg_pushl                       0x00000003
+  0E70  4E5400680061...   arg_pushs                       "That seems to be an\nenergy pack.  EM-05?  Is\nthat a product number?"
+  0EF9  50                message                         ... 0x3 /* 3 */, "That seems to be an\nenergy pack.  EM-05?  Is\nthat a product number?"
+  0EFA  4E4900200068...   arg_pushs                       "I have no idea.\nYN-0117?  I\'ve never\nheard of it before."
+  0F6D  5B                add_msg                         ... "I have no idea.\nYN-0117?  I\'ve never\nheard of it before."
+  0F6E  4E4900200064...   arg_pushs                       "I didn\'t know that there\nwas another hunter who\nworked alone here..."
+  0FF9  5B                add_msg                         ... "I didn\'t know that there\nwas another hunter who\nworked alone here..."
+  0FFA  4E4900200072...   arg_pushs                       "I realized that I\'m just\none of their tools..."
+  1059  5B                add_msg                         ... "I realized that I\'m just\none of their tools..."
+  105A  1001              set                             r1
+  105C  5C                message_end
+  105D  29E300            call                            label00E3 /* 316C */
+  1060  01                ret
+
+label0159:
+  // Referenced by instruction at 0E63
+  1061  4903000000        arg_pushl                       0x00000003
+  1066  4E5700680061...   arg_pushs                       "What am I doing here?\nI\'m a professional, so\nI can\'t say, of course."
+  10F1  50                message                         ... 0x3 /* 3 */, "What am I doing here?\nI\'m a professional, so\nI can\'t say, of course."
+  10F2  4E490020006B...   arg_pushs                       "I know what you mean..."
+  1123  5B                add_msg                         ... "I know what you mean..."
+  1124  4E4100200074...   arg_pushs                       "A transmission from a\ngirl was suddenly lost.\nI\'m trying to track it."
+  11B1  5B                add_msg                         ... "A transmission from a\ngirl was suddenly lost.\nI\'m trying to track it."
+  11B2  5C                message_end
+  11B3  29E300            call                            label00E3 /* 316C */
+  11B6  01                ret
+
+label015A:
+  // Referenced by instruction at 0E5B
+  11B7  4903000000        arg_pushl                       0x00000003
+  11BC  4E4900200073...   arg_pushs                       "I see.  The transmission\nwas from the android\nyou met there..."
+  123B  50                message                         ... 0x3 /* 3 */, "I see.  The transmission\nwas from the android\nyou met there..."
+  123C  4E5400680065...   arg_pushs                       "Then I should stay here\nto complete my job."
+  1295  5B                add_msg                         ... "Then I should stay here\nto complete my job."
+  1296  5C                message_end
+  1297  29E300            call                            label00E3 /* 316C */
+  129A  01                ret
+
+label015E:
+  129B  29E400            call                            label00E4 /* 3178 */
+  129E  4901000000        arg_pushl                       0x00000001
+  12A3  4E2E002E002E...   arg_pushs                       "...wait mode...\n...input command..."
+  12EC  50                message                         ... 0x1 /* 1 */, "...wait mode...\n...input command..."
+  12ED  5C                message_end
+  12EE  286001            jmp                             label0160 /* 12F1 */
+
+label0160:
+  // Referenced by instruction at 12EE
+  12F1  4A64              arg_pushb                       0x64
+  12F3  4E430061006E...   arg_pushs                       "Cancel\nEM-05\nYN-0117"
+  131E  51                list                            ... r100, "Cancel\nEM-05\nYN-0117"
+  131F  406403610162...   switch_jmp                      r100, [label0161 /* 1328 */, label0162 /* 1352 */, label0163 /* 13B6 */]
+
+label0161:
+  // Referenced by instruction at 131F
+  1328  4901000000        arg_pushl                       0x00000001
+  132D  4E2E002E002E...   arg_pushs                       "...canceled..."
+  134C  50                message                         ... 0x1 /* 1 */, "...canceled..."
+  134D  5C                message_end
+  134E  29E500            call                            label00E5 /* 319D */
+  1351  01                ret
+
+label0162:
+  // Referenced by instruction at 131F
+  1352  4901000000        arg_pushl                       0x00000001
+  1357  4E2E002E002E...   arg_pushs                       "...error...\n...exclude mode..."
+  1396  50                message                         ... 0x1 /* 1 */, "...error...\n...exclude mode..."
+  1397  1004              set                             r4
+  1399  5C                message_end
+  139A  29E500            call                            label00E5 /* 319D */
+  139D  6B                p_disablewarp
+  139E  C5                masterkey_on
+  139F  B256              del_obj_param                   r86
+  13A1  DB                set_returncity
+  13A2  D0                pl_pkon
+  13A3  4900000000        arg_pushl                       0x00000000
+  13A8  62                npc_play                        ... 0x0 /* 0 */
+  13A9  4903000000        arg_pushl                       0x00000003
+  13AE  61                npc_stop                        ... 0x3 /* 3 */
+  13AF  B10401            thread_stg                      label0104 /* 341B */
+  13B2  B1C800            thread_stg                      label00C8 /* 32BF */
+  13B5  01                ret
+
+label0163:
+  // Referenced by instruction at 131F
+  13B6  4901000000        arg_pushl                       0x00000001
+  13BB  4E5400720061...   arg_pushs                       "Transmission to YN-0117\nis not available now."
+  1418  50                message                         ... 0x1 /* 1 */, "Transmission to YN-0117\nis not available now."
+  1419  4E420069006F...   arg_pushs                       "Bio-structure analysis\nis not available now."
+  1474  5B                add_msg                         ... "Bio-structure analysis\nis not available now."
+  1475  5C                message_end
+  1476  29E500            call                            label00E5 /* 319D */
+  1479  01                ret
+
+label017C:
+  147A  29E400            call                            label00E4 /* 3178 */
+  147D  4901000000        arg_pushl                       0x00000001
+  1482  4E2E002E002E...   arg_pushs                       "...wait mode...\n...input command..."
+  14CB  50                message                         ... 0x1 /* 1 */, "...wait mode...\n...input command..."
+  14CC  5C                message_end
+  14CD  287E01            jmp                             label017E /* 14D0 */
+
+label017E:
+  // Referenced by instruction at 14CD
+  14D0  4A64              arg_pushb                       0x64
+  14D2  4E430061006E...   arg_pushs                       "Cancel\nEM-05\nYN-0117"
+  14FD  51                list                            ... r100, "Cancel\nEM-05\nYN-0117"
+  14FE  4064037F0180...   switch_jmp                      r100, [label017F /* 1507 */, label0180 /* 1531 */, label0181 /* 159B */]
+
+label017F:
+  // Referenced by instruction at 14FE
+  1507  4901000000        arg_pushl                       0x00000001
+  150C  4E2E002E002E...   arg_pushs                       "...canceled..."
+  152B  50                message                         ... 0x1 /* 1 */, "...canceled..."
+  152C  5C                message_end
+  152D  29E500            call                            label00E5 /* 319D */
+  1530  01                ret
+
+label0180:
+  // Referenced by instruction at 14FE
+  1531  4901000000        arg_pushl                       0x00000001
+  1536  4E2E002E002E...   arg_pushs                       "...error...\n...exclude mode..."
+  1575  50                message                         ... 0x1 /* 1 */, "...error...\n...exclude mode..."
+  1576  1006              set                             r6
+  1578  5C                message_end
+  1579  29E500            call                            label00E5 /* 319D */
+  157C  6B                p_disablewarp
+  157D  C5                masterkey_on
+  157E  B258              del_obj_param                   r88
+  1580  DB                set_returncity
+  1581  D0                pl_pkon
+  1582  4900000000        arg_pushl                       0x00000000
+  1587  62                npc_play                        ... 0x0 /* 0 */
+  1588  4902000000        arg_pushl                       0x00000002
+  158D  61                npc_stop                        ... 0x2 /* 2 */
+  158E  4903000000        arg_pushl                       0x00000003
+  1593  61                npc_stop                        ... 0x3 /* 3 */
+  1594  B10501            thread_stg                      label0105 /* 3441 */
+  1597  B1C900            thread_stg                      label00C9 /* 3333 */
+  159A  01                ret
+
+label0181:
+  // Referenced by instruction at 14FE
+  159B  4901000000        arg_pushl                       0x00000001
+  15A0  4E5400720061...   arg_pushs                       "Transmission to YN-0117\nis not available now."
+  15FD  50                message                         ... 0x1 /* 1 */, "Transmission to YN-0117\nis not available now."
+  15FE  4E420069006F...   arg_pushs                       "Bio-structure analysis\nis not available now."
+  1659  5B                add_msg                         ... "Bio-structure analysis\nis not available now."
+  165A  5C                message_end
+  165B  29E500            call                            label00E5 /* 319D */
+  165E  01                ret
+
+label0186:
+  165F  29E600            call                            label00E6 /* 31A9 */
+  1662  4902000000        arg_pushl                       0x00000002
+  1667  4E2E002E002E...   arg_pushs                       "...wait mode...\n...input command..."
+  16B0  50                message                         ... 0x2 /* 2 */, "...wait mode...\n...input command..."
+  16B1  5C                message_end
+  16B2  288801            jmp                             label0188 /* 16B5 */
+
+label0188:
+  // Referenced by instruction at 16B2
+  16B5  4A64              arg_pushb                       0x64
+  16B7  4E430061006E...   arg_pushs                       "Cancel\nEM-05\nYN-0117"
+  16E2  51                list                            ... r100, "Cancel\nEM-05\nYN-0117"
+  16E3  40640389018A...   switch_jmp                      r100, [label0189 /* 16EC */, label018A /* 1716 */, label018B /* 1780 */]
+
+label0189:
+  // Referenced by instruction at 16E3
+  16EC  4902000000        arg_pushl                       0x00000002
+  16F1  4E2E002E002E...   arg_pushs                       "...canceled..."
+  1710  50                message                         ... 0x2 /* 2 */, "...canceled..."
+  1711  5C                message_end
+  1712  29E700            call                            label00E7 /* 31CE */
+  1715  01                ret
+
+label018A:
+  // Referenced by instruction at 16E3
+  1716  4902000000        arg_pushl                       0x00000002
+  171B  4E2E002E002E...   arg_pushs                       "...error...\n...exclude mode..."
+  175A  50                message                         ... 0x2 /* 2 */, "...error...\n...exclude mode..."
+  175B  1008              set                             r8
+  175D  5C                message_end
+  175E  29E700            call                            label00E7 /* 31CE */
+  1761  6B                p_disablewarp
+  1762  C5                masterkey_on
+  1763  B259              del_obj_param                   r89
+  1765  DB                set_returncity
+  1766  D0                pl_pkon
+  1767  4900000000        arg_pushl                       0x00000000
+  176C  62                npc_play                        ... 0x0 /* 0 */
+  176D  4903000000        arg_pushl                       0x00000003
+  1772  61                npc_stop                        ... 0x3 /* 3 */
+  1773  4901000000        arg_pushl                       0x00000001
+  1778  61                npc_stop                        ... 0x1 /* 1 */
+  1779  B10601            thread_stg                      label0106 /* 346D */
+  177C  B1CA00            thread_stg                      label00CA /* 339B */
+  177F  01                ret
+
+label018B:
+  // Referenced by instruction at 16E3
+  1780  4902000000        arg_pushl                       0x00000002
+  1785  4E5400720061...   arg_pushs                       "Transmission to YN-0117\nis not available now."
+  17E2  50                message                         ... 0x2 /* 2 */, "Transmission to YN-0117\nis not available now."
+  17E3  4E420069006F...   arg_pushs                       "Bio-structure analysis\nis not available now."
+  183E  5B                add_msg                         ... "Bio-structure analysis\nis not available now."
+  183F  5C                message_end
+  1840  29E700            call                            label00E7 /* 31CE */
+  1843  01                ret
+
+label0168:
+  1844  2DFE01000000...   jmpi_eq                         r254, 0x00000001, label0001 /* 0060 */
+  184C  70                p_action_disable
+  184D  64                npc_talk_off
+  184E  4900000000        arg_pushl                       0x00000000
+  1853  72                disable_movement1               ... 0x0 /* 0 */
+  1854  98                hud_hide
+  1855  9A                cine_enable
+  1856  29CF00            call                            label00CF /* 322E */
+  1859  4E2E002E002E...   arg_pushs                       "...sleep mode...\n...input command..."
+  18A4  5A                window_msg                      ... "...sleep mode...\n...input command..."
+  18A5  5E                window_msg_end
+  18A6  286A01            jmp                             label016A /* 18A9 */
+
+label016A:
+  // Referenced by instruction at 18A6
+  18A9  4A64              arg_pushb                       0x64
+  18AB  4E430061006E...   arg_pushs                       "Cancel\nEM-05\nYN-0117\n"
+  18D8  51                list                            ... r100, "Cancel\nEM-05\nYN-0117\n"
+  18D9  4064036B016C...   switch_jmp                      r100, [label016B /* 18E4 */, label016C /* 1923 */, label016D /* 1972 */]
+  18E2  5E                window_msg_end
+  18E3  01                ret
+
+label016B:
+  // Referenced by instruction at 18D9
+  18E4  4E2E002E002E...   arg_pushs                       "...canceled..."
+  1903  5A                window_msg                      ... "...canceled..."
+  1904  5E                window_msg_end
+  1905  093C78000000      leti                            r60, 0x00000078
+  190B  093D00000000      leti                            r61, 0x00000000
+  1911  093E9AF7FFFF      leti                            r62, 0xFFFFF79A
+  1917  093F00000000      leti                            r63, 0x00000000
+  191D  A83C              pl_walk                         r60-r63
+  191F  29EB00            call                            label00EB /* 3202 */
+  1922  01                ret
+
+label016C:
+  // Referenced by instruction at 18D9
+  1923  4E2E002E002E...   arg_pushs                       "...clear sleep mode..."
+  1952  5A                window_msg                      ... "...clear sleep mode..."
+  1953  5E                window_msg_end
+  1954  093C78000000      leti                            r60, 0x00000078
+  195A  093D00000000      leti                            r61, 0x00000000
+  1960  093E9AF7FFFF      leti                            r62, 0xFFFFF79A
+  1966  093F00000000      leti                            r63, 0x00000000
+  196C  A83C              pl_walk                         r60-r63
+  196E  29EB00            call                            label00EB /* 3202 */
+  1971  01                ret
+
+label016D:
+  // Referenced by instruction at 18D9
+  1972  09D3B3000000      leti                            r211, 0x000000B3
+  1978  09D42A000000      leti                            r212, 0x0000002A
+  197E  09D5A4F7FFFF      leti                            r213, 0xFFFFF7A4
+  1984  09D6C1000000      leti                            r214, 0x000000C1
+  198A  09D71E000000      leti                            r215, 0x0000001E
+  1990  09D89DF7FFFF      leti                            r216, 0xFFFFF79D
+  1996  F1D3              leti_fixed_camera               r211-r216
+  1998  10FE              set                             r254
+  199A  4E21000000        arg_pushs                       "!"
+  199F  5A                window_msg                      ... "!"
+  19A0  4E5900650073...   arg_pushs                       "Yes, master!  YN-0117\nis waiting for your...\nyour...?"
+  1A0D  5B                add_msg                         ... "Yes, master!  YN-0117\nis waiting for your...\nyour...?"
+  1A0E  4E2E002E002E...   arg_pushs                       "...I can\'t move...\nOh, excuse me, but\nI think that\'s mine."
+  1A85  5B                add_msg                         ... "...I can\'t move...\nOh, excuse me, but\nI think that\'s mine."
+  1A86  4E460072006F...   arg_pushs                       "From Master Olo?"
+  1AA9  5B                add_msg                         ... "From Master Olo?"
+  1AAA  4E5000650072...   arg_pushs                       "Perfect!  Would you mind\ninserting it into my\nback for me?"
+  1B21  5B                add_msg                         ... "Perfect!  Would you mind\ninserting it into my\nback for me?"
+  1B22  5E                window_msg_end
+  1B23  4900000000        arg_pushl                       0x00000000
+  1B28  55                bgm                             ... 0x0 /* 0 */
+  1B29  291801            call                            label0118 /* 3244 */
+  1B2C  287201            jmp                             label0172 /* 1B30 */
+  1B2F  01                ret
+
+label0172:
+  // Referenced by instruction at 1B2C
+  1B30  2D6501000000...   jmpi_eq                         r101, 0x00000001, label0173 /* 1CEB */
+  1B38  4903000000        arg_pushl                       0x00000003
+  1B3D  4E4D00790020...   arg_pushs                       "My name is Elenor.\nI\'m an android who\'s\nserving Dr. Montague."
+  1BBA  50                message                         ... 0x3 /* 3 */, "My name is Elenor.\nI\'m an android who\'s\nserving Dr. Montague."
+  1BBB  4E4900200072...   arg_pushs                       "I ran out of energy\nand was stuck here."
+  1C0C  5B                add_msg                         ... "I ran out of energy\nand was stuck here."
+  1C0D  4E4E006F0077...   arg_pushs                       "Now I\'m OK.  Thank you\nvery much."
+  1C52  5B                add_msg                         ... "Now I\'m OK.  Thank you\nvery much."
+  1C53  4E50006C0065...   arg_pushs                       "Please tell Mr. Olo\nthat I\'ll be back after\nI complete my mission."
+  1CDA  5B                add_msg                         ... "Please tell Mr. Olo\nthat I\'ll be back after\nI complete my mission."
+  1CDB  5C                message_end
+  1CDC  114A              clear                           r74
+  1CDE  291901            call                            label0119 /* 32B2 */
+  1CE1  29EB00            call                            label00EB /* 3202 */
+  1CE4  4900000000        arg_pushl                       0x00000000
+  1CE9  CC                clear_quest_board_handler       ... 0x0 /* 0 */
+  1CEA  01                ret
+
+label0173:
+  // Referenced by instruction at 1B30
+  1CEB  4903000000        arg_pushl                       0x00000003
+  1CF0  4E4D00790020...   arg_pushs                       "My name is Elenor.\nI\'m an android who\'s\nserving Dr. Montague."
+  1D6D  50                message                         ... 0x3 /* 3 */, "My name is Elenor.\nI\'m an android who\'s\nserving Dr. Montague."
+  1D6E  4E4900200072...   arg_pushs                       "I ran out of energy\nand was stuck here."
+  1DBF  5B                add_msg                         ... "I ran out of energy\nand was stuck here."
+  1DC0  4E4F0068002C...   arg_pushs                       "Oh, it\'s you!\n<hero name>!"
+  1DF7  5B                add_msg                         ... "Oh, it\'s you!\n<hero name>!"
+  1DF8  4E48006F0077...   arg_pushs                       "How are you and your\nMag?"
+  1E2D  5B                add_msg                         ... "How are you and your\nMag?"
+  1E2E  4E2E002E002E...   arg_pushs                       "......"
+  1E3D  5B                add_msg                         ... "......"
+  1E3E  4E490027006D...   arg_pushs                       "I\'m glad it was you who\ncame to help me again."
+  1E9D  5B                add_msg                         ... "I\'m glad it was you who\ncame to help me again."
+  1E9E  4E4F0068002C...   arg_pushs                       "Oh, I\'m on duty!"
+  1EC1  5B                add_msg                         ... "Oh, I\'m on duty!"
+  1EC2  4E570065006C...   arg_pushs                       "Well, I\'m OK now.\nThank you very much."
+  1F11  5B                add_msg                         ... "Well, I\'m OK now.\nThank you very much."
+  1F12  4E50006C0065...   arg_pushs                       "Please tell Mr. Olo\nthat I\'ll go back after\nI complete my mission."
+  1F99  5B                add_msg                         ... "Please tell Mr. Olo\nthat I\'ll go back after\nI complete my mission."
+  1F9A  5C                message_end
+  1F9B  114A              clear                           r74
+  1F9D  291901            call                            label0119 /* 32B2 */
+  1FA0  29EB00            call                            label00EB /* 3202 */
+  1FA3  4900000000        arg_pushl                       0x00000000
+  1FA8  CC                clear_quest_board_handler       ... 0x0 /* 0 */
+  1FA9  01                ret
+
+label0190:
+  // Referenced by map enemy ES-00-00C [EnemySetEntry type=000B "TObjNpcMaleFat/TObjNpcMaleFat" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=119.749 y=0 z=4.4674 x_angle=00000000 y_angle=00001000 z_angle=00000000 params=[25 0 0 110 400 0001 0000]]
+  1FAA  2D6C01000000...   jmpi_eq                         r108, 0x00000001, label019D /* 2AF9 */
+  1FB2  2A9C01046768...   jmp_on                          label019C /* 2A24 */, [r103, r104, r105, r106]
+  1FBA  2D6601000000...   jmpi_eq                         r102, 0x00000001, label0199 /* 294C */
+  1FC2  2D0B01000000...   jmpi_eq                         r11, 0x00000001, label0199 /* 294C */
+  1FCA  496E000000        arg_pushl                       0x0000006E
+  1FCF  4E44006F0020...   arg_pushs                       "Do you have any\nphoton weapons?"
+  2010  50                message                         ... 0x6E /* 110 */, "Do you have any\nphoton weapons?"
+  2011  4E4900200063...   arg_pushs                       "I can\'t believe it!\nPhotons are out of date!"
+  206C  5B                add_msg                         ... "I can\'t believe it!\nPhotons are out of date!"
+  206D  4E49006D0061...   arg_pushs                       "Imagine the strongest\nweapon ever... So hot\nthat it\'d be cool!"
+  20EC  5B                add_msg                         ... "Imagine the strongest\nweapon ever... So hot\nthat it\'d be cool!"
+  20ED  4E4900660020...   arg_pushs                       "If you were a hunter,\nwould you want one?"
+  2142  5B                add_msg                         ... "If you were a hunter,\nwould you want one?"
+  2143  5C                message_end
+  2144  289101            jmp                             label0191 /* 2147 */
+
+label0191:
+  // Referenced by instruction at 2144
+  2147  4A64              arg_pushb                       0x64
+  2149  4E210021000A...   arg_pushs                       "!!\n??"
+  2156  51                list                            ... r100, "!!\n??"
+  2157  40640292019301    switch_jmp                      r100, [label0192 /* 215E */, label0193 /* 2242 */]
+
+label0192:
+  // Referenced by instruction at 2157
+  215E  496E000000        arg_pushl                       0x0000006E
+  2163  4E59006F0075...   arg_pushs                       "You\'re clever indeed.\nHey, listen to me."
+  21B6  50                message                         ... 0x6E /* 110 */, "You\'re clever indeed.\nHey, listen to me."
+  21B7  4E490027006D...   arg_pushs                       "I\'m actually a member\nof a secret organization\nknown as \"WEAPONS.\""
+  223E  5B                add_msg                         ... "I\'m actually a member\nof a secret organization\nknown as \"WEAPONS.\""
+  223F  289401            jmp                             label0194 /* 22B9 */
+
+label0193:
+  // Referenced by instruction at 2157
+  2242  496E000000        arg_pushl                       0x0000006E
+  2247  4E5000650072...   arg_pushs                       "Perhaps you\'ll never\nrealize what I was\nasking you..."
+  22B4  50                message                         ... 0x6E /* 110 */, "Perhaps you\'ll never\nrealize what I was\nasking you..."
+  22B5  100B              set                             r11
+  22B7  5C                message_end
+  22B8  01                ret
+
+label0194:
+  // Referenced by instruction at 223F
+  22B9  496E000000        arg_pushl                       0x0000006E
+  22BE  4E59006F0075...   arg_pushs                       "You really don\'t know?\nAre you really a hunter?"
+  231F  50                message                         ... 0x6E /* 110 */, "You really don\'t know?\nAre you really a hunter?"
+  2320  4E4100200067...   arg_pushs                       "A group of Freemasons\nseeking an ultimate\nweapon!  \"WEAPONS!\""
+  239D  5B                add_msg                         ... "A group of Freemasons\nseeking an ultimate\nweapon!  \"WEAPONS!\""
+  239E  4E59006F0075...   arg_pushs                       "You are interested in\nit, aren\'t you?"
+  23EB  5B                add_msg                         ... "You are interested in\nit, aren\'t you?"
+  23EC  5C                message_end
+  23ED  289501            jmp                             label0195 /* 23F0 */
+
+label0195:
+  // Referenced by instruction at 23ED
+  23F0  4A64              arg_pushb                       0x64
+  23F2  4E210021000A...   arg_pushs                       "!!\n??"
+  23FF  51                list                            ... r100, "!!\n??"
+  2400  40640296019A01    switch_jmp                      r100, [label0196 /* 2407 */, label019A /* 29CF */]
+
+label0196:
+  // Referenced by instruction at 2400
+  2407  496E000000        arg_pushl                       0x0000006E
+  240C  4E5200690067...   arg_pushs                       "Right, right.\nThat\'s very natural."
+  2453  50                message                         ... 0x6E /* 110 */, "Right, right.\nThat\'s very natural."
+  2454  4E4900660020...   arg_pushs                       "If you want, I can\nrecommend you for\nmembership."
+  24B7  5B                add_msg                         ... "If you want, I can\nrecommend you for\nmembership."
+  24B8  4E4200750074...   arg_pushs                       "But know this!  It\'s not\neasy to become a member\nof \"WEAPONS.\""
+  2537  5B                add_msg                         ... "But know this!  It\'s not\neasy to become a member\nof \"WEAPONS.\""
+  2538  4E59006F0075...   arg_pushs                       "You\'ll need to get final\napproval from our boss."
+  259B  5B                add_msg                         ... "You\'ll need to get final\napproval from our boss."
+  259C  4E41006E0064...   arg_pushs                       "And to meet our boss,\nyou\'ll need approvals\nfrom the other members."
+  2625  5B                add_msg                         ... "And to meet our boss,\nyou\'ll need approvals\nfrom the other members."
+  2626  4E5700650020...   arg_pushs                       "We have 6 people now.\nMe, the boss and 4 other\nmembers."
+  2697  5B                add_msg                         ... "We have 6 people now.\nMe, the boss and 4 other\nmembers."
+  2698  4E59006F0075...   arg_pushs                       "You can meet our boss if\nyou get approvals from\nthe other 4 members."
+  2723  5B                add_msg                         ... "You can meet our boss if\nyou get approvals from\nthe other 4 members."
+  2724  4E4900200064...   arg_pushs                       "I don\'t know where they\nare or what they\'re\ndoing now."
+  2793  5B                add_msg                         ... "I don\'t know where they\nare or what they\'re\ndoing now."
+  2794  4E5700650020...   arg_pushs                       "We have a rule that we\nnever interfere with\neach other."
+  2805  5B                add_msg                         ... "We have a rule that we\nnever interfere with\neach other."
+  2806  4E490027006C...   arg_pushs                       "I\'ll admit you.  Take\nthis as evidence of my\napproval."
+  2875  5B                add_msg                         ... "I\'ll admit you.  Take\nthis as evidence of my\napproval."
+  2876  5C                message_end
+  2877  289701            jmp                             label0197 /* 287A */
+
+label0197:
+  // Referenced by instruction at 2877
+  287A  4E47006F0074...   arg_pushs                       "Got \"WEAPONS EMBLEM!\""
+  28A7  5A                window_msg                      ... "Got \"WEAPONS EMBLEM!\""
+  28A8  4901000000        arg_pushl                       0x00000001
+  28AD  55                bgm                             ... 0x1 /* 1 */
+  28AE  5E                window_msg_end
+  28AF  106B              set                             r107
+  28B1  289801            jmp                             label0198 /* 28B4 */
+
+label0198:
+  // Referenced by instruction at 28B1
+  28B4  496E000000        arg_pushl                       0x0000006E
+  28B9  4E4900740027...   arg_pushs                       "It\'ll be an arduous task\nbecoming a member of\n\"WEAPONS.\"  Good Luck!"
+  2944  50                message                         ... 0x6E /* 110 */, "It\'ll be an arduous task\nbecoming a member of\n\"WEAPONS.\"  Good Luck!"
+  2945  13F100            gset                            0x00F1
+  2948  1066              set                             r102
+  294A  5C                message_end
+  294B  01                ret
+
+label0199:
+  // Referenced by instructions at 1FBA, 1FC2
+  294C  496E000000        arg_pushl                       0x0000006E
+  2951  4E5400680065...   arg_pushs                       "The ultimate weapon!\nWhen can I see such\na wonderful thing?!"
+  29CC  50                message                         ... 0x6E /* 110 */, "The ultimate weapon!\nWhen can I see such\na wonderful thing?!"
+  29CD  5C                message_end
+  29CE  01                ret
+
+label019A:
+  // Referenced by instruction at 2400
+  29CF  496E000000        arg_pushl                       0x0000006E
+  29D4  4E59006F0075...   arg_pushs                       "You aren\'t?\nOK, that\'s all."
+  2A0D  50                message                         ... 0x6E /* 110 */, "You aren\'t?\nOK, that\'s all."
+  2A0E  4E5300650065...   arg_pushs                       "See ya."
+  2A1F  5B                add_msg                         ... "See ya."
+  2A20  100B              set                             r11
+  2A22  5C                message_end
+  2A23  01                ret
+
+label019C:
+  // Referenced by instruction at 1FB2
+  2A24  496E000000        arg_pushl                       0x0000006E
+  2A29  4E47006F006F...   arg_pushs                       "Good, good.  You got\nall the approvals."
+  2A7A  50                message                         ... 0x6E /* 110 */, "Good, good.  You got\nall the approvals."
+  2A7B  4E4E006F0077...   arg_pushs                       "Now all you have to do\nis see our boss.\nDon\'t get her angry!"
+  2AF6  5B                add_msg                         ... "Now all you have to do\nis see our boss.\nDon\'t get her angry!"
+  2AF7  5C                message_end
+  2AF8  01                ret
+
+label019D:
+  // Referenced by instruction at 1FAA
+  2AF9  496E000000        arg_pushl                       0x0000006E
+  2AFE  4E5700680061...   arg_pushs                       "What?\nWas she angry?"
+  2B29  50                message                         ... 0x6E /* 110 */, "What?\nWas she angry?"
+  2B2A  4E4F0068002C...   arg_pushs                       "Oh, that\'s bad!\nThat\'s very bad!!"
+  2B6F  5B                add_msg                         ... "Oh, that\'s bad!\nThat\'s very bad!!"
+  2B70  5C                message_end
+  2B71  01                ret
+
+label01A4:
+  // Referenced by map enemy ES-00-00D [EnemySetEntry type=0004 "TObjNpcFemaleFat/TObjNpcFemaleFat" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=-220.003 y=0 z=62.999 x_angle=00000000 y_angle=00005000 z_angle=00000000 params=[0 0 0 111 420 0000 0000]]
+  2B72  2D6C01000000...   jmpi_eq                         r108, 0x00000001, label01A7 /* 30F2 */
+  2B7A  2AA501046768...   jmp_on                          label01A5 /* 2C57 */, [r103, r104, r105, r106]
+  2B82  496F000000        arg_pushl                       0x0000006F
+  2B87  4E4800650027...   arg_pushs                       "He\'s left without doing\nany work again..."
+  2BDC  50                message                         ... 0x6F /* 111 */, "He\'s left without doing\nany work again..."
+  2BDD  4E5000650072...   arg_pushs                       "Perhaps he\'s doing that\nstupid thing with those\nemblems..."
+  2C54  5B                add_msg                         ... "Perhaps he\'s doing that\nstupid thing with those\nemblems..."
+  2C55  5C                message_end
+  2C56  01                ret
+
+label01A5:
+  // Referenced by instruction at 2B7A
+  2C57  496F000000        arg_pushl                       0x0000006F
+  2C5C  4E4800650079...   arg_pushs                       "Hey you! The one with\nthe \"WEAPONS\" emblem."
+  2CB5  50                message                         ... 0x6F /* 111 */, "Hey you! The one with\nthe \"WEAPONS\" emblem."
+  2CB6  4E4D00790020...   arg_pushs                       "My husband gave that to\nyou, right?  He\'s doing\nit again..."
+  2D2F  5B                add_msg                         ... "My husband gave that to\nyou, right?  He\'s doing\nit again..."
+  2D30  4E5700680061...   arg_pushs                       "What?  Boss?\nAh, I see."
+  2D61  5B                add_msg                         ... "What?  Boss?\nAh, I see."
+  2D62  4E4900740027...   arg_pushs                       "It\'s me!\nAre you surprised?\nHa, ha."
+  2DAB  5B                add_msg                         ... "It\'s me!\nAre you surprised?\nHa, ha."
+  2DAC  5C                message_end
+  2DAD  4914000000        arg_pushl                       0x00000014
+  2DB2  54                sound_effect                    ... 0x14 /* 20 */
+  2DB3  496F000000        arg_pushl                       0x0000006F
+  2DB8  4E59006F0075...   arg_pushs                       "You\'ve got approval from\n5 members?  What a good\nobedient kid you are!"
+  2E47  50                message                         ... 0x6F /* 111 */, "You\'ve got approval from\n5 members?  What a good\nobedient kid you are!"
+  2E48  4E41006E0079...   arg_pushs                       "Anyway, you did a good\njob.  Let\'s see...\nOK, here you are."
+  2EC1  5B                add_msg                         ... "Anyway, you did a good\njob.  Let\'s see...\nOK, here you are."
+  2EC2  4E4900200075...   arg_pushs                       "I used it for a long\ntime.  It\'s very good."
+  2F1B  5B                add_msg                         ... "I used it for a long\ntime.  It\'s very good."
+  2F1C  4E4900660020...   arg_pushs                       "If you see the man who\ngave you that emblem\nagain..."
+  2F87  5B                add_msg                         ... "If you see the man who\ngave you that emblem\nagain..."
+  2F88  4E740065006C...   arg_pushs                       "tell him that his boss\nsays that he has to\nreturn immediately."
+  3007  5B                add_msg                         ... "tell him that his boss\nsays that he has to\nreturn immediately."
+  3008  5C                message_end
+  3009  28A601            jmp                             label01A6 /* 300C */
+
+label01A6:
+  // Referenced by instruction at 3009
+  300C  09D200000000      leti                            r210, 0x00000000
+  3012  09D316000000      leti                            r211, 0x00000016
+  3018  09D400000000      leti                            r212, 0x00000000
+  301E  09D500000000      leti                            r213, 0x00000000
+  3024  09D600000000      leti                            r214, 0x00000000
+  302A  09D700000000      leti                            r215, 0x00000000
+  3030  09D800000000      leti                            r216, 0x00000000
+  3036  09D900000000      leti                            r217, 0x00000000
+  303C  09DA00000000      leti                            r218, 0x00000000
+  3042  09DB00000000      leti                            r219, 0x00000000
+  3048  09DC00000000      leti                            r220, 0x00000000
+  304E  09DD00000000      leti                            r221, 0x00000000
+  3054  B4D2DD            item_create2                    r210-r221, r221
+  3057  2DDDFFFFFFFF...   jmpi_eq                         r221, 0xFFFFFFFF, label01A8 /* 30A2 */
+  305F  4E47006F0074...   arg_pushs                       "Got \"AKIKO\'S FRYING PAN\"!"
+  3094  5A                window_msg                      ... "Got \"AKIKO\'S FRYING PAN\"!"
+  3095  4901000000        arg_pushl                       0x00000001
+  309A  55                bgm                             ... 0x1 /* 1 */
+  309B  13F600            gset                            0x00F6
+  309E  106C              set                             r108
+  30A0  5E                window_msg_end
+  30A1  01                ret
+
+label01A8:
+  // Referenced by instruction at 3057
+  30A2  4E59006F0075...   arg_pushs                       "You cannot have the item any more."
+  30E9  5A                window_msg                      ... "You cannot have the item any more."
+  30EA  4906000000        arg_pushl                       0x00000006
+  30EF  54                sound_effect                    ... 0x6 /* 6 */
+  30F0  5E                window_msg_end
+  30F1  01                ret
+
+label01A7:
+  // Referenced by instruction at 2B72
+  30F2  496F000000        arg_pushl                       0x0000006F
+  30F7  4E4E006F0077...   arg_pushs                       "Now where\'s that man?\nHe better be..."
+  3144  50                message                         ... 0x6F /* 111 */, "Now where\'s that man?\nHe better be..."
+  3145  5C                message_end
+  3146  01                ret
+
+label00E2:
+  // Referenced by instruction at 0E58
+  3147  70                p_action_disable
+  3148  64                npc_talk_off
+  3149  4900000000        arg_pushl                       0x00000000
+  314E  72                disable_movement1               ... 0x0 /* 0 */
+  314F  4900000000        arg_pushl                       0x00000000
+  3154  4903000000        arg_pushl                       0x00000003
+  3159  7E                p_look_at                       ... 0x0 /* 0 */, 0x3 /* 3 */
+  315A  4903000000        arg_pushl                       0x00000003
+  315F  4900000000        arg_pushl                       0x00000000
+  3164  7E                p_look_at                       ... 0x3 /* 3 */, 0x0 /* 0 */
+  3165  98                hud_hide
+  3166  9A                cine_enable
+  3167  82                cam_zmin
+  3168  29CF00            call                            label00CF /* 322E */
+  316B  01                ret
+
+label00E3:
+  // Referenced by instructions at 105D, 11B3, 1297
+  316C  83                cam_zmout
+  316D  9B                cine_disable
+  316E  99                hud_show
+  316F  4900000000        arg_pushl                       0x00000000
+  3174  73                enable_movement1                ... 0x0 /* 0 */
+  3175  65                npc_talk_on
+  3176  71                p_action_enable
+  3177  01                ret
+
+label00E4:
+  // Referenced by instructions at 129B, 147A
+  3178  70                p_action_disable
+  3179  64                npc_talk_off
+  317A  4900000000        arg_pushl                       0x00000000
+  317F  72                disable_movement1               ... 0x0 /* 0 */
+  3180  4900000000        arg_pushl                       0x00000000
+  3185  4901000000        arg_pushl                       0x00000001
+  318A  7E                p_look_at                       ... 0x0 /* 0 */, 0x1 /* 1 */
+  318B  4901000000        arg_pushl                       0x00000001
+  3190  4900000000        arg_pushl                       0x00000000
+  3195  7E                p_look_at                       ... 0x1 /* 1 */, 0x0 /* 0 */
+  3196  98                hud_hide
+  3197  9A                cine_enable
+  3198  82                cam_zmin
+  3199  29CF00            call                            label00CF /* 322E */
+  319C  01                ret
+
+label00E5:
+  // Referenced by instructions at 134E, 139A, 1476, 152D, 1579, 165B
+  319D  83                cam_zmout
+  319E  9B                cine_disable
+  319F  99                hud_show
+  31A0  4900000000        arg_pushl                       0x00000000
+  31A5  73                enable_movement1                ... 0x0 /* 0 */
+  31A6  65                npc_talk_on
+  31A7  71                p_action_enable
+  31A8  01                ret
+
+label00E6:
+  // Referenced by instruction at 165F
+  31A9  70                p_action_disable
+  31AA  64                npc_talk_off
+  31AB  4900000000        arg_pushl                       0x00000000
+  31B0  72                disable_movement1               ... 0x0 /* 0 */
+  31B1  4900000000        arg_pushl                       0x00000000
+  31B6  4902000000        arg_pushl                       0x00000002
+  31BB  7E                p_look_at                       ... 0x0 /* 0 */, 0x2 /* 2 */
+  31BC  4902000000        arg_pushl                       0x00000002
+  31C1  4900000000        arg_pushl                       0x00000000
+  31C6  7E                p_look_at                       ... 0x2 /* 2 */, 0x0 /* 0 */
+  31C7  98                hud_hide
+  31C8  9A                cine_enable
+  31C9  82                cam_zmin
+  31CA  29CF00            call                            label00CF /* 322E */
+  31CD  01                ret
+
+label00E7:
+  // Referenced by instructions at 1712, 175E, 1840, 332F, 3397, 3417
+  31CE  83                cam_zmout
+  31CF  9B                cine_disable
+  31D0  99                hud_show
+  31D1  4900000000        arg_pushl                       0x00000000
+  31D6  73                enable_movement1                ... 0x0 /* 0 */
+  31D7  65                npc_talk_on
+  31D8  71                p_action_enable
+  31D9  01                ret
+
+label00F1:
+  // Referenced by instructions at 32D3, 3347, 33AF
+  31DA  70                p_action_disable
+  31DB  64                npc_talk_off
+  31DC  4900000000        arg_pushl                       0x00000000
+  31E1  72                disable_movement1               ... 0x0 /* 0 */
+  31E2  98                hud_hide
+  31E3  9A                cine_enable
+  31E4  82                cam_zmin
+  31E5  29CF00            call                            label00CF /* 322E */
+  31E8  01                ret
+
+label00EA:
+  31E9  70                p_action_disable
+  31EA  64                npc_talk_off
+  31EB  4900000000        arg_pushl                       0x00000000
+  31F0  72                disable_movement1               ... 0x0 /* 0 */
+  31F1  4900000000        arg_pushl                       0x00000000
+  31F6  4903000000        arg_pushl                       0x00000003
+  31FB  7E                p_look_at                       ... 0x0 /* 0 */, 0x3 /* 3 */
+  31FC  98                hud_hide
+  31FD  9A                cine_enable
+  31FE  29CF00            call                            label00CF /* 322E */
+  3201  01                ret
+
+label00EB:
+  // Referenced by instructions at 191F, 196E, 1CE1, 1FA0
+  3202  9B                cine_disable
+  3203  99                hud_show
+  3204  4900000000        arg_pushl                       0x00000000
+  3209  73                enable_movement1                ... 0x0 /* 0 */
+  320A  65                npc_talk_on
+  320B  71                p_action_enable
+  320C  01                ret
+
+label00E8:
+  // Referenced by instruction at 03FA
+  320D  70                p_action_disable
+  320E  64                npc_talk_off
+  320F  4900000000        arg_pushl                       0x00000000
+  3214  72                disable_movement1               ... 0x0 /* 0 */
+  3215  4900000000        arg_pushl                       0x00000000
+  321A  6E                p_look                          ... 0x0 /* 0 */
+  321B  98                hud_hide
+  321C  9A                cine_enable
+  321D  82                cam_zmin
+  321E  29CF00            call                            label00CF /* 322E */
+  3221  01                ret
+
+label00E9:
+  // Referenced by instruction at 08C9
+  3222  83                cam_zmout
+  3223  9B                cine_disable
+  3224  99                hud_show
+  3225  4900000000        arg_pushl                       0x00000000
+  322A  73                enable_movement1                ... 0x0 /* 0 */
+  322B  65                npc_talk_on
+  322C  71                p_action_enable
+  322D  01                ret
+
+label00CF:
+  // Referenced by instructions at 1856, 3168, 3199, 31CA, 31E5, 31FE, 321E, 326B, 32AA, 32AD, 32BA, 3573
+  322E  094800000000      leti                            r72, 0x00000000
+
+label00D0:
+  // Referenced by instruction at 323B
+  3234  02                sync
+  3235  194801000000      addi                            r72, 0x00000001
+  323B  3F481E000000...   jmpi_le                         r72, 0x0000001E, label00D0 /* 3234 */
+  3243  01                ret
+
+label0118:
+  // Referenced by instruction at 1B29
+  3244  53                fadeout
+  3245  4903000000        arg_pushl                       0x00000003
+  324A  63                npc_kill                        ... 0x3 /* 3 */
+  324B  093CC3000000      leti                            r60, 0x000000C3
+  3251  093D00000000      leti                            r61, 0x00000000
+  3257  093E9AF7FFFF      leti                            r62, 0xFFFFF79A
+  325D  093F7D000000      leti                            r63, 0x0000007D
+  3263  4900000000        arg_pushl                       0x00000000
+  3268  4A3C              arg_pushb                       0x3C
+  326A  76                set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  326B  29CF00            call                            label00CF /* 322E */
+  326E  093CD7000000      leti                            r60, 0x000000D7
+  3274  093D00000000      leti                            r61, 0x00000000
+  327A  093E90F7FFFF      leti                            r62, 0xFFFFF790
+  3280  093F01000000      leti                            r63, 0x00000001
+  3286  094000000000      leti                            r64, 0x00000000
+  328C  09410F000000      leti                            r65, 0x0000000F
+  3292  7D3C              npc_crptalk                     r60-r65
+  3294  4900000000        arg_pushl                       0x00000000
+  3299  4903000000        arg_pushl                       0x00000003
+  329E  7E                p_look_at                       ... 0x0 /* 0 */, 0x3 /* 3 */
+  329F  4903000000        arg_pushl                       0x00000003
+  32A4  4900000000        arg_pushl                       0x00000000
+  32A9  7E                p_look_at                       ... 0x3 /* 3 */, 0x0 /* 0 */
+  32AA  29CF00            call                            label00CF /* 322E */
+  32AD  29CF00            call                            label00CF /* 322E */
+  32B0  52                fadein
+  32B1  01                ret
+
+label0119:
+  // Referenced by instructions at 1CDE, 1F9D
+  32B2  53                fadeout
+  32B3  4903000000        arg_pushl                       0x00000003
+  32B8  63                npc_kill                        ... 0x3 /* 3 */
+  32B9  F2                default_camera_pos1
+  32BA  29CF00            call                            label00CF /* 322E */
+  32BD  52                fadein
+  32BE  01                ret
+
+label00C8:
+  // Referenced by instructions at 13B2, 32C8
+  32BF  02                sync
+  32C0  4AEE              arg_pushb                       0xEE
+  32C2  4901000000        arg_pushl                       0x00000001
+  32C7  6A                p_dead                          ... r238, 0x1 /* 1 */
+  32C8  2DEE00000000...   jmpi_eq                         r238, 0x00000000, label00C8 /* 32BF */
+  32D0  105A              set                             r90
+  32D2  C6                masterkey_off
+  32D3  29F100            call                            label00F1 /* 31DA */
+  32D6  4E55006E006C...   arg_pushs                       "Unlocking procedure\nfor Door Lock A ..."
+  3327  5A                window_msg                      ... "Unlocking procedure\nfor Door Lock A ..."
+  3328  4901000000        arg_pushl                       0x00000001
+  332D  55                bgm                             ... 0x1 /* 1 */
+  332E  5E                window_msg_end
+  332F  29E700            call                            label00E7 /* 31CE */
+  3332  01                ret
+
+label00C9:
+  // Referenced by instructions at 1597, 333C
+  3333  02                sync
+  3334  4AEE              arg_pushb                       0xEE
+  3336  4901000000        arg_pushl                       0x00000001
+  333B  6A                p_dead                          ... r238, 0x1 /* 1 */
+  333C  2DEE00000000...   jmpi_eq                         r238, 0x00000000, label00C9 /* 3333 */
+  3344  105B              set                             r91
+  3346  C6                masterkey_off
+  3347  29F100            call                            label00F1 /* 31DA */
+  334A  4E54006F0020...   arg_pushs                       "To unlock the Gate B...\n... in..."
+  338F  5A                window_msg                      ... "To unlock the Gate B...\n... in..."
+  3390  4901000000        arg_pushl                       0x00000001
+  3395  55                bgm                             ... 0x1 /* 1 */
+  3396  5E                window_msg_end
+  3397  29E700            call                            label00E7 /* 31CE */
+  339A  01                ret
+
+label00CA:
+  // Referenced by instructions at 177C, 33A4
+  339B  02                sync
+  339C  4AEE              arg_pushb                       0xEE
+  339E  4902000000        arg_pushl                       0x00000002
+  33A3  6A                p_dead                          ... r238, 0x2 /* 2 */
+  33A4  2DEE00000000...   jmpi_eq                         r238, 0x00000000, label00CA /* 339B */
+  33AC  105C              set                             r92
+  33AE  C6                masterkey_off
+  33AF  29F100            call                            label00F1 /* 31DA */
+  33B2  4E54006F0020...   arg_pushs                       "To unlock the Gate C...\n...the switch...in..."
+  340F  5A                window_msg                      ... "To unlock the Gate C...\n...the switch...in..."
+  3410  4901000000        arg_pushl                       0x00000001
+  3415  55                bgm                             ... 0x1 /* 1 */
+  3416  5E                window_msg_end
+  3417  29E700            call                            label00E7 /* 31CE */
+  341A  01                ret
+
+label0104:
+  // Referenced by instructions at 13AF, 342C
+  341B  02                sync
+  341C  4A3B              arg_pushb                       0x3B
+  341E  4900000000        arg_pushl                       0x00000000
+  3423  6A                p_dead                          ... r59, 0x0 /* 0 */
+  3424  2D5A01000000...   jmpi_eq                         r90, 0x00000001, label0001 /* 0060 */
+  342C  2D3B00000000...   jmpi_eq                         r59, 0x00000000, label0104 /* 341B */
+  3434  53                fadeout
+  3435  C3                pl_pkoff
+  3436  C6                masterkey_off
+  3437  6C                p_enablewarp
+  3438  1104              clear                           r4
+  343A  4901000000        arg_pushl                       0x00000001
+  343F  63                npc_kill                        ... 0x1 /* 1 */
+  3440  01                ret
+
+label0105:
+  // Referenced by instructions at 1594, 3452
+  3441  02                sync
+  3442  4A3B              arg_pushb                       0x3B
+  3444  4900000000        arg_pushl                       0x00000000
+  3449  6A                p_dead                          ... r59, 0x0 /* 0 */
+  344A  2D5B01000000...   jmpi_eq                         r91, 0x00000001, label0001 /* 0060 */
+  3452  2D3B00000000...   jmpi_eq                         r59, 0x00000000, label0105 /* 3441 */
+  345A  53                fadeout
+  345B  C3                pl_pkoff
+  345C  C6                masterkey_off
+  345D  6C                p_enablewarp
+  345E  1106              clear                           r6
+  3460  4901000000        arg_pushl                       0x00000001
+  3465  63                npc_kill                        ... 0x1 /* 1 */
+  3466  4902000000        arg_pushl                       0x00000002
+  346B  63                npc_kill                        ... 0x2 /* 2 */
+  346C  01                ret
+
+label0106:
+  // Referenced by instructions at 1779, 347E
+  346D  02                sync
+  346E  4A3B              arg_pushb                       0x3B
+  3470  4900000000        arg_pushl                       0x00000000
+  3475  6A                p_dead                          ... r59, 0x0 /* 0 */
+  3476  2D5C01000000...   jmpi_eq                         r92, 0x00000001, label0001 /* 0060 */
+  347E  2D3B00000000...   jmpi_eq                         r59, 0x00000000, label0106 /* 346D */
+  3486  53                fadeout
+  3487  C3                pl_pkoff
+  3488  C6                masterkey_off
+  3489  6C                p_enablewarp
+  348A  1108              clear                           r8
+  348C  4901000000        arg_pushl                       0x00000001
+  3491  63                npc_kill                        ... 0x1 /* 1 */
+  3492  4902000000        arg_pushl                       0x00000002
+  3497  63                npc_kill                        ... 0x2 /* 2 */
+  3498  01                ret
+
+label0128:
+  // Referenced by instruction at 08F1
+  3499  4E4100200064...   arg_pushs                       "A device with an unknown purpose... \nit\'s very heavy."
+  3506  D6                disp_msg_qb                     ... "A device with an unknown purpose... \nit\'s very heavy."
+  3507  D7                close_msg_qb
+  3508  01                ret
+
+label00D1:
+  // Referenced by instructions at 006D, 0122, 0213, 0896
+  3509  2DFE01000000...   jmpi_eq                         r254, 0x00000001, label0001 /* 0060 */
+  3511  2DFD01000000...   jmpi_eq                         r253, 0x00000001, label0001 /* 0060 */
+  3519  2D0000000000...   jmpi_eq                         r0, 0x00000000, label0001 /* 0060 */
+  3521  33C800000000...   jmpi_gt                         r200, 0x00000000, label00D2 /* 352F */
+  3529  09C8683C0100      leti                            r200, 0x00013C68
+
+label00D2:
+  // Referenced by instructions at 3521, 354A
+  352F  C7                show_timer
+  3530  02                sync
+  3531  1BC801000000      subi                            r200, 0x00000001
+  3537  0846C8            let                             r70, r200
+  353A  1F461E000000      divi                            r70, 0x0000001E
+  3540  C946              winset_time                     r70
+  3542  2DFE01000000...   jmpi_eq                         r254, 0x00000001, label00D4 /* 357A */
+  354A  334600000000...   jmpi_gt                         r70, 0x00000000, label00D2 /* 352F */
+  3552  10FD              set                             r253
+  3554  4900000000        arg_pushl                       0x00000000
+  3559  72                disable_movement1               ... 0x0 /* 0 */
+  355A  B1D300            thread_stg                      label00D3 /* 3573 */
+  355D  4E540049004D...   arg_pushs                       "TIME UP!"
+  3570  5A                window_msg                      ... "TIME UP!"
+  3571  5E                window_msg_end
+  3572  01                ret
+
+label00D3:
+  // Referenced by instruction at 355A
+  3573  29CF00            call                            label00CF /* 322E */
+  3576  53                fadeout
+  3577  C8                hide_timer
+  3578  77                p_return_guild
+  3579  01                ret
+
+label00D4:
+  // Referenced by instruction at 3542
+  357A  C8                hide_timer
+  357B  01                ret

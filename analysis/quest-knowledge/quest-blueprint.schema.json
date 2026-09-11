@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PSOBB quest blueprint",
+  "description": "Design contract. Schema validity does not prove assembly or gameplay validity. Cross-reference checks are required.",
+  "type": "object",
+  "required": ["name", "episode", "mode", "compiler_profile", "verification", "floors", "registers", "functions", "encounters", "objects", "objectives", "evidence"],
+  "properties": {
+    "name": {"type": "string", "minLength": 1},
+    "episode": {"enum": [1, 2, 4]},
+    "mode": {"enum": ["multiplayer", "solo", "challenge", "battle"]},
+    "compiler_profile": {"enum": ["qedit-recovered-2.0c", "newserv-1f7faff9", "other-explicitly-verified"]},
+    "verification": {
+      "type": "object", "required": ["status", "checks", "unresolved"],
+      "properties": {
+        "status": {"enum": ["draft", "assembled", "statically-checked", "playtested"]},
+        "checks": {"type": "array", "items": {"type": "string"}},
+        "unresolved": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "floors": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "required": ["floor", "area", "type", "layout", "entities", "handler", "spawns", "coordinate_evidence"],
+        "properties": {
+          "floor": {"$ref": "#/$defs/u8"}, "area": {"$ref": "#/$defs/u8"}, "type": {"enum": [0, 1, 2, 3]},
+          "layout": {"$ref": "#/$defs/u8"}, "entities": {"$ref": "#/$defs/u8"}, "handler": {"$ref": "#/$defs/label"},
+          "coordinate_evidence": {"type": "string", "minLength": 1},
+          "spawns": {"type": "array", "items": {"type": "object", "required": ["slot", "room", "position", "rotation", "return_path"], "properties": {"slot": {"type": "integer", "minimum": 0, "maximum": 3}, "room": {"$ref": "#/$defs/u16"}, "position": {"$ref": "#/$defs/xyz"}, "rotation": {"type": "integer"}, "return_path": {"type": "string"}}}}
+        }
+      }
+    },
+    "registers": {
+      "type": "array", "items": {"type": "object", "required": ["number", "purpose", "owner", "shared", "initial", "synchronization"], "properties": {"number": {"type": "integer", "minimum": 0, "maximum": 255}, "purpose": {"type": "string"}, "owner": {"type": "string"}, "shared": {"type": "boolean"}, "initial": {"type": "number"}, "synchronization": {"type": "string"}, "reserved_role_exception": {"type": "string"}}}
+    },
+    "functions": {
+      "type": "array", "items": {"type": "object", "required": ["label", "purpose", "callers", "reads", "writes", "loop_yield_paths"], "properties": {"label": {"$ref": "#/$defs/label"}, "purpose": {"type": "string"}, "callers": {"type": "array"}, "reads": {"type": "array"}, "writes": {"type": "array"}, "loop_yield_paths": {"type": "array", "items": {"type": "string"}}}}
+    },
+    "encounters": {
+      "type": "array", "items": {"type": "object", "required": ["floor", "event", "room", "wave", "readiness_guard", "enemy_records", "actions", "format"], "properties": {"floor": {"$ref": "#/$defs/u8"}, "event": {"type": "integer", "minimum": 0, "maximum": 4294967295}, "room": {"$ref": "#/$defs/u16"}, "wave": {"$ref": "#/$defs/u16"}, "readiness_guard": {"type": "string"}, "enemy_records": {"type": "array"}, "actions": {"type": "array"}, "format": {"enum": ["evt1", "evt2"]}, "random_tables": {"type": "object"}}}
+    },
+    "objects": {
+      "type": "array", "items": {"type": "object", "required": ["floor", "room", "type", "group", "position", "angles", "parameters", "links"], "properties": {"floor": {"$ref": "#/$defs/u8"}, "room": {"$ref": "#/$defs/u16"}, "type": {"$ref": "#/$defs/u16"}, "group": {"$ref": "#/$defs/u16"}, "position": {"$ref": "#/$defs/xyz"}, "angles": {"$ref": "#/$defs/xyz"}, "parameters": {"type": "array"}, "links": {"type": "object"}}}
+    },
+    "objectives": {"type": "array", "items": {"type": "object", "required": ["name", "preconditions", "transition", "completion_label", "repeat_guard"], "properties": {"name": {"type": "string"}, "preconditions": {"type": "array"}, "transition": {"type": "string"}, "completion_label": {"$ref": "#/$defs/label"}, "repeat_guard": {"type": "string"}}}},
+    "evidence": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["path", "sha256", "used_for"], "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}, "used_for": {"type": "string"}}}}
+  },
+  "$defs": {
+    "u8": {"type": "integer", "minimum": 0, "maximum": 255},
+    "u16": {"type": "integer", "minimum": 0, "maximum": 65535},
+    "label": {"type": "integer", "minimum": 0, "maximum": 65535},
+    "xyz": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "number"}}
+  }
+}

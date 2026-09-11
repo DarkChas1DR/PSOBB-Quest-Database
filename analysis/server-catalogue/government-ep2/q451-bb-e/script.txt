@@ -1,0 +1,876 @@
+.version BB_V4
+.quest_num 451
+.name "5-1:Test/VR Temple 1"
+.short_desc "What is the\nLab\'s top-\nsecret\nrequest?"
+.long_desc "Client: Lab\nQuest:\n Are you fit to carry\n out the tasks we\'ll\n ask of you? We\'d\n like to find out.\n*Job can be joined\nwhile in progress."
+.episode Episode2
+.header_episode 0x01
+.language E
+.max_players 4
+.joinable
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+start:
+  // Referenced by map object KS-01-000 [ObjectSetEntry type=0229 "TOCapsuleLabo" floor=0001 group=0000 room=0001 a3=0000 x=1019.5 y=4.82947e-15 z=1876.28 x_angle=00000000 y_angle=FFFF8000 z_angle=00000000 params=[1 1 1 -0000001 00000000 00000000]]
+  set_episode                     0x00000001
+  set_qt_exit                     label000A
+  set_qt_cancel                   label000A
+  set_qt_success                  label0014
+  set_qt_failure                  label001E
+  arg_pushl                       0x00000000
+  arg_pushw                       0x0064
+  set_floor_handler               ... 0x0 /* 0 */, label0064
+  arg_pushl                       0x00000001
+  arg_pushw                       0x00C8
+  set_floor_handler               ... 0x1 /* 1 */, label00C8
+  bb_map_designate                0x00, 0x12, 0x00, 0x00, 0x00
+  bb_map_designate                0x01, 0x13, 0x00, 0x00, 0x00
+  arg_pushl                       0x00000000
+  initial_floor                   ... 0x0 /* 0 */
+  arg_pushl                       0x00000001
+  set_mainwarp                    ... 0x1 /* 1 */
+  get_difficulty_level_v2         r252
+  get_client_id                   r250
+  get_number_of_players           r251
+  let                             r239, r251
+  leti                            r115, 0x00000073
+  gget                            0x0213, r248
+  gclear                          0x0191
+  gclear                          0x004B
+  gclear                          0x004C
+  gclear                          0x0192
+  gclear                          0x0193
+  gclear                          0x0058
+  gclear                          0x0194
+  gclear                          0x0195
+  gclear                          0x0196
+  gclear                          0x0197
+  gclear                          0x004F
+  ret
+
+label0001@0x0001:
+  ret
+
+label000A@0x000A:
+  ret
+
+label0014@0x0014:
+  arg_pushs                       "<color 1>Test 1 Cleared!<color 0>\nYou are now qualified to\ntake the next test."
+  window_msg                      ... "<color 1>Test 1 Cleared!<color 0>\nYou are now qualified to\ntake the next test."
+  window_msg_end
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+  gset                            0x0213
+  ret
+
+label001E@0x001E:
+  ret
+
+label0064@0x0064:
+  thread_stg                      label0034
+  jmpi_eq                         r243, 0x00000001, label0096
+  call                            label001F
+  ret
+
+label001F@0x001F:
+  thread_stg                      label000C
+  p_action_disable
+  arg_pushr                       r250
+  disable_movement1               ... r250
+  leti                            r60, 0xFFFFD8E8
+  leti                            r61, 0x0000001E
+  leti                            r62, 0xFFFFFF3E
+  leti                            r63, 0x000000B4
+  arg_pushl                       0x00000000
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  leti                            r60, 0xFFFFD8F5
+  leti                            r61, 0x0000001E
+  leti                            r62, 0xFFFFFF3E
+  leti                            r63, 0x000000B4
+  arg_pushl                       0x00000001
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x1 /* 1 */, r60-r63
+  leti                            r60, 0xFFFFD8E1
+  leti                            r61, 0x0000001E
+  leti                            r62, 0xFFFFFF37
+  leti                            r63, 0x000000B4
+  arg_pushl                       0x00000002
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x2 /* 2 */, r60-r63
+  leti                            r60, 0xFFFFD901
+  leti                            r61, 0x0000001E
+  leti                            r62, 0xFFFFFF37
+  leti                            r63, 0x000000B4
+  arg_pushl                       0x00000003
+  arg_pushb                       0x3C
+  set_player_start_position       ... 0x3 /* 3 */, r60-r63
+  call                            label0020
+  call                            label0018
+  call                            label0012
+  call                            label0019
+  set                             r243
+  leti                            r60, 0xFFFFD98B
+  leti                            r61, 0xFFFFFFF6
+  leti                            r62, 0xFFFFFFF6
+  leti                            r63, 0x00000019
+  leti                            r64, 0x00000065
+  at_coords_call                  r60-r64
+  leti                            r60, 0xFFFFD8F0
+  leti                            r61, 0x0000000A
+  leti                            r62, 0x0000008C
+  leti                            r63, 0x00000019
+  leti                            r64, 0x00000066
+  at_coords_call                  r60-r64
+  ret
+
+label0065@0x0065:
+  jmpi_eq                         r108, 0x00000001, label0001
+  call                            label0028
+  call                            label0645
+  get_coord_of_player             r60-r62, r250
+  subi                            r60, 0x0000000F
+  let                             r63, r250
+  pl_walk                         r60-r63
+  call                            label002A
+  ret
+
+label0066@0x0066:
+  jmpi_eq                         r108, 0x00000001, label0001
+  call                            label0028
+  call                            label0645
+  get_coord_of_player             r60-r62, r250
+  subi                            r62, 0x0000000F
+  let                             r63, r250
+  pl_walk                         r60-r63
+  call                            label002A
+  ret
+
+label0096@0x0096:
+  ret
+
+label00C8@0x00C8:
+  call                            label002B
+  set                             r110
+  thread_stg                      label001A
+  thread_stg                      label001D
+  ret
+
+label000C@0x000C:
+  leti                            r80, 0x00000096
+
+label0004@0x0004:
+  sync
+  subi                            r80, 0x00000001
+  jmpi_gt                         r80, 0x00000000, label0004
+  warp_off
+  jmpi_eq                         r108, 0x00000000, label000C
+
+label0031@0x0031:
+  warp_on
+  ret
+
+label002B@0x002B:
+  leti                            r140, 0x000000C9
+  read_switch_flag                r140-r141
+  jmpi_eq                         r141, 0x00000001, label0001
+  leti                            r140, 0x000000C9
+  arg_pushl                       0x00000001
+  arg_pushr                       r140
+  set_switch_flag_sync            ... 0x1 /* 1 */, r140
+  ret
+
+label002D@0x002D:
+  leti                            r140, 0x000000CA
+  read_switch_flag                r140-r141
+  jmpi_eq                         r141, 0x00000001, label0001
+  leti                            r140, 0x000000CA
+  arg_pushl                       0x00000000
+  arg_pushr                       r140
+  set_switch_flag_sync            ... 0x0 /* 0 */, r140
+  arg_pushl                       0x00000001
+  arg_pushr                       r140
+  set_switch_flag_sync            ... 0x1 /* 1 */, r140
+  ret
+
+label001A@0x001A:
+  leti                            r140, 0x000000CA
+  read_switch_flag                r140-r141
+  jmpi_eq                         r141, 0x00000001, label0001
+  jmpi_eq                         r245, 0x00000001, label0001
+  leti                            r80, 0x00000096
+
+label0007@0x0007:
+  sync
+  subi                            r80, 0x00000001
+  jmpi_gt                         r80, 0x00000000, label0007
+  leti                            r10, 0x00000001
+  leti                            r11, 0x00000029
+  if_zone_clear                   r12, r10-r11
+  jmpi_eq                         r12, 0x00000000, label001A
+  call                            label0027
+  call                            label002D
+  set                             r245
+  call                            label0028
+  call                            label0035
+  call                            label002A
+  leti                            r140, 0x0000002C
+  read_switch_flag                r140-r141
+  jmpi_eq                         r141, 0x00000001, label0001
+  leti                            r140, 0x0000002C
+  arg_pushl                       0x00000001
+  arg_pushr                       r140
+  set_switch_flag_sync            ... 0x1 /* 1 */, r140
+  ret
+
+label001D@0x001D:
+  sync
+  leti                            r140, 0x000000CA
+  read_switch_flag                r140-r141
+  jmpi_eq                         r141, 0x00000001, label0001
+  arg_pushr                       r250
+  arg_pushb                       0x5E
+  get_player_room                 ... r250, r94-r95
+  jmpi_ne                         r94, 0x00000001, label001D
+  jmpi_ne                         r95, 0x00000029, label001D
+  p_disablewarp
+  call                            label0006
+  ret
+
+label0034@0x0034:
+  sync
+  jmpi_eq                         r245, 0x00000001, label0001
+  jmpi_eq                         r108, 0x00000000, label0034
+  leti                            r140, 0x000000CA
+  read_switch_flag                r140-r141
+  jmpi_eq                         r141, 0x00000000, label0034
+  get_player_state                r250, r180
+  jmpi_eq                         r180, 0x00000002, label0029
+  jmpi_eq                         r180, 0x00000003, label0029
+  jmp                             label0034
+  ret
+
+label0029@0x0029:
+  sync
+  set                             r245
+  call                            label0028
+  call                            label0035
+  call                            label002A
+  ret
+
+label0012@0x0012:
+  jmpi_eq                         r248, 0x00000001, label0005
+
+label0022@0x0022:
+  arg_pushl                       0x00000096
+  arg_pushs                       "<name job> <hero name>!\nThank you for coming."
+  message                         ... 0x96 /* 150 */, "<name job> <hero name>!\nThank you for coming."
+  arg_pushs                       "I am Natasha Milarose,\nGeneral Chief of Pioneer\n2 Research Facilities."
+  add_msg                         ... "I am Natasha Milarose,\nGeneral Chief of Pioneer\n2 Research Facilities."
+  arg_pushs                       "This is your first time\nin the Lab, right?"
+  add_msg                         ... "This is your first time\nin the Lab, right?"
+  arg_pushs                       "This is the center of\nall Pioneer 2 research\nfacilities."
+  add_msg                         ... "This is the center of\nall Pioneer 2 research\nfacilities."
+  arg_pushs                       "We simply call it the\nLab."
+  add_msg                         ... "We simply call it the\nLab."
+  arg_pushs                       "The incident on Ragol,\nthe mysterious\nunderground ruins,"
+  add_msg                         ... "The incident on Ragol,\nthe mysterious\nunderground ruins,"
+  arg_pushs                       "And ferocious life\nforms..."
+  add_msg                         ... "And ferocious life\nforms..."
+  arg_pushs                       "I am sure you, as a\nhunter, have experienced\nthem all."
+  add_msg                         ... "I am sure you, as a\nhunter, have experienced\nthem all."
+  arg_pushs                       "Here, we conduct research\nbased on data collected\nby hunters."
+  add_msg                         ... "Here, we conduct research\nbased on data collected\nby hunters."
+  arg_pushs                       "Then, we report our\nfindings to the\nAdministration."
+  add_msg                         ... "Then, we report our\nfindings to the\nAdministration."
+  arg_pushs                       "What we would like to\ndiscuss with you today,"
+  add_msg                         ... "What we would like to\ndiscuss with you today,"
+  arg_pushs                       "is not a direct order\nfrom the Administration.\nYou can think of it as"
+  add_msg                         ... "is not a direct order\nfrom the Administration.\nYou can think of it as"
+  arg_pushs                       "a mission request from\nthe Lab to all available\nhunters."
+  add_msg                         ... "a mission request from\nthe Lab to all available\nhunters."
+  message_end
+  sync
+  arg_pushl                       0x00000096
+  arg_pushs                       "..."
+  message                         ... 0x96 /* 150 */, "..."
+  arg_pushs                       "I will explain briefly."
+  add_msg                         ... "I will explain briefly."
+  arg_pushs                       "We discovered a new point\non Ragol\'s surface from\nour own research."
+  add_msg                         ... "We discovered a new point\non Ragol\'s surface from\nour own research."
+  arg_pushs                       "It all started with a\ncommunication we recently\nreceived from a man."
+  add_msg                         ... "It all started with a\ncommunication we recently\nreceived from a man."
+  arg_pushs                       "This man was a high\nranking official from\nPioneer 1."
+  add_msg                         ... "This man was a high\nranking official from\nPioneer 1."
+  arg_pushs                       "But here is something\nthat really bothers me..."
+  add_msg                         ... "But here is something\nthat really bothers me..."
+  arg_pushs                       "Based on the log we\nreceived while we were\ntraveling,"
+  add_msg                         ... "Based on the log we\nreceived while we were\ntraveling,"
+  arg_pushs                       "this man had passed away\na few years ago on the\nsurface of Ragol."
+  add_msg                         ... "this man had passed away\na few years ago on the\nsurface of Ragol."
+  arg_pushs                       "So we want to find out\nwhat happened to him."
+  add_msg                         ... "So we want to find out\nwhat happened to him."
+  arg_pushs                       "But... This mission \ninvolves a high amount\nof risk."
+  add_msg                         ... "But... This mission \ninvolves a high amount\nof risk."
+  arg_pushs                       "And this mission must\nremain a secret."
+  add_msg                         ... "And this mission must\nremain a secret."
+  arg_pushs                       "In order for us to\nmeasure your ability\nas a hunter,"
+  add_msg                         ... "In order for us to\nmeasure your ability\nas a hunter,"
+  arg_pushs                       "You will have to go\nthrough a series of\nexams."
+  add_msg                         ... "You will have to go\nthrough a series of\nexams."
+  arg_pushs                       "An aide will assist you\nwith further details\nabout the hunter\'s exam."
+  add_msg                         ... "An aide will assist you\nwith further details\nabout the hunter\'s exam."
+  arg_pushs                       "I look forward to seeing\nyour great results!"
+  add_msg                         ... "I look forward to seeing\nyour great results!"
+  message_end
+  gset                            0x004A
+  ret
+
+label0578@0x0578:
+  jmpi_eq                         r108, 0x00000000, label0579
+  jmpi_eq                         r255, 0x00000001, label057B
+  jmpi_eq                         r254, 0x00000001, label057A
+
+label0579@0x0579:
+  arg_pushl                       0x00000096
+  arg_pushs                       "We are not forcing you\nto take this mission."
+  message                         ... 0x96 /* 150 */, "We are not forcing you\nto take this mission."
+  arg_pushs                       "Accept or decline, it\'s\nup to you."
+  add_msg                         ... "Accept or decline, it\'s\nup to you."
+  message_end
+  ret
+
+label057A@0x057A:
+  call                            label001B
+  call                            label0018
+  arg_pushl                       0x00000096
+  arg_pushs                       "How\'d you find the test,\n<hero job> <hero name>?"
+  message                         ... 0x96 /* 150 */, "How\'d you find the test,\n<hero job> <hero name>?"
+  arg_pushs                       "Your results have been\nrecorded and checked."
+  add_msg                         ... "Your results have been\nrecorded and checked."
+  arg_pushs                       "You\'ve passed. But now,\nwe\'d like you to take\nthe next test, as well."
+  add_msg                         ... "You\'ve passed. But now,\nwe\'d like you to take\nthe next test, as well."
+  arg_pushs                       "Take what time you need\nin order to get ready."
+  add_msg                         ... "Take what time you need\nin order to get ready."
+  arg_pushs                       "I\'ll be waiting."
+  add_msg                         ... "I\'ll be waiting."
+  message_end
+  call                            label0019
+  arg_pushl                       0x00000000
+  bgm                             ... 0x0 /* 0 */
+  set                             r255
+  ret
+
+label057B@0x057B:
+  arg_pushl                       0x00000096
+  arg_pushs                       "This is only the\nbeginning."
+  message                         ... 0x96 /* 150 */, "This is only the\nbeginning."
+  arg_pushs                       "Take what time you need\nin order to get ready."
+  add_msg                         ... "Take what time you need\nin order to get ready."
+  arg_pushs                       "I\'ll be waiting."
+  add_msg                         ... "I\'ll be waiting."
+  message_end
+  ret
+
+label05DC@0x05DC:
+  jmpi_eq                         r108, 0x00000001, label002E
+  leti                            r140, 0x000000CA
+  read_switch_flag                r140-r141
+  jmpi_eq                         r141, 0x00000001, label05E2
+
+label002E@0x002E:
+  jmpi_eq                         r255, 0x00000001, label05E1
+  jmpi_eq                         r254, 0x00000001, label05E0
+  jmpi_eq                         r110, 0x00000001, label05DF
+  jmpi_eq                         r108, 0x00000001, label05DE
+
+label05DD@0x05DD:
+  call                            label002F
+  call                            label0018
+  arg_pushl                       0x00000097
+  arg_pushs                       "I will explain further\nabout the hunter\'s\nexam."
+  message                         ... 0x97 /* 151 */, "I will explain further\nabout the hunter\'s\nexam."
+  arg_pushs                       "The exam will take place\nin a Virtual Reality\nsystem in the Lab."
+  add_msg                         ... "The exam will take place\nin a Virtual Reality\nsystem in the Lab."
+  arg_pushs                       "There are two VR fields\nfor the hunter\'s exam:"
+  add_msg                         ... "There are two VR fields\nfor the hunter\'s exam:"
+  arg_pushs                       "\"Temple\" and \"Spaceship.\""
+  add_msg                         ... "\"Temple\" and \"Spaceship.\""
+  arg_pushs                       "These two VR fields are\ndivided up into three\nareas:"
+  add_msg                         ... "These two VR fields are\ndivided up into three\nareas:"
+  arg_pushs                       "Alpha, Beta, and the\nFinal area."
+  add_msg                         ... "Alpha, Beta, and the\nFinal area."
+  arg_pushs                       "Once you finish Alpha,\nBeta, and Final, you will\nhave cleared the Temple."
+  add_msg                         ... "Once you finish Alpha,\nBeta, and Final, you will\nhave cleared the Temple."
+  arg_pushs                       "You cannot clear all of\nthe areas at once."
+  add_msg                         ... "You cannot clear all of\nthe areas at once."
+  arg_pushs                       "Please understand that we\nhave a designated series\nof tests to conduct."
+  add_msg                         ... "Please understand that we\nhave a designated series\nof tests to conduct."
+  arg_pushs                       "You may come back to the\nLab before completing\nthe field, if you want."
+  add_msg                         ... "You may come back to the\nLab before completing\nthe field, if you want."
+  arg_pushs                       "But we recommend that\nyou complete the exam as\nquickly as possible."
+  add_msg                         ... "But we recommend that\nyou complete the exam as\nquickly as possible."
+  arg_pushs                       "So don\'t waste too much\ntime."
+  add_msg                         ... "So don\'t waste too much\ntime."
+  message_end
+  call                            label0024
+  arg_pushl                       0x00000097
+  arg_pushs                       "Here are the details for\nthe first exam."
+  message                         ... 0x97 /* 151 */, "Here are the details for\nthe first exam."
+  arg_pushs                       "The test takes place in\n<color 1>VR Field Temple Alpha<color 0>."
+  add_msg                         ... "The test takes place in\n<color 1>VR Field Temple Alpha<color 0>."
+  arg_pushs                       "Following your operator\'s\ndirections, battle the\nhostile creatures within,"
+  add_msg                         ... "Following your operator\'s\ndirections, battle the\nhostile creatures within,"
+  arg_pushs                       "and eliminate them as you\nhead for the goal to\nclear the VR field."
+  add_msg                         ... "and eliminate them as you\nhead for the goal to\nclear the VR field."
+  arg_pushs                       "Previous investigations\nshow that the surface of\nRagol is rife with"
+  add_msg                         ... "Previous investigations\nshow that the surface of\nRagol is rife with"
+  arg_pushs                       "dangerous wildlife, and\nwe\'ve confirmed that."
+  add_msg                         ... "dangerous wildlife, and\nwe\'ve confirmed that."
+  arg_pushs                       "For the Lab, we have \none real goal."
+  add_msg                         ... "For the Lab, we have \none real goal."
+  arg_pushs                       "It is to determine if you\nare truly capable of\ncarrying out our tasks."
+  add_msg                         ... "It is to determine if you\nare truly capable of\ncarrying out our tasks."
+  arg_pushs                       "And believe us, if you\nqualify, you\'ll get\na real challenge."
+  add_msg                         ... "And believe us, if you\nqualify, you\'ll get\na real challenge."
+  arg_pushs                       "To get to the VR field..."
+  add_msg                         ... "To get to the VR field..."
+  arg_pushs                       "Go down the slope, turn\nleft, and you will see\na blue gate in the back."
+  add_msg                         ... "Go down the slope, turn\nleft, and you will see\na blue gate in the back."
+  arg_pushs                       "Go through the gate and\nyou\'ll see a teleporter.\nGood luck!"
+  add_msg                         ... "Go through the gate and\nyou\'ll see a teleporter.\nGood luck!"
+  message_end
+  call                            label002C
+  set                             r108
+  let                             r140, r115
+  read_switch_flag                r140-r141
+  jmpi_eq                         r141, 0x00000001, label0017
+  sync
+  arg_pushl                       0x00000000
+  arg_pushr                       r115
+  set_switch_flag_sync            ... 0x0 /* 0 */, r115
+
+label0017@0x0017:
+  ret
+
+label05DE@0x05DE:
+  arg_pushl                       0x00000097
+  arg_pushs                       "Go down the slope, turn\nleft, and you will see\na blue gate in the back."
+  message                         ... 0x97 /* 151 */, "Go down the slope, turn\nleft, and you will see\na blue gate in the back."
+  arg_pushs                       "Go through the gate and\nyou\'ll see a teleporter.\nGood luck!"
+  add_msg                         ... "Go through the gate and\nyou\'ll see a teleporter.\nGood luck!"
+  message_end
+  set                             r109
+  ret
+
+label05DF@0x05DF:
+  arg_pushl                       0x00000097
+  arg_pushs                       "The Chief is a great\nleader."
+  message                         ... 0x97 /* 151 */, "The Chief is a great\nleader."
+  arg_pushs                       "Research should be\ndirected by the Lab, not\nthe Administration."
+  add_msg                         ... "Research should be\ndirected by the Lab, not\nthe Administration."
+  arg_pushs                       "We should have taken\ncharge from the very\nbeginning."
+  add_msg                         ... "We should have taken\ncharge from the very\nbeginning."
+  message_end
+  ret
+
+label05E0@0x05E0:
+  arg_pushl                       0x00000097
+  arg_pushs                       "Please speak to the Chief\nto get your test results."
+  message                         ... 0x97 /* 151 */, "Please speak to the Chief\nto get your test results."
+  message_end
+  ret
+
+label05E1@0x05E1:
+  arg_pushl                       0x00000097
+  arg_pushs                       "You passed the first\ntest. There weren\'t any\nproblems."
+  message                         ... 0x97 /* 151 */, "You passed the first\ntest. There weren\'t any\nproblems."
+  arg_pushs                       "Just so you know, this\ntest is also a test for\nour VR technology."
+  add_msg                         ... "Just so you know, this\ntest is also a test for\nour VR technology."
+  arg_pushs                       "To see how suitable it\nis... "
+  add_msg                         ... "To see how suitable it\nis... "
+  arg_pushs                       "I\'m a bit troubled by the\nresults, but..."
+  add_msg                         ... "I\'m a bit troubled by the\nresults, but..."
+  arg_pushs                       "Anyway, the exam is over.\nThank you very much."
+  add_msg                         ... "Anyway, the exam is over.\nThank you very much."
+  message_end
+  ret
+
+label05E2@0x05E2:
+  arg_pushl                       0x00000097
+  arg_pushs                       "I\'m sorry, but the exam\nhas already finished."
+  message                         ... 0x97 /* 151 */, "I\'m sorry, but the exam\nhas already finished."
+  arg_pushs                       "Looks like you just\nmissed it."
+  add_msg                         ... "Looks like you just\nmissed it."
+  arg_pushs                       "Our tasks require\nteamwork as a crucial\nelement, you know."
+  add_msg                         ... "Our tasks require\nteamwork as a crucial\nelement, you know."
+  arg_pushs                       "Please, try harder to\nmake it on time for\nthe next exam."
+  add_msg                         ... "Please, try harder to\nmake it on time for\nthe next exam."
+  message_end
+  ret
+
+label0640@0x0640:
+  // Referenced by map enemy ES-00-00C [EnemySetEntry type=00FF "TObjNpcNgcBase(0x00FF)" num_children=0000 floor=0000 room=002A wave_number=0000 wave_number2=0000 a1=0000 x=80 y=-10 z=-30 x_angle=00000000 y_angle=0000F000 z_angle=00000000 params=[0 0 0 152 1600 0000 0000]]
+  jmpi_eq                         r108, 0x00000001, label0642
+
+label0641@0x0641:
+  arg_pushl                       0x00000098
+  arg_pushs                       "Hello!"
+  message                         ... 0x98 /* 152 */, "Hello!"
+  arg_pushs                       "What\'s behind the gate is\nthe Lab\'s latest VR\nsystem!"
+  add_msg                         ... "What\'s behind the gate is\nthe Lab\'s latest VR\nsystem!"
+  arg_pushs                       "The Administration and\nthe military have no \nknowledge about this."
+  add_msg                         ... "The Administration and\nthe military have no \nknowledge about this."
+  arg_pushs                       "You can\'t use it until\nyou have the Lab\'s\npermission, though."
+  add_msg                         ... "You can\'t use it until\nyou have the Lab\'s\npermission, though."
+  arg_pushs                       "Please go and obtain\nthat permission, first."
+  add_msg                         ... "Please go and obtain\nthat permission, first."
+  message_end
+  ret
+
+label0642@0x0642:
+  arg_pushl                       0x00000098
+  arg_pushs                       "Hello!"
+  message                         ... 0x98 /* 152 */, "Hello!"
+  arg_pushs                       "What\'s behind the gate is\nthe Lab\'s latest VR\nsystem!"
+  add_msg                         ... "What\'s behind the gate is\nthe Lab\'s latest VR\nsystem!"
+  arg_pushs                       "The Administration and\nthe military have no \nknowledge about this."
+  add_msg                         ... "The Administration and\nthe military have no \nknowledge about this."
+  arg_pushs                       "The examination will\nstart the moment you\'re\ntransported"
+  add_msg                         ... "The examination will\nstart the moment you\'re\ntransported"
+  arg_pushs                       "to the VR field through\nthe teleporter. So be\ncareful!"
+  add_msg                         ... "to the VR field through\nthe teleporter. So be\ncareful!"
+  message_end
+  ret
+
+label07D0@0x07D0:
+  // Referenced by map object KS-01-001 [ObjectSetEntry type=02B8 "TObjQuestColALock2/TObjQuestColALock2" floor=0001 group=0000 room=0001 a3=0000 x=1019.5 y=10 z=1876.28 x_angle=00000000 y_angle=FFFF8000 z_angle=00000000 params=[20 1 1 000007D0 00000000 00000000]]
+  arg_pushl                       0x00000019
+  sound_effect                    ... 0x19 /* 25 */
+  call                            label0028
+  jmpi_eq                         r254, 0x00000001, label0023
+  call                            label0024
+  arg_pushs                       "VR Test Field...\nConnecting to VR Temple\nAlpha..."
+  window_msg                      ... "VR Test Field...\nConnecting to VR Temple\nAlpha..."
+  arg_pushs                       "Access:\n<hero job> <hero name>"
+  add_msg                         ... "Access:\n<hero job> <hero name>"
+  arg_pushs                       "Transmitting test\nrecord... ..."
+  add_msg                         ... "Transmitting test\nrecord... ..."
+  arg_pushs                       "Enemies eradicated... ...\nAreas secured... ...\nBoth confirmed."
+  add_msg                         ... "Enemies eradicated... ...\nAreas secured... ...\nBoth confirmed."
+  window_msg_end
+
+label0023@0x0023:
+  call                            label0013
+  arg_pushs                       "Hello, <hero name>.\nThis is Lab."
+  window_msg                      ... "Hello, <hero name>.\nThis is Lab."
+  arg_pushs                       "Elly speaking!"
+  add_msg                         ... "Elly speaking!"
+  arg_pushs                       "I\'ve confirmed your exam\nresults,\n<hero name>."
+  add_msg                         ... "I\'ve confirmed your exam\nresults,\n<hero name>."
+  arg_pushs                       "Looks like you\'ve cleared\nthe mission for the first\ntest!"
+  add_msg                         ... "Looks like you\'ve cleared\nthe mission for the first\ntest!"
+  arg_pushs                       "We\'ll be disconnecting\nVR link temporarily, so\nplease head back now!"
+  add_msg                         ... "We\'ll be disconnecting\nVR link temporarily, so\nplease head back now!"
+  window_msg_end
+  jmpi_eq                         r254, 0x00000001, label0009
+  leti                            r140, 0x0000002D
+  read_switch_flag                r140-r141
+  jmpi_eq                         r141, 0x00000001, label0026
+  leti                            r140, 0x0000002D
+  arg_pushl                       0x00000001
+  arg_pushr                       r140
+  set_switch_flag_sync            ... 0x1 /* 1 */, r140
+
+label0026@0x0026:
+  set                             r254
+  arg_pushl                       0x00000001
+  bgm                             ... 0x1 /* 1 */
+
+label0009@0x0009:
+  arg_pushl                       0x00000019
+  sound_effect                    ... 0x19 /* 25 */
+  call                            label002A
+  ret
+
+label0006@0x0006:
+  p_action_disable
+  arg_pushr                       r250
+  disable_movement1               ... r250
+  arg_pushs                       "Eradicate all enemies!"
+  window_msg                      ... "Eradicate all enemies!"
+  window_msg_end
+  p_action_enable
+  arg_pushr                       r250
+  enable_movement1                ... r250
+  ret
+
+label0035@0x0035:
+  arg_pushs                       "All target area enemies\ndestroyed. Find the goal\nand access the terminal."
+  window_msg                      ... "All target area enemies\ndestroyed. Find the goal\nand access the terminal."
+  window_msg_end
+  ret
+
+label0005@0x0005:
+  arg_pushl                       0x00000064
+  arg_pushl                       0x00000064
+  arg_pushl                       0x0000000C
+  arg_pushl                       0x00000001
+  arg_pushl                       0x00000001
+  arg_pushs                       "Skip conversation?"
+  chat_box                        ... 0x64 /* 100 */, 0x64 /* 100 */, 0xC /* 12 */, 0x1 /* 1 */, 0x1 /* 1 */, "Skip conversation?"
+  window_msg_end
+  arg_pushb                       0xC8
+  arg_pushs                       "Yes\nNo"
+  list                            ... r200, "Yes\nNo"
+  switch_jmp                      r200, [label0003, label0022]
+  ret
+
+label0003@0x0003:
+  sync
+  arg_pushl                       0x00000000
+  arg_pushr                       r115
+  set_switch_flag_sync            ... 0x0 /* 0 */, r115
+  sync
+  set                             r108
+  ret
+
+label0708@0x0708:
+  arg_pushl                       0x00000099
+  arg_pushs                       "There is a teleporter\nto the surface here."
+  message                         ... 0x99 /* 153 */, "There is a teleporter\nto the surface here."
+  arg_pushs                       "You may not use this\nuntil the Chief gives\nher permission."
+  add_msg                         ... "You may not use this\nuntil the Chief gives\nher permission."
+  arg_pushs                       "So stay away!"
+  add_msg                         ... "So stay away!"
+  message_end
+  ret
+
+label0645@0x0645:
+  arg_pushl                       0x00000098
+  arg_pushs                       "Hey, hunter, where do\nyou think you\'re going?"
+  message                         ... 0x98 /* 152 */, "Hey, hunter, where do\nyou think you\'re going?"
+  arg_pushs                       "You need to get the\nLab\'s permission, first!"
+  add_msg                         ... "You need to get the\nLab\'s permission, first!"
+  message_end
+  ret
+
+label000D@0x000D:
+  sync
+  sync
+  sync
+  sync
+  sync
+  ret
+
+label000B@0x000B:
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  sync
+  ret
+
+label0018@0x0018:
+  call                            label000D
+  call                            label000B
+  ret
+
+label000E@0x000E:
+  call                            label000B
+  call                            label000B
+  ret
+
+label0013@0x0013:
+  call                            label000B
+  call                            label000B
+  call                            label000B
+  ret
+
+label0024@0x0024:
+  call                            label000B
+  call                            label000B
+  call                            label000B
+  call                            label000D
+  ret
+
+label001C@0x001C:
+  call                            label0013
+  call                            label0013
+  ret
+
+label0027@0x0027:
+  call                            label0024
+  call                            label0024
+  ret
+
+label0021@0x0021:
+  p_action_disable
+  arg_pushr                       r250
+  disable_movement1               ... r250
+  npc_talk_off
+  hud_hide
+  cine_enable
+  cam_zmin
+  ret
+
+label0032@0x0032:
+  cam_zmout
+  cine_disable
+  hud_show
+  npc_talk_on
+  p_action_enable
+  arg_pushr                       r250
+  enable_movement1                ... r250
+  ret
+
+label0008@0x0008:
+  p_action_disable
+  arg_pushr                       r250
+  disable_movement1               ... r250
+  npc_talk_off
+  hud_hide
+  cine_enable
+  ret
+
+label0025@0x0025:
+  cine_disable
+  hud_show
+  npc_talk_on
+  p_action_enable
+  arg_pushr                       r250
+  enable_movement1                ... r250
+  ret
+
+label001B@0x001B:
+  p_action_disable
+  arg_pushr                       r250
+  disable_movement1               ... r250
+
+label0020@0x0020:
+  hud_hide
+  fleti                           r80, -10000
+  fleti                           r81, 45.45
+  fleti                           r82, -197.77
+  fleti                           r83, -10000
+  fleti                           r84, 48.59
+  fleti                           r85, -217.52
+  arg_pushb                       0x50
+  fleti_fixed_camera              ... r80-r85
+  ret
+
+label0019@0x0019:
+  default_camera_pos2
+  hud_show
+  arg_pushr                       r250
+  enable_movement1                ... r250
+  p_action_enable
+  ret
+
+label002F@0x002F:
+  p_action_disable
+  arg_pushr                       r250
+  disable_movement1               ... r250
+  hud_hide
+  fleti                           r80, -10038.4
+  fleti                           r81, 44.94
+  fleti                           r82, -177.27
+  fleti                           r83, -10051.1
+  fleti                           r84, 48.95
+  fleti                           r85, -192.18
+  arg_pushb                       0x50
+  fleti_fixed_camera              ... r80-r85
+  ret
+
+label002C@0x002C:
+  default_camera_pos2
+  hud_show
+  arg_pushr                       r250
+  enable_movement1                ... r250
+  p_action_enable
+  ret
+
+label0028@0x0028:
+  p_action_disable
+  npc_talk_off
+  call                            label0002
+  hud_hide
+  cine_enable
+  cam_zmin
+  ret
+
+label002A@0x002A:
+  cam_zmout
+  cine_disable
+  hud_show
+  call                            label0037
+  npc_talk_on
+  p_action_enable
+  ret
+
+label0037@0x0037:
+  leti                            r249, 0x00000000
+  switch_call                     r250, [label000F, label0010, label0011, label0015]
+  p_action_enable
+  ret
+
+label000F@0x000F:
+  arg_pushl                       0x00000000
+  enable_movement1                ... 0x0 /* 0 */
+  ret
+
+label0010@0x0010:
+  arg_pushl                       0x00000001
+  enable_movement1                ... 0x1 /* 1 */
+  ret
+
+label0011@0x0011:
+  arg_pushl                       0x00000002
+  enable_movement1                ... 0x2 /* 2 */
+  ret
+
+label0015@0x0015:
+  arg_pushl                       0x00000003
+  enable_movement1                ... 0x3 /* 3 */
+  ret
+
+label0002@0x0002:
+  leti                            r249, 0x00000001
+  switch_call                     r250, [label0030, label0033, label0036, label0038]
+  ret
+
+label0030@0x0030:
+  p_action_disable
+  arg_pushl                       0x00000000
+  disable_movement1               ... 0x0 /* 0 */
+  ret
+
+label0033@0x0033:
+  p_action_disable
+  arg_pushl                       0x00000001
+  disable_movement1               ... 0x1 /* 1 */
+  ret
+
+label0036@0x0036:
+  p_action_disable
+  arg_pushl                       0x00000002
+  disable_movement1               ... 0x2 /* 2 */
+  ret
+
+label0038@0x0038:
+  p_action_disable
+  arg_pushl                       0x00000003
+  disable_movement1               ... 0x3 /* 3 */
+  ret
+
+label0016@0x0016:
+  ret

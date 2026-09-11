@@ -1,0 +1,39 @@
+--- backup-script
++++ current-script
+@@ -621,7 +621,9 @@
+   jmpi_eq                         r255, 0x00000001, label0139
+   jmpi_eq                         r254, 0x00000001, label0138
+   jmpi_eq                         r0, 0x00000001, label0137
+-  call                            label00DC
++  jmp                             label0002
++
++label0005@0x0005:
+   call                            label00CF
+   arg_pushl                       0x00000064
+   arg_pushs                       "I\'m Nel."
+@@ -742,3 +744,25 @@
+   jmpi_le                         r72, 0x0000001E, label00D0
+   ret
+   nop
++
++label0002@0x0002:
++  arg_pushs                       "Skip startup dialogue?"
++  window_msg                      ... "Skip startup dialogue?"
++  window_msg_end
++  clear                           r116
++  arg_pushb                       0x74
++  arg_pushs                       "YES\nNO"
++  list                            ... r116, "YES\nNO"
++  switch_jmp                      r116, [label0003, label0004]
++
++label0003@0x0003:
++  arg_pushl                       0x00000001
++  bgm                             ... 0x1 /* 1 */
++  set                             r0
++  ret
++
++label0004@0x0004:
++  call                            label00DC
++  jmp                             label0005
++  nop
++  nop

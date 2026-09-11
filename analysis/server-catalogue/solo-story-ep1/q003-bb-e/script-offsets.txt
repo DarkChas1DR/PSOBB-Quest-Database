@@ -1,0 +1,496 @@
+.version BB_V4
+.quest_num 3
+.name "The Value of Money"
+.short_desc "A wife is\ndepressed."
+.long_desc "Client: Gizel\'s wife\nQuest:\n  I want my husband to\n  stop wasting money. He\n  buys too many weapons.\nReward: 300 Meseta"
+.episode Episode1
+.header_episode 0x00
+.language E
+.max_players 1
+.solo_unlock_flag 0x0065
+.solo_unlock_flag 0x0067
+.solo_unlock_flag 0x006B
+.solo_unlock_flag 0x01F9
+.header_unknown_a1 0xFFFF
+.header_unknown_a2 0xFFFF
+.header_unknown_a4 0x00
+.header_unknown_a5 0x00000000
+.header_unknown_a6 0x0000
+
+// 0x1C74 data bytes in script section with 41 labels
+
+start:
+  0000  F8BC00000000      set_episode                     0x00000000
+  0006  17F60066          gget                            0x00F6, r102
+  000A  17F20067          gget                            0x00F2, r103
+  000E  17F2006E          gget                            0x00F2, r110
+  0012  17F10065          gget                            0x00F1, r101
+  0016  BA6F00            set_qt_exit                     label006F /* 0031 */
+  0019  A56F00            set_qt_cancel                   label006F /* 0031 */
+  001C  4900000000        arg_pushl                       0x00000000
+  0021  4B9600            arg_pushw                       0x0096
+  0024  95                set_floor_handler               ... 0x0 /* 0 */, label0096 /* 003D */
+  0025  A2FA00            set_qt_success                  label00FA /* 0062 */
+  0028  F9510000000000    bb_map_designate                0x00, 0x00, 0x00, 0x00, 0x00
+  002F  01                ret
+
+label0001:
+  // Referenced by instruction at 0031
+  0030  01                ret
+
+label006F:
+  // Referenced by instructions at 0016, 0019
+  0031  2D6E01000000...   jmpi_eq                         r110, 0x00000001, label0001 /* 0030 */
+  0039  14F200            gclear                          0x00F2
+  003C  01                ret
+
+label0096:
+  // Referenced by instruction at 0024
+  003D  093CED000000      leti                            r60, 0x000000ED
+  0043  093D00000000      leti                            r61, 0x00000000
+  0049  093E4D010000      leti                            r62, 0x0000014D
+  004F  093FFAFFFFFF      leti                            r63, 0xFFFFFFFA
+  0055  4900000000        arg_pushl                       0x00000000
+  005A  4A3C              arg_pushb                       0x3C
+  005C  76                set_player_start_position       ... 0x0 /* 0 */, r60-r63
+  005D  E5                warp_off
+  005E  293601            call                            label0136 /* 00BA */
+  0061  01                ret
+
+label00FA:
+  // Referenced by instruction at 0025
+  0062  136900            gset                            0x0069
+  0065  4E59006F0075...   arg_pushs                       "You\'ve been awarded 300 Meseta!"
+  00A6  5A                window_msg                      ... "You\'ve been awarded 300 Meseta!"
+  00A7  4901000000        arg_pushl                       0x00000001
+  00AC  55                bgm                             ... 0x1 /* 1 */
+  00AD  5E                window_msg_end
+  00AE  4900000000        arg_pushl                       0x00000000
+  00B3  492C010000        arg_pushl                       0x0000012C
+  00B8  B0                pl_add_meseta                   ... 0x0 /* 0 */, 0x12C /* 300 */
+  00B9  01                ret
+
+label0136:
+  // Referenced by instruction at 005E
+  // Referenced by map enemy ES-00-001 [EnemySetEntry type=0004 "TObjNpcFemaleFat/TObjNpcFemaleFat" num_children=0000 floor=0000 room=000A wave_number=0000 wave_number2=0000 a1=0000 x=-3.00204 y=0 z=63.9975 x_angle=00000000 y_angle=00007800 z_angle=00000000 params=[0 0 0 100 310 0000 0000]]
+  00BA  2DFF01000000...   jmpi_eq                         r255, 0x00000001, label013E /* 098B */
+  00C2  2D0901000000...   jmpi_eq                         r9, 0x00000001, label013D /* 085C */
+  00CA  2D0801000000...   jmpi_eq                         r8, 0x00000001, label013C /* 0819 */
+  00D2  2D0701000000...   jmpi_eq                         r7, 0x00000001, label013B /* 0705 */
+  00DA  2D0501000000...   jmpi_eq                         r5, 0x00000001, label013A /* 05B2 */
+  00E2  2D0301000000...   jmpi_eq                         r3, 0x00000001, label0139 /* 048B */
+  00EA  2D0101000000...   jmpi_eq                         r1, 0x00000001, label0138 /* 036E */
+  00F2  2D0001000000...   jmpi_eq                         r0, 0x00000001, label0137 /* 02E5 */
+  00FA  29DE00            call                            label00DE /* 1C57 */
+  00FD  4964000000        arg_pushl                       0x00000064
+  0102  4E4900200064...   arg_pushs                       "I don\'t think he knows\nthe meaning of the word\n\"waste.\""
+  0173  50                message                         ... 0x64 /* 100 */, "I don\'t think he knows\nthe meaning of the word\n\"waste.\""
+  0174  4E4800650020...   arg_pushs                       "He buys weapons without\na second thought."
+  01C9  5B                add_msg                         ... "He buys weapons without\na second thought."
+  01CA  4E4800650020...   arg_pushs                       "He could buy much better\nweapons earlier if he\nsaved his money, right?"
+  0259  5B                add_msg                         ... "He could buy much better\nweapons earlier if he\nsaved his money, right?"
+  025A  4E4800650027...   arg_pushs                       "He\'ll listen to you\nsince you\'re also a\nhunter. Convince him."
+  02D7  5B                add_msg                         ... "He\'ll listen to you\nsince you\'re also a\nhunter. Convince him."
+  02D8  5C                message_end
+  02D9  1000              set                             r0
+  02DB  29DF00            call                            label00DF /* 1C66 */
+  02DE  4901000000        arg_pushl                       0x00000001
+  02E3  55                bgm                             ... 0x1 /* 1 */
+  02E4  01                ret
+
+label0137:
+  // Referenced by instruction at 00F2
+  02E5  4964000000        arg_pushl                       0x00000064
+  02EA  4E4D00790020...   arg_pushs                       "My husband?  He may be\nat the shop, browsing\nfor weapons again."
+  036B  50                message                         ... 0x64 /* 100 */, "My husband?  He may be\nat the shop, browsing\nfor weapons again."
+  036C  5C                message_end
+  036D  01                ret
+
+label0138:
+  // Referenced by instruction at 00EA
+  036E  4964000000        arg_pushl                       0x00000064
+  0373  4E4900200063...   arg_pushs                       "I can\'t believe it.\nHe snubbed you?\nMy goodness..."
+  03DA  50                message                         ... 0x64 /* 100 */, "I can\'t believe it.\nHe snubbed you?\nMy goodness..."
+  03DB  4E5700680061...   arg_pushs                       "What he\'s saying isn\'t\nwrong, but he\'s not\nbeing economical."
+  0456  5B                add_msg                         ... "What he\'s saying isn\'t\nwrong, but he\'s not\nbeing economical."
+  0457  4E540061006B...   arg_pushs                       "Take a firm stand!\nOK?"
+  0486  5B                add_msg                         ... "Take a firm stand!\nOK?"
+  0487  5C                message_end
+  0488  1002              set                             r2
+  048A  01                ret
+
+label0139:
+  // Referenced by instruction at 00E2
+  048B  4964000000        arg_pushl                       0x00000064
+  0490  4E59006F0075...   arg_pushs                       "You were fooled by him,\nweren\'t you?\nI can\'t believe it."
+  0503  50                message                         ... 0x64 /* 100 */, "You were fooled by him,\nweren\'t you?\nI can\'t believe it."
+  0504  4E4900200073...   arg_pushs                       "I said he\'s not\neconomical \'cause he\nbuys without thinking."
+  057D  5B                add_msg                         ... "I said he\'s not\neconomical \'cause he\nbuys without thinking."
+  057E  4E540061006B...   arg_pushs                       "Take a firm stand!\nOK?"
+  05AD  5B                add_msg                         ... "Take a firm stand!\nOK?"
+  05AE  5C                message_end
+  05AF  1004              set                             r4
+  05B1  01                ret
+
+label013A:
+  // Referenced by instruction at 00DA
+  05B2  4964000000        arg_pushl                       0x00000064
+  05B7  4E4500780070...   arg_pushs                       "Expensive weapons aren\'t\nalways strong?  I\'m not\ntalking about that."
+  0642  50                message                         ... 0x64 /* 100 */, "Expensive weapons aren\'t\nalways strong?  I\'m not\ntalking about that."
+  0643  4E4200750079...   arg_pushs                       "Buying weapons is fine,\nbut he needs to be smart\nwhen he buys things."
+  06D0  5B                add_msg                         ... "Buying weapons is fine,\nbut he needs to be smart\nwhen he buys things."
+  06D1  4E540061006B...   arg_pushs                       "Take a firm stand!\nOK?"
+  0700  5B                add_msg                         ... "Take a firm stand!\nOK?"
+  0701  5C                message_end
+  0702  1006              set                             r6
+  0704  01                ret
+
+label013B:
+  // Referenced by instruction at 00D2
+  0705  4964000000        arg_pushl                       0x00000064
+  070A  4E4400690064...   arg_pushs                       "Did he finally\nunderstand?"
+  0741  50                message                         ... 0x64 /* 100 */, "Did he finally\nunderstand?"
+  0742  4E4E006F0077...   arg_pushs                       "Now I know.  He has a\nweapon-fetish."
+  078D  5B                add_msg                         ... "Now I know.  He has a\nweapon-fetish."
+  078E  4E4200750074...   arg_pushs                       "But we can\'t afford to\nwaste money to keep him\nhappy all the time."
+  0815  5B                add_msg                         ... "But we can\'t afford to\nwaste money to keep him\nhappy all the time."
+  0816  283C01            jmp                             label013C /* 0819 */
+
+label013C:
+  // Referenced by instructions at 00CA, 0816
+  0819  4964000000        arg_pushl                       0x00000064
+  081E  4E540065006C...   arg_pushs                       "Tell him,\nNO MORE SHOPPING."
+  0857  50                message                         ... 0x64 /* 100 */, "Tell him,\nNO MORE SHOPPING."
+  0858  5C                message_end
+  0859  1008              set                             r8
+  085B  01                ret
+
+label013D:
+  // Referenced by instruction at 00C2
+  085C  4964000000        arg_pushl                       0x00000064
+  0861  4E5400680061...   arg_pushs                       "Thank you.\nWas he really\nthat disappointed?"
+  08BA  50                message                         ... 0x64 /* 100 */, "Thank you.\nWas he really\nthat disappointed?"
+  08BB  4E490027006C...   arg_pushs                       "I\'ll allow him to buy\nweapons later."
+  0906  5B                add_msg                         ... "I\'ll allow him to buy\nweapons later."
+  0907  4E47006F006F...   arg_pushs                       "Good job.\nPlease go and receive\nyour money at the Guild."
+  097A  5B                add_msg                         ... "Good job.\nPlease go and receive\nyour money at the Guild."
+  097B  5C                message_end
+  097C  10FF              set                             r255
+  097E  4900000000        arg_pushl                       0x00000000
+  0983  55                bgm                             ... 0x0 /* 0 */
+  0984  4901000000        arg_pushl                       0x00000001
+  0989  92                playbgm_epi                     ... 0x1 /* 1 */
+  098A  01                ret
+
+label013E:
+  // Referenced by instruction at 00BA
+  098B  4964000000        arg_pushl                       0x00000064
+  0990  4E5400680061...   arg_pushs                       "Thank you.\nWas he really\nthat disappointed?"
+  09E9  50                message                         ... 0x64 /* 100 */, "Thank you.\nWas he really\nthat disappointed?"
+  09EA  4E490027006C...   arg_pushs                       "I\'ll allow him to buy\nweapons later."
+  0A35  5B                add_msg                         ... "I\'ll allow him to buy\nweapons later."
+  0A36  4E47006F006F...   arg_pushs                       "Good job.\nPlease go and receive\nyour money at the Guild."
+  0AA9  5B                add_msg                         ... "Good job.\nPlease go and receive\nyour money at the Guild."
+  0AAA  5C                message_end
+  0AAB  01                ret
+
+label0140:
+  // Referenced by map enemy ES-00-00F [EnemySetEntry type=000A "TObjNpcMaleDwarf/TObjNpcMaleDwarf" num_children=0000 floor=0000 room=001E wave_number=0000 wave_number2=0000 a1=0000 x=16.004 y=0 z=5.99567 x_angle=00000000 y_angle=FFFFD000 z_angle=00000000 params=[22 0 0 101 320 0001 0000]]
+  0AAC  2D0901000000...   jmpi_eq                         r9, 0x00000001, label0161 /* 15FD */
+  0AB4  2D0801000000...   jmpi_eq                         r8, 0x00000001, label0160 /* 147E */
+  0ABC  2D0701000000...   jmpi_eq                         r7, 0x00000001, label015F /* 1449 */
+  0AC4  2D0601000000...   jmpi_eq                         r6, 0x00000001, label0145 /* 0E05 */
+  0ACC  2D0501000000...   jmpi_eq                         r5, 0x00000001, label0155 /* 127B */
+  0AD4  2D0401000000...   jmpi_eq                         r4, 0x00000001, label0145 /* 0E05 */
+  0ADC  2D0301000000...   jmpi_eq                         r3, 0x00000001, label014D /* 0FC5 */
+  0AE4  2D0201000000...   jmpi_eq                         r2, 0x00000001, label0145 /* 0E05 */
+  0AEC  2D0101000000...   jmpi_eq                         r1, 0x00000001, label0144 /* 0D76 */
+  0AF4  4965000000        arg_pushl                       0x00000065
+  0AF9  4E5700680061...   arg_pushs                       "What?  Who are you?"
+  0B22  50                message                         ... 0x65 /* 101 */, "What?  Who are you?"
+  0B23  4E41006E0020...   arg_pushs                       "An errand from my wife?\nI\'m buying weapons\ntoo often?"
+  0B90  5B                add_msg                         ... "An errand from my wife?\nI\'m buying weapons\ntoo often?"
+  0B91  4E5300680075...   arg_pushs                       "Shut up."
+  0BA4  5B                add_msg                         ... "Shut up."
+  0BA5  284101            jmp                             label0141 /* 0BA8 */
+
+label0141:
+  // Referenced by instructions at 0BA5, 0EC2
+  0BA8  4965000000        arg_pushl                       0x00000065
+  0BAD  4E4500780070...   arg_pushs                       "Expensive weapons are\nstrong."
+  0BEA  50                message                         ... 0x65 /* 101 */, "Expensive weapons are\nstrong."
+  0BEB  4E5700690074...   arg_pushs                       "With strong weapons, I can\nkill expensive monsters,\nand I can be rich."
+  0C7A  5B                add_msg                         ... "With strong weapons, I can\nkill expensive monsters,\nand I can be rich."
+  0C7B  4E53006F002C...   arg_pushs                       "So, it\'s smart of me to\nbuy better weapons.\nUnderstand?"
+  0CEC  5B                add_msg                         ... "So, it\'s smart of me to\nbuy better weapons.\nUnderstand?"
+  0CED  5C                message_end
+  0CEE  284201            jmp                             label0142 /* 0CF1 */
+
+label0142:
+  // Referenced by instruction at 0CEE
+  0CF1  1164              clear                           r100
+  0CF3  4A64              arg_pushb                       0x64
+  0CF5  4E5900650073...   arg_pushs                       "Yes, you\'re right.\nNo, I don\'t understand."
+  0D4C  51                list                            ... r100, "Yes, you\'re right.\nNo, I don\'t understand."
+  0D4D  40640243014A01    switch_jmp                      r100, [label0143 /* 0D54 */, label014A /* 0EC5 */]
+
+label0143:
+  // Referenced by instruction at 0D4D
+  0D54  4965000000        arg_pushl                       0x00000065
+  0D59  4E47006F006F...   arg_pushs                       "Good, good."
+  0D72  50                message                         ... 0x65 /* 101 */, "Good, good."
+  0D73  284401            jmp                             label0144 /* 0D76 */
+
+label0144:
+  // Referenced by instructions at 0AEC, 0D73
+  0D76  4965000000        arg_pushl                       0x00000065
+  0D7B  4E5400680069...   arg_pushs                       "This issue is just\nbetween my wife and me."
+  0DD2  50                message                         ... 0x65 /* 101 */, "This issue is just\nbetween my wife and me."
+  0DD3  4E570065006C...   arg_pushs                       "Well, you can go now."
+  0E00  5B                add_msg                         ... "Well, you can go now."
+  0E01  5C                message_end
+  0E02  1001              set                             r1
+  0E04  01                ret
+
+label0145:
+  // Referenced by instructions at 0AC4, 0AD4, 0AE4
+  0E05  4965000000        arg_pushl                       0x00000065
+  0E0A  4E5700680061...   arg_pushs                       "What, what?  Did ya\nforget to say something?"
+  0E65  50                message                         ... 0x65 /* 101 */, "What, what?  Did ya\nforget to say something?"
+  0E66  4E59006F0075...   arg_pushs                       "You can\'t convince me.\nI\'m not wrong."
+  0EB3  5B                add_msg                         ... "You can\'t convince me.\nI\'m not wrong."
+  0EB4  1100              clear                           r0
+  0EB6  1101              clear                           r1
+  0EB8  1102              clear                           r2
+  0EBA  1103              clear                           r3
+  0EBC  1104              clear                           r4
+  0EBE  1105              clear                           r5
+  0EC0  1106              clear                           r6
+  0EC2  284101            jmp                             label0141 /* 0BA8 */
+
+label014A:
+  // Referenced by instruction at 0D4D
+  0EC5  4965000000        arg_pushl                       0x00000065
+  0ECA  4E5700680079...   arg_pushs                       "Why don\'t ya understand?"
+  0EFD  50                message                         ... 0x65 /* 101 */, "Why don\'t ya understand?"
+  0EFE  5C                message_end
+  0EFF  284B01            jmp                             label014B /* 0F02 */
+
+label014B:
+  // Referenced by instruction at 0EFF
+  0F02  1164              clear                           r100
+  0F04  4A64              arg_pushb                       0x64
+  0F06  4E4200650063...   arg_pushs                       "Because I\'m a fool.\nIt\'s not always true.\nBecause you\'re a fool."
+  0F89  51                list                            ... r100, "Because I\'m a fool.\nIt\'s not always true.\nBecause you\'re a fool."
+  0F8A  4064034C0154...   switch_jmp                      r100, [label014C /* 0F93 */, label0154 /* 101C */, label015E /* 1296 */]
+
+label014C:
+  // Referenced by instruction at 0F8A
+  0F93  4965000000        arg_pushl                       0x00000065
+  0F98  4E4F0068002C...   arg_pushs                       "Oh, that\'s too bad."
+  0FC1  50                message                         ... 0x65 /* 101 */, "Oh, that\'s too bad."
+  0FC2  284D01            jmp                             label014D /* 0FC5 */
+
+label014D:
+  // Referenced by instructions at 0ADC, 0FC2
+  0FC5  4965000000        arg_pushl                       0x00000065
+  0FCA  4E59006F0075...   arg_pushs                       "You\'d better go to\nschool every day."
+  1015  50                message                         ... 0x65 /* 101 */, "You\'d better go to\nschool every day."
+  1016  5C                message_end
+  1017  1105              clear                           r5
+  1019  1003              set                             r3
+  101B  01                ret
+
+label0154:
+  // Referenced by instruction at 0F8A
+  101C  4965000000        arg_pushl                       0x00000065
+  1021  4E59006F0075...   arg_pushs                       "You\'re saying that the\nexpensive weapons aren\'t\nalways strong, right?"
+  10AE  50                message                         ... 0x65 /* 101 */, "You\'re saying that the\nexpensive weapons aren\'t\nalways strong, right?"
+  10AF  4E4200750074...   arg_pushs                       "But listen.  Even if its\nattack power isn\'t very\nhigh, it may be good."
+  113E  5B                add_msg                         ... "But listen.  Even if its\nattack power isn\'t very\nhigh, it may be good."
+  113F  4E46006F0072...   arg_pushs                       "For example, it may have\na good hitting ratio."
+  119E  5B                add_msg                         ... "For example, it may have\na good hitting ratio."
+  119F  4E5400680065...   arg_pushs                       "The most important thing\nto get is a good point\nfor the price you pay."
+  122E  5B                add_msg                         ... "The most important thing\nto get is a good point\nfor the price you pay."
+  122F  4E59006F0075...   arg_pushs                       "You can\'t convince me.\nThat\'s it?"
+  1274  5B                add_msg                         ... "You can\'t convince me.\nThat\'s it?"
+  1275  5C                message_end
+  1276  1103              clear                           r3
+  1278  1005              set                             r5
+  127A  01                ret
+
+label0155:
+  // Referenced by instruction at 0ACC
+  127B  4965000000        arg_pushl                       0x00000065
+  1280  4E4200790065...   arg_pushs                       "Bye now."
+  1293  50                message                         ... 0x65 /* 101 */, "Bye now."
+  1294  5C                message_end
+  1295  01                ret
+
+label015E:
+  // Referenced by instruction at 0F8A
+  1296  4965000000        arg_pushl                       0x00000065
+  129B  4E5700680061...   arg_pushs                       "What?"
+  12A8  50                message                         ... 0x65 /* 101 */, "What?"
+  12A9  4E41006D0020...   arg_pushs                       "Am I wasting money by\nbuying all the time?"
+  1300  5B                add_msg                         ... "Am I wasting money by\nbuying all the time?"
+  1301  4E41006D0020...   arg_pushs                       "Am I changing weapons\ntoo quickly, ignoring\ncost vs. performance?"
+  1386  5B                add_msg                         ... "Am I changing weapons\ntoo quickly, ignoring\ncost vs. performance?"
+  1387  4E49002E002E...   arg_pushs                       "I... I can\'t rebut it.\nYou\'re right...\nBut... I..."
+  13EE  5B                add_msg                         ... "I... I can\'t rebut it.\nYou\'re right...\nBut... I..."
+  13EF  4E4900200063...   arg_pushs                       "I can\'t stop buying\nweapons.  Forgive me."
+  1444  5B                add_msg                         ... "I can\'t stop buying\nweapons.  Forgive me."
+  1445  5C                message_end
+  1446  1007              set                             r7
+  1448  01                ret
+
+label015F:
+  // Referenced by instruction at 0ABC
+  1449  4965000000        arg_pushl                       0x00000065
+  144E  4E50006C0065...   arg_pushs                       "Please, forgive me..."
+  147B  50                message                         ... 0x65 /* 101 */, "Please, forgive me..."
+  147C  5C                message_end
+  147D  01                ret
+
+label0160:
+  // Referenced by instruction at 0AB4
+  147E  4965000000        arg_pushl                       0x00000065
+  1483  4E5700650061...   arg_pushs                       "Weapon-fetish?!"
+  14A4  50                message                         ... 0x65 /* 101 */, "Weapon-fetish?!"
+  14A5  4914000000        arg_pushl                       0x00000014
+  14AA  54                sound_effect                    ... 0x14 /* 20 */
+  14AB  4E59002E002E...   arg_pushs                       "Y...yes, I am!\nLook at this luster!\nBeautiful... I love it."
+  1524  5B                add_msg                         ... "Y...yes, I am!\nLook at this luster!\nBeautiful... I love it."
+  1525  4E4E00650077...   arg_pushs                       "New weapons are so\nbeautiful and shiny.\nI love buying them."
+  159E  5B                add_msg                         ... "New weapons are so\nbeautiful and shiny.\nI love buying them."
+  159F  4E5700680061...   arg_pushs                       "What??\nNO MORE SHOPPING?"
+  15D2  5B                add_msg                         ... "What??\nNO MORE SHOPPING?"
+  15D3  4E4900740027...   arg_pushs                       "It\'s too cruel..."
+  15F8  5B                add_msg                         ... "It\'s too cruel..."
+  15F9  5C                message_end
+  15FA  1009              set                             r9
+  15FC  01                ret
+
+label0161:
+  // Referenced by instruction at 0AAC
+  15FD  4965000000        arg_pushl                       0x00000065
+  1602  4E4900740020...   arg_pushs                       "It was my only..."
+  1627  50                message                         ... 0x65 /* 101 */, "It was my only..."
+  1628  5C                message_end
+  1629  01                ret
+
+label0168:
+  // Referenced by map enemy ES-00-00A [EnemySetEntry type=0008 "TObjNpcMaleBase/TObjNpcMaleBase" num_children=0000 floor=0000 room=0014 wave_number=0000 wave_number2=0000 a1=0000 x=83.0009 y=0 z=-10 x_angle=00000000 y_angle=00005000 z_angle=00000000 params=[24 0 0 102 360 0001 0000]]
+  162A  2D6601000000...   jmpi_eq                         r102, 0x00000001, label016D /* 1AEB */
+  1632  2D6701000000...   jmpi_eq                         r103, 0x00000001, label016C /* 1A00 */
+  163A  2D6501000000...   jmpi_eq                         r101, 0x00000001, label0169 /* 16BB */
+  1642  4966000000        arg_pushl                       0x00000066
+  1647  4E4F0068002E...   arg_pushs                       "Oh...(sigh)...\nThat weapon was great...\nreally great..."
+  16B8  50                message                         ... 0x66 /* 102 */, "Oh...(sigh)...\nThat weapon was great...\nreally great..."
+  16B9  5C                message_end
+  16BA  01                ret
+
+label0169:
+  // Referenced by instruction at 163A
+  16BB  4966000000        arg_pushl                       0x00000066
+  16C0  4E2E002E002E...   arg_pushs                       "...(sigh)...\nIt was awesome...\nreally awesome..."
+  1723  50                message                         ... 0x66 /* 102 */, "...(sigh)...\nIt was awesome...\nreally awesome..."
+  1724  4E4900200073...   arg_pushs                       "I saw a Ranger holding\nan unknown weapon that\nspread flames..."
+  17A3  5B                add_msg                         ... "I saw a Ranger holding\nan unknown weapon that\nspread flames..."
+  17A4  4E4900740020...   arg_pushs                       "It was like a beautiful\nflame sprayer."
+  17F3  5B                add_msg                         ... "It was like a beautiful\nflame sprayer."
+  17F4  4E4900270076...   arg_pushs                       "I\'ve never seen such an\ninnovative weapon\nbefore... I want it..."
+  1877  5B                add_msg                         ... "I\'ve never seen such an\ninnovative weapon\nbefore... I want it..."
+  1878  4E4F0068002C...   arg_pushs                       "Oh, that emblem... Are\nyou a \"WEAPONS,\" too?"
+  18D3  5B                add_msg                         ... "Oh, that emblem... Are\nyou a \"WEAPONS,\" too?"
+  18D4  4E4900200073...   arg_pushs                       "I see.  You want to join\nus. I think that\'s fine."
+  1939  5B                add_msg                         ... "I see.  You want to join\nus. I think that\'s fine."
+  193A  5C                message_end
+  193B  286A01            jmp                             label016A /* 193E */
+
+label016A:
+  // Referenced by instruction at 193B
+  193E  4E47006F0074...   arg_pushs                       "Got an approval!"
+  1961  5A                window_msg                      ... "Got an approval!"
+  1962  4901000000        arg_pushl                       0x00000001
+  1967  55                bgm                             ... 0x1 /* 1 */
+  1968  5E                window_msg_end
+  1969  286B01            jmp                             label016B /* 196C */
+
+label016B:
+  // Referenced by instruction at 1969
+  196C  4966000000        arg_pushl                       0x00000066
+  1971  4E520065006D...   arg_pushs                       "Remember!  Don\'t try to\nlearn too much about us.\nWe\'re Freemasons."
+  19F8  50                message                         ... 0x66 /* 102 */, "Remember!  Don\'t try to\nlearn too much about us.\nWe\'re Freemasons."
+  19F9  5C                message_end
+  19FA  13F200            gset                            0x00F2
+  19FD  1067              set                             r103
+  19FF  01                ret
+
+label016C:
+  // Referenced by instructions at 1632, 1B08
+  1A00  4966000000        arg_pushl                       0x00000066
+  1A05  4E490020006B...   arg_pushs                       "I know it\'s an old-\nfashioned weapon, but\nI love bazookas, too."
+  1A86  50                message                         ... 0x66 /* 102 */, "I know it\'s an old-\nfashioned weapon, but\nI love bazookas, too."
+  1A87  4E4F0068002C...   arg_pushs                       "Oh, sorry.  I can\'t stop\ntalking about weapons!"
+  1AE8  5B                add_msg                         ... "Oh, sorry.  I can\'t stop\ntalking about weapons!"
+  1AE9  5C                message_end
+  1AEA  01                ret
+
+label016D:
+  // Referenced by instruction at 162A
+  1AEB  093D00000000      leti                            r61, 0x00000000
+  1AF1  093E16000000      leti                            r62, 0x00000016
+  1AF7  093F00000000      leti                            r63, 0x00000000
+  1AFD  B73D40            find_inventory_item             r61-r63, r64
+  1B00  3340FFFFFFFF...   jmpi_gt                         r64, 0xFFFFFFFF, label016E /* 1B0C */
+  1B08  286C01            jmp                             label016C /* 1A00 */
+  1B0B  01                ret
+
+label016E:
+  // Referenced by instruction at 1B00
+  1B0C  4966000000        arg_pushl                       0x00000066
+  1B11  4E4800650079...   arg_pushs                       "Hey, did you get that\nfrom our boss?!"
+  1B5E  50                message                         ... 0x66 /* 102 */, "Hey, did you get that\nfrom our boss?!"
+  1B5F  4E4900740020...   arg_pushs                       "It may look like an\nordinary frying pan, but\nit\'s really powerful!"
+  1BE6  5B                add_msg                         ... "It may look like an\nordinary frying pan, but\nit\'s really powerful!"
+  1BE7  4E4900740020...   arg_pushs                       "It always makes him fly\nover 20 feet away!"
+  1C3E  5B                add_msg                         ... "It always makes him fly\nover 20 feet away!"
+  1C3F  5C                message_end
+  1C40  01                ret
+
+label00CF:
+  // Referenced by instruction at 1C62
+  1C41  094800000000      leti                            r72, 0x00000000
+
+label00D0:
+  // Referenced by instruction at 1C4E
+  1C47  02                sync
+  1C48  194801000000      addi                            r72, 0x00000001
+  1C4E  3F481E000000...   jmpi_le                         r72, 0x0000001E, label00D0 /* 1C47 */
+  1C56  01                ret
+
+label00DE:
+  // Referenced by instruction at 00FA
+  1C57  70                p_action_disable
+  1C58  64                npc_talk_off
+  1C59  4900000000        arg_pushl                       0x00000000
+  1C5E  72                disable_movement1               ... 0x0 /* 0 */
+  1C5F  98                hud_hide
+  1C60  9A                cine_enable
+  1C61  82                cam_zmin
+  1C62  29CF00            call                            label00CF /* 1C41 */
+  1C65  01                ret
+
+label00DF:
+  // Referenced by instruction at 02DB
+  1C66  83                cam_zmout
+  1C67  9B                cine_disable
+  1C68  99                hud_show
+  1C69  4900000000        arg_pushl                       0x00000000
+  1C6E  73                enable_movement1                ... 0x0 /* 0 */
+  1C6F  65                npc_talk_on
+  1C70  71                p_action_enable
+  1C71  01                ret
+  1C72  00                nop
+  1C73  00                nop

@@ -1,0 +1,44 @@
+# Elly\'s Gratitude — shops-ep2/q900-bb-e
+
+Episode2; header quest ID 900; language E. Static scan: **82 objects, 30 enemy/NPC records, 0 events, 15 script labels.** Script roundtrip: differs.
+
+This is a structural dossier, not a claim that every branch has been manually interpreted or playtested. Enemy/NPC records are not gameplay kill totals. Event IDs, wave numbers, object groups and script labels are distinct namespaces.
+
+## Read and inspect
+
+- [Script with byte offsets and map references](<script-offsets.txt>)
+- [Reassembly syntax with explicit labels](<script.txt>)
+- [Complete placements and event actions](<map.txt>)
+- [Every parsed wave and its next actions](<waves.csv>)
+- [Object fields](<objects.csv>)
+- [Enemy/NPC fields](<enemies.csv>)
+- [Explicit script references, including handlers; not a complete dynamic call graph](<script-references.csv>)
+- [State, timing and reward operation locations](<state-and-rewards.csv>)
+- [Function/label index](<labels.csv>)
+
+## Area designations
+
+Operands: floor, area, type, layout variation, entities variation.
+
+```text
+0x00, 0x12, 0x00, 0x00, 0x00
+```
+
+## Floors
+
+| Floor | Objects | Enemy/NPC records | Events |
+|---|---:|---:|---:|
+| 0 | 82 | 30 | 0 |
+
+## Wave progression
+
+Numbers below are decimal; delays are frames. Alternatives and parallel triggers must not be mistaken for one compulsory sequence.
+
+| Floor | Event | Room / wave | Records | Delay | Completion actions |
+|---|---:|---|---:|---:|---|
+
+## Review notes
+
+- Reassembled bytes differ beyond recognized alignment; inspect before rebuilding
+
+Additional [server metadata](<server-metadata.json>) is supplied. It is separate from quest bytecode and can affect drops.

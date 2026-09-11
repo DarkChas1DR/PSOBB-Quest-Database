@@ -1,0 +1,50 @@
+--- backup-script
++++ current-script
+@@ -2416,7 +2416,9 @@
+ 
+ label00F9@0x00F9:
+   warp_on
+-  call                            label01F2
++  call                            label000D
++
++label0034@0x0034:
+   arg_pushr                       r190
+   npc_stop                        ... r190
+   arg_pushr                       r191
+@@ -11708,3 +11710,36 @@
+ 
+ label023A@0x023A:
+   .data 4BCC7C416032B33D636ABEBE294B5F417F0409416032B33DD7E144C1727C15413DAAD3BE6032B33D4C4E6EC146B83541027236C16032B33D3A6B40C1BCE56B41EBAE9CC16032B33DF013743EEC8F0D42
++
++label000D@0x000D:
++  arg_pushs                       "Skip startup dialogue?"
++  window_msg                      ... "Skip startup dialogue?"
++  window_msg_end
++  clear                           r192
++  arg_pushb                       0xC0
++  arg_pushs                       "YES\nNO"
++  list                            ... r192, "YES\nNO"
++  switch_jmp                      r192, [label000F, label0028]
++
++label000F@0x000F:
++  set                             r0
++  arg_pushl                       0x00000001
++  bgm                             ... 0x1 /* 1 */
++  cam_zmout
++  cine_disable
++  hud_show
++  p_action_enable
++  arg_pushl                       0x00000000
++  enable_movement1                ... 0x0 /* 0 */
++  arg_pushl                       0x00000001
++  enable_movement1                ... 0x1 /* 1 */
++  arg_pushl                       0x00000002
++  enable_movement1                ... 0x2 /* 2 */
++  arg_pushl                       0x00000003
++  enable_movement1                ... 0x3 /* 3 */
++  ret
++
++label0028@0x0028:
++  call                            label01F2
++  jmp                             label0034
++  nop
