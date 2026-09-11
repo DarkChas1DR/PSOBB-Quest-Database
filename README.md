@@ -4,6 +4,8 @@ A reference library for understanding Phantasy Star Online Blue Burst quests and
 
 ## Start here
 
+**Browse quests by episode: [Episode 1](analysis/server-catalogue/episode-1.md) · [Episode 2](analysis/server-catalogue/episode-2.md) · [Episode 4](analysis/server-catalogue/episode-4.md)**
+
 - [Quest library and coverage](analysis/quest-knowledge/README.md)
 - [Quest-building instructions](analysis/quest-knowledge/BUILDER-INSTRUCTIONS.md)
 - [Towards the Future walkthrough](analysis/QUEST-BUILDING-GUIDE.md)

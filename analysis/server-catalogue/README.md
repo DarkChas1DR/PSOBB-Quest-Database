@@ -1,5 +1,7 @@
 # Server quest catalogue — Episodes 1, 2 and 4
 
+**Browse by episode: [Episode 1](episode-1.md) · [Episode 2](episode-2.md) · [Episode 4](episode-4.md)**
+
 See the [validated knowledge-library index](<../quest-knowledge/README.md>) for the enhanced random-event parsing, header checks and source snapshot.
 Static analysis of the quest files in the supplied PSOBB folder. Original inputs are unchanged. Each dossier includes every parsed wave, placements, script labels, reference links and state/reward operation locations. Runtime behavior and full branch semantics require further review.
 
