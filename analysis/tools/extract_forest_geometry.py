@@ -42,7 +42,23 @@ def main():
                 svg.append(f'<polygon points="{xy}" fill="none" stroke="{color}" stroke-width="0.65"/>')
         for r in rooms:
             if r['id']>=1000:continue
-            x,y,z=r['position'];svg+= [f'<circle cx="{x}" cy="{z}" r="60" fill="#87bce6" fill-opacity="0.65" stroke="black" stroke-width="0.7"/>',f'<text x="{x}" y="{z}" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="40">{r["id"]}</text>']
+            x,y,z=r['position'];svg+= [f'<circle cx="{x}" cy="{z}" r="65" fill="#b6d9f4" fill-opacity="0.94" stroke="#17324d" stroke-width="2.5"/>',f'<text x="{x}" y="{z}" text-anchor="middle" dominant-baseline="central" font-family="Arial, sans-serif" font-size="54" font-weight="bold" fill="#102538">{r["id"]}</text>']
         svg.append('</svg>');(OUT/(stem+'.svg')).write_text('\n'.join(svg))
+        # Keep raster previews consistent with the downloadable vector image.
+        from PIL import Image,ImageDraw,ImageFont
+        scale=900/max(xmax-xmin,zmax-zmin)
+        im=Image.new('RGB',(950,950),'white');draw=ImageDraw.Draw(im)
+        def pixel(v):return ((v[0]-xmin)*scale+25,(v[2]-zmin)*scale+25)
+        for block in blocks:
+            for tri in block['triangles']:
+                xy=[pixel(block['vertices'][i]) for i in tri['indices']];f=tri['flags']
+                draw.line(xy+[xy[0]],fill='blue' if f&64 else '#7fff7f' if f&16 else '#999999' if f&1 else 'black')
+        font=ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf',round(54*scale))
+        for r in rooms:
+            if r['id']>=1000:continue
+            x,z=pixel(r['position']);radius=65*scale
+            draw.ellipse((x-radius,z-radius,x+radius,z+radius),fill='#b6d9f4',outline='#17324d',width=2)
+            draw.text((x,z),str(r['id']),font=font,fill='#102538',anchor='mm')
+        im.save(OUT/(stem+'.png'))
         print(stem,'rooms',[r['id'] for r in rooms],'vertices',sum(len(b['vertices']) for b in blocks),'triangles',sum(len(b['triangles']) for b in blocks))
 if __name__=='__main__':main()
