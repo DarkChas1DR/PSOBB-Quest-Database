@@ -1,5 +1,17 @@
 # Elly\'s Gratitude — shops-ep2/q900-bb-e
 
+<!-- quest-downloads:start -->
+## Download quest files
+
+**[Download quest ZIP](https://github.com/DarkChas1DR/PSOBB-Quest-Database/raw/refs/heads/main/downloads/shops-ep2/q900-bb-e.zip?download=1)**
+
+[Original BIN](https://github.com/DarkChas1DR/PSOBB-Quest-Database/raw/refs/heads/main/analysis/quest-knowledge/source-quests/shops-ep2/q900-bb-e.bin?download=1) · [Original DAT](https://github.com/DarkChas1DR/PSOBB-Quest-Database/raw/refs/heads/main/analysis/quest-knowledge/source-quests/shops-ep2/q900-bb.dat?download=1)
+
+BIN and DAT are the preserved server files. Download both, or use the ZIP to keep the pair together.
+
+These downloads preserve the analysed quest content, including any known issues. They have not been newly playtested. Language follows this page's variant.
+<!-- quest-downloads:end -->
+
 Episode2; header quest ID 900; language E. Static scan: **82 objects, 30 enemy/NPC records, 0 events, 15 script labels.** Script roundtrip: differs.
 
 This is a structural dossier, not a claim that every branch has been manually interpreted or playtested. Enemy/NPC records are not gameplay kill totals. Event IDs, wave numbers, object groups and script labels are distinct namespaces.

@@ -1,5 +1,17 @@
 # Echoes in the Forest — events-ep1/q1001-bb-e
 
+<!-- quest-downloads:start -->
+## Download quest files
+
+**[Download quest ZIP](https://github.com/DarkChas1DR/PSOBB-Quest-Database/raw/refs/heads/main/downloads/events-ep1/q1001-bb-e.zip?download=1)**
+
+[Original BIN](https://github.com/DarkChas1DR/PSOBB-Quest-Database/raw/refs/heads/main/analysis/quest-knowledge/source-quests/events-ep1/q1001-bb-e.bin?download=1) · [Original DAT](https://github.com/DarkChas1DR/PSOBB-Quest-Database/raw/refs/heads/main/analysis/quest-knowledge/source-quests/events-ep1/q1001-bb.dat?download=1)
+
+BIN and DAT are the preserved server files. Download both, or use the ZIP to keep the pair together.
+
+These downloads preserve the analysed quest content, including any known issues. They have not been newly playtested. Language follows this page's variant.
+<!-- quest-downloads:end -->
+
 Episode1; header quest ID 1001; language E. Static scan: **268 objects, 784 enemy/NPC records, 68 events, 38 script labels.** Script roundtrip: byte-identical.
 
 This is a structural dossier, not a claim that every branch has been manually interpreted or playtested. Enemy/NPC records are not gameplay kill totals. Event IDs, wave numbers, object groups and script labels are distinct namespaces.

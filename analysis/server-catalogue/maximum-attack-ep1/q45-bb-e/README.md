@@ -1,5 +1,17 @@
 # Maximum Attack 4 -R- — maximum-attack-ep1/q45-bb-e
 
+<!-- quest-downloads:start -->
+## Download quest files
+
+**[Download quest ZIP](https://github.com/DarkChas1DR/PSOBB-Quest-Database/raw/refs/heads/main/downloads/maximum-attack-ep1/q45-bb-e.zip?download=1)**
+
+[Original QST](https://github.com/DarkChas1DR/PSOBB-Quest-Database/raw/refs/heads/main/analysis/quest-knowledge/source-quests/maximum-attack-ep1/q45-bb-e.qst?download=1) · [Extracted BIN](https://github.com/DarkChas1DR/PSOBB-Quest-Database/raw/refs/heads/main/analysis/server-catalogue/maximum-attack-ep1/q45-bb-e/q45-bb-e.qst-quest0.bin?download=1) · [Extracted DAT](https://github.com/DarkChas1DR/PSOBB-Quest-Database/raw/refs/heads/main/analysis/server-catalogue/maximum-attack-ep1/q45-bb-e/q45-bb-e.qst-quest0.dat?download=1)
+
+QST is the preserved original package. BIN and DAT are its decoded payload files, not reassembled scripts. The ZIP contains all three formats.
+
+These downloads preserve the analysed quest content, including any known issues. They have not been newly playtested. Language follows this page's variant.
+<!-- quest-downloads:end -->
+
 Episode1; header quest ID 45; language E. Static scan: **468 objects, 1400 enemy/NPC records, 261 events, 274 script labels.** Script roundtrip: byte-identical.
 
 This is a structural dossier, not a claim that every branch has been manually interpreted or playtested. Enemy/NPC records are not gameplay kill totals. Event IDs, wave numbers, object groups and script labels are distinct namespaces.

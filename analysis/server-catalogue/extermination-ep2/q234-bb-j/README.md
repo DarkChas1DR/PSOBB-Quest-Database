@@ -1,5 +1,17 @@
 # 幻界の果てに ２ — extermination-ep2/q234-bb-j
 
+<!-- quest-downloads:start -->
+## Download quest files
+
+**[Download quest ZIP](https://github.com/DarkChas1DR/PSOBB-Quest-Database/raw/refs/heads/main/downloads/extermination-ep2/q234-bb-j.zip?download=1)**
+
+[Original BIN](https://github.com/DarkChas1DR/PSOBB-Quest-Database/raw/refs/heads/main/analysis/quest-knowledge/source-quests/extermination-ep2/q234-bb-j.bin?download=1) · [Original DAT](https://github.com/DarkChas1DR/PSOBB-Quest-Database/raw/refs/heads/main/analysis/quest-knowledge/source-quests/extermination-ep2/q234-bb.dat?download=1)
+
+BIN and DAT are the preserved server files. Download both, or use the ZIP to keep the pair together.
+
+These downloads preserve the analysed quest content, including any known issues. They have not been newly playtested. Language follows this page's variant.
+<!-- quest-downloads:end -->
+
 Episode2; header quest ID 234; language J. Static scan: **401 objects, 378 enemy/NPC records, 90 events, 126 script labels.** Script roundtrip: alignment-only.
 
 This is a structural dossier, not a claim that every branch has been manually interpreted or playtested. Enemy/NPC records are not gameplay kill totals. Event IDs, wave numbers, object groups and script labels are distinct namespaces.

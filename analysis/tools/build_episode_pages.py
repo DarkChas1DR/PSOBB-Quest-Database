@@ -25,7 +25,7 @@ def main():
                 'Click a quest name for its dossier, then choose scripts, map placements, waves, enemies/NPCs, objects, or state/reward operations. Data is statically decoded; placement counts are not kill totals and full gameplay behavior is not yet verified.', '',
                 'For enhanced random-event data and malformed-record cautions, see the [knowledge library](../quest-knowledge/README.md). The original dossier wave tables predate that enhanced parsing; use the searchable database for complete random-event records.', '']
         for category in sorted({k[0] for k in groups}):
-            text += [f'## {category}', '', '| Quest | ID | Languages | Script | Map data |', '|---|---|---|---|---|']
+            text += [f'## {category}', '', '| Quest | ID | Languages | Script | Map data | Download |', '|---|---|---|---|---|---|']
             for key, variants in sorted(groups.items(), key=lambda item: (item[0][0], item[1][0]['name'].casefold(), item[0][2])):
                 if key[0] != category:
                     continue
@@ -33,13 +33,13 @@ def main():
                 first = variants[0]
                 q = first['key']
                 langs = ', '.join(f"[{r['language']}]({r['key']}/README.md)" for r in variants)
-                text.append(f"| [{escape(first['name'])}]({q}/README.md) | {key[1]}{key[2]} | {langs} | [View]({q}/script-offsets.txt) | [View]({q}/map.txt) |")
+                text.append(f"| [{escape(first['name'])}]({q}/README.md) | {key[1]}{key[2]} | {langs} | [View]({q}/script-offsets.txt) | [View]({q}/map.txt) | [Files]({q}/README.md#download-quest-files) |")
             text.append('')
         page = CAT / f'episode-{episode}.md'
         page.write_text('\n'.join(text) + '\n', encoding='utf-8')
     for page in CAT.glob('episode-*.md'):
         for target in re.findall(r'\]\(([^)]+)\)', page.read_text(encoding='utf-8')):
-            assert (page.parent / target).exists(), target
+            assert (page.parent / target.split('#')[0]).exists(), target
     assert sum(v[1] for v in totals.values()) == len(records), 'Unlisted episode'
     print(json.dumps(totals))
 

@@ -1,5 +1,17 @@
 # 荒野のくちばし亭 Ver2 — events-ep4/q315-bb-j
 
+<!-- quest-downloads:start -->
+## Download quest files
+
+**[Download quest ZIP](https://github.com/DarkChas1DR/PSOBB-Quest-Database/raw/refs/heads/main/downloads/events-ep4/q315-bb-j.zip?download=1)**
+
+[Original BIN](https://github.com/DarkChas1DR/PSOBB-Quest-Database/raw/refs/heads/main/analysis/quest-knowledge/source-quests/events-ep4/q315-bb-j.bin?download=1) · [Original DAT](https://github.com/DarkChas1DR/PSOBB-Quest-Database/raw/refs/heads/main/analysis/quest-knowledge/source-quests/events-ep4/q315-bb.dat?download=1)
+
+BIN and DAT are the preserved server files. Download both, or use the ZIP to keep the pair together.
+
+These downloads preserve the analysed quest content, including any known issues. They have not been newly playtested. Language follows this page's variant.
+<!-- quest-downloads:end -->
+
 Episode4; header quest ID 315; language J. Static scan: **125 objects, 63 enemy/NPC records, 0 events, 331 script labels.** Script roundtrip: byte-identical.
 
 This is a structural dossier, not a claim that every branch has been manually interpreted or playtested. Enemy/NPC records are not gameplay kill totals. Event IDs, wave numbers, object groups and script labels are distinct namespaces.

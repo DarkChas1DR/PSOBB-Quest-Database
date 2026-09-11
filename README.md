@@ -30,6 +30,8 @@ The collection covers Episodes 1, 2 and 4. Counts include repeated content and l
 
 ## Use the searchable database
 
+To download an individual quest, open its page from an episode catalogue and choose **Download quest ZIP**, or the individual **BIN**, **DAT**, or **QST** links. Each of the 527 language variants has a download section. BIN/DAT originals are supplied together; where the original is QST, the ZIP also includes its extracted BIN/DAT payloads. A QST is offered when it exists in the source collection. See the [download manifest](downloads/index.json) for file hashes.
+
 Install Python 3.10 or newer with SQLite FTS5 support. Clone or download this repository, then run these commands from its root:
 
 ```sh
