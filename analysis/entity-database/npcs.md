@@ -1,5 +1,7 @@
 # NPC database
 
+[Appearance gallery and special character IDs](appearance-gallery/README.md)
+
 [Entity database guide](README.md) · [Area compatibility](areas.md) · [Classes and appearance](classes.md)
 
 IDs below are DAT enemy/NPC placement IDs. Names retain Qedit labels where available. Documented areas come from the stored BB constructor definition; observed placements alone do not prove compatibility.

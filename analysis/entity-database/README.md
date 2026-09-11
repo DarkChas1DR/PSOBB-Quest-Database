@@ -1,5 +1,7 @@
 # Monster and NPC databases
 
+[Appearance gallery and special character IDs](appearance-gallery/README.md)
+
 Companion registries to the quest library, built from the preserved newserv and Qedit definitions and all 527 decoded quest variants.
 
 ## Browse
