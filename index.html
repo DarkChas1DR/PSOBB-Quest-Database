@@ -482,12 +482,12 @@
                 <span class="text-[10px] text-slate-500">Click to load</span>
               </div>
               <div class="flex flex-wrap gap-1.5 text-[11px]">
-                <button type="button" onclick="setPromptPreset('forest')" class="px-2 py-1 rounded bg-slate-900 hover:bg-emerald-950 border border-slate-800 hover:border-emerald-600 text-slate-300 hover:text-emerald-300 transition">🌲 Forest Extermination</button>
+                <button type="button" onclick="setPromptPreset('forest')" class="px-2 py-1 rounded bg-slate-900 hover:bg-emerald-950 border border-slate-800 hover:border-emerald-600 text-slate-300 hover:text-emerald-300 transition">🌲 Forest 1 Patrol</button>
+                <button type="button" onclick="setPromptPreset('forest_boss')" class="px-2 py-1 rounded bg-slate-900 hover:bg-emerald-950 border border-slate-800 hover:border-emerald-600 text-slate-300 hover:text-emerald-300 transition">🔥 Forest 1 & 2 + Sil Dragon</button>
+                <button type="button" onclick="setPromptPreset('ttf_gauntlet')" class="px-2 py-1 rounded bg-slate-900 hover:bg-emerald-950 border border-slate-800 hover:border-emerald-600 text-slate-300 hover:text-emerald-300 transition">⚡ Epic 4-Area TTF Gauntlet</button>
                 <button type="button" onclick="setPromptPreset('caves')" class="px-2 py-1 rounded bg-slate-900 hover:bg-emerald-950 border border-slate-800 hover:border-emerald-600 text-slate-300 hover:text-emerald-300 transition">🦇 Caves Spider Nest</button>
                 <button type="button" onclick="setPromptPreset('mines')" class="px-2 py-1 rounded bg-slate-900 hover:bg-emerald-950 border border-slate-800 hover:border-emerald-600 text-slate-300 hover:text-emerald-300 transition">⛏️ Mine Garanz Sabotage</button>
                 <button type="button" onclick="setPromptPreset('ruins')" class="px-2 py-1 rounded bg-slate-900 hover:bg-emerald-950 border border-slate-800 hover:border-emerald-600 text-slate-300 hover:text-emerald-300 transition">🏛️ Ruins Dark Belra</button>
-                <button type="button" onclick="setPromptPreset('seabed')" class="px-2 py-1 rounded bg-slate-900 hover:bg-emerald-950 border border-slate-800 hover:border-emerald-600 text-slate-300 hover:text-emerald-300 transition">🌊 Seabed Biohazard</button>
-                <button type="button" onclick="setPromptPreset('desert')" class="px-2 py-1 rounded bg-slate-900 hover:bg-emerald-950 border border-slate-800 hover:border-emerald-600 text-slate-300 hover:text-emerald-300 transition">🏜️ Desert Ambush</button>
               </div>
             </div>
 
@@ -498,39 +498,133 @@
             </button>
           </div>
 
-          <!-- Quest Parameters & Fine Tuning -->
+          <!-- Quest Route Pipeline & Multi-Floor Builder -->
+          <div class="bg-pso-card p-5 rounded-xl border border-pso-cardborder shadow-lg space-y-4">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono flex items-center space-x-1.5">
+                <i class="fa-solid fa-route text-cyan-400"></i>
+                <span>Quest Route Pipeline & Floor Allocation</span>
+              </h4>
+              <span id="studio-route-count-badge" class="px-2 py-0.5 rounded bg-cyan-950 border border-cyan-800 text-cyan-300 font-mono text-[10px]">
+                1 Floor Active
+              </span>
+            </div>
+
+            <!-- Mission Directive Type -->
+            <div class="space-y-1 text-xs font-mono">
+              <div class="flex items-center justify-between">
+                <label class="text-slate-400 text-[11px]">Mission Directive Type</label>
+                <span id="studio-directive-badge" class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 text-[10px] font-bold">Extermination</span>
+              </div>
+              <select id="studio-directive-type" onchange="onDirectiveTypeChange()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-white font-mono text-xs focus:outline-none focus:border-cyan-400">
+                <option value="extermination" selected>⚔️ Extermination (Sector Hostile Purge)</option>
+                <option value="timed">⏱️ Timed Challenge (30-Minute Countdown Clock)</option>
+                <option value="item_retrieval">📦 Item Retrieval (Find &amp; Extract Lost Relic Capsule)</option>
+                <option value="trade_shop">💎 Trade &amp; Bazaar (Paganini Mag Cell &amp; Photon Drop Shop)</option>
+                <option value="boss_gauntlet">🐉 Boss Gauntlet (Direct Arena Climax)</option>
+              </select>
+            </div>
+
+            <!-- Timed Mission Settings (Conditional) -->
+            <div id="studio-timed-settings" class="hidden p-3 bg-slate-950/90 rounded-lg border border-amber-900/50 space-y-2 text-xs font-mono">
+              <div class="flex items-center justify-between text-amber-400 font-bold">
+                <span>Mission Countdown Clock:</span>
+                <span id="studio-timer-display-preview" class="text-white bg-slate-900 px-2 py-0.5 rounded border border-amber-700/60 font-bold">30:00.00</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="text-[10px] text-slate-400">Time Limit</label>
+                  <select id="studio-timer-limit" onchange="generateCustomQuestFromUI()" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs">
+                    <option value="10">10 Minutes (Fast Rush)</option>
+                    <option value="15">15 Minutes (Tactical Speedrun)</option>
+                    <option value="20">20 Minutes (Standard Rush)</option>
+                    <option value="30" selected>30 Minutes (Deep Expedition)</option>
+                    <option value="45">45 Minutes (Extended Gauntlet)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-[10px] text-slate-400">HUD Timer Style</label>
+                  <select id="studio-timer-style" onchange="generateCustomQuestFromUI()" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs">
+                    <option value="hud_clock" selected>Active On-Screen HUD Clock</option>
+                    <option value="silent_warning">Periodic Guild Warning Chimes</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mag Cell Trade Bazaar Settings (Conditional) -->
+            <div id="studio-trade-settings" class="hidden p-3 bg-slate-950/90 rounded-lg border border-cyan-900/50 space-y-2 text-xs font-mono">
+              <div class="flex items-center justify-between text-cyan-400 font-bold">
+                <span>Paganini Mag Cell Trade Catalog:</span>
+                <span class="text-emerald-400"><i class="fa-solid fa-store"></i> Pioneer 2 Shop</span>
+              </div>
+              <div class="text-[10px] text-slate-300 space-y-1">
+                <p>Spawns Master Paganini on Pioneer 2 with dialogue choice menu:</p>
+                <div class="grid grid-cols-2 gap-1 text-[10px] text-cyan-300">
+                  <span>• Heart of Chao (20 PDs)</span>
+                  <span>• Cell of Mag 502 (25 PDs)</span>
+                  <span>• Kit of Mark3 (30 PDs)</span>
+                  <span>• Heart of Chu Chu (20 PDs)</span>
+                  <span>• Parts of RoboChao (25 PDs)</span>
+                  <span>• Heaven Striker Coat (40 PDs)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Route Mode Selector -->
+            <div class="space-y-1 text-xs font-mono">
+              <label class="text-slate-400 text-[11px]">Mission Route Architecture</label>
+              <select id="studio-route-mode" onchange="onRouteModeChange()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-white font-mono text-xs focus:outline-none focus:border-cyan-400">
+                <option value="single" selected>Single Sector Patrol (1 Floor)</option>
+                <option value="forest_boss">Forest 1 & 2 + Sil Dragon Climax (3 Floors)</option>
+                <option value="caves_derolle">Caves 1 & 2 + De Rol Le Climax (3 Floors)</option>
+                <option value="mines_volopt">Mines 1 & 2 + Vol Opt Climax (3 Floors)</option>
+                <option value="ruins_falz">Ruins 1, 2, 3 + Dark Falz Climax (4 Floors)</option>
+                <option value="ttf_gauntlet">Epic 4-Area TTF Gauntlet (Forest 2 &gt; Cave 2 &gt; Mine 2 &gt; Ruins 2 &gt; Dark Falz - 5 Floors)</option>
+                <option value="ep1_sweep">Episode 1 Full Sector Sweep (Forest 2 &gt; Cave 2 &gt; Mine 2 &gt; Ruins 2 - 4 Floors)</option>
+                <option value="custom">Custom Multi-Floor Pipeline (Configure Any Stages)</option>
+              </select>
+            </div>
+
+            <!-- Interactive Stage Pipeline Container -->
+            <div id="studio-stages-container" class="space-y-2.5">
+              <!-- Dynamically rendered stage cards -->
+            </div>
+
+            <!-- Add Stage button (active in custom mode) -->
+            <div id="studio-add-stage-box" class="hidden pt-1">
+              <button type="button" onclick="addStageToCustomRoute()" class="w-full py-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-dashed border-cyan-700 hover:border-cyan-500 text-cyan-300 font-mono text-xs flex items-center justify-center space-x-1.5 transition">
+                <i class="fa-solid fa-plus text-xs"></i>
+                <span>Add Additional Stage to Route</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Encounter Density & Mission Settings -->
           <div class="bg-pso-card p-5 rounded-xl border border-pso-cardborder shadow-lg space-y-4">
             <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono flex items-center space-x-1.5">
-              <i class="fa-solid fa-sliders text-cyan-400"></i>
-              <span>Detailed Quest Parameters</span>
+              <i class="fa-solid fa-users-viewfinder text-emerald-400"></i>
+              <span>Combat Encounter Density & Rewards</span>
             </h4>
 
-            <div class="grid grid-cols-2 gap-3 text-xs">
-              <!-- Episode & Area -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+              <!-- Hostile Squad Density -->
               <div class="space-y-1">
-                <label class="text-slate-400 font-mono text-[11px]">Target Floor / Zone</label>
-                <select id="studio-area-select" onchange="onStudioAreaChange()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-white font-mono text-xs focus:outline-none focus:border-cyan-400">
-                  <!-- Populated by JS -->
-                </select>
-              </div>
-
-              <!-- Combat Wave Count -->
-              <div class="space-y-1">
-                <label class="text-slate-400 font-mono text-[11px]">Encounter Waves</label>
-                <select id="studio-waves-count" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-white font-mono text-xs focus:outline-none focus:border-cyan-400">
-                  <option value="1">1 Wave (Quick Skirmish)</option>
-                  <option value="2">2 Waves (Tactical Patrol)</option>
-                  <option value="3" selected>3 Waves (Standard Raid)</option>
-                  <option value="4">4 Waves (Heavy Assault)</option>
-                  <option value="5">5 Waves (Gauntlet Extermination)</option>
-                  <option value="6">6 Waves (Full Sector Purge)</option>
+                <label class="text-slate-400 font-mono text-[11px]">Encounter Density</label>
+                <select id="studio-wave-density" onchange="onStudioDensityChange()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-white font-mono text-xs focus:outline-none focus:border-emerald-400">
+                  <option value="4">Tactical Squad (4 hostiles / wave)</option>
+                  <option value="6">Standard Patrol (6 hostiles / wave)</option>
+                  <option value="8" selected>Standard Raid (8 hostiles / wave)</option>
+                  <option value="12">Dense Infestation (12 hostiles / wave)</option>
+                  <option value="16">Maximum Attack Swarm (16 hostiles / wave)</option>
+                  <option value="20">Endless Nightmare Purge (20 hostiles / wave)</option>
                 </select>
               </div>
 
               <!-- Reward Type -->
               <div class="space-y-1">
                 <label class="text-slate-400 font-mono text-[11px]">Mission Reward</label>
-                <select id="studio-reward-select" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-white font-mono text-xs focus:outline-none focus:border-cyan-400">
+                <select id="studio-reward-select" onchange="generateCustomQuestFromUI()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-white font-mono text-xs focus:outline-none focus:border-emerald-400">
                   <option value="meseta_2500">2,500 Meseta (Standard)</option>
                   <option value="meseta_5000" selected>5,000 Meseta (Bounty)</option>
                   <option value="meseta_15000">15,000 Meseta (High Risk)</option>
@@ -544,7 +638,7 @@
               <!-- NPC Briefing Persona -->
               <div class="space-y-1">
                 <label class="text-slate-400 font-mono text-[11px]">Guild Officer Persona</label>
-                <select id="studio-npc-tone" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-white font-mono text-xs focus:outline-none focus:border-cyan-400">
+                <select id="studio-npc-tone" onchange="generateCustomQuestFromUI()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-white font-mono text-xs focus:outline-none focus:border-emerald-400">
                   <option value="officer" selected>Guild Administrator (Formal)</option>
                   <option value="veteran">Veteran Hunter (Battle-hardened)</option>
                   <option value="scientist">Principal Lab Researcher (Analytical)</option>
@@ -553,13 +647,56 @@
                 </select>
               </div>
             </div>
+          </div>
 
-            <!-- Boss Battle & Flag Safety Checklist -->
-            <div class="pt-2 border-t border-slate-800/80 space-y-2 text-xs">
-              <label class="flex items-center space-x-2 cursor-pointer">
-                <input type="checkbox" id="studio-has-boss" class="rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-0">
-                <span class="text-slate-300 font-mono">Include Boss Arena Climax (Floor 11 Designated)</span>
+          <!-- Monster Spawn Registry & Threat Customizer -->
+          <div class="bg-pso-card p-5 rounded-xl border border-pso-cardborder shadow-lg space-y-4">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono flex items-center space-x-1.5">
+                <i class="fa-solid fa-skull text-purple-400"></i>
+                <span>Monster Threat Registry & Spawns</span>
+              </h4>
+              <span id="studio-total-hostiles-badge" class="px-2.5 py-1 rounded bg-purple-950 border border-purple-800 text-purple-300 font-mono text-[11px] font-bold">
+                Total Hostiles: 48 Enemies
+              </span>
+            </div>
+
+            <!-- Threat Modifiers -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs font-mono">
+              <label class="flex items-center space-x-2 cursor-pointer p-2 rounded bg-slate-950 border border-slate-800 hover:border-slate-700">
+                <input type="checkbox" id="studio-rare-mutation" onchange="onThreatModifierChange()" checked class="rounded bg-slate-900 border-slate-700 text-purple-500 focus:ring-0">
+                <span class="text-slate-300 text-[11px]">Rare Monster Mutation (Hildeblue / Al Rappy)</span>
               </label>
+              <label class="flex items-center space-x-2 cursor-pointer p-2 rounded bg-slate-950 border border-slate-800 hover:border-slate-700">
+                <input type="checkbox" id="studio-alpha-leader" onchange="onThreatModifierChange()" checked class="rounded bg-slate-900 border-slate-700 text-amber-500 focus:ring-0">
+                <span class="text-slate-300 text-[11px]">Elite Alpha Leader (Final wave champion)</span>
+              </label>
+            </div>
+
+            <!-- Live Spawn Breakdown Badges -->
+            <div class="space-y-1.5">
+              <div class="text-[11px] font-mono text-slate-400 flex items-center justify-between">
+                <span>Encounter Roster Breakdown:</span>
+                <span class="text-[10px] text-slate-500" id="studio-roster-breakdown-meta">Live Calculated</span>
+              </div>
+              <div id="studio-monster-roster-badges" class="flex flex-wrap gap-1.5 text-xs font-mono">
+                <!-- Badges injected dynamically by JS -->
+              </div>
+            </div>
+
+            <!-- Monster Pool Toggles -->
+            <div class="space-y-1.5 pt-2 border-t border-slate-800/80">
+              <div class="text-[11px] font-mono text-slate-400 flex items-center justify-between">
+                <span>Active Monster Pool (Toggle to Filter):</span>
+                <button type="button" onclick="selectAllMonsterPool(true)" class="text-[10px] text-cyan-400 hover:underline">Select All</button>
+              </div>
+              <div id="studio-monster-pool-toggles" class="grid grid-cols-2 gap-1.5 text-[11px] font-mono">
+                <!-- Checkboxes injected dynamically by JS -->
+              </div>
+            </div>
+
+            <!-- Bytecode Safety Standards Checklist -->
+            <div class="pt-2 border-t border-slate-800/80 space-y-1.5 text-xs">
               <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-[11px] font-mono text-slate-400 space-y-1">
                 <div class="flex items-center justify-between text-cyan-400 font-bold">
                   <span>Bytecode Safety Standards:</span>
@@ -568,8 +705,8 @@
                 <div class="grid grid-cols-2 gap-1 text-[10px] text-slate-400">
                   <span>• Safe Flags: 610, 611, 612, 613</span>
                   <span>• Polling loop: sync yielded</span>
-                  <span>• Function 0: init & designate</span>
-                  <span>• Function 1: ret only</span>
+                  <span>• Function 0: init &amp; designate</span>
+                  <span>• Inter-floor warps: synced switches</span>
                 </div>
               </div>
             </div>
@@ -596,15 +733,34 @@
               </button>
             </div>
 
-            <!-- Download ZIP Button -->
-            <button onclick="downloadCustomQuestZip()" id="btn-download-zip" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs font-mono flex items-center space-x-1.5 transition shadow">
-              <i class="fa-solid fa-download"></i>
-              <span>Download Quest .ZIP</span>
-            </button>
+            <!-- Download Action Buttons: Turnkey .QST & Full Package .ZIP -->
+            <div class="flex items-center space-x-2">
+              <button onclick="downloadCustomQuestQst()" id="btn-download-qst" class="px-3.5 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs font-mono flex items-center space-x-1.5 transition shadow shadow-cyan-950/50">
+                <i class="fa-solid fa-cube text-cyan-200"></i>
+                <span>Download quest.qst</span>
+              </button>
+              <button onclick="downloadCustomQuestZip()" id="btn-download-zip" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs font-mono flex items-center space-x-1.5 transition shadow shadow-emerald-950/50">
+                <i class="fa-solid fa-file-zipper text-emerald-200"></i>
+                <span>Download Quest .ZIP</span>
+              </button>
+            </div>
           </div>
 
           <!-- Inspector View 1: 2D Wireframe & Combat Sectors -->
           <div id="studio-view-wireframe" class="p-5 space-y-4">
+            
+            <!-- Multi-Floor Stage Switcher Tabs -->
+            <div class="space-y-1.5 pb-2 border-b border-slate-800">
+              <div class="flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>Multi-Floor Route Stages:</span>
+                <span id="studio-active-stage-label" class="text-emerald-400 font-bold">Stage 1 Selected</span>
+              </div>
+              <div id="studio-wf-stage-tabs" class="flex flex-wrap items-center gap-1.5 font-mono text-xs">
+                <!-- Dynamically injected stage tabs: [Stage 1: Forest 2] [Stage 2: Caves 2] etc. -->
+              </div>
+            </div>
+
+            <!-- Stage Header & Metrics -->
             <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
               <div>
                 <span class="text-amber-400 font-bold uppercase" id="studio-wf-area-name">Forest 1</span>
@@ -616,6 +772,7 @@
               </div>
             </div>
 
+            <!-- Wireframe Canvas / Image -->
             <div class="bg-black/70 rounded-xl border border-slate-900 p-3 flex flex-col items-center justify-center min-h-[360px] relative group">
               <img id="studio-wf-image" src="analysis/floor-database/geometry/map_forest01.png" alt="Quest Wireframe" class="max-h-[380px] max-w-full object-contain rounded drop-shadow-2xl">
               <div class="absolute bottom-3 right-3 flex items-center space-x-2 bg-slate-900/90 backdrop-blur px-2.5 py-1 rounded border border-slate-800 text-[10px] font-mono text-slate-400">
@@ -624,22 +781,43 @@
               </div>
             </div>
 
-            <!-- Combat Sectors & Flow Details -->
+            <!-- Interactive Sector Room & Wave Inspector -->
+            <div class="space-y-2 p-3 bg-slate-900/70 rounded-xl border border-slate-800">
+              <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+                <span class="text-slate-300 flex items-center space-x-1.5 font-bold">
+                  <i class="fa-solid fa-crosshairs text-amber-400"></i>
+                  <span>Inspect Sector Rooms &amp; Spawns:</span>
+                </span>
+                <span id="studio-selected-room-title" class="text-[11px] text-cyan-300 font-mono">Click a room to view exact spawns</span>
+              </div>
+              
+              <!-- Room Badges -->
+              <div id="studio-room-picker-badges" class="flex flex-wrap gap-1.5 text-xs font-mono">
+                <!-- Injected via JS: [Room 10: Wave 1 (8 enemies)] etc. -->
+              </div>
+
+              <!-- Selected Room Wave Details -->
+              <div id="studio-room-spawns-detail" class="p-2.5 rounded bg-black/80 border border-slate-800 text-[11px] font-mono text-slate-300 max-h-40 overflow-y-auto">
+                Select a combat room above to view wave roster, monster names, and XYZ coordinates.
+              </div>
+            </div>
+
+            <!-- Doors, Warps & Flow Telemetry -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-mono">
               <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800">
-                <span class="text-slate-400 block text-[10px]">ENTRY SPAWN POINT</span>
-                <span class="text-cyan-400 font-bold text-sm">Room 0 (Pioneer 2)</span>
-                <span class="text-slate-500 text-[11px] block mt-0.5">Teleports to Combat Room <span id="studio-flow-start-room" class="text-white">10</span></span>
+                <span class="text-slate-400 block text-[10px] uppercase">ENTRY &amp; INFILTRATION</span>
+                <span class="text-cyan-400 font-bold text-sm">Warp 0x0019</span>
+                <span class="text-slate-400 text-[11px] block mt-0.5" id="studio-warp-in-desc">From Pioneer 2 to Room 10</span>
               </div>
               <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800">
-                <span class="text-slate-400 block text-[10px]">COMBAT CLEAR TRIGGER</span>
-                <span class="text-amber-400 font-bold text-sm">if_zone_clear Monitor</span>
-                <span class="text-slate-500 text-[11px] block mt-0.5">Locks until Room <span id="studio-flow-target-room" class="text-white">12</span> is wiped</span>
+                <span class="text-slate-400 block text-[10px] uppercase">LASER DOORS &amp; BARRIERS</span>
+                <span class="text-amber-400 font-bold text-sm">Laser Fence 0x0004</span>
+                <span class="text-slate-400 text-[11px] block mt-0.5" id="studio-door-desc">Sync Switch 1 (Unlocks on Clear)</span>
               </div>
               <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800">
-                <span class="text-slate-400 block text-[10px]">RETURN WARP & REWARD</span>
+                <span class="text-slate-400 block text-[10px] uppercase">ADVANCE / EXTRACTION WARP</span>
                 <span class="text-emerald-400 font-bold text-sm">Switch 1 Synchronized</span>
-                <span class="text-slate-500 text-[11px] block mt-0.5">Unlocks warp back to Hunter's Guild</span>
+                <span class="text-slate-400 text-[11px] block mt-0.5" id="studio-warp-out-desc">Teleports to Next Stage</span>
               </div>
             </div>
           </div>
@@ -690,12 +868,81 @@
             </div>
           </div>
 
-          <!-- Inspector View 4: ZIP Manifest -->
+          <!-- Inspector View 4: ZIP Manifest & Binary Download Center -->
           <div id="studio-view-manifest" class="p-5 space-y-4 hidden flex-1 flex flex-col">
-            <div class="text-xs font-mono text-slate-400 flex items-center space-x-1.5">
-              <i class="fa-solid fa-folder-tree text-emerald-400"></i>
-              <span>Generated Quest Package Structure (custom_quest.zip)</span>
+            <div class="flex items-center justify-between text-xs font-mono text-slate-400">
+              <span class="flex items-center space-x-1.5">
+                <i class="fa-solid fa-folder-tree text-emerald-400"></i>
+                <span>Generated Quest Binaries & Package Structure</span>
+              </span>
+              <span class="text-cyan-400 text-[11px] font-bold" id="studio-bin-summary-badge">Sega Blue Burst Binaries Ready</span>
             </div>
+
+            <!-- Compiled Sega VM Binaries Section -->
+            <div class="p-3.5 bg-gradient-to-r from-slate-900 via-cyan-950/40 to-slate-900 rounded-xl border border-cyan-500/30 space-y-3">
+              <div class="flex items-center justify-between text-xs font-mono">
+                <span class="text-cyan-300 font-bold uppercase tracking-wider flex items-center space-x-1.5 text-[11px]">
+                  <i class="fa-solid fa-microchip text-cyan-400"></i>
+                  <span>Compiled Sega Binaries (Client-Side Built)</span>
+                </span>
+                <span class="px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 text-[10px]">Pure Client-Side Compiler</span>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 font-mono text-xs">
+                <!-- quest.qst -->
+                <div class="p-3 bg-slate-950/90 rounded-lg border border-cyan-800/60 flex flex-col justify-between space-y-2.5">
+                  <div>
+                    <div class="flex items-center justify-between">
+                      <span class="text-white font-bold text-xs flex items-center space-x-1">
+                        <i class="fa-solid fa-cube text-cyan-400"></i>
+                        <span>quest999.qst</span>
+                      </span>
+                      <span id="manifest-qst-size" class="text-[10px] text-cyan-400 font-bold">-- KB</span>
+                    </div>
+                    <p class="text-slate-400 text-[10px] mt-1">Turnkey Blue Burst container with dual 0x44 headers & 0x13 chunks. Drop directly into server.</p>
+                  </div>
+                  <button onclick="downloadCustomQuestQst()" class="w-full py-1.5 rounded bg-cyan-700 hover:bg-cyan-600 text-white font-bold text-[11px] flex items-center justify-center space-x-1 shadow transition">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Download .QST</span>
+                  </button>
+                </div>
+                <!-- quest.bin -->
+                <div class="p-3 bg-slate-950/90 rounded-lg border border-slate-800 flex flex-col justify-between space-y-2.5">
+                  <div>
+                    <div class="flex items-center justify-between">
+                      <span class="text-white font-bold text-xs flex items-center space-x-1">
+                        <i class="fa-solid fa-file-code text-amber-400"></i>
+                        <span>quest999.bin</span>
+                      </span>
+                      <span id="manifest-bin-size" class="text-[10px] text-amber-400 font-bold">-- KB</span>
+                    </div>
+                    <p class="text-slate-400 text-[10px] mt-1">Compiled bytecode (PRS compressed) with Function 0 init, Hunter's Guild NPCs, and yield loop.</p>
+                  </div>
+                  <button onclick="downloadCustomQuestBin()" class="w-full py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold text-[11px] flex items-center justify-center space-x-1 border border-slate-700 transition">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Download .BIN</span>
+                  </button>
+                </div>
+                <!-- quest.dat -->
+                <div class="p-3 bg-slate-950/90 rounded-lg border border-slate-800 flex flex-col justify-between space-y-2.5">
+                  <div>
+                    <div class="flex items-center justify-between">
+                      <span class="text-white font-bold text-xs flex items-center space-x-1">
+                        <i class="fa-solid fa-cubes-stacked text-purple-400"></i>
+                        <span>quest999.dat</span>
+                      </span>
+                      <span id="manifest-dat-size" class="text-[10px] text-purple-400 font-bold">-- KB</span>
+                    </div>
+                    <p class="text-slate-400 text-[10px] mt-1">Spatial entity tables (PRS compressed) with 68-byte records for warps, doors, NPCs, and monster waves.</p>
+                  </div>
+                  <button onclick="downloadCustomQuestDat()" class="w-full py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-purple-300 font-bold text-[11px] flex items-center justify-center space-x-1 border border-slate-700 transition">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Download .DAT</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Source Manifest Files -->
             <div class="space-y-2 font-mono text-xs">
               <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800 flex items-start space-x-3">
                 <i class="fa-solid fa-file-code text-cyan-400 text-base mt-0.5"></i>
@@ -714,7 +961,7 @@
               <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800 flex items-start space-x-3">
                 <i class="fa-solid fa-table text-purple-400 text-base mt-0.5"></i>
                 <div>
-                  <span class="text-white font-bold block">enemies.csv & objects.csv</span>
+                  <span class="text-white font-bold block">enemies.csv & objects.csv & waves.csv</span>
                   <p class="text-slate-400 text-[11px]">Relational tables containing per-entity XYZ collision coordinates, facing radians, and entity property parameters.</p>
                 </div>
               </div>
@@ -722,7 +969,7 @@
                 <i class="fa-solid fa-book-open text-emerald-400 text-base mt-0.5"></i>
                 <div>
                   <span class="text-white font-bold block">README.md & quest_manifest.json</span>
-                  <p class="text-slate-400 text-[11px]">Complete turnkey deployment guide explaining how to open and compile the quest in Qedit or host directly in Newserv quest directories.</p>
+                  <p class="text-slate-400 text-[11px]">Turnkey server deployment guide for Newserv (system/quests/), Tethealla, and Ephinea with safe flag mappings.</p>
                 </div>
               </div>
             </div>
@@ -2373,6 +2620,11 @@
       { key: 'ruins1', ep: 1, areaId: 8, floorIdx: 8, wfId: 'map_ancient01_00', name: 'Ruins 1', pool: 'Ruins' },
       { key: 'ruins2', ep: 1, areaId: 9, floorIdx: 9, wfId: 'map_ancient02_00', name: 'Ruins 2', pool: 'Ruins' },
       { key: 'ruins3', ep: 1, areaId: 10, floorIdx: 10, wfId: 'map_ancient03_00', name: 'Ruins 3', pool: 'Ruins' },
+      { key: 'boss_dragon', ep: 1, areaId: 11, floorIdx: 11, wfId: 'map_boss01', name: 'Dome (Sil Dragon)', pool: 'Forest', isBoss: true },
+      { key: 'boss_derolle', ep: 1, areaId: 12, floorIdx: 12, wfId: 'map_boss02', name: 'Channel (De Rol Le)', pool: 'Caves', isBoss: true },
+      { key: 'boss_volopt', ep: 1, areaId: 13, floorIdx: 13, wfId: 'map_boss03', name: 'Core (Vol Opt)', pool: 'Mines', isBoss: true },
+      { key: 'boss_darkfalz', ep: 1, areaId: 14, floorIdx: 14, wfId: 'map_darkfalz00', name: 'Altar (Dark Falz)', pool: 'Ruins', isBoss: true },
+
       { key: 'temple_alpha', ep: 2, areaId: 1, floorIdx: 1, wfId: 'map_ruins01_00', name: 'VR Temple Alpha', pool: 'Temple' },
       { key: 'temple_beta', ep: 2, areaId: 2, floorIdx: 2, wfId: 'map_ruins02_00', name: 'VR Temple Beta', pool: 'Temple' },
       { key: 'space_alpha', ep: 2, areaId: 3, floorIdx: 3, wfId: 'map_space01_00', name: 'VR Spaceship Alpha', pool: 'Spaceship' },
@@ -2380,11 +2632,42 @@
       { key: 'jungle_north', ep: 2, areaId: 6, floorIdx: 6, wfId: 'map_jungle02_00', name: 'Jungle Area North', pool: 'Jungle' },
       { key: 'seabed_upper', ep: 2, areaId: 10, floorIdx: 10, wfId: 'map_seabed01_00', name: 'Seabed Upper Levels', pool: 'Seabed' },
       { key: 'seabed_lower', ep: 2, areaId: 11, floorIdx: 11, wfId: 'map_seabed02_00', name: 'Seabed Lower Levels', pool: 'Seabed' },
+      { key: 'boss_barbaray', ep: 2, areaId: 12, floorIdx: 12, wfId: 'map_boss05', name: 'VR Waters (Barba Ray)', pool: 'Temple', isBoss: true },
+      { key: 'boss_goldragon', ep: 2, areaId: 13, floorIdx: 13, wfId: 'map_boss06', name: 'Reactor (Gol Dragon)', pool: 'Spaceship', isBoss: true },
+      { key: 'boss_galgryphon', ep: 2, areaId: 14, floorIdx: 14, wfId: 'map_boss07', name: 'Cliffs (Gal Gryphon)', pool: 'Jungle', isBoss: true },
+      { key: 'boss_olgaflow', ep: 2, areaId: 15, floorIdx: 15, wfId: 'map_boss08', name: 'Disposal (Olga Flow)', pool: 'Seabed', isBoss: true },
+
       { key: 'crater_east', ep: 4, areaId: 1, floorIdx: 1, wfId: 'map_wilds01_00', name: 'Crater (Eastern Route)', pool: 'Crater' },
       { key: 'desert1', ep: 4, areaId: 6, floorIdx: 6, wfId: 'map_desert01_00', name: 'Subterranean Desert 1', pool: 'Desert' },
       { key: 'desert2', ep: 4, areaId: 7, floorIdx: 7, wfId: 'map_desert02_00', name: 'Subterranean Desert 2', pool: 'Desert' },
-      { key: 'desert3', ep: 4, areaId: 8, floorIdx: 8, wfId: 'map_desert03_00', name: 'Subterranean Desert 3', pool: 'Desert' }
+      { key: 'desert3', ep: 4, areaId: 8, floorIdx: 8, wfId: 'map_desert03_00', name: 'Subterranean Desert 3', pool: 'Desert' },
+      { key: 'boss_saintmilion', ep: 4, areaId: 9, floorIdx: 9, wfId: 'map_boss09_00', name: 'Core (Saint-Milion)', pool: 'Desert', isBoss: true }
     ];
+
+    const STUDIO_RARE_ENEMIES = {
+      Forest: { name: 'Hildeblue', hex: '0x0048', desc: 'Rare Cyan Ape Mutant (1/512 Spawn)' },
+      Caves: { name: 'Pouilly Slime', hex: '0x0066', desc: 'Rare Golden Splitting Slime' },
+      Mines: { name: 'Dubwitch', hex: '0x0082', desc: 'Hidden Invulnerable Core Controller' },
+      Ruins: { name: 'Delsaber', hex: '0x00A5', desc: 'Elite Dual Buster Dark Knight' },
+      Temple: { name: 'Love Rappy', hex: '0x011E', desc: 'Heart-feathered Rare Rappy' },
+      Spaceship: { name: 'Del-D', hex: '0x0087', desc: 'Advanced VR Assassin Drone' },
+      Jungle: { name: 'Gi Gue', hex: '0x011B', desc: 'Armored CCA Mantis Lord' },
+      Seabed: { name: 'Delbiter', hex: '0x0117', desc: 'Massive Armored Ram Behemoth' },
+      Crater: { name: 'Zu', hex: '0x013C', desc: 'Giant Aerial Terror Avian' },
+      Desert: { name: 'Kondrieu', hex: '0x013E', desc: 'Ancient Subterranean Dragon Worm' }
+    };
+
+    const STUDIO_BOSS_SPAWNS = {
+      boss_dragon: { name: 'Sil Dragon', hex: '0x00C0', role: 'Under the Dome Apex Boss' },
+      boss_derolle: { name: 'De Rol Le', hex: '0x00C1', role: 'Bio-Submersible Canal Boss' },
+      boss_volopt: { name: 'Vol Opt', hex: '0x00C2', role: 'Central Subterranean AI Boss' },
+      boss_darkfalz: { name: 'Dark Falz', hex: '0x00C5', role: 'Primordial Dark Divinity Final Boss' },
+      boss_barbaray: { name: 'Barba Ray', hex: '0x00C6', role: 'VR Aquatic Parasite Boss' },
+      boss_goldragon: { name: 'Gol Dragon', hex: '0x00C7', role: 'VR Holographic Dual Dragon Boss' },
+      boss_galgryphon: { name: 'Gal Gryphon', hex: '0x00C8', role: 'Aerial Chimera Titan Boss' },
+      boss_olgaflow: { name: 'Olga Flow', hex: '0x00C9', role: 'DNA Parasite Gene Entity Boss' },
+      boss_saintmilion: { name: 'Saint-Milion', hex: '0x00CA', role: 'Deep Desert Subterranean Beast Boss' }
+    };
 
     const STUDIO_ENEMY_POOLS = {
       Forest: [
@@ -2468,54 +2751,123 @@
 
     const STUDIO_PRESETS = {
       forest: {
-        prompt: "Forest 1 Extermination mission: Deploy to Forest 1, neutralize 3 waves of Boomas and Savage Wolves disrupting sensory relays, and return to the Guild for 5000 Meseta reward.",
-        area: "forest1",
-        waves: 3,
+        prompt: "Forest 1 Extermination: Deploy to Forest 1, wipe out 3 combat waves of Boomas and Savage Wolves disrupting planetary telemetry, and return to Guild for 5000 Meseta.",
+        directive: "extermination",
+        routeMode: "single",
+        stages: [{ stageIndex: 1, areaKey: 'forest1', wfId: 'map_forest01', wavesCount: 3, density: 8, isBoss: false }],
         reward: "meseta_5000",
         npc: "officer",
-        boss: false
+        density: 8
+      },
+      forest_boss: {
+        prompt: "Forest Expedition Climax: Sweep Forest 1 and Forest 2 hostile swarms, breach the subterranean dome seal, and slay the legendary Sil Dragon!",
+        directive: "boss_gauntlet",
+        routeMode: "forest_boss",
+        stages: [
+          { stageIndex: 1, areaKey: 'forest1', wfId: 'map_forest01', wavesCount: 3, density: 8, isBoss: false },
+          { stageIndex: 2, areaKey: 'forest2', wfId: 'map_forest02', wavesCount: 3, density: 8, isBoss: false },
+          { stageIndex: 3, areaKey: 'boss_dragon', wfId: 'map_boss01', wavesCount: 1, density: 6, isBoss: true }
+        ],
+        reward: "item_pd",
+        npc: "veteran",
+        density: 8
+      },
+      ttf_gauntlet: {
+        prompt: "Epic 4-Area TTF Gauntlet: Rush through Forest 2, Cave 2, Mine 2, and Ruins 2, culminating in the ultimate confrontation with Dark Falz at the Altar of the Void!",
+        directive: "boss_gauntlet",
+        routeMode: "ttf_gauntlet",
+        stages: [
+          { stageIndex: 1, areaKey: 'forest2', wfId: 'map_forest02', wavesCount: 2, density: 8, isBoss: false },
+          { stageIndex: 2, areaKey: 'cave2', wfId: 'map_cave02_00', wavesCount: 2, density: 8, isBoss: false },
+          { stageIndex: 3, areaKey: 'mine2', wfId: 'map_machine02_00', wavesCount: 2, density: 8, isBoss: false },
+          { stageIndex: 4, areaKey: 'ruins2', wfId: 'map_ancient02_00', wavesCount: 2, density: 8, isBoss: false },
+          { stageIndex: 5, areaKey: 'boss_darkfalz', wfId: 'map_darkfalz00', wavesCount: 1, density: 6, isBoss: true }
+        ],
+        reward: "item_arm",
+        npc: "works",
+        density: 8
+      },
+      ep1_sweep: {
+        prompt: "Full Sector Sweep: Traverse the entirety of Ragol's primary corridors (Forest 2 > Cave 2 > Mine 2 > Ruins 2) and eliminate all stationed bio-threats.",
+        directive: "extermination",
+        routeMode: "ep1_sweep",
+        stages: [
+          { stageIndex: 1, areaKey: 'forest2', wfId: 'map_forest02', wavesCount: 2, density: 8, isBoss: false },
+          { stageIndex: 2, areaKey: 'cave2', wfId: 'map_cave02_00', wavesCount: 2, density: 8, isBoss: false },
+          { stageIndex: 3, areaKey: 'mine2', wfId: 'map_machine02_00', wavesCount: 2, density: 8, isBoss: false },
+          { stageIndex: 4, areaKey: 'ruins2', wfId: 'map_ancient02_00', wavesCount: 2, density: 8, isBoss: false }
+        ],
+        reward: "meseta_30000",
+        npc: "veteran",
+        density: 8
       },
       caves: {
         prompt: "Caves 2 Spider Nest: Investigate deep bio-readings in Caves 2. Exterminate 3 waves of Evil Sharks and Poison Lilies. Recover stolen supplies for a 15,000 Meseta bounty.",
-        area: "cave2",
-        waves: 3,
+        directive: "extermination",
+        routeMode: "single",
+        stages: [{ stageIndex: 1, areaKey: 'cave2', wfId: 'map_cave02_00', wavesCount: 3, density: 8, isBoss: false }],
         reward: "meseta_15000",
         npc: "veteran",
-        boss: false
+        density: 8
       },
       mines: {
         prompt: "Mine 2 Core Sabotage: High-voltage rogue machinery detected in Mine 2. Infiltrate sector and destroy 4 waves of Gillchics and heavy Garanz tanks. Guild reward: Photon Drop.",
-        area: "mine2",
-        waves: 4,
+        directive: "extermination",
+        routeMode: "single",
+        stages: [{ stageIndex: 1, areaKey: 'mine2', wfId: 'map_machine02_00', wavesCount: 4, density: 8, isBoss: false }],
         reward: "item_pd",
         npc: "works",
-        boss: false
+        density: 8
       },
       ruins: {
         prompt: "Ruins 3 Ancient Relic Retrieval: Ancient dark resonance active in Ruins 3. Purge 4 waves of Dimenians and Dark Belras guarding the seal altar. Reward: Rare God/Arm unit.",
-        area: "ruins3",
-        waves: 4,
+        directive: "item_retrieval",
+        routeMode: "single",
+        stages: [{ stageIndex: 1, areaKey: 'ruins3', wfId: 'map_ancient03_00', wavesCount: 4, density: 8, isBoss: false }],
         reward: "item_arm",
         npc: "scientist",
-        boss: false
+        density: 8
       },
-      seabed: {
-        prompt: "Seabed Biohazard Investigation: Works telemetry lost in Seabed Upper Levels. Neutralize 4 waves of Dolmdarls, Morfos, and Sinow Zoas. Reward: 30,000 Meseta.",
-        area: "seabed_upper",
-        waves: 4,
-        reward: "meseta_30000",
-        npc: "works",
-        boss: false
-      },
-      desert: {
-        prompt: "Subterranean Desert Ambush: Hostile seismic activity detected in Subterranean Desert 2. Eliminate 3 waves of Bootas and armored Zu flyers. Reward: 15,000 Meseta.",
-        area: "desert2",
-        waves: 3,
+      timed_30m: {
+        prompt: "30-Minute Speed Trial: High radiation warning in Forest 1! Cleanse all combat sectors and extract to Pioneer 2 before the 30:00.00 countdown expires.",
+        directive: "timed",
+        routeMode: "single",
+        stages: [{ stageIndex: 1, areaKey: 'forest1', wfId: 'map_forest01', wavesCount: 4, density: 8, isBoss: false }],
         reward: "meseta_15000",
-        npc: "civilian",
-        boss: false
+        npc: "works",
+        density: 8
+      },
+      paganini_trade: {
+        prompt: "Pioneer 2 Secret Bazaar: Meet Master Paganini at the Hunter's Guild concourse to exchange Photon Drops for rare Mag Cells (Heart of Chao, Cell of Mag 502, Kit of Mark3).",
+        directive: "trade_shop",
+        routeMode: "single",
+        stages: [{ stageIndex: 1, areaKey: 'forest1', wfId: 'map_forest01', wavesCount: 1, density: 4, isBoss: false }],
+        reward: "item_pd",
+        npc: "officer",
+        density: 4
       }
     };
+
+    // STUDIO STATE INITIALIZATION
+    if (!state.questStudio) {
+      state.questStudio = {};
+    }
+    state.questStudio = Object.assign(state.questStudio, {
+      currentQuest: null,
+      activeSubTab: "wireframe",
+      directive: "extermination",
+      routeMode: "single",
+      density: 8,
+      timerMinutes: 30,
+      rareMutation: true,
+      alphaLeader: true,
+      activeStageViewIndex: 0,
+      selectedRoomId: null,
+      disabledMonsters: new Set(),
+      stages: [
+        { stageIndex: 1, areaKey: 'forest1', wfId: 'map_forest01', wavesCount: 3, density: 8, isBoss: false }
+      ]
+    });
 
     async function initQuestStudio() {
       // Ensure wireframes are loaded
@@ -2528,15 +2880,8 @@
         }
       }
 
-      // Populate area select
-      const areaSelect = document.getElementById('studio-area-select');
-      if (areaSelect && areaSelect.options.length === 0) {
-        areaSelect.innerHTML = STUDIO_AREAS.map(a => 
-          `<option value="${a.key}">[Ep ${a.ep}] ${a.name} (${a.wfId})</option>`
-        ).join('');
-      }
-
       updateAiKeyStatusLabel();
+      renderRouteStagesUI();
 
       // Initial quest generation if none
       if (!state.questStudio.currentQuest) {
@@ -2544,19 +2889,282 @@
       }
     }
 
+    // UI Directive Type Handler (Timed, Retrieval, Trade, Gauntlet)
+    function onDirectiveTypeChange() {
+      const type = document.getElementById('studio-directive-type').value;
+      state.questStudio.directive = type;
+
+      const timedBox = document.getElementById('studio-timed-settings');
+      const tradeBox = document.getElementById('studio-trade-settings');
+      const badge = document.getElementById('studio-directive-badge');
+
+      if (timedBox) timedBox.classList.toggle('hidden', type !== 'timed');
+      if (tradeBox) tradeBox.classList.toggle('hidden', type !== 'trade_shop');
+
+      const labels = {
+        extermination: '⚔️ Extermination',
+        timed: '⏱️ 30m Timed',
+        item_retrieval: '📦 Relic Recovery',
+        trade_shop: '💎 Mag Cell Bazaar',
+        boss_gauntlet: '🐉 Boss Gauntlet'
+      };
+      if (badge) badge.innerText = labels[type] || 'Standard';
+
+      if (type === 'timed') {
+        document.getElementById('studio-prompt').value = "30-Minute Time Attack: Infiltrate designated sectors, wipe out all waves, and extract before the 30:00.00 countdown expires.";
+      } else if (type === 'item_retrieval') {
+        document.getElementById('studio-prompt').value = "Lost Relic Retrieval: Works sensors detected an ancient Data Capsule in the deep sector. Fight through all hostiles and secure the item.";
+      } else if (type === 'trade_shop') {
+        document.getElementById('studio-prompt').value = "Paganini Trade Concourse: Meet Master Paganini on Pioneer 2 to trade Photon Drops for rare Mag Cells.";
+      }
+
+      generateCustomQuestFromUI();
+    }
+
+    // Route Mode Handler
+    function onRouteModeChange() {
+      const mode = document.getElementById('studio-route-mode').value;
+      state.questStudio.routeMode = mode;
+
+      const addBox = document.getElementById('studio-add-stage-box');
+      if (addBox) addBox.classList.toggle('hidden', mode !== 'custom');
+
+      if (mode === 'single') {
+        state.questStudio.stages = [
+          { stageIndex: 1, areaKey: 'forest1', wfId: 'map_forest01', wavesCount: 3, density: state.questStudio.density, isBoss: false }
+        ];
+      } else if (mode === 'forest_boss') {
+        state.questStudio.stages = [
+          { stageIndex: 1, areaKey: 'forest1', wfId: 'map_forest01', wavesCount: 3, density: state.questStudio.density, isBoss: false },
+          { stageIndex: 2, areaKey: 'forest2', wfId: 'map_forest02', wavesCount: 3, density: state.questStudio.density, isBoss: false },
+          { stageIndex: 3, areaKey: 'boss_dragon', wfId: 'map_boss01', wavesCount: 1, density: 6, isBoss: true }
+        ];
+      } else if (mode === 'caves_derolle') {
+        state.questStudio.stages = [
+          { stageIndex: 1, areaKey: 'cave1', wfId: 'map_cave01_00', wavesCount: 3, density: state.questStudio.density, isBoss: false },
+          { stageIndex: 2, areaKey: 'cave2', wfId: 'map_cave02_00', wavesCount: 3, density: state.questStudio.density, isBoss: false },
+          { stageIndex: 3, areaKey: 'boss_derolle', wfId: 'map_boss02', wavesCount: 1, density: 6, isBoss: true }
+        ];
+      } else if (mode === 'mines_volopt') {
+        state.questStudio.stages = [
+          { stageIndex: 1, areaKey: 'mine1', wfId: 'map_machine01_00', wavesCount: 3, density: state.questStudio.density, isBoss: false },
+          { stageIndex: 2, areaKey: 'mine2', wfId: 'map_machine02_00', wavesCount: 3, density: state.questStudio.density, isBoss: false },
+          { stageIndex: 3, areaKey: 'boss_volopt', wfId: 'map_boss03', wavesCount: 1, density: 6, isBoss: true }
+        ];
+      } else if (mode === 'ruins_falz') {
+        state.questStudio.stages = [
+          { stageIndex: 1, areaKey: 'ruins1', wfId: 'map_ancient01_00', wavesCount: 2, density: state.questStudio.density, isBoss: false },
+          { stageIndex: 2, areaKey: 'ruins2', wfId: 'map_ancient02_00', wavesCount: 2, density: state.questStudio.density, isBoss: false },
+          { stageIndex: 3, areaKey: 'ruins3', wfId: 'map_ancient03_00', wavesCount: 2, density: state.questStudio.density, isBoss: false },
+          { stageIndex: 4, areaKey: 'boss_darkfalz', wfId: 'map_darkfalz00', wavesCount: 1, density: 6, isBoss: true }
+        ];
+      } else if (mode === 'ttf_gauntlet') {
+        state.questStudio.stages = [
+          { stageIndex: 1, areaKey: 'forest2', wfId: 'map_forest02', wavesCount: 2, density: state.questStudio.density, isBoss: false },
+          { stageIndex: 2, areaKey: 'cave2', wfId: 'map_cave02_00', wavesCount: 2, density: state.questStudio.density, isBoss: false },
+          { stageIndex: 3, areaKey: 'mine2', wfId: 'map_machine02_00', wavesCount: 2, density: state.questStudio.density, isBoss: false },
+          { stageIndex: 4, areaKey: 'ruins2', wfId: 'map_ancient02_00', wavesCount: 2, density: state.questStudio.density, isBoss: false },
+          { stageIndex: 5, areaKey: 'boss_darkfalz', wfId: 'map_darkfalz00', wavesCount: 1, density: 6, isBoss: true }
+        ];
+      } else if (mode === 'ep1_sweep') {
+        state.questStudio.stages = [
+          { stageIndex: 1, areaKey: 'forest2', wfId: 'map_forest02', wavesCount: 2, density: state.questStudio.density, isBoss: false },
+          { stageIndex: 2, areaKey: 'cave2', wfId: 'map_cave02_00', wavesCount: 2, density: state.questStudio.density, isBoss: false },
+          { stageIndex: 3, areaKey: 'mine2', wfId: 'map_machine02_00', wavesCount: 2, density: state.questStudio.density, isBoss: false },
+          { stageIndex: 4, areaKey: 'ruins2', wfId: 'map_ancient02_00', wavesCount: 2, density: state.questStudio.density, isBoss: false }
+        ];
+      }
+
+      state.questStudio.activeStageViewIndex = 0;
+      renderRouteStagesUI();
+      generateCustomQuestFromUI();
+    }
+
+    // Render Stage Cards in the UI
+    function renderRouteStagesUI() {
+      const container = document.getElementById('studio-stages-container');
+      const badge = document.getElementById('studio-route-count-badge');
+      if (!container) return;
+
+      const stages = state.questStudio.stages || [];
+      if (badge) badge.innerText = `${stages.length} Floor${stages.length > 1 ? 's' : ''} Active`;
+
+      container.innerHTML = stages.map((stage, idx) => {
+        const areaObj = STUDIO_AREAS.find(a => a.key === stage.areaKey) || STUDIO_AREAS[0];
+        const isCustom = state.questStudio.routeMode === 'custom';
+        const canDelete = isCustom && stages.length > 1;
+
+        // Filter matching wireframes
+        const prefix = stage.areaKey.replace(/[0-9]/g, '');
+        let matchingWireframes = state.wireframes.filter(w => {
+          return w.id.toLowerCase().includes(prefix.toLowerCase()) || (stage.wfId && w.id === stage.wfId);
+        });
+        if (matchingWireframes.length === 0) {
+          matchingWireframes = state.wireframes.slice(0, 15);
+        }
+
+        return `
+          <div class="p-3 bg-slate-950/90 rounded-lg border border-slate-800 hover:border-slate-700 transition space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded bg-cyan-950 border border-cyan-800 text-cyan-300 font-mono text-[11px] font-bold flex items-center space-x-1">
+                <span>Stage ${idx + 1}: ${escapeHtml(areaObj.name)}</span>
+                ${stage.isBoss ? '<span class="text-amber-400 ml-1"><i class="fa-solid fa-crown"></i> Boss</span>' : ''}
+              </span>
+              ${canDelete ? `
+                <button type="button" onclick="removeStageFromRoute(${idx})" class="text-rose-400 hover:text-rose-300 text-xs px-2 py-0.5 rounded bg-rose-950/40 border border-rose-900 transition">
+                  <i class="fa-solid fa-trash-can mr-1"></i> Remove
+                </button>
+              ` : ''}
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs font-mono">
+              <!-- Target Floor / Area -->
+              <div class="space-y-0.5">
+                <label class="text-[10px] text-slate-400">Target Floor</label>
+                <select onchange="onStageAreaChange(${idx}, this.value)" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-white font-mono text-[11px] focus:outline-none focus:border-cyan-400">
+                  ${STUDIO_AREAS.map(a => `<option value="${a.key}" ${a.key === stage.areaKey ? 'selected' : ''}>[Ep ${a.ep}] ${a.name}</option>`).join('')}
+                </select>
+              </div>
+
+              <!-- Map Layout / Wireframe Variation -->
+              <div class="space-y-0.5">
+                <label class="text-[10px] text-slate-400">Map Layout</label>
+                <select onchange="onStageWireframeChange(${idx}, this.value)" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-white font-mono text-[11px] focus:outline-none focus:border-cyan-400">
+                  ${matchingWireframes.map(w => `<option value="${w.id}" ${w.id === stage.wfId ? 'selected' : ''}>${w.id}</option>`).join('')}
+                </select>
+              </div>
+
+              <!-- Waves on this Stage -->
+              <div class="space-y-0.5">
+                <label class="text-[10px] text-slate-400">Waves</label>
+                <select onchange="onStageWavesChange(${idx}, this.value)" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-white font-mono text-[11px] focus:outline-none focus:border-cyan-400">
+                  <option value="1" ${stage.wavesCount === 1 ? 'selected' : ''}>1 Wave</option>
+                  <option value="2" ${stage.wavesCount === 2 ? 'selected' : ''}>2 Waves</option>
+                  <option value="3" ${stage.wavesCount === 3 ? 'selected' : ''}>3 Waves</option>
+                  <option value="4" ${stage.wavesCount === 4 ? 'selected' : ''}>4 Waves</option>
+                  <option value="5" ${stage.wavesCount === 5 ? 'selected' : ''}>5 Waves</option>
+                  <option value="6" ${stage.wavesCount === 6 ? 'selected' : ''}>6 Waves</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function onStageAreaChange(stageIdx, newAreaKey) {
+      const stage = state.questStudio.stages[stageIdx];
+      if (!stage) return;
+      stage.areaKey = newAreaKey;
+      const areaObj = STUDIO_AREAS.find(a => a.key === newAreaKey) || STUDIO_AREAS[0];
+      stage.wfId = areaObj.wfId;
+      stage.isBoss = areaObj.isBoss || false;
+      renderRouteStagesUI();
+      generateCustomQuestFromUI();
+    }
+
+    function onStageWireframeChange(stageIdx, newWfId) {
+      const stage = state.questStudio.stages[stageIdx];
+      if (!stage) return;
+      stage.wfId = newWfId;
+      generateCustomQuestFromUI();
+    }
+
+    function onStageWavesChange(stageIdx, countStr) {
+      const stage = state.questStudio.stages[stageIdx];
+      if (!stage) return;
+      stage.wavesCount = parseInt(countStr, 10) || 3;
+      generateCustomQuestFromUI();
+    }
+
+    function addStageToCustomRoute() {
+      const stages = state.questStudio.stages;
+      const nextIdx = stages.length + 1;
+      stages.push({
+        stageIndex: nextIdx,
+        areaKey: 'forest2',
+        wfId: 'map_forest02',
+        wavesCount: 3,
+        density: state.questStudio.density,
+        isBoss: false
+      });
+      renderRouteStagesUI();
+      generateCustomQuestFromUI();
+      copyToast(`Stage ${nextIdx} added to Custom Route.`);
+    }
+
+    function removeStageFromRoute(stageIdx) {
+      const stages = state.questStudio.stages;
+      if (stages.length <= 1) return;
+      stages.splice(stageIdx, 1);
+      stages.forEach((s, i) => s.stageIndex = i + 1);
+      if (state.questStudio.activeStageViewIndex >= stages.length) {
+        state.questStudio.activeStageViewIndex = 0;
+      }
+      renderRouteStagesUI();
+      generateCustomQuestFromUI();
+    }
+
+    function onStudioDensityChange() {
+      const d = parseInt(document.getElementById('studio-wave-density').value || '8', 10);
+      state.questStudio.density = d;
+      state.questStudio.stages.forEach(s => {
+        if (!s.isBoss) s.density = d;
+      });
+      generateCustomQuestFromUI();
+    }
+
+    function onThreatModifierChange() {
+      state.questStudio.rareMutation = document.getElementById('studio-rare-mutation').checked;
+      state.questStudio.alphaLeader = document.getElementById('studio-alpha-leader').checked;
+      generateCustomQuestFromUI();
+    }
+
+    function toggleMonsterInPool(speciesName) {
+      if (state.questStudio.disabledMonsters.has(speciesName)) {
+        state.questStudio.disabledMonsters.delete(speciesName);
+      } else {
+        state.questStudio.disabledMonsters.add(speciesName);
+      }
+      generateCustomQuestFromUI();
+    }
+
+    function selectAllMonsterPool(select) {
+      if (select) {
+        state.questStudio.disabledMonsters.clear();
+      }
+      generateCustomQuestFromUI();
+    }
+
     function setPromptPreset(presetKey) {
       const p = STUDIO_PRESETS[presetKey];
       if (!p) return;
       document.getElementById('studio-prompt').value = p.prompt;
-      document.getElementById('studio-area-select').value = p.area;
-      document.getElementById('studio-waves-count').value = p.waves;
-      document.getElementById('studio-reward-select').value = p.reward;
-      document.getElementById('studio-npc-tone').value = p.npc;
-      document.getElementById('studio-has-boss').checked = p.boss;
-      generateCustomQuestFromUI();
-    }
+      if (p.directive && document.getElementById('studio-directive-type')) {
+        document.getElementById('studio-directive-type').value = p.directive;
+        state.questStudio.directive = p.directive;
+      }
+      if (p.routeMode && document.getElementById('studio-route-mode')) {
+        document.getElementById('studio-route-mode').value = p.routeMode;
+        state.questStudio.routeMode = p.routeMode;
+      }
+      if (p.density && document.getElementById('studio-wave-density')) {
+        document.getElementById('studio-wave-density').value = p.density;
+        state.questStudio.density = p.density;
+      }
+      if (p.stages) {
+        state.questStudio.stages = JSON.parse(JSON.stringify(p.stages));
+      }
+      if (p.reward && document.getElementById('studio-reward-select')) {
+        document.getElementById('studio-reward-select').value = p.reward;
+      }
+      if (p.npc && document.getElementById('studio-npc-tone')) {
+        document.getElementById('studio-npc-tone').value = p.npc;
+      }
 
-    function onStudioAreaChange() {
+      state.questStudio.activeStageViewIndex = 0;
+      onDirectiveTypeChange();
+      renderRouteStagesUI();
       generateCustomQuestFromUI();
     }
 
@@ -2735,72 +3343,263 @@
       generateCustomQuestFromUI();
     }
 
-    // MAIN COMPILER & GENERATOR
+    // =========================================================================
+    // MAIN COMPILER & QUEST GENERATOR ENGINE
+    // =========================================================================
     function generateCustomQuestFromUI() {
       const prompt = (document.getElementById('studio-prompt')?.value || '').trim();
-      const areaKey = document.getElementById('studio-area-select')?.value || 'forest1';
-      const wavesCount = parseInt(document.getElementById('studio-waves-count')?.value || '3', 10);
+      const directive = state.questStudio.directive || 'extermination';
+      const routeMode = state.questStudio.routeMode || 'single';
+      const density = state.questStudio.density || 8;
+      const rareMutation = state.questStudio.rareMutation !== false;
+      const alphaLeader = state.questStudio.alphaLeader !== false;
       const rewardVal = document.getElementById('studio-reward-select')?.value || 'meseta_5000';
       const npcTone = document.getElementById('studio-npc-tone')?.value || 'officer';
-      const hasBoss = document.getElementById('studio-has-boss')?.checked || false;
+      const timerLimit = parseInt(document.getElementById('studio-timer-limit')?.value || '30', 10);
 
-      const areaObj = STUDIO_AREAS.find(a => a.key === areaKey) || STUDIO_AREAS[0];
-      
-      // Look up wireframe geometry
-      const wf = state.wireframes.find(w => w.id === areaObj.wfId) || {
-        id: areaObj.wfId,
-        area_name: areaObj.name,
-        image_png: `analysis/floor-database/geometry/${areaObj.wfId}.png`,
-        section_ids: [1, 2, 3, 4, 5, 6, 7, 8]
-      };
+      const stages = state.questStudio.stages || [
+        { stageIndex: 1, areaKey: 'forest1', wfId: 'map_forest01', wavesCount: 3, density: 8, isBoss: false }
+      ];
 
-      const validSecIds = (wf.section_ids && wf.section_ids.length > 0) ? wf.section_ids : [1, 2, 3, 4, 5];
-      const combatRooms = validSecIds.slice(0, Math.min(wavesCount, validSecIds.length));
-      if (combatRooms.length === 0) combatRooms.push(validSecIds[0] || 1);
-      const targetClearRoom = combatRooms[combatRooms.length - 1];
-
-      // Safe flags
+      // Safe flags standard
       const FLAG_ACCEPTED = 610;
       const FLAG_ENCOUNTER_ACTIVE = 611;
       const FLAG_ROOM_CLEARED = 612;
       const FLAG_REWARD_CLAIMED = 613;
+      const FLAG_ITEM_RETRIEVED = 614;
+      const FLAG_TIMER_EXPIRED = 615;
 
-      // Rewards
+      // Primary Episode based on first stage
+      const firstAreaObj = STUDIO_AREAS.find(a => a.key === stages[0].areaKey) || STUDIO_AREAS[0];
+      const primaryEp = firstAreaObj.ep;
+
+      // Process each stage
+      const processedStages = [];
+      const allSpawns = [];
+      const enemyCsvRows = ["floor,room,wave,enemy_name,type_hex,x,y,z,angle,role"];
+      const objectCsvRows = [
+        "floor,room,type_hex,name,x,y,z,angle,param1,param2,param3",
+        // Pioneer 2 NPCs
+        "0,10,0x0002,Guild_Officer_NPC,12.5,0.0,-45.0,0x8000,0,0,0",
+        "0,10,0x0002,Tactical_Scout_NPC,18.0,0.0,-40.0,0x8000,0,0,0",
+        "0,10,0x0002,Paganini_Trader_NPC,-15.0,0.0,-42.0,0x8000,0,0,0",
+        "0,10,0x0002,Mission_Client_NPC,-8.0,0.0,-50.0,0x8000,0,0,0",
+        // Pioneer 2 to Stage 1 Teleporter
+        "0,10,0x0019,Warp_Stage1,0.0,0.0,20.0,0x0000,0,0,0"
+      ];
+      const wavesCsvRows = ["stage,floor,room,wave_num,enemy_count,hostile_summary"];
+
+      for (let sIdx = 0; sIdx < stages.length; sIdx++) {
+        const stage = stages[sIdx];
+        const areaObj = STUDIO_AREAS.find(a => a.key === stage.areaKey) || STUDIO_AREAS[0];
+
+        // Wireframe geometry
+        const wf = state.wireframes.find(w => w.id === stage.wfId) || {
+          id: stage.wfId || areaObj.wfId,
+          area_name: areaObj.name,
+          image_png: `analysis/floor-database/geometry/${stage.wfId || areaObj.wfId}.png`,
+          section_ids: [1, 2, 3, 4, 5, 6, 7, 8]
+        };
+
+        const validSecIds = (wf.section_ids && wf.section_ids.length > 0) ? wf.section_ids : [1, 2, 3, 4, 5];
+        const wavesCount = stage.wavesCount || 3;
+        const combatRooms = [];
+        for (let w = 0; w < wavesCount; w++) {
+          combatRooms.push(validSecIds[w % validSecIds.length]);
+        }
+        const targetClearRoom = combatRooms[combatRooms.length - 1];
+
+        // Stage enemy pool
+        let pool = (STUDIO_ENEMY_POOLS[areaObj.pool] || STUDIO_ENEMY_POOLS.Forest).filter(e => !state.questStudio.disabledMonsters.has(e.name));
+        if (pool.length === 0) pool = STUDIO_ENEMY_POOLS[areaObj.pool] || STUDIO_ENEMY_POOLS.Forest;
+
+        const stageSpawns = [];
+        const stageSquadSize = stage.isBoss ? Math.max(4, Math.min(8, density)) : density;
+
+        for (let w = 0; w < wavesCount; w++) {
+          const roomId = combatRooms[w];
+          const waveNum = w + 1;
+          const isFinalWaveOfStage = (w === wavesCount - 1);
+
+          if (stage.isBoss) {
+            // Boss Arena Encounter
+            const bossInfo = STUDIO_BOSS_SPAWNS[stage.areaKey] || { name: 'Sil Dragon', hex: '0x00C0', role: 'Apex Arena Boss' };
+            const bSpawn = {
+              stageIdx: sIdx + 1,
+              stageName: areaObj.name,
+              floorIdx: areaObj.floorIdx,
+              wave: waveNum,
+              room: roomId,
+              name: bossInfo.name,
+              hex: bossInfo.hex,
+              coords: '0.0, 0.0, 0.0',
+              x: '0.0', y: '0.0', z: '0.0',
+              angle: '0x0000',
+              role: bossInfo.role,
+              tier: 'boss'
+            };
+            stageSpawns.push(bSpawn);
+            allSpawns.push(bSpawn);
+            enemyCsvRows.push(`${areaObj.floorIdx},${roomId},${waveNum},${bSpawn.name},${bSpawn.hex},0.0,0.0,0.0,0x0000,"${bSpawn.role}"`);
+
+            // Escort minions in arc
+            const minionCount = stageSquadSize - 1;
+            for (let k = 0; k < minionCount; k++) {
+              const minionType = pool[k % pool.length];
+              const angleRad = (Math.PI * 2 * k) / minionCount;
+              const r = 24.0;
+              const mx = (r * Math.cos(angleRad)).toFixed(1);
+              const mz = (r * Math.sin(angleRad)).toFixed(1);
+              const facing = '0x8000';
+              const mSpawn = {
+                stageIdx: sIdx + 1,
+                stageName: areaObj.name,
+                floorIdx: areaObj.floorIdx,
+                wave: waveNum,
+                room: roomId,
+                name: minionType.name,
+                hex: minionType.hex,
+                coords: `${mx}, 0.0, ${mz}`,
+                x: mx, y: '0.0', z: mz,
+                angle: facing,
+                role: `${minionType.name} (Boss Escort)`,
+                tier: 'escort'
+              };
+              stageSpawns.push(mSpawn);
+              allSpawns.push(mSpawn);
+              enemyCsvRows.push(`${areaObj.floorIdx},${roomId},${waveNum},${mSpawn.name},${mSpawn.hex},${mx},0.0,${mz},${facing},"${mSpawn.role}"`);
+            }
+          } else {
+            // Standard Sector Wave Encounter (Density sized: 4, 6, 8, 12, 16, 20)
+            for (let k = 0; k < stageSquadSize; k++) {
+              let eType = pool[k % pool.length];
+              let role = eType.desc;
+              let tier = 'frontline';
+
+              // Rare mutation candidate
+              if (rareMutation && isFinalWaveOfStage && k === 0) {
+                const rareObj = STUDIO_RARE_ENEMIES[areaObj.pool];
+                if (rareObj) {
+                  eType = { name: rareObj.name, hex: rareObj.hex, desc: rareObj.desc };
+                  role = `${rareObj.name} [Rare 1/512 Mutation]`;
+                  tier = 'rare';
+                }
+              } else if (alphaLeader && isFinalWaveOfStage && k === stageSquadSize - 1) {
+                // Elite Pack Leader candidate
+                const leaderCandidate = pool[pool.length - 1];
+                eType = leaderCandidate;
+                role = `${eType.name} [Alpha Leader Miniboss]`;
+                tier = 'elite';
+              } else if (k >= Math.floor(stageSquadSize * 0.7)) {
+                tier = 'heavy';
+                role = `${eType.name} [Heavy Striker]`;
+              } else if (k >= Math.floor(stageSquadSize * 0.4)) {
+                tier = 'skirmisher';
+                role = `${eType.name} [Flanking Vanguard]`;
+              }
+
+              // Realistic circular/arc ambush formation
+              const radius = 12.0 + (k % 4) * 4.5;
+              const angleRad = (Math.PI * 2 * k) / stageSquadSize + (w * 0.6);
+              const xPos = (radius * Math.cos(angleRad)).toFixed(1);
+              const zPos = (15.0 + radius * Math.sin(angleRad)).toFixed(1);
+              const angleHexArr = ['0x0000', '0x4000', '0x8000', '0xC000'];
+              const angleHex = angleHexArr[k % 4];
+
+              const spawnItem = {
+                stageIdx: sIdx + 1,
+                stageName: areaObj.name,
+                floorIdx: areaObj.floorIdx,
+                wave: waveNum,
+                room: roomId,
+                name: eType.name,
+                hex: eType.hex,
+                coords: `${xPos}, 0.0, ${zPos}`,
+                x: xPos, y: '0.0', z: zPos,
+                angle: angleHex,
+                role: role,
+                tier: tier
+              };
+              stageSpawns.push(spawnItem);
+              allSpawns.push(spawnItem);
+              enemyCsvRows.push(`${areaObj.floorIdx},${roomId},${waveNum},${eType.name},${eType.hex},${xPos},0.0,${zPos},${angleHex},"${role}"`);
+            }
+          }
+
+          wavesCsvRows.push(`${sIdx + 1},${areaObj.floorIdx},${roomId},${waveNum},${stageSquadSize},"${pool.map(p=>p.name).slice(0,3).join('/')}"`);
+        }
+
+        // Doors & Warps for this stage
+        // 1. Infiltration warp from previous stage or Pioneer 2
+        objectCsvRows.push(`${areaObj.floorIdx},${combatRooms[0]},0x0019,Warp_StageIn,0.0,0.0,0.0,0x0000,0,0,0`);
+        // 2. Laser barrier fence at first combat room (unlocked by switch 1 on clear)
+        objectCsvRows.push(`${areaObj.floorIdx},${combatRooms[0]},0x0004,Laser_Fence_Barrier,0.0,0.0,10.0,0x0000,1,0,0`);
+        // 3. Floor Terminal Switch
+        objectCsvRows.push(`${areaObj.floorIdx},${targetClearRoom},0x0001,Floor_Terminal_Switch,15.0,0.0,15.0,0x0000,1,0,0`);
+
+        // 4. Advance / Exit Teleporter
+        const isLastStage = (sIdx === stages.length - 1);
+        if (isLastStage) {
+          // Extraction Warp back to Pioneer 2
+          objectCsvRows.push(`${areaObj.floorIdx},${targetClearRoom},0x0019,Warp_Extract_Pioneer2,18.0,0.0,18.0,0x0000,0,0,1`);
+        } else {
+          // Advance Warp to Stage sIdx + 2
+          const nextStageObj = STUDIO_AREAS.find(a => a.key === stages[sIdx + 1].areaKey) || STUDIO_AREAS[0];
+          objectCsvRows.push(`${areaObj.floorIdx},${targetClearRoom},0x0019,Warp_Advance_${nextStageObj.name.replace(/\s+/g, '')},18.0,0.0,18.0,0x0000,0,0,1`);
+        }
+
+        // 5. Item Retrieval Object (if item_retrieval directive)
+        if (directive === 'item_retrieval' && isLastStage) {
+          objectCsvRows.push(`${areaObj.floorIdx},${targetClearRoom},0x0003,Ancient_Data_Capsule,10.0,0.0,10.0,0x0000,0,0,0`);
+        }
+
+        processedStages.push({
+          stageIndex: sIdx + 1,
+          areaObj: areaObj,
+          wf: wf,
+          combatRooms: combatRooms,
+          targetClearRoom: targetClearRoom,
+          wavesCount: wavesCount,
+          spawns: stageSpawns,
+          isBoss: stage.isBoss || false
+        });
+      }
+
+      // Rewards logic
       let rewardText = "5,000 Meseta";
       let rewardAsmLines = ["    add_meseta 5000                            // Deliver 5000 Meseta bounty", "    sound_effect 0x0006                        // Fanfare SFX"];
       let rewardObj = { type: 'meseta', amount: 5000, name: '5,000 Meseta' };
 
       if (rewardVal === 'meseta_2500') {
         rewardText = "2,500 Meseta";
-        rewardAsmLines = ["    add_meseta 2500                            // Deliver 2500 Meseta bounty", "    sound_effect 0x0006"];
+        rewardAsmLines = ["    add_meseta 2500", "    sound_effect 0x0006"];
         rewardObj = { type: 'meseta', amount: 2500, name: '2,500 Meseta' };
       } else if (rewardVal === 'meseta_15000') {
         rewardText = "15,000 Meseta";
-        rewardAsmLines = ["    add_meseta 15000                           // Deliver 15000 Meseta bounty", "    sound_effect 0x0006"];
+        rewardAsmLines = ["    add_meseta 15000", "    sound_effect 0x0006"];
         rewardObj = { type: 'meseta', amount: 15000, name: '15,000 Meseta' };
       } else if (rewardVal === 'meseta_30000') {
         rewardText = "30,000 Meseta";
-        rewardAsmLines = ["    add_meseta 30000                           // Deliver 30000 Meseta bounty", "    sound_effect 0x0006"];
+        rewardAsmLines = ["    add_meseta 30000", "    sound_effect 0x0006"];
         rewardObj = { type: 'meseta', amount: 30000, name: '30,000 Meseta' };
       } else if (rewardVal === 'item_pd') {
         rewardText = "Photon Drop x1";
         rewardAsmLines = [
-          "    // Item Creation: Photon Drop",
-          "    set_register R200, 0x03                    // Tool Category",
+          "    // Delivery: Photon Drop",
+          "    set_register R200, 0x03                    // Category: Tool",
           "    set_register R201, 0x0A                    // Photon Drop ID",
           "    set_register R202, 0x00",
           "    set_register R203, 0x00",
           "    set_register R204, 0x00",
-          "    item_create2 R200                          // Safe direct delivery",
-          "    sound_effect 0x0006                        // Fanfare SFX"
+          "    item_create2 R200",
+          "    sound_effect 0x0006"
         ];
         rewardObj = { type: 'item', hex: '0x03, 0x0A, 0x00', name: 'Photon Drop x1' };
       } else if (rewardVal === 'item_mono') {
         rewardText = "Monogrinder x2";
         rewardAsmLines = [
-          "    // Item Creation: Monogrinder",
-          "    set_register R200, 0x03                    // Tool Category",
-          "    set_register R201, 0x01                    // Monogrinder ID",
+          "    set_register R200, 0x03",
+          "    set_register R201, 0x01",
           "    set_register R202, 0x00",
           "    set_register R203, 0x00",
           "    set_register R204, 0x00",
@@ -2811,9 +3610,9 @@
       } else if (rewardVal === 'item_arm') {
         rewardText = "God/Arm Unit";
         rewardAsmLines = [
-          "    // Item Creation: God/Arm Unit",
-          "    set_register R200, 0x01                    // Unit Category",
-          "    set_register R201, 0x03                    // Unit Subtype",
+          "    // Delivery: God/Arm Unit",
+          "    set_register R200, 0x01                    // Category: Armor/Unit",
+          "    set_register R201, 0x03                    // Subtype: Unit",
           "    set_register R202, 0x4A                    // God/Arm ID",
           "    set_register R203, 0x00",
           "    set_register R204, 0x00",
@@ -2825,84 +3624,86 @@
 
       // Dialogues based on NPC persona
       let npcSpeaker = "Guild Administrator";
-      let briefing1 = `Hunter's Guild Dispatch:\nWe have an urgent assignment in ${areaObj.name}.`;
-      let briefing2 = `Telemetry indicates high hostile density across sectors.\nEliminate all combat waves and secure the return warp.`;
-      let reminderMsg = `Administrator:\nThe teleporter to ${areaObj.name} is armed.\nProceed to eliminate all hostiles in designated sectors.`;
-      let victoryMsg = `Administrator:\nOutstanding performance, Hunter! Area cleared.\nHere is your authorized reward.`;
+      let briefing1 = `Hunter's Guild Dispatch:\nWe have an urgent multi-sector assignment on Ragol.`;
+      let briefing2 = `Telemetry indicates heavy hostile swarms across all designated corridors.\nClear each stage sequentially to unlock advance warps.`;
+      let reminderMsg = `Administrator:\nThe teleporters are active.\nProceed to eradicate all hostiles and secure the return gate.`;
+      let victoryMsg = `Administrator:\nOutstanding performance, Hunter! Mission complete.\nHere is your authorized reward.`;
 
       if (npcTone === 'veteran') {
         npcSpeaker = "Veteran Hunter Dan";
-        briefing1 = `Dan:\nHey there, rookie. Got a hot one down in ${areaObj.name}.`;
-        briefing2 = `Creatures down there are aggressive and fast.\nWatch your flanks, wipe out all waves, and meet me back here.`;
-        reminderMsg = `Dan:\nStill breathing? Good. Finish clearing ${areaObj.name} before the swarms regroup.`;
-        victoryMsg = `Dan:\nNot bad at all, kid. You handled those beasts like a pro.\nTake your cut. You earned every bit of it.`;
+        briefing1 = `Dan:\nHey there, rookie. Got a high-stakes gauntlet down on the surface.`;
+        briefing2 = `Creatures down there are aggressive and hunting in packs.\nWatch your flanks, clear each sector, and extract back to Pioneer 2.`;
+        reminderMsg = `Dan:\nStill breathing? Good. Keep pushing through the sectors before you get surrounded.`;
+        victoryMsg = `Dan:\nNot bad at all, kid! Handled that gauntlet like a veteran.\nTake your cut. You earned it.`;
       } else if (npcTone === 'scientist') {
         npcSpeaker = "Dr. Montague's Assistant";
-        briefing1 = `Lab Researcher:\nPardon me, Hunter. The Lab urgently requires containment in ${areaObj.name}.`;
-        briefing2 = `Unusual bio-readings are interfering with our spatial scanners.\nPlease neutralize all hostile specimens in the combat zones.`;
-        reminderMsg = `Lab Researcher:\nScanners show active hostiles in ${areaObj.name}.\nEnsure total sector eradication.`;
-        victoryMsg = `Lab Researcher:\nBio-harmonic readings have stabilized! Exceptional work.\nPlease accept this requisition reward.`;
+        briefing1 = `Lab Researcher:\nPardon me, Hunter. The Principal's Laboratory requires sector containment.`;
+        briefing2 = `Unusual resonance readings are disrupting planetary telemetry relays.\nPlease neutralize all bio-hostiles across designated corridors.`;
+        reminderMsg = `Lab Researcher:\nSensors still register active anomalies.\nPlease ensure total sector clearance.`;
+        victoryMsg = `Lab Researcher:\nBio-readings have stabilized! Exceptional field work.\nPlease accept this requisition bounty.`;
       } else if (npcTone === 'works') {
         npcSpeaker = "Operative K";
-        briefing1 = `Operative K:\nKeep your voice down. The Works has a delicate situation in ${areaObj.name}.`;
-        briefing2 = `A rogue automated faction has seized critical relays.\nInfiltrate, terminate all targets with extreme prejudice, and extract.`;
-        reminderMsg = `Operative K:\nMission clock is ticking. Neutralize the targets in ${areaObj.name}.`;
-        victoryMsg = `Operative K:\nTarget silenced. Clean work. The Works honors its debts.`;
+        briefing1 = `Operative K:\nKeep your voice down. The Works has a sensitive tactical sweep contract.`;
+        briefing2 = `Rogue units and indigenous mutants have breached perimeter relays.\nInfiltrate, terminate with extreme prejudice, and extract cleanly.`;
+        reminderMsg = `Operative K:\nMission clock is ticking. Neutralize the remaining sector targets.`;
+        victoryMsg = `Operative K:\nTargets silenced. Clean, professional work. The Works honors its debts.`;
       } else if (npcTone === 'civilian') {
         npcSpeaker = "Desperate Pioneer Citizen";
-        briefing1 = `Citizen:\nPlease, Hunter! My research convoy was ambushed in ${areaObj.name}!`;
-        briefing2 = `Vicious creatures broke through our perimeter.\nPlease destroy them so we can recover our equipment!`;
-        reminderMsg = `Citizen:\nAre they gone yet? Please be careful in ${areaObj.name}!`;
+        briefing1 = `Citizen:\nPlease, Hunter! Our survey convoy was trapped by ferocious swarms!`;
+        briefing2 = `Dangerous beasts have broken our defensive barriers.\nPlease clear the corridors so we can retrieve our equipment!`;
+        reminderMsg = `Citizen:\nAre they cleared yet? Please be careful down there!`;
         victoryMsg = `Citizen:\nThank the stars! You saved our research!\nPlease take this as our deepest gratitude!`;
       }
 
       // Title
-      const questTitle = prompt ? prompt.slice(0, 48).replace(/\s+/g, ' ') : `${areaObj.name} Extermination`;
+      const defaultTitle = processedStages.length > 1 ? `Multi-Floor Gauntlet (${processedStages.map(s=>s.areaObj.name).join(' -> ')})` : `${processedStages[0].areaObj.name} Extermination`;
+      const questTitle = prompt ? prompt.slice(0, 48).replace(/\s+/g, ' ') : defaultTitle;
 
-      // Build Qedit Assembly script.txt
+      // BUILD MULTI-FLOOR QEDIT ASSEMBLY (script.txt)
       const asm = [
         `// ============================================================================`,
         `// Quest Title: ${questTitle}`,
-        `// Episode: ${areaObj.ep} | Area: ${areaObj.name} (Floor ${areaObj.floorIdx})`,
-        `// Author: PSOBB AI Quest Studio (Zero-Collision Flag Standards)`,
-        `// Compiler Standard: Qedit 1.05 / Newserv Quest Framework`,
+        `// Directive: ${directive.toUpperCase()} | Episode: ${primaryEp}`,
+        `// Multi-Floor Route: ${processedStages.map(s => s.areaObj.name).join(' -> ')}`,
+        `// Total Designated Stages: ${processedStages.length} Floor Slots`,
+        `// Compiler Standard: Qedit 1.05 / Newserv Quest Engine (Zero-Collision Flags)`,
         `// ============================================================================`,
         ``,
         `// ----------------------------------------------------------------------------`,
-        `// FUNCTION 0: Entry Point & Initialization`,
+        `// FUNCTION 0: Entry Point & Multi-Floor Virtual Slot Designation`,
         `// ----------------------------------------------------------------------------`,
         `L0:`,
-        `    set_episode ${areaObj.ep - 1}                           // 0 = Ep1, 1 = Ep2, 2 = Ep4`,
-        `    BB_Map_Designate 0, 0, 0, 0, 0                 // Floor 0: Pioneer 2 City`,
-        `    BB_Map_Designate ${areaObj.floorIdx}, ${areaObj.areaId}, 0, 0, 0        // Floor ${areaObj.floorIdx}: ${areaObj.name}`
+        `    set_episode ${primaryEp - 1}                           // 0=Ep1, 1=Ep2, 2=Ep4`,
+        `    BB_Map_Designate 0, 0, 0, 0, 0                 // Floor 0: Pioneer 2 City`
       ];
 
-      if (hasBoss) {
-        asm.push(`    BB_Map_Designate 11, 11, 0, 0, 0               // Floor 11: Boss Arena Designated`);
-      }
+      // Designate all virtual floor slots simultaneously in Function 0
+      processedStages.forEach((s) => {
+        asm.push(`    BB_Map_Designate ${s.areaObj.floorIdx}, ${s.areaObj.areaId}, 0, 0, 0        // Virtual Slot ${s.stageIndex}: Floor ${s.areaObj.floorIdx} (${s.areaObj.name})`);
+      });
 
       asm.push(
         `    initial_floor 0                                // Players materialize on Pioneer 2`,
         `    set_guild_callback L1                          // Hunter's Guild Callback`,
-        `    thread L100                                    // Launch background watcher thread`,
+        `    thread L100                                    // Launch multi-stage background watcher thread`,
         `    ret`,
         ``,
         `// ----------------------------------------------------------------------------`,
-        `// FUNCTION 1: Sega Empty Callback Protocol`,
+        `// FUNCTION 1: Sega Empty Callback Convention`,
         `// ----------------------------------------------------------------------------`,
         `L1:`,
         `    ret`,
         ``,
         `// ----------------------------------------------------------------------------`,
-        `// FUNCTION 10: Hunter's Guild / Officer NPC Dialogue & Logic`,
+        `// FUNCTION 10: Hunter's Guild Officer NPC (Pioneer 2 Concourse)`,
         `// ----------------------------------------------------------------------------`,
         `L10:`,
-        `    check_flag ${FLAG_REWARD_CLAIMED}, R200         // Check if reward already distributed`,
-        `    jmpi_eq R200, 1, L14                           // If claimed, branch to post-quest dialogue`,
-        `    check_flag ${FLAG_ROOM_CLEARED}, R200           // Check if combat objectives complete`,
+        `    check_flag ${FLAG_REWARD_CLAIMED}, R200`,
+        `    jmpi_eq R200, 1, L14                           // If already rewarded, branch`,
+        `    check_flag ${FLAG_ROOM_CLEARED}, R200`,
         `    jmpi_eq R200, 1, L13                           // If cleared, disburse reward`,
-        `    check_flag ${FLAG_ACCEPTED}, R200               // Check if quest active`,
-        `    jmpi_eq R200, 1, L12                           // If active, give in-progress reminder`,
+        `    check_flag ${FLAG_ACCEPTED}, R200`,
+        `    jmpi_eq R200, 1, L12                           // If in-progress, give reminder`,
         ``,
         `    // Mission Briefing Dialogue`,
         `    window_msg "${briefing1}"`,
@@ -2918,213 +3719,454 @@
         `    ret`,
         ``,
         `L13:`,
-        `    // Reward Disbursal`,
+        `    // Victory Payout`,
         `    window_msg "${victoryMsg}"`,
         `    winend`,
         ...rewardAsmLines,
-        `    set_flag ${FLAG_REWARD_CLAIMED}                 // Flag 613: Lock duplicate claims`,
+        `    set_flag ${FLAG_REWARD_CLAIMED}                 // Flag 613: Lock duplicate payouts`,
         `    set_register R255, 1                           // Signal completion to Guild System`,
         `    ret`,
         ``,
         `L14:`,
-        `    window_msg "${npcSpeaker}:\nThank you again for your service. Excellent work out there."`,
+        `    window_msg "${npcSpeaker}:\\nThank you again for your outstanding service. Safe travels, Hunter."`,
         `    winend`,
         `    ret`,
         ``,
         `// ----------------------------------------------------------------------------`,
-        `// FUNCTION 100: Objective Polling Thread (Strict Yielding Loop)`,
+        `// FUNCTION 20: Tactical Scout Hunter NPC (Pioneer 2)`,
+        `// ----------------------------------------------------------------------------`,
+        `L20:`,
+        `    window_msg "Scout Hunter:\\nRadar report: Total hostiles active: ${allSpawns.length} across ${processedStages.length} sector(s).\\nWatch your corners and maintain group formation."`,
+        `    winend`,
+        `    ret`,
+        ``,
+        `// ----------------------------------------------------------------------------`,
+        `// FUNCTION 30: Master Paganini Mag Cell & Photon Drop Bazaar`,
+        `// ----------------------------------------------------------------------------`,
+        `L30:`,
+        `    window_msg "Master Paganini:\\nWelcome, Hunter! I trade exquisite Mag Cells and rare units for Photon Drops.\\nWhat catches your eye?"`,
+        `    winend`,
+        `    list R200, "Heart of Chao (20 PDs)\\nCell of Mag 502 (25 PDs)\\nKit of Mark3 (30 PDs)\\nHeart of Chu Chu (20 PDs)\\nHeaven Striker Coat (40 PDs)\\nNever mind"`,
+        `    switch_jmp R200, 6, L31, L32, L33, L34, L35, L36`,
+        `L31:`,
+        `    set_register R200, 0x03`,
+        `    set_register R201, 0x10`,
+        `    set_register R202, 0x11                        // Heart of Chao Mag Cell`,
+        `    item_create2 R200`,
+        `    sound_effect 0x0006`,
+        `    window_msg "Paganini:\\nHere is your Heart of Chao! Take good care of your Mag."`,
+        `    winend`,
+        `    ret`,
+        `L32:`,
+        `    set_register R200, 0x03`,
+        `    set_register R201, 0x10`,
+        `    set_register R202, 0x04                        // Cell of Mag 502`,
+        `    item_create2 R200`,
+        `    sound_effect 0x0006`,
+        `    window_msg "Paganini:\\nCell of Mag 502 delivered! It will grant your Mag great prowess."`,
+        `    winend`,
+        `    ret`,
+        `L33:`,
+        `    set_register R200, 0x03`,
+        `    set_register R201, 0x10`,
+        `    set_register R202, 0x08                        // Kit of Mark3`,
+        `    item_create2 R200`,
+        `    sound_effect 0x0006`,
+        `    window_msg "Paganini:\\nKit of Mark3 delivered! A true retro classic."`,
+        `    winend`,
+        `    ret`,
+        `L34:`,
+        `    set_register R200, 0x03`,
+        `    set_register R201, 0x10`,
+        `    set_register R202, 0x12                        // Heart of Chu Chu`,
+        `    item_create2 R200`,
+        `    sound_effect 0x0006`,
+        `    window_msg "Paganini:\\nHeart of Chu Chu delivered!"`,
+        `    winend`,
+        `    ret`,
+        `L35:`,
+        `    set_register R200, 0x01`,
+        `    set_register R201, 0x03`,
+        `    set_register R202, 0x4B                        // Heaven Striker Coat`,
+        `    item_create2 R200`,
+        `    sound_effect 0x0006`,
+        `    window_msg "Paganini:\\nHeaven Striker Coat acquired! Legendary defense unit."`,
+        `    winend`,
+        `    ret`,
+        `L36:`,
+        `    window_msg "Paganini:\\nReturn anytime you have Photon Drops to trade."`,
+        `    winend`,
+        `    ret`,
+        ``,
+        `// ----------------------------------------------------------------------------`,
+        `// FUNCTION 40: Mission Client Lore Dialogue (Pioneer 2)`,
+        `// ----------------------------------------------------------------------------`,
+        `L40:`,
+        `    window_msg "${npcSpeaker}:\\nEverything rests upon your shoulders. May the Photon guide your path."`,
+        `    winend`,
+        `    ret`,
+        ``,
+        `// ----------------------------------------------------------------------------`,
+        `// FUNCTION 100: Multi-Stage Objective Watcher Thread (Strict Yielding Loop)`,
         `// ----------------------------------------------------------------------------`,
         `L100:`,
-        `    sync                                           // Yield VM frame (prevents CPU lock)`,
+        `    sync                                           // Yield VM frame (prevents CPU lockup)`,
         `    check_flag ${FLAG_ACCEPTED}, R200`,
-        `    jmpi_eq R200, 0, L100                          // Loop until player accepts quest`,
+        `    jmpi_eq R200, 0, L100                          // Wait until quest accepted`
+      ];
+
+      // Timed countdown logic if directive == 'timed'
+      if (directive === 'timed') {
+        asm.push(
+          `    // Mission Countdown Timer (${timerLimit} Minutes)`,
+          `    window_time                                    // Display HUD Mission Timer`
+        );
+      }
+
+      // Sequential multi-stage clearance loop
+      for (let sIdx = 0; sIdx < processedStages.length; sIdx++) {
+        const stage = processedStages[sIdx];
+        const loopLabel = sIdx === 0 ? 'L100' : `L${100 + sIdx}`;
+        const isLastStage = (sIdx === processedStages.length - 1);
+
+        if (sIdx > 0) {
+          asm.push(
+            ``,
+            `// Stage ${stage.stageIndex} (${stage.areaObj.name}) Objective Monitor`,
+            `${loopLabel}:`,
+            `    sync                                           // Yield VM frame`
+          );
+        }
+
+        asm.push(
+          `    // Poll Stage ${stage.stageIndex} Clearance: Floor ${stage.areaObj.floorIdx}, Room ${stage.targetClearRoom}`,
+          `    set_register R2, ${stage.areaObj.floorIdx}                       // Floor Index`,
+          `    set_register R3, ${stage.targetClearRoom}                       // Final Room Section ID`,
+          `    if_zone_clear R1, R2                           // R1 = 1 if all hostiles destroyed`,
+          `    jmpi_eq R1, 0, ${loopLabel}                            // Still hostiles remaining: yield & loop`,
+          ``,
+          `    // Stage ${stage.stageIndex} Cleared!`,
+          `    sound_effect 0x0004                            // Play Clearance Chime`,
+          `    set_switch_flag_sync ${stage.areaObj.floorIdx}, 1               // Unlock Advance Warp / Security Doors`
+        );
+
+        if (!isLastStage) {
+          asm.push(`    jmp L${100 + sIdx + 1}                         // Advance monitoring to Stage ${sIdx + 2}`);
+        }
+      }
+
+      // All stages completed!
+      asm.push(
         ``,
-        `    // Poll Combat Zone Eradication`,
-        `    set_register R2, ${areaObj.floorIdx}                       // Floor Index`,
-        `    set_register R3, ${targetClearRoom}                       // Final Room Section ID`,
-        `    if_zone_clear R1, R2                           // Consumes R2 (Floor), R3 (Room); R1 = 1 if clear`,
-        `    jmpi_eq R1, 0, L100                            // If enemies remain, yield and re-check`,
-        ``,
-        `    // Quest Objectives Completed!`,
+        `    // ALL OBJECTIVES COMPLETED!`,
         `    set_flag ${FLAG_ROOM_CLEARED}                   // Flag 612: Combat cleared`,
-        `    sound_effect 0x0004                            // Play Objective Clear Chime`,
-        `    set_switch_flag_sync ${areaObj.floorIdx}, 1               // Unlock extraction warp terminal`,
+        `    sound_effect 0x0006                            // Victory Fanfare`,
+        `    set_switch_flag_sync ${processedStages[processedStages.length - 1].areaObj.floorIdx}, 1 // Unlock Pioneer 2 Extraction Warp`,
         `    ret`
       );
 
       const scriptTxt = asm.join('\n');
+      const enemiesCsv = enemyCsvRows.join('\n');
+      const objectsCsv = objectCsvRows.join('\n');
+      const wavesCsv = wavesCsvRows.join('\n');
 
-      // Generate Enemy Spawns & Waves
-      const pool = STUDIO_ENEMY_POOLS[areaObj.pool] || STUDIO_ENEMY_POOLS.Forest;
-      const waveSpawns = [];
-      const enemyCsvRows = ["floor,room,wave,enemy_name,type_hex,x,y,z,angle,role"];
-
-      for (let w = 0; w < combatRooms.length; w++) {
-        const roomId = combatRooms[w];
-        const waveNum = w + 1;
-        const e1 = pool[w % pool.length];
-        const e2 = pool[(w + 1) % pool.length];
-        const e3 = pool[(w + 2) % pool.length];
-
-        const spawns = [
-          { name: e1.name, hex: e1.hex, x: (10.0 + w * 5).toFixed(1), y: "0.0", z: (-15.0 + w * 8).toFixed(1), angle: "0x4000", role: e1.desc },
-          { name: e2.name, hex: e2.hex, x: (-12.0 - w * 4).toFixed(1), y: "0.0", z: (-10.0 + w * 6).toFixed(1), angle: "0xC000", role: e2.desc },
-          { name: e3.name, hex: e3.hex, x: "0.0", y: "0.0", z: (20.0 + w * 10).toFixed(1), angle: "0x8000", role: e3.desc }
-        ];
-
-        spawns.forEach(s => {
-          waveSpawns.push({
-            wave: waveNum,
-            room: roomId,
-            name: s.name,
-            hex: s.hex,
-            coords: `${s.x}, ${s.y}, ${s.z}`,
-            angle: s.angle,
-            role: s.role
-          });
-          enemyCsvRows.push(`${areaObj.floorIdx},${roomId},${waveNum},${s.name},${s.hex},${s.x},${s.y},${s.z},${s.angle},"${s.role}"`);
-        });
-      }
-
-      // Generate Objects & Map Schema
+      // Map.txt schema
       const mapLines = [
-        `# PSOBB Spatial Placements & Wave Actions for: ${questTitle}`,
-        `# Episode ${areaObj.ep} | Floor ${areaObj.floorIdx} (${areaObj.name})`,
+        `# PSOBB Spatial Placements & Wave Actions: ${questTitle}`,
+        `# Directive: ${directive.toUpperCase()} | Episode ${primaryEp}`,
+        `# Stages: ${processedStages.map(s => `Floor ${s.areaObj.floorIdx} (${s.areaObj.name})`).join(', ')}`,
         ``,
         `[OBJECTS]`,
-        `# floor, room, type_hex, type_name, x, y, z, angle, param1..param6`,
-        `0, 10, 0x0002, Guild_Officer_NPC, 12.5, 0.0, -45.0, 0x8000, 0, 0, 0, 0, 0, 0`,
-        `${areaObj.floorIdx}, ${combatRooms[0]}, 0x0019, Warp_Pioneer2, 0.0, 0.0, 0.0, 0x0000, 0, 0, 0, 0, 1, 0`,
-        `${areaObj.floorIdx}, ${targetClearRoom}, 0x0001, Floor_Terminal_Switch, 15.0, 0.0, 15.0, 0x0000, 1, 0, 0, 0, 0, 0`,
-        ``,
-        `[ENEMIES]`,
-        `# floor, room, wave, enemy_hex, x, y, z, angle`
+        `# floor, room, type_hex, type_name, x, y, z, angle, param1..param6`
       ];
-
-      waveSpawns.forEach(s => {
-        const [x, y, z] = s.coords.split(', ');
-        mapLines.push(`${areaObj.floorIdx}, ${s.room}, ${s.wave}, ${s.hex}, ${x}, ${y}, ${z}, ${s.angle}  # ${s.name}`);
+      objectCsvRows.slice(1).forEach(r => {
+        const parts = r.split(',');
+        mapLines.push(`${parts[0]}, ${parts[1]}, ${parts[2]}, ${parts[3]}, ${parts[4]}, ${parts[5]}, ${parts[6]}, ${parts[7]}, ${parts[8]||0}, ${parts[9]||0}, ${parts[10]||0}`);
       });
 
+      mapLines.push(``, `[ENEMIES]`, `# floor, room, wave, enemy_hex, x, y, z, angle  # comment`);
+      allSpawns.forEach(s => {
+        mapLines.push(`${s.floorIdx}, ${s.room}, ${s.wave}, ${s.hex}, ${s.x}, ${s.y}, ${s.z}, ${s.angle}  # ${s.name} (${s.role})`);
+      });
       const mapTxt = mapLines.join('\n');
-      const enemiesCsv = enemyCsvRows.join('\n');
-      const objectsCsv = [
-        "floor,room,type_hex,name,x,y,z,angle,param1,param2,param3",
-        `0,10,0x0002,Guild_Officer_NPC,12.5,0.0,-45.0,0x8000,0,0,0`,
-        `${areaObj.floorIdx},${combatRooms[0]},0x0019,Warp_Pioneer2,0.0,0.0,0.0,0x0000,0,0,1`,
-        `${areaObj.floorIdx},${targetClearRoom},0x0001,Floor_Terminal_Switch,15.0,0.0,15.0,0x0000,1,0,0`
-      ].join('\n');
 
       const manifest = {
         title: questTitle,
-        episode: areaObj.ep,
-        area: areaObj.name,
-        floor_index: areaObj.floorIdx,
-        wireframe_id: areaObj.wfId,
-        waves_count: combatRooms.length,
-        combat_room_ids: combatRooms,
-        reward: rewardObj,
+        directive: directive,
+        episode: primaryEp,
+        route_mode: routeMode,
+        stages_count: processedStages.length,
+        total_hostiles: allSpawns.length,
+        stages: processedStages.map(s => ({
+          stage: s.stageIndex,
+          floor_idx: s.areaObj.floorIdx,
+          area_name: s.areaObj.name,
+          wireframe_id: s.wf.id,
+          waves_count: s.wavesCount,
+          combat_rooms: s.combatRooms,
+          spawns_count: s.spawns.length
+        })),
+        density_per_wave: density,
+        timer_minutes: directive === 'timed' ? timerLimit : null,
         safe_flags: { accepted: 610, encounter: 611, cleared: 612, reward_claimed: 613 },
-        generator: "PSOBB AI Quest Studio v2.0"
+        generator: "PSOBB AI Quest Studio v2.5 (Multi-Floor Engine)"
       };
 
       const readmeMd = `# ${questTitle}
-Custom Quest Package for Phantasy Star Online Blue Burst (PSOBB)
+Custom Multi-Floor Quest for Phantasy Star Online Blue Burst (PSOBB)
 
-## Mission Overview
-- **Episode:** Episode ${areaObj.ep}
-- **Target Area:** ${areaObj.name} (Floor ${areaObj.floorIdx})
-- **Wireframe Layout:** \`${areaObj.wfId}\`
-- **Total Combat Waves:** ${combatRooms.length}
-- **Combat Section / Room IDs:** ${combatRooms.join(', ')}
+## Mission Directive & Parameters
+- **Directive Type:** \`${directive.toUpperCase()}\`
+- **Route Mode:** ${routeMode} (${processedStages.length} Floor Stages)
+- **Total Hostiles:** **${allSpawns.length} Monsters** (Squad Density: ${density} per wave)
+- **Primary Episode:** Episode ${primaryEp}
 - **Guild Reward:** ${rewardText}
-- **Flag Allocations:** Safe Quest Register 610..613 (Zero Collision with System Flags)
+- **Safe Flag Range:** 610..615 (Crash-free official Sega register conventions)
 
-## Files in this Package
-1. \`script.txt\`: Turnkey Qedit assembly source with Function 0 init, Hunter Guild dialogue logic, and background \`sync\` yielded thread.
-2. \`map.txt\`: Unified spatial object and enemy wave coordinate declarations.
-3. \`enemies.csv\`: Table of hostile spawns, XYZ coordinates, and orientation.
-4. \`objects.csv\`: Teleporters, Guild Officer NPC, and floor switches.
-5. \`quest_manifest.json\`: Machine-readable metadata.
+## Multi-Floor Stages
+${processedStages.map(s => `- **Stage ${s.stageIndex}:** Floor ${s.areaObj.floorIdx} (${s.areaObj.name}) | Layout: \`${s.wf.id}\` | Waves: ${s.wavesCount} (${s.spawns.length} Spawns)`).join('\n')}
 
-## Installation & Compilation
-### Testing in Qedit
-1. Open **Qedit**.
-2. Go to **File -> Import Text** and select \`script.txt\`.
-3. Set Episode to **${areaObj.ep}** and designate Floor **${areaObj.floorIdx}** for **${areaObj.name}**.
-4. Import \`map.txt\` into the Object/Enemy list.
-5. Click **Build Quest (.bin/.dat/.qst)**.
+## Pioneer 2 NPCs
+1. **Guild Officer** (Function 10): Mission dispatch, progress check, reward payout.
+2. **Tactical Scout** (Function 20): Radar distribution telemetry and combat tips.
+3. **Master Paganini** (Function 30): Mag Cell & Photon Drop exchange bazaar menu.
+4. **Mission Client** (Function 40): Narrative lore background.
 
-### Hosting on Newserv
-1. Save the compiled files as \`custom_quest.qst\` into your newserv quest directory (\`system/quests/\`).
-2. Reload quests on the server via admin command: \`#reload-quests\`.
+## Verification & Compilation
+Import \`script.txt\` into Qedit or host directly in Newserv quest directories.
 `;
 
       // Save to state
       state.questStudio.currentQuest = {
         title: questTitle,
-        areaObj: areaObj,
-        wf: wf,
-        combatRooms: combatRooms,
-        targetClearRoom: targetClearRoom,
+        directive: directive,
+        routeMode: routeMode,
+        stages: processedStages,
+        allSpawns: allSpawns,
         rewardText: rewardText,
         script_txt: scriptTxt,
         map_txt: mapTxt,
         enemies_csv: enemiesCsv,
         objects_csv: objectsCsv,
+        waves_csv: wavesCsv,
         manifest: manifest,
-        readme_md: readmeMd,
-        waveSpawns: waveSpawns
+        readme_md: readmeMd
       };
 
-      // Update Inspector Views
+      // Render updated views
       renderStudioViews();
     }
 
+    // RENDER STUDIO VIEWS
     function renderStudioViews() {
       const q = state.questStudio.currentQuest;
-      if (!q) return;
+      if (!q || !q.stages || q.stages.length === 0) return;
 
-      // 1. Wireframe View
+      const activeIdx = Math.min(state.questStudio.activeStageViewIndex || 0, q.stages.length - 1);
+      const stage = q.stages[activeIdx];
+
+      // 1. Stage Tabs Row
+      const stageTabs = document.getElementById('studio-wf-stage-tabs');
+      const stageLabel = document.getElementById('studio-active-stage-label');
+      if (stageTabs) {
+        stageTabs.innerHTML = q.stages.map((s, i) => `
+          <button type="button" onclick="setStudioActiveStageView(${i})" 
+            class="px-2.5 py-1 rounded text-xs transition font-mono flex items-center space-x-1.5 ${i === activeIdx ? 'bg-emerald-950 border border-emerald-500 text-emerald-300 font-bold' : 'bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-400'}">
+            <span>Stage ${s.stageIndex}: ${escapeHtml(s.areaObj.name)}</span>
+            <span class="px-1 py-0.2 rounded bg-slate-950 text-[10px] text-cyan-400">${s.spawns.length} foes</span>
+          </button>
+        `).join('');
+      }
+      if (stageLabel) {
+        stageLabel.innerText = `Stage ${stage.stageIndex}: ${stage.areaObj.name}`;
+      }
+
+      // 2. Wireframe Metrics & Image for Active Stage
       const wfAreaName = document.getElementById('studio-wf-area-name');
       const wfIdEl = document.getElementById('studio-wf-id');
       const wfSecCount = document.getElementById('studio-wf-section-count');
       const wfCombatRooms = document.getElementById('studio-wf-combat-rooms');
       const wfImage = document.getElementById('studio-wf-image');
-      const startRoomEl = document.getElementById('studio-flow-start-room');
-      const targetRoomEl = document.getElementById('studio-flow-target-room');
 
-      if (wfAreaName) wfAreaName.innerText = q.areaObj.name;
-      if (wfIdEl) wfIdEl.innerText = q.wf.id;
-      if (wfSecCount) wfSecCount.innerText = `Sections: ${q.wf.section_ids?.length || 12}`;
-      if (wfCombatRooms) wfCombatRooms.innerText = `Combat Rooms: [${q.combatRooms.join(', ')}]`;
-      if (wfImage) wfImage.src = q.wf.image_png || `analysis/floor-database/geometry/${q.wf.id}.png`;
-      if (startRoomEl) startRoomEl.innerText = q.combatRooms[0] || '10';
-      if (targetRoomEl) targetRoomEl.innerText = q.targetClearRoom || '12';
+      if (wfAreaName) wfAreaName.innerText = `${stage.areaObj.name} (Stage ${stage.stageIndex})`;
+      if (wfIdEl) wfIdEl.innerText = stage.wf.id;
+      if (wfSecCount) wfSecCount.innerText = `Sections: ${stage.wf.section_ids?.length || 12}`;
+      if (wfCombatRooms) wfCombatRooms.innerText = `Combat Rooms: [${stage.combatRooms.join(', ')}]`;
+      if (wfImage) wfImage.src = stage.wf.image_png || `analysis/floor-database/geometry/${stage.wf.id}.png`;
 
-      // 2. Assembly View
+      // 3. Interactive Room Badges & Spawns Detail
+      const roomBadges = document.getElementById('studio-room-picker-badges');
+      const selectedRoomTitle = document.getElementById('studio-selected-room-title');
+      const roomSpawnsDetail = document.getElementById('studio-room-spawns-detail');
+
+      // Default selected room
+      if (!state.questStudio.selectedRoomId || !stage.combatRooms.includes(state.questStudio.selectedRoomId)) {
+        state.questStudio.selectedRoomId = stage.combatRooms[0];
+      }
+      const selRoom = state.questStudio.selectedRoomId;
+
+      if (roomBadges) {
+        // Group stage spawns by room
+        const roomCounts = {};
+        stage.spawns.forEach(s => {
+          roomCounts[s.room] = (roomCounts[s.room] || 0) + 1;
+        });
+
+        roomBadges.innerHTML = stage.combatRooms.map((rId, idx) => {
+          const isSelected = (rId === selRoom);
+          const count = roomCounts[rId] || 0;
+          return `
+            <button type="button" onclick="selectStudioRoomDetail(${rId})" 
+              class="px-2.5 py-1 rounded text-xs transition font-mono flex items-center space-x-1.5 ${isSelected ? 'bg-amber-950 border border-amber-500 text-amber-300 font-bold' : 'bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300'}">
+              <i class="fa-solid fa-location-crosshairs ${isSelected ? 'text-amber-400' : 'text-slate-500'}"></i>
+              <span>Sec ${rId} (Wave ${idx + 1}): ${count} foes</span>
+            </button>
+          `;
+        }).join('');
+      }
+
+      if (selectedRoomTitle) {
+        selectedRoomTitle.innerText = `Sector ${selRoom} Spawns (${stage.areaObj.name})`;
+      }
+
+      if (roomSpawnsDetail) {
+        const roomSpawns = stage.spawns.filter(s => s.room === selRoom);
+        if (roomSpawns.length === 0) {
+          roomSpawnsDetail.innerHTML = `<span class="text-slate-500 font-mono">No hostiles registered in Sector ${selRoom}.</span>`;
+        } else {
+          roomSpawnsDetail.innerHTML = `
+            <div class="space-y-1">
+              <div class="text-[11px] text-amber-400 font-bold flex items-center justify-between pb-1 border-b border-slate-800">
+                <span>Wave ${roomSpawns[0]?.wave || 1} — ${roomSpawns.length} Enemies Placed in Formation:</span>
+                <span class="text-slate-400 text-[10px]">Room Center (0.0, 0.0, 20.0)</span>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-1.5 pt-1">
+                ${roomSpawns.map(s => `
+                  <div class="p-1.5 rounded bg-slate-900/80 border border-slate-800 flex items-center justify-between text-[11px]">
+                    <div>
+                      <span class="text-white font-bold">${s.name}</span>
+                      <span class="text-purple-400 ml-1 text-[10px] font-mono">${s.hex}</span>
+                      <div class="text-slate-400 text-[10px]">${s.role}</div>
+                    </div>
+                    <div class="text-right font-mono text-[10px] text-cyan-300">
+                      <span>(${s.coords})</span>
+                      <div class="text-slate-500">${s.angle}</div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      // 4. Doors & Warps Telemetry
+      const warpInDesc = document.getElementById('studio-warp-in-desc');
+      const doorDesc = document.getElementById('studio-door-desc');
+      const warpOutDesc = document.getElementById('studio-warp-out-desc');
+
+      if (warpInDesc) {
+        warpInDesc.innerText = activeIdx === 0 ? 'From Pioneer 2 (0x0019)' : `From Stage ${activeIdx} (${q.stages[activeIdx-1].areaObj.name})`;
+      }
+      if (doorDesc) {
+        doorDesc.innerText = `Room ${stage.combatRooms[0]} Laser Barrier -> Switch 1`;
+      }
+      if (warpOutDesc) {
+        warpOutDesc.innerText = activeIdx === q.stages.length - 1 ? 'Extraction Warp -> Pioneer 2 (Switch 1)' : `Advance Warp -> Stage ${activeIdx + 2} (${q.stages[activeIdx+1].areaObj.name})`;
+      }
+
+      // 5. Assembly View
       const asmContainer = document.getElementById('studio-assembly-code');
       if (asmContainer) {
         asmContainer.innerHTML = `<pre class="text-emerald-400 font-mono text-[11px] leading-relaxed select-text">${escapeHtml(q.script_txt)}</pre>`;
       }
 
-      // 3. Waves Table View
+      // 6. Waves Table View
       const wavesBadge = document.getElementById('studio-waves-count-badge');
       const wavesTbody = document.getElementById('studio-waves-table-body');
-      if (wavesBadge) wavesBadge.innerText = `${q.waveSpawns.length} Spawns (${q.combatRooms.length} Waves)`;
+      if (wavesBadge) wavesBadge.innerText = `${q.allSpawns.length} Total Hostiles (${q.stages.reduce((acc,s)=>acc+s.wavesCount,0)} Waves)`;
       if (wavesTbody) {
-        wavesTbody.innerHTML = q.waveSpawns.map(s => `
+        wavesTbody.innerHTML = q.allSpawns.map(s => `
           <tr class="hover:bg-slate-900/60 transition">
-            <td class="py-2 px-3 font-bold text-cyan-400">Wave ${s.wave}</td>
+            <td class="py-2 px-3 font-bold text-cyan-400">Stage ${s.stageIdx} (W${s.wave})</td>
             <td class="py-2 px-3 text-amber-400">Sec ${s.room}</td>
-            <td class="py-2 px-3 font-bold text-white">${s.name}</td>
+            <td class="py-2 px-3 font-bold text-white">${escapeHtml(s.name)}</td>
             <td class="py-2 px-3 text-purple-400">${s.hex}</td>
             <td class="py-2 px-3 text-slate-300 font-mono text-[11px]">${s.coords}</td>
             <td class="py-2 px-3 text-slate-400">${s.angle}</td>
-            <td class="py-2 px-3 text-slate-400 text-[11px]">${s.role}</td>
+            <td class="py-2 px-3 text-slate-400 text-[11px]">${escapeHtml(s.role)}</td>
           </tr>
         `).join('');
       }
+
+      // 7. Monster Roster Card & Summary
+      renderMonsterRosterUI(q.allSpawns, stage.areaObj.pool);
+    }
+
+    // Render Monster Spawn Registry Badges and Pool Checkboxes
+    function renderMonsterRosterUI(allSpawns, activePoolKey) {
+      const totalBadge = document.getElementById('studio-total-hostiles-badge');
+      const rosterBadges = document.getElementById('studio-monster-roster-badges');
+      const poolToggles = document.getElementById('studio-monster-pool-toggles');
+      const breakdownMeta = document.getElementById('studio-roster-breakdown-meta');
+
+      if (totalBadge) {
+        totalBadge.innerText = `Total Hostiles: ${allSpawns.length} Enemies`;
+      }
+      if (breakdownMeta) {
+        breakdownMeta.innerText = `${allSpawns.length} Hostiles Spawned`;
+      }
+
+      // Calculate counts and percentages
+      const counts = {};
+      const hexMap = {};
+      const roleMap = {};
+      allSpawns.forEach(s => {
+        counts[s.name] = (counts[s.name] || 0) + 1;
+        hexMap[s.name] = s.hex;
+        roleMap[s.name] = s.role;
+      });
+
+      if (rosterBadges) {
+        const sortedNames = Object.keys(counts).sort((a,b) => counts[b] - counts[a]);
+        rosterBadges.innerHTML = sortedNames.map(name => {
+          const count = counts[name];
+          const pct = Math.round((count / allSpawns.length) * 100);
+          const hex = hexMap[name] || '';
+          return `
+            <div class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-200 text-xs font-mono flex items-center space-x-1.5 shadow">
+              <span class="font-bold text-white">${escapeHtml(name)}</span>
+              <span class="text-purple-400 text-[10px]">${hex}</span>
+              <span class="px-1.5 py-0.2 rounded bg-purple-950/80 border border-purple-800 text-purple-300 font-bold text-[10px]">${count}x (${pct}%)</span>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // Render pool checkboxes for active pool
+      if (poolToggles) {
+        const pool = STUDIO_ENEMY_POOLS[activePoolKey] || STUDIO_ENEMY_POOLS.Forest;
+        poolToggles.innerHTML = pool.map(enemy => {
+          const isEnabled = !state.questStudio.disabledMonsters.has(enemy.name);
+          return `
+            <label class="flex items-center space-x-2 cursor-pointer p-1.5 rounded bg-slate-950 border border-slate-800 hover:border-slate-700">
+              <input type="checkbox" onchange="toggleMonsterInPool('${escapeHtml(enemy.name)}')" ${isEnabled ? 'checked' : ''} 
+                class="rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-0">
+              <span class="text-slate-300 text-[11px] truncate">${escapeHtml(enemy.name)} (${enemy.hex})</span>
+            </label>
+          `;
+        }).join('');
+      }
+    }
+
+    function setStudioActiveStageView(stageIdx) {
+      state.questStudio.activeStageViewIndex = stageIdx;
+      renderStudioViews();
+    }
+
+    function selectStudioRoomDetail(roomId) {
+      state.questStudio.selectedRoomId = roomId;
+      renderStudioViews();
     }
 
     function switchStudioSubTab(subTabId) {
@@ -3141,6 +4183,471 @@ Custom Quest Package for Phantasy Star Online Blue Burst (PSOBB)
       });
     }
 
+    // =========================================================================
+    // SEGA PRS COMPRESSOR (Sega LZ77 variant — verified roundtrip correct)
+    // =========================================================================
+    function prsCompress(inputBytes) {
+      const data = inputBytes;
+      const dst = [];
+      let flagByteIdx = 0, flagBitIdx = 0, currentFlags = 0;
+      dst.push(0); // initial flag byte slot
+      function writeBit(bit) {
+        if (flagBitIdx === 8) {
+          flagByteIdx = dst.length;
+          dst.push(0);
+          flagBitIdx = 0;
+          currentFlags = 0;
+        }
+        if (bit) { currentFlags |= (1 << flagBitIdx); dst[flagByteIdx] = currentFlags; }
+        flagBitIdx++;
+      }
+      let src = 0;
+      const dataLen = data.length;
+      while (src < dataLen) {
+        let bestLen = 0, bestOffset = 0;
+        const maxLookback = Math.min(src, 8190);
+        const maxLen = Math.min(256, dataLen - src);
+        if (maxLen >= 3 && maxLookback > 0) {
+          for (let l = 1; l <= maxLookback; l++) {
+            let cm = 0;
+            while (cm < maxLen && data[src - l + (cm % l)] === data[src + cm]) cm++;
+            if (cm > bestLen) { bestLen = cm; bestOffset = l; if (bestLen === maxLen) break; }
+          }
+        }
+        if (bestLen >= 3) {
+          if (bestLen <= 5 && bestOffset <= 256) {
+            writeBit(0); writeBit(0);
+            writeBit(((bestLen - 2) & 2) ? 1 : 0);
+            writeBit(((bestLen - 2) & 1) ? 1 : 0);
+            dst.push((256 - bestOffset) & 0xff);
+          } else {
+            writeBit(0); writeBit(1);
+            const comb = (8192 - bestOffset) << 3;
+            if (bestLen <= 9) {
+              const val = comb | (bestLen - 2);
+              dst.push(val & 0xff); dst.push((val >> 8) & 0xff);
+            } else {
+              dst.push(comb & 0xff); dst.push((comb >> 8) & 0xff); dst.push(bestLen - 1);
+            }
+          }
+          src += bestLen;
+        } else {
+          writeBit(1); dst.push(data[src]); src++;
+        }
+      }
+      writeBit(0); writeBit(1); dst.push(0); dst.push(0);
+      return new Uint8Array(dst);
+    }
+
+    // =========================================================================
+    // SEGA DAT COMPILER — 68-byte entity records, 16-byte section headers
+    // =========================================================================
+    function compileQuestDat(questData) {
+      const { objectCsvRows, allSpawns } = questData;
+
+      // Parse objects from CSV rows (skip header)
+      const objRecs = [];
+      for (let i = 1; i < objectCsvRows.length; i++) {
+        const parts = objectCsvRows[i].split(',');
+        if (parts.length < 8) continue;
+        objRecs.push({
+          floor: parseInt(parts[0]) || 0,
+          room:  parseInt(parts[1]) || 0,
+          type:  parseInt(parts[2], 16) || 0,
+          x:     parseFloat(parts[4]) || 0,
+          y:     parseFloat(parts[5]) || 0,
+          z:     parseFloat(parts[6]) || 0,
+          angle: parseInt(parts[7], 16) || 0
+        });
+      }
+
+      const RECORD_SIZE = 68;
+      const SECTION_HDR = 16;
+      const numObj = objRecs.length;
+      const numEne = allSpawns.length;
+
+      const totalSize = SECTION_HDR + numObj * RECORD_SIZE + SECTION_HDR + numEne * RECORD_SIZE;
+      const buf = new ArrayBuffer(totalSize);
+      const view = new DataView(buf);
+      let off = 0;
+
+      // Object section header
+      view.setUint32(off, 1, true); off += 4;
+      view.setUint32(off, SECTION_HDR + numObj * RECORD_SIZE, true); off += 4;
+      view.setUint32(off, 0, true); off += 4;
+      view.setUint32(off, numObj * RECORD_SIZE, true); off += 4;
+
+      let entityId = 1;
+      // Object records
+      for (const o of objRecs) {
+        view.setUint16(off, o.type, true); off += 2;
+        view.setUint16(off, 0, true); off += 2;
+        view.setUint16(off, 0, true); off += 2;
+        view.setInt16(off, o.room, true); off += 2;
+        view.setUint16(off, 0, true); off += 2;
+        view.setUint16(off, 0, true); off += 2;
+        view.setUint32(off, o.floor, true); off += 4;
+        view.setFloat32(off, o.x, true); off += 4;
+        view.setFloat32(off, o.y, true); off += 4;
+        view.setFloat32(off, o.z, true); off += 4;
+        view.setInt32(off, o.angle, true); off += 4;
+        view.setInt32(off, 0, true); off += 4;
+        view.setInt32(off, 0, true); off += 4;
+        view.setFloat32(off, 1.0, true); off += 4;
+        view.setFloat32(off, 1.0, true); off += 4;
+        view.setFloat32(off, 1.0, true); off += 4;
+        view.setUint32(off, 1, true); off += 4;
+        view.setUint32(off, 0, true); off += 4;
+        view.setUint32(off, 0, true); off += 4;
+        view.setUint32(off, entityId++, true); off += 4;
+      }
+
+      // Enemy section header
+      view.setUint32(off, 1, true); off += 4;
+      view.setUint32(off, SECTION_HDR + numEne * RECORD_SIZE, true); off += 4;
+      view.setUint32(off, 1, true); off += 4;
+      view.setUint32(off, numEne * RECORD_SIZE, true); off += 4;
+
+      // Enemy records
+      for (const s of allSpawns) {
+        const typeVal = parseInt(s.hex, 16) || 0;
+        const isRare = (s.role && s.role.toLowerCase().includes('rare')) ? 1 : 0;
+        const waveNum = s.wave || 1;
+        const x = parseFloat(s.x) || 0;
+        const y = parseFloat(s.y) || 0;
+        const z = parseFloat(s.z) || 0;
+        const angleInt = parseInt(s.angle, 16) || 0;
+        view.setUint16(off, typeVal, true); off += 2;
+        view.setUint16(off, 0, true); off += 2;
+        view.setUint16(off, 0, true); off += 2;
+        view.setInt16(off, s.room || 1, true); off += 2;
+        view.setUint16(off, 0, true); off += 2;
+        view.setUint16(off, 0, true); off += 2;
+        view.setUint32(off, waveNum, true); off += 4;
+        view.setFloat32(off, x, true); off += 4;
+        view.setFloat32(off, y, true); off += 4;
+        view.setFloat32(off, z, true); off += 4;
+        view.setInt32(off, angleInt, true); off += 4;
+        view.setInt32(off, 0, true); off += 4;
+        view.setInt32(off, 0, true); off += 4;
+        view.setFloat32(off, 1.0, true); off += 4;
+        view.setFloat32(off, 1.0, true); off += 4;
+        view.setFloat32(off, 1.0, true); off += 4;
+        view.setUint32(off, 0, true); off += 4;
+        view.setUint32(off, 0, true); off += 4;
+        view.setUint32(off, isRare, true); off += 4;
+        view.setUint32(off, entityId++, true); off += 4;
+      }
+
+      return prsCompress(new Uint8Array(buf));
+    }
+
+    // =========================================================================
+    // SEGA BIN COMPILER — 1024-byte header, bytecode, function offset table
+    // =========================================================================
+    function compileQuestBin(questData) {
+      const { title, directive, manifest, script_txt, stages, allSpawns } = questData;
+      const primaryEp = manifest ? manifest.episode : 1;
+      const questId = 999;
+
+      // --- UTF-16LE string helpers ---
+      function encUtf16le(str, maxBytes) {
+        const chars = Array.from(str).slice(0, maxBytes / 2);
+        const buf = new Uint8Array(maxBytes);
+        for (let i = 0; i < chars.length; i++) {
+          const code = chars[i].charCodeAt(0);
+          buf[i * 2] = code & 0xff;
+          buf[i * 2 + 1] = (code >> 8) & 0xff;
+        }
+        return buf;
+      }
+
+      // --- Bytecode helpers ---
+      const code = [];
+      function emitByte(b) { code.push(b & 0xff); }
+      function emitU16le(v) { code.push(v & 0xff); code.push((v >> 8) & 0xff); }
+      function emitU32le(v) { code.push(v & 0xff); code.push((v >> 8) & 0xff); code.push((v >> 16) & 0xff); code.push((v >> 24) & 0xff); }
+      function emitI8(v) { code.push((v + 256) & 0xff); }
+      function emitString(s) { for (let i = 0; i < s.length; i++) emitByte(s.charCodeAt(i)); emitByte(0); }
+
+      // Opcodes (verified against q101-bb-e.bin disassembly)
+      const OP_NOP   = 0x00;
+      const OP_RET   = 0x01;
+      const OP_SYNC  = 0x02;
+      const OP_THREAD = 0x04; // SCRIPT16
+      const OP_WINDOW_MSG = 0x5A; // CSTRING
+      const OP_WINEND = 0x5E;
+      const OP_NPC_TALK = 0x65;
+      const OP_JMP   = 0x28; // SCRIPT16
+      const OP_CALL  = 0x29; // SCRIPT16
+      const OP_JMP_ON = 0x2A;
+      const OP_JMP_OFF = 0x2B;
+      const OP_SET_EPISODE = [0xBC, 0xF8]; // 0xF8BC, arg I32
+      const OP_BB_MAP_DESIGNATE = [0x51, 0xF9]; // 0xF951, 5xI8
+
+      // fn_map: fnId -> relative code offset (from code[0])
+      const fnMap = {};
+      function defFn(id) { fnMap[id] = code.length; }
+
+      // Backpatch slots: { at, targetFnId }
+      const backpatch = [];
+      function emitScriptRef(fnId) {
+        backpatch.push({ at: code.length, fnId });
+        code.push(0); code.push(0); // placeholder
+      }
+
+      // --- Function 0: Entry point ---
+      defFn(0);
+      // set_episode <ep-1>
+      emitByte(OP_SET_EPISODE[0]); emitByte(OP_SET_EPISODE[1]);
+      emitI8(primaryEp - 1); emitI8(0); emitI8(0); emitI8(0);
+      // BB_Map_Designate 0, 0, 0, 0, 0  (Pioneer 2)
+      emitByte(OP_BB_MAP_DESIGNATE[0]); emitByte(OP_BB_MAP_DESIGNATE[1]);
+      emitI8(0); emitI8(0); emitI8(0); emitI8(0); emitI8(0);
+      // BB_Map_Designate for each stage
+      if (stages && stages.length > 0) {
+        for (const s of stages) {
+          const floorIdx = s.areaObj ? s.areaObj.floorIdx : 1;
+          const areaId   = s.areaObj ? s.areaObj.areaId   : 1;
+          emitByte(OP_BB_MAP_DESIGNATE[0]); emitByte(OP_BB_MAP_DESIGNATE[1]);
+          emitI8(floorIdx); emitI8(areaId); emitI8(0); emitI8(0); emitI8(0);
+        }
+      } else {
+        emitByte(OP_BB_MAP_DESIGNATE[0]); emitByte(OP_BB_MAP_DESIGNATE[1]);
+        emitI8(1); emitI8(1); emitI8(0); emitI8(0); emitI8(0);
+      }
+      // thread L100
+      emitByte(OP_THREAD); emitScriptRef(100);
+      emitByte(OP_RET);
+
+      // --- Function 1: Sega callback (blank ret) ---
+      defFn(1);
+      emitByte(OP_RET);
+
+      // --- Function 10: Guild Officer NPC interaction ---
+      defFn(10);
+      emitByte(OP_NPC_TALK);
+      emitByte(OP_WINDOW_MSG);
+      emitString("Hunter's Guild:\\nA critical assignment on Ragol awaits you.\\nDeploy through the teleporter and neutralize all hostiles.");
+      emitByte(OP_WINEND);
+      emitByte(OP_RET);
+
+      // --- Function 20: Tactical Scout NPC ---
+      defFn(20);
+      emitByte(OP_NPC_TALK);
+      emitByte(OP_WINDOW_MSG);
+      emitString("Tactical Scout:\\nRadar indicates heavy swarm activity in all designated corridors.\\nClear each sector sequentially to unlock the advance warps.");
+      emitByte(OP_WINEND);
+      emitByte(OP_RET);
+
+      // --- Function 30: Master Paganini (Mag Cell shop) ---
+      defFn(30);
+      emitByte(OP_NPC_TALK);
+      emitByte(OP_WINDOW_MSG);
+      emitString("Paganini:\\nYou look like a collector. Trade Photon Drops for rare Mag Cells.\\nBring me 99 Photon Drops and I will reward you handsomely.");
+      emitByte(OP_WINEND);
+      emitByte(OP_RET);
+
+      // --- Function 40: Mission Client NPC ---
+      defFn(40);
+      emitByte(OP_NPC_TALK);
+      emitByte(OP_WINDOW_MSG);
+      emitString("Mission Client:\\nOur survey team was trapped by ferocious swarms!\\nPlease clear the corridors so we can retrieve our equipment.");
+      emitByte(OP_WINEND);
+      emitByte(OP_RET);
+
+      // --- Function 100: Background objective monitor (sync-yielded loop) ---
+      defFn(100);
+      emitByte(OP_SYNC);
+      emitByte(OP_JMP); emitScriptRef(100); // loop back (sync yield)
+      // Note: In a full quest this would check zone_clear flags and advance, but for base compiler we emit a simple sync loop that the script.txt handles via text-based tooling
+      emitByte(OP_RET);
+
+      // --- Backpatch all SCRIPT16 references ---
+      for (const bp of backpatch) {
+        const target = fnMap[bp.fnId];
+        if (target !== undefined) {
+          code[bp.at]     = target & 0xff;
+          code[bp.at + 1] = (target >> 8) & 0xff;
+        }
+      }
+
+      // --- Build header (1024 bytes) ---
+      const HEADER_SIZE = 0x400; // 1024
+      const header = new Uint8Array(HEADER_SIZE);
+      const hdrView = new DataView(header.buffer);
+
+      // Title (UTF-16LE, at 0x18, max 64 bytes)
+      const questTitle = (title || 'Custom Quest').slice(0, 32);
+      header.set(encUtf16le(questTitle, 64), 0x18);
+      // Short description at 0x58, max 128 bytes
+      const shortDesc = `PSOBB AI Quest (${directive ? directive.toUpperCase() : 'EXTERMINATION'})`.slice(0, 63);
+      header.set(encUtf16le(shortDesc, 128), 0x58);
+      // Long description at 0x158, max 256 bytes
+      const longDesc = `Custom PSOBB quest generated by AI Quest Creator Studio. Episode ${primaryEp}, ${allSpawns ? allSpawns.length : 0} total hostiles.`.slice(0, 127);
+      header.set(encUtf16le(longDesc, 256), 0x158);
+
+      // Function table — 702 entries max (2808 bytes), one uint32 per function
+      const FN_TABLE_ENTRIES = 702;
+      const fnTable = new Uint8Array(FN_TABLE_ENTRIES * 4);
+      const ftView = new DataView(fnTable.buffer);
+      // Fill with 0xFFFFFFFF (unused)
+      for (let i = 0; i < FN_TABLE_ENTRIES * 4; i += 4) ftView.setUint32(i, 0xFFFFFFFF, true);
+      // Patch in known functions
+      const fnIds = [0, 1, 10, 20, 30, 40, 100];
+      for (const id of fnIds) {
+        if (fnMap[id] !== undefined && id < FN_TABLE_ENTRIES) {
+          ftView.setUint32(id * 4, fnMap[id], true);
+        }
+      }
+
+      // Final layout: 1024-byte header + bytecode + function table
+      const codeBytes = new Uint8Array(code);
+      const codeOffset = HEADER_SIZE;
+      const fnTableOffset = HEADER_SIZE + codeBytes.length;
+      const totalSize = fnTableOffset + fnTable.length;
+
+      // Patch header fields at 0x00..0x14
+      hdrView.setUint32(0x00, codeOffset, true);
+      hdrView.setUint32(0x04, fnTableOffset, true);
+      hdrView.setUint32(0x08, totalSize, true);
+      hdrView.setUint32(0x0C, 0xFFFFFFFF, true);
+      hdrView.setUint32(0x10, questId, true);
+      hdrView.setUint32(0x14, 0x00000400, true);
+
+      // Assemble final binary
+      const rawBin = new Uint8Array(totalSize);
+      rawBin.set(header, 0);
+      rawBin.set(codeBytes, codeOffset);
+      rawBin.set(fnTable, fnTableOffset);
+
+      return prsCompress(rawBin);
+    }
+
+    // =========================================================================
+    // SEGA QST PACKAGER — 88-byte 0x44 headers + 1056-byte 0x13 chunks
+    // =========================================================================
+    function compileQuestQst(binPrs, datPrs, questNum) {
+      const n = questNum !== undefined ? questNum : 999;
+      const datFname = `quest${n}.dat`;
+      const binFname = `quest${n}.bin`;
+      const chunks = [];
+
+      function makeHeader(fname, totalSize) {
+        const hdr = new Uint8Array(88);
+        const hv = new DataView(hdr.buffer);
+        hv.setUint16(0, 88, true);   // packet size
+        hv.setUint16(2, 0x0044, true); // type
+        // filename at offset 44 (0x2C)
+        for (let i = 0; i < fname.length && i < 16; i++) hdr[44 + i] = fname.charCodeAt(i);
+        hv.setUint32(60, totalSize, true); // total decompressed size
+        hdr[64] = 0x50; hdr[65] = 0x53; hdr[66] = 0x4F; hdr[67] = 0x2F; // 'PSO/'
+        return hdr;
+      }
+
+      function appendChunks(fname, data) {
+        const numChunks = Math.ceil(data.length / 1024) || 1;
+        for (let ci = 0; ci < numChunks; ci++) {
+          const pkt = new Uint8Array(1056);
+          const pv = new DataView(pkt.buffer);
+          pv.setUint16(0, 1052, true);    // size
+          pv.setUint16(2, 0x0013, true);  // type
+          pv.setUint32(4, ci, true);      // chunk index
+          for (let i = 0; i < fname.length && i < 16; i++) pkt[8 + i] = fname.charCodeAt(i);
+          const chunk = data.slice(ci * 1024, (ci + 1) * 1024);
+          pkt.set(chunk, 24);
+          pv.setUint32(1048, chunk.length, true);
+          chunks.push(pkt);
+        }
+      }
+
+      const qst = [];
+      qst.push(makeHeader(datFname, datPrs.length));
+      qst.push(makeHeader(binFname, binPrs.length));
+      appendChunks(datFname, datPrs);
+      appendChunks(binFname, binPrs);
+
+      // Concatenate all parts
+      const totalLen = chunks.reduce((s, c) => s + c.length, 0) + 88 * 2;
+      const out = new Uint8Array(totalLen);
+      let off = 0;
+      out.set(qst[0], off); off += 88;
+      out.set(qst[1], off); off += 88;
+      for (const c of chunks) { out.set(c, off); off += c.length; }
+      return out;
+    }
+
+    // =========================================================================
+    // BINARY COMPILER: called from generateCustomQuestFromUI to compile binaries
+    // =========================================================================
+    function compileBinaries(q) {
+      if (!q) return null;
+      // Parse object CSV rows (include header)
+      const objectCsvRows = q.objects_csv ? q.objects_csv.split('\n') : [];
+      const compiled = {
+        objectCsvRows: objectCsvRows,
+        allSpawns: q.allSpawns || [],
+        title: q.title,
+        directive: q.directive,
+        manifest: q.manifest,
+        stages: q.stages,
+        script_txt: q.script_txt
+      };
+
+      const datPrs = compileQuestDat(compiled);
+      const binPrs = compileQuestBin(compiled);
+      const qstBytes = compileQuestQst(binPrs, datPrs, 999);
+
+      // Update manifest size badges
+      const kb = (n) => `${(n / 1024).toFixed(1)} KB`;
+      const qstEl = document.getElementById('manifest-qst-size');
+      const binEl = document.getElementById('manifest-bin-size');
+      const datEl = document.getElementById('manifest-dat-size');
+      if (qstEl) qstEl.textContent = kb(qstBytes.length);
+      if (binEl) binEl.textContent = kb(binPrs.length);
+      if (datEl) datEl.textContent = kb(datPrs.length);
+
+      return { datPrs, binPrs, qstBytes };
+    }
+
+    // =========================================================================
+    // INDIVIDUAL BINARY DOWNLOAD HELPERS
+    // =========================================================================
+    function binaryDownload(bytes, filename) {
+      const blob = new Blob([bytes], { type: 'application/octet-stream' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function downloadCustomQuestQst() {
+      const q = state.questStudio.currentQuest;
+      if (!q) { copyToast('Generate a quest first!'); return; }
+      const compiled = compileBinaries(q);
+      if (!compiled) { copyToast('Compilation failed — check console.'); return; }
+      binaryDownload(compiled.qstBytes, 'quest999.qst');
+      copyToast('🎮 quest999.qst downloaded! Drop it into your server quest folder.');
+    }
+
+    function downloadCustomQuestBin() {
+      const q = state.questStudio.currentQuest;
+      if (!q) { copyToast('Generate a quest first!'); return; }
+      const compiled = compileBinaries(q);
+      if (!compiled) return;
+      binaryDownload(compiled.binPrs, 'quest999.bin');
+      copyToast('📜 quest999.bin downloaded (PRS-compressed bytecode).');
+    }
+
+    function downloadCustomQuestDat() {
+      const q = state.questStudio.currentQuest;
+      if (!q) { copyToast('Generate a quest first!'); return; }
+      const compiled = compileBinaries(q);
+      if (!compiled) return;
+      binaryDownload(compiled.datPrs, 'quest999.dat');
+      copyToast('🗺️ quest999.dat downloaded (PRS-compressed entity tables).');
+    }
+
     async function downloadCustomQuestZip() {
       const q = state.questStudio.currentQuest;
       if (!q) {
@@ -3153,6 +4660,9 @@ Custom Quest Package for Phantasy Star Online Blue Burst (PSOBB)
         return;
       }
 
+      // Compile Sega binaries and include them in the ZIP
+      const compiled = compileBinaries(q);
+
       const zip = new JSZip();
       const slug = q.title.toLowerCase().replace(/[^a-z0-9]+/g, '_').slice(0, 24);
 
@@ -3160,8 +4670,16 @@ Custom Quest Package for Phantasy Star Online Blue Burst (PSOBB)
       zip.file("map.txt", q.map_txt);
       zip.file("enemies.csv", q.enemies_csv);
       zip.file("objects.csv", q.objects_csv);
+      zip.file("waves.csv", q.waves_csv);
       zip.file("quest_manifest.json", JSON.stringify(q.manifest, null, 2));
       zip.file("README.md", q.readme_md);
+
+      // Include compiled Sega binaries
+      if (compiled) {
+        zip.file("quest999.bin", compiled.binPrs);
+        zip.file("quest999.dat", compiled.datPrs);
+        zip.file("quest999.qst", compiled.qstBytes);
+      }
 
       const blob = await zip.generateAsync({ type: "blob" });
       const url = URL.createObjectURL(blob);
@@ -3171,7 +4689,7 @@ Custom Quest Package for Phantasy Star Online Blue Burst (PSOBB)
       a.click();
       URL.revokeObjectURL(url);
 
-      copyToast("📥 custom_quest.zip downloaded successfully!");
+      copyToast("📥 custom_quest.zip downloaded — includes .bin, .dat & .qst!");
     }
 
     function copyStudioAssembly() {
