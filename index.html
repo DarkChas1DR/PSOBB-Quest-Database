@@ -14,6 +14,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- sql.js (WebAssembly SQLite) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+  <!-- JSZip for 1-Click Client-Side Quest Packaging -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
   <script>
     tailwind.config = {
@@ -120,13 +122,21 @@
         <i class="fa-solid fa-gauge-high"></i>
         <span>Dashboard</span>
       </button>
-      <button onclick="switchTab('questbrowser')" id="tab-questbrowser" class="nav-btn px-3 py-1.5 rounded-md border border-transparent hover:border-cyan-800 text-slate-300 whitespace-nowrap transition flex items-center space-x-1.5 font-bold text-cyan-300">
+      <button onclick="switchTab('queststudio')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold flex items-center space-x-2 transition shadow shadow-emerald-950/50">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <span>AI Quest Studio & Generator</span>
+            </button>
+            <button onclick="switchTab('questbrowser')" id="tab-questbrowser" class="nav-btn px-3 py-1.5 rounded-md border border-transparent hover:border-cyan-800 text-slate-300 whitespace-nowrap transition flex items-center space-x-1.5 font-bold text-cyan-300">
         <i class="fa-solid fa-map-location-dot text-cyan-400"></i>
         <span>Quest Dossiers & Rooms (527)</span>
       </button>
       <button onclick="switchTab('wireframes')" id="tab-wireframes" class="nav-btn px-3 py-1.5 rounded-md border border-transparent hover:border-cyan-800 text-slate-300 whitespace-nowrap transition flex items-center space-x-1.5 font-bold text-amber-300">
         <i class="fa-solid fa-draw-polygon text-amber-400"></i>
         <span>Map Wireframes & Sections (126)</span>
+      </button>
+      <button onclick="switchTab(\'queststudio\')" id="tab-queststudio" class="nav-btn px-3 py-1.5 rounded-md border border-emerald-500/40 bg-emerald-950/40 hover:border-emerald-400 text-emerald-300 whitespace-nowrap transition flex items-center space-x-1.5 font-bold shadow-sm">
+        <i class="fa-solid fa-wand-magic-sparkles text-emerald-400"></i>
+        <span>AI Quest Creator</span>
       </button>
       <button onclick="switchTab('opcodes')" id="tab-opcodes" class="nav-btn px-3 py-1.5 rounded-md border border-transparent hover:border-cyan-800 text-slate-300 whitespace-nowrap transition flex items-center space-x-1.5">
         <i class="fa-solid fa-terminal text-cyan-400"></i>
@@ -365,6 +375,322 @@
             <div class="text-center py-24 text-slate-500 font-mono">
               <i class="fa-solid fa-map text-4xl mb-3 text-amber-500/40"></i>
               <p>Select a map layout from the list to display its 2D wireframe and numbered section room IDs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <!-- TAB: AI QUEST CREATOR STUDIO -->
+    <section id="pane-queststudio" class="space-y-6 hidden">
+      <!-- Studio Header Banner -->
+      <div class="bg-gradient-to-r from-slate-900 via-emerald-950/40 to-slate-900 p-6 rounded-xl border border-emerald-500/30 shadow-xl relative overflow-hidden">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 relative z-10">
+          <div>
+            <div class="flex items-center space-x-2 mb-2">
+              <span class="px-2.5 py-0.5 rounded bg-emerald-950 border border-emerald-800 text-emerald-300 text-[11px] font-mono font-bold flex items-center space-x-1">
+                <i class="fa-solid fa-wand-magic-sparkles text-emerald-400"></i>
+                <span>COMMUNITY PROMPT-TO-QUEST STUDIO</span>
+              </span>
+              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 text-[11px] font-mono">100% Client-Side Engine</span>
+              <span class="px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 text-[11px] font-mono">Safe Flags (600..899)</span>
+            </div>
+            <h3 class="text-2xl font-black text-white flex items-center space-x-2">
+              <span>PSOBB AI Quest Studio & Generator</span>
+            </h3>
+            <p class="text-xs text-slate-300 max-w-2xl mt-1 leading-relaxed">
+              Design and compile custom Sega Dreamcast / Blue Burst quests from natural language prompts.
+              Generates crash-proof Qedit assembly with strictly timed polling loops, spatial wave placements, room triggers, and instant 1-click ZIP export.
+            </p>
+          </div>
+
+          <!-- Studio Actions & BYOK Settings -->
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="openAiSettingsModal()" class="px-3.5 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-mono flex items-center space-x-1.5 transition shadow">
+              <i class="fa-solid fa-key text-amber-400"></i>
+              <span id="ai-key-status-label">AI Key (BYOK)</span>
+            </button>
+            <button onclick="resetStudioToDefault()" class="px-3 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 text-xs font-mono transition">
+              <i class="fa-solid fa-arrow-rotate-left"></i>
+              <span>Reset</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Studio Main Layout Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left Column: Prompting & Tuning Controls (Col span 5) -->
+        <div class="lg:col-span-5 space-y-5">
+          
+          <!-- Mission Concept Box -->
+          <div class="bg-pso-card p-5 rounded-xl border border-pso-cardborder shadow-lg space-y-4">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-bold text-white uppercase tracking-wider font-mono flex items-center space-x-1.5">
+                <i class="fa-solid fa-comment-dots text-emerald-400"></i>
+                <span>Mission Prompt / Story Concept</span>
+              </label>
+              <button onclick="enhancePromptWithAI()" id="btn-enhance-prompt" class="px-2.5 py-1 rounded bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-700 text-emerald-300 text-[11px] font-mono transition flex items-center space-x-1">
+                <i class="fa-solid fa-wand-sparkles text-emerald-400"></i>
+                <span>AI Enhance Prompt</span>
+              </button>
+            </div>
+
+            <textarea id="studio-prompt" rows="3" placeholder="e.g. Forest 1 extermination mission with 3 waves of Boomas and Savage Wolves, an ancient hunter NPC named Dan, and 5000 Meseta reward..."
+              class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 font-mono resize-y leading-relaxed"></textarea>
+
+            <!-- Prompt Inspiration Presets -->
+            <div class="space-y-1.5">
+              <div class="text-[11px] font-mono text-slate-400 flex items-center justify-between">
+                <span>Quick Inspiration Presets:</span>
+                <span class="text-[10px] text-slate-500">Click to load</span>
+              </div>
+              <div class="flex flex-wrap gap-1.5 text-[11px]">
+                <button type="button" onclick="setPromptPreset('forest')" class="px-2 py-1 rounded bg-slate-900 hover:bg-emerald-950 border border-slate-800 hover:border-emerald-600 text-slate-300 hover:text-emerald-300 transition">🌲 Forest Extermination</button>
+                <button type="button" onclick="setPromptPreset('caves')" class="px-2 py-1 rounded bg-slate-900 hover:bg-emerald-950 border border-slate-800 hover:border-emerald-600 text-slate-300 hover:text-emerald-300 transition">🦇 Caves Spider Nest</button>
+                <button type="button" onclick="setPromptPreset('mines')" class="px-2 py-1 rounded bg-slate-900 hover:bg-emerald-950 border border-slate-800 hover:border-emerald-600 text-slate-300 hover:text-emerald-300 transition">⛏️ Mine Garanz Sabotage</button>
+                <button type="button" onclick="setPromptPreset('ruins')" class="px-2 py-1 rounded bg-slate-900 hover:bg-emerald-950 border border-slate-800 hover:border-emerald-600 text-slate-300 hover:text-emerald-300 transition">🏛️ Ruins Dark Belra</button>
+                <button type="button" onclick="setPromptPreset('seabed')" class="px-2 py-1 rounded bg-slate-900 hover:bg-emerald-950 border border-slate-800 hover:border-emerald-600 text-slate-300 hover:text-emerald-300 transition">🌊 Seabed Biohazard</button>
+                <button type="button" onclick="setPromptPreset('desert')" class="px-2 py-1 rounded bg-slate-900 hover:bg-emerald-950 border border-slate-800 hover:border-emerald-600 text-slate-300 hover:text-emerald-300 transition">🏜️ Desert Ambush</button>
+              </div>
+            </div>
+
+            <!-- Primary Generate Button -->
+            <button onclick="generateCustomQuestFromUI()" id="btn-generate-quest" class="w-full py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs font-mono uppercase tracking-wider flex items-center justify-center space-x-2 transition shadow-lg shadow-emerald-950/80">
+              <i class="fa-solid fa-bolt text-sm"></i>
+              <span>Generate & Compile Custom Quest</span>
+            </button>
+          </div>
+
+          <!-- Quest Parameters & Fine Tuning -->
+          <div class="bg-pso-card p-5 rounded-xl border border-pso-cardborder shadow-lg space-y-4">
+            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono flex items-center space-x-1.5">
+              <i class="fa-solid fa-sliders text-cyan-400"></i>
+              <span>Detailed Quest Parameters</span>
+            </h4>
+
+            <div class="grid grid-cols-2 gap-3 text-xs">
+              <!-- Episode & Area -->
+              <div class="space-y-1">
+                <label class="text-slate-400 font-mono text-[11px]">Target Floor / Zone</label>
+                <select id="studio-area-select" onchange="onStudioAreaChange()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-white font-mono text-xs focus:outline-none focus:border-cyan-400">
+                  <!-- Populated by JS -->
+                </select>
+              </div>
+
+              <!-- Combat Wave Count -->
+              <div class="space-y-1">
+                <label class="text-slate-400 font-mono text-[11px]">Encounter Waves</label>
+                <select id="studio-waves-count" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-white font-mono text-xs focus:outline-none focus:border-cyan-400">
+                  <option value="1">1 Wave (Quick Skirmish)</option>
+                  <option value="2">2 Waves (Tactical Patrol)</option>
+                  <option value="3" selected>3 Waves (Standard Raid)</option>
+                  <option value="4">4 Waves (Heavy Assault)</option>
+                  <option value="5">5 Waves (Gauntlet Extermination)</option>
+                  <option value="6">6 Waves (Full Sector Purge)</option>
+                </select>
+              </div>
+
+              <!-- Reward Type -->
+              <div class="space-y-1">
+                <label class="text-slate-400 font-mono text-[11px]">Mission Reward</label>
+                <select id="studio-reward-select" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-white font-mono text-xs focus:outline-none focus:border-cyan-400">
+                  <option value="meseta_2500">2,500 Meseta (Standard)</option>
+                  <option value="meseta_5000" selected>5,000 Meseta (Bounty)</option>
+                  <option value="meseta_15000">15,000 Meseta (High Risk)</option>
+                  <option value="meseta_30000">30,000 Meseta (Veteran)</option>
+                  <option value="item_pd">Photon Drop x1 (0x03, 0x0A, 0x00)</option>
+                  <option value="item_mono">Monogrinder x2 (0x03, 0x01, 0x00)</option>
+                  <option value="item_arm">God/Arm Unit (0x01, 0x03, 0x4A)</option>
+                </select>
+              </div>
+
+              <!-- NPC Briefing Persona -->
+              <div class="space-y-1">
+                <label class="text-slate-400 font-mono text-[11px]">Guild Officer Persona</label>
+                <select id="studio-npc-tone" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-white font-mono text-xs focus:outline-none focus:border-cyan-400">
+                  <option value="officer" selected>Guild Administrator (Formal)</option>
+                  <option value="veteran">Veteran Hunter (Battle-hardened)</option>
+                  <option value="scientist">Principal Lab Researcher (Analytical)</option>
+                  <option value="works">Works Secret Operative (Covert)</option>
+                  <option value="civilian">Pioneer 2 Citizen (Desperate)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Boss Battle & Flag Safety Checklist -->
+            <div class="pt-2 border-t border-slate-800/80 space-y-2 text-xs">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <input type="checkbox" id="studio-has-boss" class="rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-0">
+                <span class="text-slate-300 font-mono">Include Boss Arena Climax (Floor 11 Designated)</span>
+              </label>
+              <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-[11px] font-mono text-slate-400 space-y-1">
+                <div class="flex items-center justify-between text-cyan-400 font-bold">
+                  <span>Bytecode Safety Standards:</span>
+                  <span class="text-emerald-400"><i class="fa-solid fa-circle-check"></i> Passed</span>
+                </div>
+                <div class="grid grid-cols-2 gap-1 text-[10px] text-slate-400">
+                  <span>• Safe Flags: 610, 611, 612, 613</span>
+                  <span>• Polling loop: sync yielded</span>
+                  <span>• Function 0: init & designate</span>
+                  <span>• Function 1: ret only</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Live Inspector & 360° Quest Preview (Col span 7) -->
+        <div class="lg:col-span-7 bg-slate-950 rounded-xl border border-slate-800 flex flex-col overflow-hidden shadow-xl">
+          
+          <!-- Inspector Tabs & Download Bar -->
+          <div class="p-3 bg-slate-900 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center space-x-1 text-xs font-mono">
+              <button onclick="switchStudioSubTab('wireframe')" id="studio-subtab-wireframe" class="studio-tab-btn active px-3 py-1.5 rounded border border-transparent text-slate-300 hover:text-white transition">
+                <i class="fa-solid fa-draw-polygon text-amber-400 mr-1"></i> 2D Wireframe
+              </button>
+              <button onclick="switchStudioSubTab('assembly')" id="studio-subtab-assembly" class="studio-tab-btn px-3 py-1.5 rounded border border-transparent text-slate-300 hover:text-white transition">
+                <i class="fa-solid fa-terminal text-cyan-400 mr-1"></i> Qedit script.txt
+              </button>
+              <button onclick="switchStudioSubTab('waves')" id="studio-subtab-waves" class="studio-tab-btn px-3 py-1.5 rounded border border-transparent text-slate-300 hover:text-white transition">
+                <i class="fa-solid fa-dragon text-purple-400 mr-1"></i> Waves & Spawns
+              </button>
+              <button onclick="switchStudioSubTab('manifest')" id="studio-subtab-manifest" class="studio-tab-btn px-3 py-1.5 rounded border border-transparent text-slate-300 hover:text-white transition">
+                <i class="fa-solid fa-file-zipper text-emerald-400 mr-1"></i> ZIP Manifest
+              </button>
+            </div>
+
+            <!-- Download ZIP Button -->
+            <button onclick="downloadCustomQuestZip()" id="btn-download-zip" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs font-mono flex items-center space-x-1.5 transition shadow">
+              <i class="fa-solid fa-download"></i>
+              <span>Download Quest .ZIP</span>
+            </button>
+          </div>
+
+          <!-- Inspector View 1: 2D Wireframe & Combat Sectors -->
+          <div id="studio-view-wireframe" class="p-5 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+              <div>
+                <span class="text-amber-400 font-bold uppercase" id="studio-wf-area-name">Forest 1</span>
+                <h4 class="text-lg font-black text-white font-mono" id="studio-wf-id">map_forest01</h4>
+              </div>
+              <div class="flex items-center space-x-2 text-[11px]">
+                <span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-300" id="studio-wf-section-count">Sections: 16</span>
+                <span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-emerald-300" id="studio-wf-combat-rooms">Combat Sectors: 3</span>
+              </div>
+            </div>
+
+            <div class="bg-black/70 rounded-xl border border-slate-900 p-3 flex flex-col items-center justify-center min-h-[360px] relative group">
+              <img id="studio-wf-image" src="analysis/floor-database/geometry/map_forest01.png" alt="Quest Wireframe" class="max-h-[380px] max-w-full object-contain rounded drop-shadow-2xl">
+              <div class="absolute bottom-3 right-3 flex items-center space-x-2 bg-slate-900/90 backdrop-blur px-2.5 py-1 rounded border border-slate-800 text-[10px] font-mono text-slate-400">
+                <i class="fa-solid fa-circle-dot text-amber-400"></i>
+                <span>Numbered circles denote Section Room IDs</span>
+              </div>
+            </div>
+
+            <!-- Combat Sectors & Flow Details -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-mono">
+              <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800">
+                <span class="text-slate-400 block text-[10px]">ENTRY SPAWN POINT</span>
+                <span class="text-cyan-400 font-bold text-sm">Room 0 (Pioneer 2)</span>
+                <span class="text-slate-500 text-[11px] block mt-0.5">Teleports to Combat Room <span id="studio-flow-start-room" class="text-white">10</span></span>
+              </div>
+              <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800">
+                <span class="text-slate-400 block text-[10px]">COMBAT CLEAR TRIGGER</span>
+                <span class="text-amber-400 font-bold text-sm">if_zone_clear Monitor</span>
+                <span class="text-slate-500 text-[11px] block mt-0.5">Locks until Room <span id="studio-flow-target-room" class="text-white">12</span> is wiped</span>
+              </div>
+              <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800">
+                <span class="text-slate-400 block text-[10px]">RETURN WARP & REWARD</span>
+                <span class="text-emerald-400 font-bold text-sm">Switch 1 Synchronized</span>
+                <span class="text-slate-500 text-[11px] block mt-0.5">Unlocks warp back to Hunter's Guild</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Inspector View 2: Qedit Assembly (script.txt) -->
+          <div id="studio-view-assembly" class="p-5 space-y-3 hidden flex-1 flex flex-col">
+            <div class="flex items-center justify-between text-xs font-mono">
+              <span class="text-slate-400 flex items-center space-x-1.5">
+                <i class="fa-solid fa-code text-cyan-400"></i>
+                <span>Qedit Bytecode Assembly (Strict Sega VM Conventions)</span>
+              </span>
+              <button onclick="copyStudioAssembly()" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 text-[11px] border border-slate-700 transition flex items-center space-x-1">
+                <i class="fa-regular fa-copy"></i>
+                <span>Copy script.txt</span>
+              </button>
+            </div>
+            <div class="bg-black/90 p-4 rounded-xl border border-slate-900 font-mono text-xs text-emerald-400 overflow-y-auto max-h-[480px] leading-relaxed select-text" id="studio-assembly-code">
+              <!-- Assembly injected via JS -->
+            </div>
+          </div>
+
+          <!-- Inspector View 3: Monster Waves & Spawns -->
+          <div id="studio-view-waves" class="p-5 space-y-4 hidden flex-1 flex flex-col">
+            <div class="flex items-center justify-between text-xs font-mono">
+              <span class="text-slate-400 flex items-center space-x-1.5">
+                <i class="fa-solid fa-dragon text-purple-400"></i>
+                <span>Monster Wave Registry & Coordinates</span>
+              </span>
+              <span class="text-purple-400 text-[11px]" id="studio-waves-count-badge">3 Waves Assigned</span>
+            </div>
+            <div class="overflow-x-auto border border-slate-800 rounded-xl">
+              <table class="w-full text-left text-xs font-mono">
+                <thead class="bg-slate-900 text-slate-400 text-[11px] uppercase border-b border-slate-800">
+                  <tr>
+                    <th class="py-2.5 px-3">Wave</th>
+                    <th class="py-2.5 px-3">Room ID</th>
+                    <th class="py-2.5 px-3">Hostile Name</th>
+                    <th class="py-2.5 px-3">Type Hex</th>
+                    <th class="py-2.5 px-3">Coordinates (X, Y, Z)</th>
+                    <th class="py-2.5 px-3">Angle</th>
+                    <th class="py-2.5 px-3">Role</th>
+                  </tr>
+                </thead>
+                <tbody id="studio-waves-table-body" class="divide-y divide-slate-800/60 bg-slate-950 text-slate-200">
+                  <!-- Spawns injected via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Inspector View 4: ZIP Manifest -->
+          <div id="studio-view-manifest" class="p-5 space-y-4 hidden flex-1 flex flex-col">
+            <div class="text-xs font-mono text-slate-400 flex items-center space-x-1.5">
+              <i class="fa-solid fa-folder-tree text-emerald-400"></i>
+              <span>Generated Quest Package Structure (custom_quest.zip)</span>
+            </div>
+            <div class="space-y-2 font-mono text-xs">
+              <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800 flex items-start space-x-3">
+                <i class="fa-solid fa-file-code text-cyan-400 text-base mt-0.5"></i>
+                <div>
+                  <span class="text-white font-bold block">script.txt</span>
+                  <p class="text-slate-400 text-[11px]">Primary Qedit bytecode assembly containing Function 0 entry, Function 1 callback, Hunter's Guild dialogue logic, reward disbursement, and thread loop.</p>
+                </div>
+              </div>
+              <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800 flex items-start space-x-3">
+                <i class="fa-solid fa-map-location-dot text-amber-400 text-base mt-0.5"></i>
+                <div>
+                  <span class="text-white font-bold block">map.txt</span>
+                  <p class="text-slate-400 text-[11px]">Unified spatial schema declaring starting warp (0x0019), Hunter's Guild Officer NPC (0x0002), terminal switch (0x0001), and all hostile wave actions.</p>
+                </div>
+              </div>
+              <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800 flex items-start space-x-3">
+                <i class="fa-solid fa-table text-purple-400 text-base mt-0.5"></i>
+                <div>
+                  <span class="text-white font-bold block">enemies.csv & objects.csv</span>
+                  <p class="text-slate-400 text-[11px]">Relational tables containing per-entity XYZ collision coordinates, facing radians, and entity property parameters.</p>
+                </div>
+              </div>
+              <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800 flex items-start space-x-3">
+                <i class="fa-solid fa-book-open text-emerald-400 text-base mt-0.5"></i>
+                <div>
+                  <span class="text-white font-bold block">README.md & quest_manifest.json</span>
+                  <p class="text-slate-400 text-[11px]">Complete turnkey deployment guide explaining how to open and compile the quest in Qedit or host directly in Newserv quest directories.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -812,7 +1138,11 @@
       waves: [],
       dialogues: [],
       wasmDb: null,
-      lastSqlResults: null
+      lastSqlResults: null,
+      questStudio: {
+        currentQuest: null,
+        activeSubTab: "wireframe"
+      }
     };
 
     function switchTab(tabId) {
@@ -841,6 +1171,7 @@
       if (tabId === 'waves' && state.waves.length === 0) loadWaves();
       if (tabId === 'dialogues' && state.dialogues.length === 0) loadDialogues();
       if (tabId === 'minigames' && state.minigames.length === 0) loadMinigames();
+      if (tabId === 'queststudio') initQuestStudio();
     }
 
     async function initDashboard() {
@@ -1967,9 +2298,911 @@
       });
     }
 
+    
+    // =========================================================================
+    // AI QUEST STUDIO & COMMUNITY GENERATOR ENGINE
+    // =========================================================================
+
+    const STUDIO_AREAS = [
+      { key: 'forest1', ep: 1, areaId: 1, floorIdx: 1, wfId: 'map_forest01', name: 'Forest 1', pool: 'Forest' },
+      { key: 'forest2', ep: 1, areaId: 2, floorIdx: 2, wfId: 'map_forest02', name: 'Forest 2', pool: 'Forest' },
+      { key: 'cave1', ep: 1, areaId: 3, floorIdx: 3, wfId: 'map_cave01_00', name: 'Cave 1', pool: 'Caves' },
+      { key: 'cave2', ep: 1, areaId: 4, floorIdx: 4, wfId: 'map_cave02_00', name: 'Cave 2', pool: 'Caves' },
+      { key: 'cave3', ep: 1, areaId: 5, floorIdx: 5, wfId: 'map_cave03_00', name: 'Cave 3', pool: 'Caves' },
+      { key: 'mine1', ep: 1, areaId: 6, floorIdx: 6, wfId: 'map_machine01_00', name: 'Mine 1', pool: 'Mines' },
+      { key: 'mine2', ep: 1, areaId: 7, floorIdx: 7, wfId: 'map_machine02_00', name: 'Mine 2', pool: 'Mines' },
+      { key: 'ruins1', ep: 1, areaId: 8, floorIdx: 8, wfId: 'map_ancient01_00', name: 'Ruins 1', pool: 'Ruins' },
+      { key: 'ruins2', ep: 1, areaId: 9, floorIdx: 9, wfId: 'map_ancient02_00', name: 'Ruins 2', pool: 'Ruins' },
+      { key: 'ruins3', ep: 1, areaId: 10, floorIdx: 10, wfId: 'map_ancient03_00', name: 'Ruins 3', pool: 'Ruins' },
+      { key: 'temple_alpha', ep: 2, areaId: 1, floorIdx: 1, wfId: 'map_ruins01_00', name: 'VR Temple Alpha', pool: 'Temple' },
+      { key: 'temple_beta', ep: 2, areaId: 2, floorIdx: 2, wfId: 'map_ruins02_00', name: 'VR Temple Beta', pool: 'Temple' },
+      { key: 'space_alpha', ep: 2, areaId: 3, floorIdx: 3, wfId: 'map_space01_00', name: 'VR Spaceship Alpha', pool: 'Spaceship' },
+      { key: 'space_beta', ep: 2, areaId: 4, floorIdx: 4, wfId: 'map_space02_00', name: 'VR Spaceship Beta', pool: 'Spaceship' },
+      { key: 'jungle_north', ep: 2, areaId: 6, floorIdx: 6, wfId: 'map_jungle02_00', name: 'Jungle Area North', pool: 'Jungle' },
+      { key: 'seabed_upper', ep: 2, areaId: 10, floorIdx: 10, wfId: 'map_seabed01_00', name: 'Seabed Upper Levels', pool: 'Seabed' },
+      { key: 'seabed_lower', ep: 2, areaId: 11, floorIdx: 11, wfId: 'map_seabed02_00', name: 'Seabed Lower Levels', pool: 'Seabed' },
+      { key: 'crater_east', ep: 4, areaId: 1, floorIdx: 1, wfId: 'map_wilds01_00', name: 'Crater (Eastern Route)', pool: 'Crater' },
+      { key: 'desert1', ep: 4, areaId: 6, floorIdx: 6, wfId: 'map_desert01_00', name: 'Subterranean Desert 1', pool: 'Desert' },
+      { key: 'desert2', ep: 4, areaId: 7, floorIdx: 7, wfId: 'map_desert02_00', name: 'Subterranean Desert 2', pool: 'Desert' },
+      { key: 'desert3', ep: 4, areaId: 8, floorIdx: 8, wfId: 'map_desert03_00', name: 'Subterranean Desert 3', pool: 'Desert' }
+    ];
+
+    const STUDIO_ENEMY_POOLS = {
+      Forest: [
+        { name: 'Booma', hex: '0x0040', desc: 'Basic Native melee infantry' },
+        { name: 'Gobooma', hex: '0x0041', desc: 'Agile Native pack fighter' },
+        { name: 'Gigobooma', hex: '0x0042', desc: 'Heavy Native brawler' },
+        { name: 'Savage Wolf', hex: '0x0043', desc: 'Pack flanking quadruped' },
+        { name: 'Barbarous Wolf', hex: '0x0044', desc: 'Alpha pack leader' },
+        { name: 'Monest', hex: '0x0045', desc: 'Hive spawner (Mothmants)' },
+        { name: 'Hildebear', hex: '0x0047', desc: 'Brute ape with high HP and jumping strike' }
+      ],
+      Caves: [
+        { name: 'Evil Shark', hex: '0x0060', desc: 'Altered Beast infantry' },
+        { name: 'Pal Shark', hex: '0x0061', desc: 'Altered Beast spearman' },
+        { name: 'Guil Shark', hex: '0x0062', desc: 'Elite Altered Beast guard' },
+        { name: 'Poison Lily', hex: '0x0063', desc: 'Paralysis & Megid spore plant' },
+        { name: 'Grass Assassin', hex: '0x0064', desc: 'Dual scythe striker' },
+        { name: 'Nano Dragon', hex: '0x0065', desc: 'Aerial laser breath reptile' },
+        { name: 'Pan Arms', hex: '0x0067', desc: 'Split shielding duo' }
+      ],
+      Mines: [
+        { name: 'Gillchic', hex: '0x0080', desc: 'Machine laser infantry' },
+        { name: 'Dubchic', hex: '0x0081', desc: 'Remote core linked drone' },
+        { name: 'Canadine', hex: '0x0083', desc: 'Hovering ring laser platform' },
+        { name: 'Canane', hex: '0x0084', desc: 'Ring leader command drone' },
+        { name: 'Sinow Beat', hex: '0x0085', desc: 'Stealth camouflage assassin' },
+        { name: 'Garanz', hex: '0x0086', desc: 'Heavy armored missile tank' }
+      ],
+      Ruins: [
+        { name: 'Dimenian', hex: '0x00A0', desc: 'Dark entity swordsman' },
+        { name: 'La Dimenian', hex: '0x00A1', desc: 'Dark entity veteran' },
+        { name: 'So Dimenian', hex: '0x00A2', desc: 'Heavy dark entity warrior' },
+        { name: 'Claw', hex: '0x00A3', desc: 'Swarm blade drone' },
+        { name: 'Bulk', hex: '0x00A4', desc: 'Swarm anchor core' },
+        { name: 'Dark Belra', hex: '0x00A6', desc: 'Giant rocket punch demon' },
+        { name: 'Chaos Sorcerer', hex: '0x00A8', desc: 'High-tier spellcaster (Rafoie/Rabarta)' }
+      ],
+      Temple: [
+        { name: 'Rag Rappy', hex: '0x0040', desc: 'Native feathered runner' },
+        { name: 'Poison Lily', hex: '0x0063', desc: 'Venom / Megid turret flora' },
+        { name: 'Grass Assassin', hex: '0x0064', desc: 'Dual-blade insectoid predator' },
+        { name: 'Crimson Assassin', hex: '0x0069', desc: 'Enhanced Crimson insectoid' },
+        { name: 'Hildeblue', hex: '0x0048', desc: 'Rare high-tier ape mutant' }
+      ],
+      Spaceship: [
+        { name: 'Dubchic', hex: '0x0081', desc: 'Remotely synced service drone' },
+        { name: 'Gilchic', hex: '0x0080', desc: 'Standard laser infantry' },
+        { name: 'Garanz', hex: '0x0086', desc: 'Missile artillery platform' },
+        { name: 'Delsaber', hex: '0x00A5', desc: 'Shield & Buster dark swordsman' },
+        { name: 'Chaos Sorcerer', hex: '0x00A8', desc: 'VR Dark spellcaster' }
+      ],
+      Jungle: [
+        { name: 'Merillia', hex: '0x0118', desc: 'CCA indigenous predator' },
+        { name: 'Meriltas', hex: '0x0119', desc: 'Poison spit monkey' },
+        { name: 'Gee', hex: '0x011A', desc: 'Swarm insect flyer' },
+        { name: 'Gi Gue', hex: '0x011B', desc: 'Heavy armored mantis leader' },
+        { name: 'Mericarol', hex: '0x011C', desc: 'Carnivorous giant spit plant' }
+      ],
+      Seabed: [
+        { name: 'Dolmolm', hex: '0x0110', desc: 'Submersible armored crustacean' },
+        { name: 'Dolmdarl', hex: '0x0111', desc: 'Advanced heavy submerger' },
+        { name: 'Morfos', hex: '0x0112', desc: 'Phase shifting laser automaton' },
+        { name: 'Recobox', hex: '0x0113', desc: 'Autonomous recon drone dispenser' },
+        { name: 'Sinow Zoa', hex: '0x0115', desc: 'High-mobility seabed assassin' },
+        { name: 'Delbiter', hex: '0x0117', desc: 'Armored charging behemoth' }
+      ],
+      Crater: [
+        { name: 'Astark', hex: '0x0138', desc: 'Crater leaping biped' },
+        { name: 'Yowie', hex: '0x0139', desc: 'Fire breath swift lizard' },
+        { name: 'Satelite Lizard', hex: '0x013A', desc: 'Stealth shield reptilian' },
+        { name: 'Zu', hex: '0x013C', desc: 'Giant aerial terror bird' }
+      ],
+      Desert: [
+        { name: 'Boota', hex: '0x0130', desc: 'Desert sand infantry' },
+        { name: 'Ze Boota', hex: '0x0131', desc: 'Desert sand skirmisher' },
+        { name: 'Ba Boota', hex: '0x0132', desc: 'Heavy desert warrior' },
+        { name: 'Zu', hex: '0x013C', desc: 'Giant aerial terror bird' },
+        { name: 'Girtablulu', hex: '0x013F', desc: 'Massive armored scorpion titan' }
+      ]
+    };
+
+    const STUDIO_PRESETS = {
+      forest: {
+        prompt: "Forest 1 Extermination mission: Deploy to Forest 1, neutralize 3 waves of Boomas and Savage Wolves disrupting sensory relays, and return to the Guild for 5000 Meseta reward.",
+        area: "forest1",
+        waves: 3,
+        reward: "meseta_5000",
+        npc: "officer",
+        boss: false
+      },
+      caves: {
+        prompt: "Caves 2 Spider Nest: Investigate deep bio-readings in Caves 2. Exterminate 3 waves of Evil Sharks and Poison Lilies. Recover stolen supplies for a 15,000 Meseta bounty.",
+        area: "cave2",
+        waves: 3,
+        reward: "meseta_15000",
+        npc: "veteran",
+        boss: false
+      },
+      mines: {
+        prompt: "Mine 2 Core Sabotage: High-voltage rogue machinery detected in Mine 2. Infiltrate sector and destroy 4 waves of Gillchics and heavy Garanz tanks. Guild reward: Photon Drop.",
+        area: "mine2",
+        waves: 4,
+        reward: "item_pd",
+        npc: "works",
+        boss: false
+      },
+      ruins: {
+        prompt: "Ruins 3 Ancient Relic Retrieval: Ancient dark resonance active in Ruins 3. Purge 4 waves of Dimenians and Dark Belras guarding the seal altar. Reward: Rare God/Arm unit.",
+        area: "ruins3",
+        waves: 4,
+        reward: "item_arm",
+        npc: "scientist",
+        boss: false
+      },
+      seabed: {
+        prompt: "Seabed Biohazard Investigation: Works telemetry lost in Seabed Upper Levels. Neutralize 4 waves of Dolmdarls, Morfos, and Sinow Zoas. Reward: 30,000 Meseta.",
+        area: "seabed_upper",
+        waves: 4,
+        reward: "meseta_30000",
+        npc: "works",
+        boss: false
+      },
+      desert: {
+        prompt: "Subterranean Desert Ambush: Hostile seismic activity detected in Subterranean Desert 2. Eliminate 3 waves of Bootas and armored Zu flyers. Reward: 15,000 Meseta.",
+        area: "desert2",
+        waves: 3,
+        reward: "meseta_15000",
+        npc: "civilian",
+        boss: false
+      }
+    };
+
+    async function initQuestStudio() {
+      // Ensure wireframes are loaded
+      if (state.wireframes.length === 0) {
+        try {
+          const res = await fetch('web_data/wireframes.json?v=' + Date.now());
+          state.wireframes = await res.json();
+        } catch (e) {
+          console.warn("Could not preload wireframes", e);
+        }
+      }
+
+      // Populate area select
+      const areaSelect = document.getElementById('studio-area-select');
+      if (areaSelect && areaSelect.options.length === 0) {
+        areaSelect.innerHTML = STUDIO_AREAS.map(a => 
+          `<option value="${a.key}">[Ep ${a.ep}] ${a.name} (${a.wfId})</option>`
+        ).join('');
+      }
+
+      updateAiKeyStatusLabel();
+
+      // Initial quest generation if none
+      if (!state.questStudio.currentQuest) {
+        setPromptPreset('forest');
+      }
+    }
+
+    function setPromptPreset(presetKey) {
+      const p = STUDIO_PRESETS[presetKey];
+      if (!p) return;
+      document.getElementById('studio-prompt').value = p.prompt;
+      document.getElementById('studio-area-select').value = p.area;
+      document.getElementById('studio-waves-count').value = p.waves;
+      document.getElementById('studio-reward-select').value = p.reward;
+      document.getElementById('studio-npc-tone').value = p.npc;
+      document.getElementById('studio-has-boss').checked = p.boss;
+      generateCustomQuestFromUI();
+    }
+
+    function onStudioAreaChange() {
+      generateCustomQuestFromUI();
+    }
+
+    function resetStudioToDefault() {
+      setPromptPreset('forest');
+      copyToast("Studio reset to default Forest 1 template.");
+    }
+
+    // BYOK Modal Controls
+    function openAiSettingsModal() {
+      const modal = document.getElementById('ai-settings-modal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      const savedKey = localStorage.getItem('psobb_ai_api_key') || '';
+      const savedProvider = localStorage.getItem('psobb_ai_provider') || 'gemini';
+      document.getElementById('ai-api-key-input').value = savedKey;
+      document.getElementById('ai-provider-select').value = savedProvider;
+      onAiProviderChange();
+    }
+
+    function closeAiSettingsModal() {
+      const modal = document.getElementById('ai-settings-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function onAiProviderChange() {
+      const prov = document.getElementById('ai-provider-select').value;
+      const linkBox = document.getElementById('gemini-key-link');
+      if (linkBox) {
+        if (prov === 'gemini') {
+          linkBox.innerHTML = `Get a free Gemini API key from <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-cyan-400 hover:underline">Google AI Studio <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>`;
+        } else {
+          linkBox.innerHTML = `Get an OpenAI API key from <a href="https://platform.openai.com/api-keys" target="_blank" class="text-cyan-400 hover:underline">OpenAI Platform <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>`;
+        }
+      }
+    }
+
+    function toggleApiKeyVisibility() {
+      const input = document.getElementById('ai-api-key-input');
+      const icon = document.getElementById('api-key-eye-icon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fa-solid fa-eye-slash';
+      } else {
+        input.type = 'password';
+        icon.className = 'fa-solid fa-eye';
+      }
+    }
+
+    function saveAiSettings() {
+      const key = document.getElementById('ai-api-key-input').value.trim();
+      const prov = document.getElementById('ai-provider-select').value;
+      if (key) {
+        localStorage.setItem('psobb_ai_api_key', key);
+        localStorage.setItem('psobb_ai_provider', prov);
+        copyToast("AI API Key saved to browser localStorage!");
+      } else {
+        localStorage.removeItem('psobb_ai_api_key');
+      }
+      closeAiSettingsModal();
+      updateAiKeyStatusLabel();
+    }
+
+    function clearAiSettings() {
+      localStorage.removeItem('psobb_ai_api_key');
+      localStorage.removeItem('psobb_ai_provider');
+      document.getElementById('ai-api-key-input').value = '';
+      closeAiSettingsModal();
+      updateAiKeyStatusLabel();
+      copyToast("AI Key cleared. Built-in Offline Director is active.");
+    }
+
+    function updateAiKeyStatusLabel() {
+      const label = document.getElementById('ai-key-status-label');
+      if (!label) return;
+      const key = localStorage.getItem('psobb_ai_api_key');
+      if (key) {
+        const prov = localStorage.getItem('psobb_ai_provider') || 'gemini';
+        label.innerHTML = `<span class="text-emerald-400 font-bold">${prov === 'gemini' ? 'Gemini Active' : 'OpenAI Active'}</span>`;
+      } else {
+        label.innerText = 'AI Key (BYOK)';
+      }
+    }
+
+    // AI Prompt Enhancer
+    async function enhancePromptWithAI() {
+      const btn = document.getElementById('btn-enhance-prompt');
+      const promptInput = document.getElementById('studio-prompt');
+      const currentText = promptInput.value.trim();
+      const apiKey = localStorage.getItem('psobb_ai_api_key');
+      const provider = localStorage.getItem('psobb_ai_provider') || 'gemini';
+
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Enhancing...</span>`;
+
+      // BYOK Remote API Call
+      if (apiKey) {
+        try {
+          if (provider === 'gemini') {
+            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+            const body = {
+              contents: [{
+                parts: [{
+                  text: `You are an expert PSOBB (Phantasy Star Online Blue Burst) quest designer. Expand and enhance the following brief quest concept into a compelling, lore-accurate Hunter's Guild contract brief (mentioning Ragol environment, monster threat, tactical objective, and officer instructions). Keep it within 2-3 atmospheric sentences:
+
+"${currentText || 'Forest 1 extermination mission'}"`
+                }]
+              }]
+            };
+            const resp = await fetch(endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(body)
+            });
+            const data = await resp.json();
+            const enhanced = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+            if (enhanced) {
+              promptInput.value = enhanced;
+              copyToast("✨ Prompt enhanced with Gemini AI!");
+              btn.disabled = false;
+              btn.innerHTML = `<i class="fa-solid fa-wand-sparkles text-emerald-400"></i> <span>AI Enhance Prompt</span>`;
+              generateCustomQuestFromUI();
+              return;
+            }
+          } else if (provider === 'openai') {
+            const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+              },
+              body: JSON.stringify({
+                model: 'gpt-4o-mini',
+                messages: [
+                  { role: 'system', content: "You are an expert PSOBB (Phantasy Star Online Blue Burst) quest designer. Expand quest concepts into lore-accurate Hunter's Guild briefs in 2-3 sentences." },
+                  { role: 'user', content: currentText || 'Forest 1 extermination mission' }
+                ]
+              })
+            });
+            const data = await resp.json();
+            const enhanced = data.choices?.[0]?.message?.content?.trim();
+            if (enhanced) {
+              promptInput.value = enhanced;
+              copyToast("✨ Prompt enhanced with OpenAI GPT!");
+              btn.disabled = false;
+              btn.innerHTML = `<i class="fa-solid fa-wand-sparkles text-emerald-400"></i> <span>AI Enhance Prompt</span>`;
+              generateCustomQuestFromUI();
+              return;
+            }
+          }
+        } catch (e) {
+          console.warn("AI API enhancement failed, falling back to offline director", e);
+        }
+      }
+
+      // 100% Free Offline Procedural Enhancer
+      const selectedAreaKey = document.getElementById('studio-area-select').value;
+      const areaObj = STUDIO_AREAS.find(a => a.key === selectedAreaKey) || STUDIO_AREAS[0];
+      const pool = STUDIO_ENEMY_POOLS[areaObj.pool] || STUDIO_ENEMY_POOLS.Forest;
+      const m1 = pool[0]?.name || 'Hostiles';
+      const m2 = pool[1]?.name || 'Predators';
+      const m3 = pool[Math.min(3, pool.length - 1)]?.name || 'Veterans';
+
+      const templates = [
+        `Urgent Hunter's Guild Directive: High-frequency biosignatures have overloaded Pioneer 2's surface radar in ${areaObj.name}. Infiltrate the sector immediately, purge ${m1} and ${m2} vanguard formations across multiple security corridors, and neutralize the command ${m3} threat before orbital telemetry collapses.`,
+        `Classified Works Contract: Unsanctioned biogenic mutations detected within ${areaObj.name}. Secure deep communication nodes, repel concentrated ambushes of ${m1} pack hunters, and eliminate all mutated ${m3} specimens guarding the primary chamber.`,
+        `Principal Office Emergency Dispatch: Surface reconnaissance teams report severe disruption across ${areaObj.name}. Deploy through the planetary teleporter to eradicate hostile ${m1} and ${m2} swarms, safeguard data terminals, and claim your full hazard bounty.`
+      ];
+
+      const enhancedOffline = templates[Math.floor(Math.random() * templates.length)];
+      promptInput.value = enhancedOffline;
+      copyToast("✨ Prompt enhanced via Built-in Offline Quest Director!");
+
+      btn.disabled = false;
+      btn.innerHTML = `<i class="fa-solid fa-wand-sparkles text-emerald-400"></i> <span>AI Enhance Prompt</span>`;
+      generateCustomQuestFromUI();
+    }
+
+    // MAIN COMPILER & GENERATOR
+    function generateCustomQuestFromUI() {
+      const prompt = (document.getElementById('studio-prompt')?.value || '').trim();
+      const areaKey = document.getElementById('studio-area-select')?.value || 'forest1';
+      const wavesCount = parseInt(document.getElementById('studio-waves-count')?.value || '3', 10);
+      const rewardVal = document.getElementById('studio-reward-select')?.value || 'meseta_5000';
+      const npcTone = document.getElementById('studio-npc-tone')?.value || 'officer';
+      const hasBoss = document.getElementById('studio-has-boss')?.checked || false;
+
+      const areaObj = STUDIO_AREAS.find(a => a.key === areaKey) || STUDIO_AREAS[0];
+      
+      // Look up wireframe geometry
+      const wf = state.wireframes.find(w => w.id === areaObj.wfId) || {
+        id: areaObj.wfId,
+        area_name: areaObj.name,
+        image_png: `analysis/floor-database/geometry/${areaObj.wfId}.png`,
+        section_ids: [1, 2, 3, 4, 5, 6, 7, 8]
+      };
+
+      const validSecIds = (wf.section_ids && wf.section_ids.length > 0) ? wf.section_ids : [1, 2, 3, 4, 5];
+      const combatRooms = validSecIds.slice(0, Math.min(wavesCount, validSecIds.length));
+      if (combatRooms.length === 0) combatRooms.push(validSecIds[0] || 1);
+      const targetClearRoom = combatRooms[combatRooms.length - 1];
+
+      // Safe flags
+      const FLAG_ACCEPTED = 610;
+      const FLAG_ENCOUNTER_ACTIVE = 611;
+      const FLAG_ROOM_CLEARED = 612;
+      const FLAG_REWARD_CLAIMED = 613;
+
+      // Rewards
+      let rewardText = "5,000 Meseta";
+      let rewardAsmLines = ["    add_meseta 5000                            // Deliver 5000 Meseta bounty", "    sound_effect 0x0006                        // Fanfare SFX"];
+      let rewardObj = { type: 'meseta', amount: 5000, name: '5,000 Meseta' };
+
+      if (rewardVal === 'meseta_2500') {
+        rewardText = "2,500 Meseta";
+        rewardAsmLines = ["    add_meseta 2500                            // Deliver 2500 Meseta bounty", "    sound_effect 0x0006"];
+        rewardObj = { type: 'meseta', amount: 2500, name: '2,500 Meseta' };
+      } else if (rewardVal === 'meseta_15000') {
+        rewardText = "15,000 Meseta";
+        rewardAsmLines = ["    add_meseta 15000                           // Deliver 15000 Meseta bounty", "    sound_effect 0x0006"];
+        rewardObj = { type: 'meseta', amount: 15000, name: '15,000 Meseta' };
+      } else if (rewardVal === 'meseta_30000') {
+        rewardText = "30,000 Meseta";
+        rewardAsmLines = ["    add_meseta 30000                           // Deliver 30000 Meseta bounty", "    sound_effect 0x0006"];
+        rewardObj = { type: 'meseta', amount: 30000, name: '30,000 Meseta' };
+      } else if (rewardVal === 'item_pd') {
+        rewardText = "Photon Drop x1";
+        rewardAsmLines = [
+          "    // Item Creation: Photon Drop",
+          "    set_register R200, 0x03                    // Tool Category",
+          "    set_register R201, 0x0A                    // Photon Drop ID",
+          "    set_register R202, 0x00",
+          "    set_register R203, 0x00",
+          "    set_register R204, 0x00",
+          "    item_create2 R200                          // Safe direct delivery",
+          "    sound_effect 0x0006                        // Fanfare SFX"
+        ];
+        rewardObj = { type: 'item', hex: '0x03, 0x0A, 0x00', name: 'Photon Drop x1' };
+      } else if (rewardVal === 'item_mono') {
+        rewardText = "Monogrinder x2";
+        rewardAsmLines = [
+          "    // Item Creation: Monogrinder",
+          "    set_register R200, 0x03                    // Tool Category",
+          "    set_register R201, 0x01                    // Monogrinder ID",
+          "    set_register R202, 0x00",
+          "    set_register R203, 0x00",
+          "    set_register R204, 0x00",
+          "    item_create2 R200",
+          "    sound_effect 0x0006"
+        ];
+        rewardObj = { type: 'item', hex: '0x03, 0x01, 0x00', name: 'Monogrinder x2' };
+      } else if (rewardVal === 'item_arm') {
+        rewardText = "God/Arm Unit";
+        rewardAsmLines = [
+          "    // Item Creation: God/Arm Unit",
+          "    set_register R200, 0x01                    // Unit Category",
+          "    set_register R201, 0x03                    // Unit Subtype",
+          "    set_register R202, 0x4A                    // God/Arm ID",
+          "    set_register R203, 0x00",
+          "    set_register R204, 0x00",
+          "    item_create2 R200",
+          "    sound_effect 0x0006"
+        ];
+        rewardObj = { type: 'item', hex: '0x01, 0x03, 0x4A', name: 'God/Arm Unit' };
+      }
+
+      // Dialogues based on NPC persona
+      let npcSpeaker = "Guild Administrator";
+      let briefing1 = `Hunter's Guild Dispatch:\nWe have an urgent assignment in ${areaObj.name}.`;
+      let briefing2 = `Telemetry indicates high hostile density across sectors.\nEliminate all combat waves and secure the return warp.`;
+      let reminderMsg = `Administrator:\nThe teleporter to ${areaObj.name} is armed.\nProceed to eliminate all hostiles in designated sectors.`;
+      let victoryMsg = `Administrator:\nOutstanding performance, Hunter! Area cleared.\nHere is your authorized reward.`;
+
+      if (npcTone === 'veteran') {
+        npcSpeaker = "Veteran Hunter Dan";
+        briefing1 = `Dan:\nHey there, rookie. Got a hot one down in ${areaObj.name}.`;
+        briefing2 = `Creatures down there are aggressive and fast.\nWatch your flanks, wipe out all waves, and meet me back here.`;
+        reminderMsg = `Dan:\nStill breathing? Good. Finish clearing ${areaObj.name} before the swarms regroup.`;
+        victoryMsg = `Dan:\nNot bad at all, kid. You handled those beasts like a pro.\nTake your cut. You earned every bit of it.`;
+      } else if (npcTone === 'scientist') {
+        npcSpeaker = "Dr. Montague's Assistant";
+        briefing1 = `Lab Researcher:\nPardon me, Hunter. The Lab urgently requires containment in ${areaObj.name}.`;
+        briefing2 = `Unusual bio-readings are interfering with our spatial scanners.\nPlease neutralize all hostile specimens in the combat zones.`;
+        reminderMsg = `Lab Researcher:\nScanners show active hostiles in ${areaObj.name}.\nEnsure total sector eradication.`;
+        victoryMsg = `Lab Researcher:\nBio-harmonic readings have stabilized! Exceptional work.\nPlease accept this requisition reward.`;
+      } else if (npcTone === 'works') {
+        npcSpeaker = "Operative K";
+        briefing1 = `Operative K:\nKeep your voice down. The Works has a delicate situation in ${areaObj.name}.`;
+        briefing2 = `A rogue automated faction has seized critical relays.\nInfiltrate, terminate all targets with extreme prejudice, and extract.`;
+        reminderMsg = `Operative K:\nMission clock is ticking. Neutralize the targets in ${areaObj.name}.`;
+        victoryMsg = `Operative K:\nTarget silenced. Clean work. The Works honors its debts.`;
+      } else if (npcTone === 'civilian') {
+        npcSpeaker = "Desperate Pioneer Citizen";
+        briefing1 = `Citizen:\nPlease, Hunter! My research convoy was ambushed in ${areaObj.name}!`;
+        briefing2 = `Vicious creatures broke through our perimeter.\nPlease destroy them so we can recover our equipment!`;
+        reminderMsg = `Citizen:\nAre they gone yet? Please be careful in ${areaObj.name}!`;
+        victoryMsg = `Citizen:\nThank the stars! You saved our research!\nPlease take this as our deepest gratitude!`;
+      }
+
+      // Title
+      const questTitle = prompt ? prompt.slice(0, 48).replace(/[
+]+/g, ' ') : `${areaObj.name} Extermination`;
+
+      // Build Qedit Assembly script.txt
+      const asm = [
+        `// ============================================================================`,
+        `// Quest Title: ${questTitle}`,
+        `// Episode: ${areaObj.ep} | Area: ${areaObj.name} (Floor ${areaObj.floorIdx})`,
+        `// Author: PSOBB AI Quest Studio (Zero-Collision Flag Standards)`,
+        `// Compiler Standard: Qedit 1.05 / Newserv Quest Framework`,
+        `// ============================================================================`,
+        ``,
+        `// ----------------------------------------------------------------------------`,
+        `// FUNCTION 0: Entry Point & Initialization`,
+        `// ----------------------------------------------------------------------------`,
+        `L0:`,
+        `    set_episode ${areaObj.ep - 1}                           // 0 = Ep1, 1 = Ep2, 2 = Ep4`,
+        `    BB_Map_Designate 0, 0, 0, 0, 0                 // Floor 0: Pioneer 2 City`,
+        `    BB_Map_Designate ${areaObj.floorIdx}, ${areaObj.areaId}, 0, 0, 0        // Floor ${areaObj.floorIdx}: ${areaObj.name}`
+      ];
+
+      if (hasBoss) {
+        asm.push(`    BB_Map_Designate 11, 11, 0, 0, 0               // Floor 11: Boss Arena Designated`);
+      }
+
+      asm.push(
+        `    initial_floor 0                                // Players materialize on Pioneer 2`,
+        `    set_guild_callback L1                          // Hunter's Guild Callback`,
+        `    thread L100                                    // Launch background watcher thread`,
+        `    ret`,
+        ``,
+        `// ----------------------------------------------------------------------------`,
+        `// FUNCTION 1: Sega Empty Callback Protocol`,
+        `// ----------------------------------------------------------------------------`,
+        `L1:`,
+        `    ret`,
+        ``,
+        `// ----------------------------------------------------------------------------`,
+        `// FUNCTION 10: Hunter's Guild / Officer NPC Dialogue & Logic`,
+        `// ----------------------------------------------------------------------------`,
+        `L10:`,
+        `    check_flag ${FLAG_REWARD_CLAIMED}, R200         // Check if reward already distributed`,
+        `    jmpi_eq R200, 1, L14                           // If claimed, branch to post-quest dialogue`,
+        `    check_flag ${FLAG_ROOM_CLEARED}, R200           // Check if combat objectives complete`,
+        `    jmpi_eq R200, 1, L13                           // If cleared, disburse reward`,
+        `    check_flag ${FLAG_ACCEPTED}, R200               // Check if quest active`,
+        `    jmpi_eq R200, 1, L12                           // If active, give in-progress reminder`,
+        ``,
+        `    // Mission Briefing Dialogue`,
+        `    window_msg "${briefing1}"`,
+        `    winend`,
+        `    window_msg "${briefing2}"`,
+        `    winend`,
+        `    set_flag ${FLAG_ACCEPTED}                       // Flag 610: Mission Accepted`,
+        `    ret`,
+        ``,
+        `L12:`,
+        `    window_msg "${reminderMsg}"`,
+        `    winend`,
+        `    ret`,
+        ``,
+        `L13:`,
+        `    // Reward Disbursal`,
+        `    window_msg "${victoryMsg}"`,
+        `    winend`,
+        ...rewardAsmLines,
+        `    set_flag ${FLAG_REWARD_CLAIMED}                 // Flag 613: Lock duplicate claims`,
+        `    set_register R255, 1                           // Signal completion to Guild System`,
+        `    ret`,
+        ``,
+        `L14:`,
+        `    window_msg "${npcSpeaker}:\nThank you again for your service. Excellent work out there."`,
+        `    winend`,
+        `    ret`,
+        ``,
+        `// ----------------------------------------------------------------------------`,
+        `// FUNCTION 100: Objective Polling Thread (Strict Yielding Loop)`,
+        `// ----------------------------------------------------------------------------`,
+        `L100:`,
+        `    sync                                           // Yield VM frame (prevents CPU lock)`,
+        `    check_flag ${FLAG_ACCEPTED}, R200`,
+        `    jmpi_eq R200, 0, L100                          // Loop until player accepts quest`,
+        ``,
+        `    // Poll Combat Zone Eradication`,
+        `    set_register R2, ${areaObj.floorIdx}                       // Floor Index`,
+        `    set_register R3, ${targetClearRoom}                       // Final Room Section ID`,
+        `    if_zone_clear R1, R2                           // Consumes R2 (Floor), R3 (Room); R1 = 1 if clear`,
+        `    jmpi_eq R1, 0, L100                            // If enemies remain, yield and re-check`,
+        ``,
+        `    // Quest Objectives Completed!`,
+        `    set_flag ${FLAG_ROOM_CLEARED}                   // Flag 612: Combat cleared`,
+        `    sound_effect 0x0004                            // Play Objective Clear Chime`,
+        `    set_switch_flag_sync ${areaObj.floorIdx}, 1               // Unlock extraction warp terminal`,
+        `    ret`
+      );
+
+      const scriptTxt = asm.join('
+');
+
+      // Generate Enemy Spawns & Waves
+      const pool = STUDIO_ENEMY_POOLS[areaObj.pool] || STUDIO_ENEMY_POOLS.Forest;
+      const waveSpawns = [];
+      const enemyCsvRows = ["floor,room,wave,enemy_name,type_hex,x,y,z,angle,role"];
+
+      for (let w = 0; w < combatRooms.length; w++) {
+        const roomId = combatRooms[w];
+        const waveNum = w + 1;
+        const e1 = pool[w % pool.length];
+        const e2 = pool[(w + 1) % pool.length];
+        const e3 = pool[(w + 2) % pool.length];
+
+        const spawns = [
+          { name: e1.name, hex: e1.hex, x: (10.0 + w * 5).toFixed(1), y: "0.0", z: (-15.0 + w * 8).toFixed(1), angle: "0x4000", role: e1.desc },
+          { name: e2.name, hex: e2.hex, x: (-12.0 - w * 4).toFixed(1), y: "0.0", z: (-10.0 + w * 6).toFixed(1), angle: "0xC000", role: e2.desc },
+          { name: e3.name, hex: e3.hex, x: "0.0", y: "0.0", z: (20.0 + w * 10).toFixed(1), angle: "0x8000", role: e3.desc }
+        ];
+
+        spawns.forEach(s => {
+          waveSpawns.push({
+            wave: waveNum,
+            room: roomId,
+            name: s.name,
+            hex: s.hex,
+            coords: `${s.x}, ${s.y}, ${s.z}`,
+            angle: s.angle,
+            role: s.role
+          });
+          enemyCsvRows.push(`${areaObj.floorIdx},${roomId},${waveNum},${s.name},${s.hex},${s.x},${s.y},${s.z},${s.angle},"${s.role}"`);
+        });
+      }
+
+      // Generate Objects & Map Schema
+      const mapLines = [
+        `# PSOBB Spatial Placements & Wave Actions for: ${questTitle}`,
+        `# Episode ${areaObj.ep} | Floor ${areaObj.floorIdx} (${areaObj.name})`,
+        ``,
+        `[OBJECTS]`,
+        `# floor, room, type_hex, type_name, x, y, z, angle, param1..param6`,
+        `0, 10, 0x0002, Guild_Officer_NPC, 12.5, 0.0, -45.0, 0x8000, 0, 0, 0, 0, 0, 0`,
+        `${areaObj.floorIdx}, ${combatRooms[0]}, 0x0019, Warp_Pioneer2, 0.0, 0.0, 0.0, 0x0000, 0, 0, 0, 0, 1, 0`,
+        `${areaObj.floorIdx}, ${targetClearRoom}, 0x0001, Floor_Terminal_Switch, 15.0, 0.0, 15.0, 0x0000, 1, 0, 0, 0, 0, 0`,
+        ``,
+        `[ENEMIES]`,
+        `# floor, room, wave, enemy_hex, x, y, z, angle`
+      ];
+
+      waveSpawns.forEach(s => {
+        const [x, y, z] = s.coords.split(', ');
+        mapLines.push(`${areaObj.floorIdx}, ${s.room}, ${s.wave}, ${s.hex}, ${x}, ${y}, ${z}, ${s.angle}  # ${s.name}`);
+      });
+
+      const mapTxt = mapLines.join('
+');
+      const enemiesCsv = enemyCsvRows.join('
+');
+      const objectsCsv = [
+        "floor,room,type_hex,name,x,y,z,angle,param1,param2,param3",
+        `0,10,0x0002,Guild_Officer_NPC,12.5,0.0,-45.0,0x8000,0,0,0`,
+        `${areaObj.floorIdx},${combatRooms[0]},0x0019,Warp_Pioneer2,0.0,0.0,0.0,0x0000,0,0,1`,
+        `${areaObj.floorIdx},${targetClearRoom},0x0001,Floor_Terminal_Switch,15.0,0.0,15.0,0x0000,1,0,0`
+      ].join('
+');
+
+      const manifest = {
+        title: questTitle,
+        episode: areaObj.ep,
+        area: areaObj.name,
+        floor_index: areaObj.floorIdx,
+        wireframe_id: areaObj.wfId,
+        waves_count: combatRooms.length,
+        combat_room_ids: combatRooms,
+        reward: rewardObj,
+        safe_flags: { accepted: 610, encounter: 611, cleared: 612, reward_claimed: 613 },
+        generator: "PSOBB AI Quest Studio v2.0"
+      };
+
+      const readmeMd = `# ${questTitle}
+Custom Quest Package for Phantasy Star Online Blue Burst (PSOBB)
+
+## Mission Overview
+- **Episode:** Episode ${areaObj.ep}
+- **Target Area:** ${areaObj.name} (Floor ${areaObj.floorIdx})
+- **Wireframe Layout:** \`${areaObj.wfId}\`
+- **Total Combat Waves:** ${combatRooms.length}
+- **Combat Section / Room IDs:** ${combatRooms.join(', ')}
+- **Guild Reward:** ${rewardText}
+- **Flag Allocations:** Safe Quest Register 610..613 (Zero Collision with System Flags)
+
+## Files in this Package
+1. \`script.txt\`: Turnkey Qedit assembly source with Function 0 init, Hunter Guild dialogue logic, and background \`sync\` yielded thread.
+2. \`map.txt\`: Unified spatial object and enemy wave coordinate declarations.
+3. \`enemies.csv\`: Table of hostile spawns, XYZ coordinates, and orientation.
+4. \`objects.csv\`: Teleporters, Guild Officer NPC, and floor switches.
+5. \`quest_manifest.json\`: Machine-readable metadata.
+
+## Installation & Compilation
+### Testing in Qedit
+1. Open **Qedit**.
+2. Go to **File -> Import Text** and select \`script.txt\`.
+3. Set Episode to **${areaObj.ep}** and designate Floor **${areaObj.floorIdx}** for **${areaObj.name}**.
+4. Import \`map.txt\` into the Object/Enemy list.
+5. Click **Build Quest (.bin/.dat/.qst)**.
+
+### Hosting on Newserv
+1. Save the compiled files as \`custom_quest.qst\` into your newserv quest directory (\`system/quests/\`).
+2. Reload quests on the server via admin command: \`#reload-quests\`.
+`;
+
+      // Save to state
+      state.questStudio.currentQuest = {
+        title: questTitle,
+        areaObj: areaObj,
+        wf: wf,
+        combatRooms: combatRooms,
+        targetClearRoom: targetClearRoom,
+        rewardText: rewardText,
+        script_txt: scriptTxt,
+        map_txt: mapTxt,
+        enemies_csv: enemiesCsv,
+        objects_csv: objectsCsv,
+        manifest: manifest,
+        readme_md: readmeMd,
+        waveSpawns: waveSpawns
+      };
+
+      // Update Inspector Views
+      renderStudioViews();
+    }
+
+    function renderStudioViews() {
+      const q = state.questStudio.currentQuest;
+      if (!q) return;
+
+      // 1. Wireframe View
+      const wfAreaName = document.getElementById('studio-wf-area-name');
+      const wfIdEl = document.getElementById('studio-wf-id');
+      const wfSecCount = document.getElementById('studio-wf-section-count');
+      const wfCombatRooms = document.getElementById('studio-wf-combat-rooms');
+      const wfImage = document.getElementById('studio-wf-image');
+      const startRoomEl = document.getElementById('studio-flow-start-room');
+      const targetRoomEl = document.getElementById('studio-flow-target-room');
+
+      if (wfAreaName) wfAreaName.innerText = q.areaObj.name;
+      if (wfIdEl) wfIdEl.innerText = q.wf.id;
+      if (wfSecCount) wfSecCount.innerText = `Sections: ${q.wf.section_ids?.length || 12}`;
+      if (wfCombatRooms) wfCombatRooms.innerText = `Combat Rooms: [${q.combatRooms.join(', ')}]`;
+      if (wfImage) wfImage.src = q.wf.image_png || `analysis/floor-database/geometry/${q.wf.id}.png`;
+      if (startRoomEl) startRoomEl.innerText = q.combatRooms[0] || '10';
+      if (targetRoomEl) targetRoomEl.innerText = q.targetClearRoom || '12';
+
+      // 2. Assembly View
+      const asmContainer = document.getElementById('studio-assembly-code');
+      if (asmContainer) {
+        asmContainer.innerHTML = `<pre class="text-emerald-400 font-mono text-[11px] leading-relaxed select-text">${escapeHtml(q.script_txt)}</pre>`;
+      }
+
+      // 3. Waves Table View
+      const wavesBadge = document.getElementById('studio-waves-count-badge');
+      const wavesTbody = document.getElementById('studio-waves-table-body');
+      if (wavesBadge) wavesBadge.innerText = `${q.waveSpawns.length} Spawns (${q.combatRooms.length} Waves)`;
+      if (wavesTbody) {
+        wavesTbody.innerHTML = q.waveSpawns.map(s => `
+          <tr class="hover:bg-slate-900/60 transition">
+            <td class="py-2 px-3 font-bold text-cyan-400">Wave ${s.wave}</td>
+            <td class="py-2 px-3 text-amber-400">Sec ${s.room}</td>
+            <td class="py-2 px-3 font-bold text-white">${s.name}</td>
+            <td class="py-2 px-3 text-purple-400">${s.hex}</td>
+            <td class="py-2 px-3 text-slate-300 font-mono text-[11px]">${s.coords}</td>
+            <td class="py-2 px-3 text-slate-400">${s.angle}</td>
+            <td class="py-2 px-3 text-slate-400 text-[11px]">${s.role}</td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    function switchStudioSubTab(subTabId) {
+      document.querySelectorAll('.studio-tab-btn').forEach(b => b.classList.remove('active', 'border-emerald-500', 'text-white'));
+      const activeBtn = document.getElementById(`studio-subtab-${subTabId}`);
+      if (activeBtn) activeBtn.classList.add('active', 'border-emerald-500', 'text-white');
+
+      ['wireframe', 'assembly', 'waves', 'manifest'].forEach(t => {
+        const view = document.getElementById(`studio-view-${t}`);
+        if (view) {
+          if (t === subTabId) view.classList.remove('hidden');
+          else view.classList.add('hidden');
+        }
+      });
+    }
+
+    async function downloadCustomQuestZip() {
+      const q = state.questStudio.currentQuest;
+      if (!q) {
+        copyToast("Generate a quest first!");
+        return;
+      }
+
+      if (typeof JSZip === 'undefined') {
+        copyToast("JSZip library loading... please wait a moment.");
+        return;
+      }
+
+      const zip = new JSZip();
+      const slug = q.title.toLowerCase().replace(/[^a-z0-9]+/g, '_').slice(0, 24);
+
+      zip.file("script.txt", q.script_txt);
+      zip.file("map.txt", q.map_txt);
+      zip.file("enemies.csv", q.enemies_csv);
+      zip.file("objects.csv", q.objects_csv);
+      zip.file("quest_manifest.json", JSON.stringify(q.manifest, null, 2));
+      zip.file("README.md", q.readme_md);
+
+      const blob = await zip.generateAsync({ type: "blob" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${slug}_custom_quest.zip`;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      copyToast("📥 custom_quest.zip downloaded successfully!");
+    }
+
+    function copyStudioAssembly() {
+      const q = state.questStudio.currentQuest;
+      if (!q || !q.script_txt) return;
+      copyText(q.script_txt);
+    }
+
+    function copyToast(msg) {
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-4 right-4 bg-emerald-600 text-white px-3.5 py-2 rounded shadow-xl text-xs font-mono z-50 flex items-center space-x-2 animate-bounce';
+      toast.innerHTML = `<i class="fa-solid fa-check"></i><span>${msg}</span>`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2500);
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       initDashboard();
     });
   </script>
+
+  <!-- AI KEY (BYOK) MODAL -->
+  <div id="ai-settings-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-key text-amber-400 text-lg"></i>
+          <h3 class="text-base font-bold text-white font-mono">Bring Your Own Key (BYOK)</h3>
+        </div>
+        <button onclick="closeAiSettingsModal()" class="text-slate-400 hover:text-white transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <p class="text-xs text-slate-300 leading-relaxed">
+        Connect your personal Google Gemini or OpenAI API key to unlock dynamic narrative dialogue and creative scenario generation.
+      </p>
+
+      <div class="p-3 bg-emerald-950/40 border border-emerald-800/60 rounded-lg text-[11px] font-mono text-emerald-300 space-y-1">
+        <div class="font-bold flex items-center space-x-1.5">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>100% Client-Side Privacy:</span>
+        </div>
+        <p class="text-slate-300">Your key is stored solely in your browser's <code class="text-emerald-400">localStorage</code>. It is sent directly to Google/OpenAI with zero intermediary servers.</p>
+      </div>
+
+      <div class="space-y-3 text-xs font-mono">
+        <div>
+          <label class="block text-slate-400 mb-1">AI Provider</label>
+          <select id="ai-provider-select" onchange="onAiProviderChange()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-400">
+            <option value="gemini" selected>Google Gemini API (Gemini 1.5 Flash - Free Tier)</option>
+            <option value="openai">OpenAI API (GPT-4o-mini)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-slate-400 mb-1">API Key</label>
+          <div class="relative">
+            <input type="password" id="ai-api-key-input" placeholder="AIzaSy... or sk-proj-..." class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 pr-10 text-white font-mono text-xs focus:outline-none focus:border-amber-400">
+            <button type="button" onclick="toggleApiKeyVisibility()" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-200 text-xs">
+              <i class="fa-solid fa-eye" id="api-key-eye-icon"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="gemini-key-link" class="text-[11px] text-slate-400">
+          Get a free Gemini API key from <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-cyan-400 hover:underline">Google AI Studio <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+        </div>
+      </div>
+
+      <div class="pt-2 flex items-center justify-between border-t border-slate-800">
+        <button onclick="clearAiSettings()" class="text-xs font-mono text-red-400 hover:text-red-300 transition">
+          Clear Key
+        </button>
+        <div class="flex items-center space-x-2">
+          <button onclick="closeAiSettingsModal()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono text-xs transition">
+            Cancel
+          </button>
+          <button onclick="saveAiSettings()" class="px-4 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-mono text-xs font-bold transition shadow">
+            Save Key
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

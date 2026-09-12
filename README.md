@@ -6,6 +6,29 @@ A reference library for understanding Phantasy Star Online Blue Burst quests and
 > Browse all 527 quests, download packages, inspect 126 map wireframes with section markers, build item creation codes, check quest flags, and execute SQL queries in your browser:  
 > **[https://darkchas1dr.github.io/PSOBB-Quest-Database/](https://darkchas1dr.github.io/PSOBB-Quest-Database/)**
 
+## ⚡ AI Quest Creator & Community Generator
+
+Generate complete, crash-safe, playable custom PSOBB quests from natural language prompts using either the **interactive web studio** or the **command-line generator**.
+
+### 1. Interactive Web Studio (GitHub Pages)
+Launch the **[AI Quest Creator](https://darkchas1dr.github.io/PSOBB-Quest-Database/)** directly in your browser:
+- **Natural Language Prompting**: Type any quest concept (e.g., *"Forest 1 extermination with 3 waves of Boomas and Savage Wolves, an ancient hunter NPC named Dan, and 5000 Meseta reward"*).
+- **AI Prompt Enhancer**: One-click prompt expansion using the built-in offline Quest Director or your personal Google Gemini / OpenAI key (BYOK).
+- **Crash-Proof Qedit Assembly**: Auto-compiles Function 0 entry, Hunter's Guild dialogue logic, reward delivery (`add_meseta` or `item_create2`), and strict VM `sync` yielded watcher threads.
+- **2D Wireframe Section Inspector**: Visualizes combat rooms, spawn coordinates, and unlock switches overlaid on 126 client map geometry layouts.
+- **1-Click Turnkey ZIP Export**: Instant in-browser packaging of `custom_quest.zip` containing `script.txt`, `map.txt`, `enemies.csv`, `objects.csv`, `quest_manifest.json`, and setup guides.
+
+### 2. Standalone CLI Tool (`generate_quest.py`)
+Run the generator directly from your terminal:
+
+```sh
+# Generate quest from natural language prompt
+python generate_quest.py --prompt "Caves 2 extermination with 4 waves of Evil Sharks and 15000 Meseta" --output my_quest
+
+# Generate with explicit parameters
+python generate_quest.py --area "Ruins 3" --waves 4 --reward "item:God/Arm" --output ruins_raid
+```
+
 ## Start here
 
 **[Object catalogue](analysis/object-database/README.md)** — Qedit IDs, field labels, presets, area menus, supporting parameter documentation and quest placements. Verification status is explicit.
