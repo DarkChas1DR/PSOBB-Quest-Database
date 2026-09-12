@@ -1,0 +1,34 @@
+[
+  {
+    "template_id": "interactive_npc_dialogue",
+    "title": "Interactive Talking NPC with Branching Choices",
+    "category": "NPC",
+    "code_qedit": "; Function 200: Called when player interacts with NPC (param5 = 200)\n200:    window_msg 'Hunter, the Forest is dangerous!\\nWill you assist us?'\n        winend\n        list R100, 'Yes, I\\'m ready!\\tNot right now.'\n        jmp_on 201, R100               ; If R100 != 0 (Option 1 selected), jump to 201\n        \n        ; Option 0 (Yes) Branch:\n        window_msg 'Excellent! The gate is unlocked.\\nProceed with caution.'\n        winend\n        unlock_door2 0001, 0005        ; Unlock Switch 5 on Floor 1 (opens door)\n        ret\n\n201:    ; Option 1 (No) Branch:\n        window_msg 'Come back when you are prepared.'\n        winend\n        ret\n",
+    "code_newserv": "; Function 200: Called when player interacts with NPC (param5 = 200)\n200:    window_msg \"Hunter, the Forest is dangerous!\\nWill you assist us?\"\n        winend\n        list r100, \"Yes, I'm ready!\\tNot right now.\"\n        jmp_if_true 201, r100          ; If r100 != 0 (Option 1 selected), jump to 201\n        \n        ; Option 0 (Yes) Branch:\n        window_msg \"Excellent! The gate is unlocked.\\nProceed with caution.\"\n        winend\n        set_switch_flag_sync 1, 5       ; Unlock Switch 5 on Floor 1 (opens door)\n        ret\n\n201:    ; Option 1 (No) Branch:\n        window_msg \"Come back when you are prepared.\"\n        winend\n        ret\n",
+    "explanation": "Pairs window_msg with winend (never mesend). The list opcode displays a multi-choice prompt, writing the 0-based selected index into register R100."
+  },
+  {
+    "template_id": "quest_completion_guild",
+    "title": "Quest Victory & Guild Objective Completion",
+    "category": "Objective",
+    "code_qedit": "; Function 300: Objective Victory Transition\n300:    leti R255, 00000001            ; Set Quest Success Flag (R255 = 1)\n        play_se2 00000000              ; Play Quest Victory Fanfare\n        window_msg 'Quest Objective Complete!\\nReturn to the Hunter\\'s Guild for reward.'\n        winend\n        ret\n",
+    "code_newserv": "; Function 300: Objective Victory Transition\n300:    leti r255, 1                   ; Set Quest Success Flag (R255 = 1)\n        play_se2 0                     ; Play Quest Victory Fanfare\n        window_msg \"Quest Objective Complete!\\nReturn to the Hunter's Guild for reward.\"\n        winend\n        ret\n",
+    "explanation": "R255=1 signals the Guild and server that the primary objective has succeeded, unlocking the completion reward. Play_se2 0 plays the official PSO quest victory fanfare."
+  },
+  {
+    "template_id": "quest_init_entry",
+    "title": "Function 0 Master Quest Entry & Initialization",
+    "category": "Architecture",
+    "code_qedit": "; Function 0: Quest Entry Point\n0:      set_epiII 00000001              ; Set Episode 1 (Resets floor config)\n        BB_Map_Designate 00, 0000, 00, 00 ; Floor 0 = Pioneer 2 City\n        BB_Map_Designate 01, 0001, 00, 00 ; Floor 1 = Forest 1\n        initial_floor 00000000          ; Start players on Floor 0\n        unknown04 100                   ; Spawn background monitor thread (Function 100)\n        ret\n\n; Function 1: Blank callback (ret only)\n1:      ret\n",
+    "code_newserv": "; Function 0: Quest Entry Point\n0:      set_episode 1                   ; Set Episode 1 (Resets floor config)\n        bb_map_designate 0, 0, 0, 0     ; Floor 0 = Pioneer 2 City\n        bb_map_designate 1, 1, 0, 0     ; Floor 1 = Forest 1\n        initial_floor 0                 ; Start players on Floor 0\n        thread 100                      ; Spawn background monitor thread (Function 100)\n        ret\n\n; Function 1: Blank callback (ret only)\n1:      ret\n",
+    "explanation": "Every PSOBB quest begins execution at Function 0. Calling set_episode resets floor maps, so BB_Map_Designate must immediately follow. Function 1 is reserved by project convention as ret-only for blank callbacks."
+  },
+  {
+    "template_id": "wave_monitor_thread",
+    "title": "Encounter Wave & Room Clearance Monitor Thread",
+    "category": "Encounter",
+    "code_qedit": "; Function 100: Spawned as a background thread by Function 0\n100:    wait_vsync                     ; Mandatory yield (never loop without wait_vsync!)\n        leti R10, 00000001             ; R10 = Floor 1\n        leti R11, 00000004             ; R11 = Room 4\n        if_zone_clear R12, R10         ; Checks Floor R10, Room R11 -> writes result to R12\n        jmp_off 100, R12               ; If R12 == 0 (not clear), keep waiting\n        \n        ; Encounter cleared:\n        unlock_door2 0001, 0008        ; Open exit door (Switch 8 on Floor 1)\n        play_se1 0000000C              ; Play switch activation chime\n        ret\n",
+    "code_newserv": "; Function 100: Spawned as a background thread by Function 0\n100:    sync                           ; Mandatory yield (never loop without sync!)\n        leti r10, 1                    ; r10 = Floor 1\n        leti r11, 4                    ; r11 = Room 4\n        if_zone_clear r12, r10         ; Checks Floor r10, Room r11 -> writes result to r12\n        jmp_if_false 100, r12          ; If r12 == 0 (not clear), keep waiting\n        \n        ; Encounter cleared:\n        set_switch_flag_sync 1, 8      ; Open exit door (Switch 8 on Floor 1)\n        play_se1 12                    ; Play switch activation chime\n        ret\n",
+    "explanation": "Monitors room encounter clearance without locking the client. if_zone_clear consumes two consecutive registers: the specified register (floor) and specified register + 1 (room). It yields every frame with sync / wait_vsync."
+  }
+]

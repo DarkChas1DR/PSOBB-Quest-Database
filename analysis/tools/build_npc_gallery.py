@@ -48,4 +48,3 @@ for i,name in enumerate(['GM','Rico','Sonic','Knuckles','Tails','Flowen','Elly']
 special.extend([{'name':'NiGHTS sitting','namespace':'DAT stage NPC','dat_type':51,'area_id':34,'qedit_field':'unknow7','selector':7,'evidence':'MyConst.pas NPC51Name[34,7]; Unit1.pas stage NPC model selection'}, {'name':'NiGHTS flying','namespace':'DAT stage NPC','dat_type':51,'area_id':34,'qedit_field':'unknow7','selector':8,'evidence':'MyConst.pas NPC51Name[34,8]; Unit1.pas stage NPC model selection'}, {'name':'Eggman','namespace':None,'id':None,'evidence':'No verified Eggman/Robotnik entry found in supplied Qedit Pascal definitions; absence globally is not established'}])
 (OUT/'special-characters.json').write_text(json.dumps(special,indent=2)+'\n')
 print(json.dumps({'definitions':len(records),'previews':len(cards),'special_records':len(special)}))
-
