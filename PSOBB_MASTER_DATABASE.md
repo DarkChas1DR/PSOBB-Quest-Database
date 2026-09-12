@@ -854,6 +854,205 @@ Six complex state machine architectures have been reverse-engineered from Sega's
 
 ---
 
+### 13.1 Production Blueprint: How to Build a Custom Shop (Meseta & Photon Drops)
+
+Any custom shop in PSOBB requires five atomic stages to prevent client desyncs and avoid taking player currency when their pack is full:
+
+```asm
+; ==============================================================================
+; PRODUCTION BLUEPRINT: CUSTOM SHOPKEEPER NPC (PHOTON DROP / MESETA)
+; ==============================================================================
+L1000:
+    npc_talk                            ; Lock player movement
+    window_msg "Welcome to the Hunter's Exchange!\nTrade your Photon Drops for rare ordnance?"
+    
+    ; Menu selection (R100 stores choice)
+    list_item R100, 3
+    list_text "1. Sealed J-Sword (50 PD)"
+    list_text "2. Red Ring (30 PD)"
+    list_text "3. Never mind"
+    switch R100, 3, L1010, L1020, L1099
+    winend
+    ret
+
+; Option 1: Sealed J-Sword (50 PD)
+L1010:
+    ; 1. Verify player has space (Pack limit: 30 items)
+    get_player_item_count R250, R10
+    jmpi_ge R10, 30, L1090             ; Jump if full!
+
+    ; 2. Check for 50 Photon Drops (0x03, 0x10, 0x00)
+    chk_item2 R11, 0x03, 0x10, 0x00
+    jmpi_lt R11, 50, L1091             ; Jump if insufficient!
+
+    ; 3. Deduct Currency
+    item_delete2 0x03, 0x10, 0x00, 50
+
+    ; 4. Deliver Item via R200..R211
+    set_register R200, 0x00            ; Weapon Class
+    set_register R201, 0x01            ; Sword Category
+    set_register R202, 0x2E            ; Sealed J-Sword ID
+    set_register R203, 0               ; Grind +0
+    set_register R204, 0x00            ; Element Flag
+    set_register R205, 0x05            ; Attr 1: Hit %
+    set_register R206, 25              ; 25% Hit
+    item_create2 R200                  ; Deliver to player
+
+    ; 5. Audio & Confirmation
+    play_se1 15                        ; Chime
+    window_msg "Thank you! Take good care of that blade..."
+    winend
+    ret
+
+; Option 2: Red Ring (30 PD)
+L1020:
+    get_player_item_count R250, R10
+    jmpi_ge R10, 30, L1090
+
+    chk_item2 R11, 0x03, 0x10, 0x00
+    jmpi_lt R11, 30, L1091
+
+    item_delete2 0x03, 0x10, 0x00, 30
+
+    set_register R200, 0x01            ; Armor & Shield Class
+    set_register R201, 0x02            ; Barrier / Shield Category
+    set_register R202, 0x1B            ; Red Ring ID
+    set_register R203, 85              ; Max DFP
+    set_register R204, 25              ; Max EVP
+    item_create2 R200
+
+    play_se1 15
+    window_msg "Here is the legendary Red Ring of Rico Tyrell!"
+    winend
+    ret
+
+L1090:
+    play_se1 11                        ; Error buzzer
+    window_msg "<red>Your inventory is completely full!<red>\nDeposit items in your Check Room first."
+    winend
+    ret
+
+L1091:
+    play_se1 11
+    window_msg "You do not have enough Photon Drops for that transaction."
+    winend
+    ret
+
+L1099:
+    window_msg "Come back anytime, Hunter."
+    winend
+    ret
+```
+
+---
+
+### 13.2 Production Blueprint: How to Build Casino & Machine Mini-Games (Roulette / Slots)
+
+Machine games use interactive terminals (DAT Object `0x0002` or `0x000F`), particle emission loops, sound effects, and pseudo-random integer branching:
+
+```asm
+; ==============================================================================
+; PRODUCTION BLUEPRINT: LUCKY COIN CASINO ROULETTE MACHINE
+; ==============================================================================
+L2000:
+    window_msg "=============================\n  PIONEER 2 LUCKY ROULETTE\n=============================\nInsert 1 Lucky Coin to spin the wheel?"
+    list_item R100, 2
+    list_text "1. Insert Coin & Spin!"
+    list_text "2. Leave Machine"
+    switch R100, 2, L2010, L2099
+    winend
+    ret
+
+L2010:
+    ; 1. Inventory check
+    get_player_item_count R250, R10
+    jmpi_ge R10, 30, L2090
+
+    ; 2. Check for Lucky Coin (0x03, 0x10, 0x02)
+    chk_item2 R11, 0x03, 0x10, 0x02
+    jmpi_lt R11, 1, L2091
+
+    ; 3. Deduct 1 Coin
+    item_delete2 0x03, 0x10, 0x02, 1
+    play_se1 22                        ; Coin insert clink
+
+    ; 4. Mechanical Spinning Loop & Sound Delays
+    window_msg "The mechanical reels begin to spin rapidly..."
+    play_se1 13                        ; Wheel spinning tick
+    wait_vsync 30                      ; 1-second delay
+    play_se1 13
+    wait_vsync 30
+    play_se1 14                        ; Lock / clunk sound!
+
+    ; 5. High-Precision RNG (0 to 999)
+    rand R50, 1000
+
+    ; 6. Cascading Payout Matrix
+    jmpi_lt R50, 10, L2100             ; 1.0% Jackpot Tier
+    jmpi_lt R50, 60, L2200             ; 5.0% Rare Tier
+    jmpi_lt R50, 300, L2300            ; 24.0% Uncommon Tier
+    jmp L2400                          ; 70.0% Common Tier
+
+; --- Payout Tiers ---
+L2100:
+    play_se1 25                        ; Jackpot fanfare
+    window_msg "<yellow>*** JACKPOT! ***<yellow>\nYou won a <yellow>Photon Sphere<yellow>!"
+    set_register R200, 0x03
+    set_register R201, 0x10
+    set_register R202, 0x01            ; Photon Sphere
+    item_create2 R200
+    winend
+    ret
+
+L2200:
+    play_se1 15
+    window_msg "<cyan>GREAT PRIZE!<cyan>\nYou won a <cyan>Photon Drop<cyan>!"
+    set_register R200, 0x03
+    set_register R201, 0x10
+    set_register R202, 0x00            ; Photon Drop
+    item_create2 R200
+    winend
+    ret
+
+L2300:
+    play_se1 15
+    window_msg "NICE WIN!\nYou won a <green>Trigrinder<green>!"
+    set_register R200, 0x03
+    set_register R201, 0x0A
+    set_register R202, 0x02            ; Trigrinder
+    item_create2 R200
+    winend
+    ret
+
+L2400:
+    play_se1 12                        ; Consolation sound
+    window_msg "Consolation Prize: You received a <green>Monomate<green>."
+    set_register R200, 0x03
+    set_register R201, 0x00
+    set_register R202, 0x00            ; Monomate
+    item_create2 R200
+    winend
+    ret
+
+L2090:
+    play_se1 11
+    window_msg "<red>Inventory full!<red> Make room in your pack before playing."
+    winend
+    ret
+
+L2091:
+    play_se1 11
+    window_msg "You do not have any Lucky Coins!"
+    winend
+    ret
+
+L2099:
+    winend
+    ret
+```
+
+---
+
 ## 14. Qedit Tooling, 3D Assets & Theme Reference
 
 The master database catalogs **1,227 Qedit assets** directly referenced by the editor's visual interface and 3D preview renderers.
