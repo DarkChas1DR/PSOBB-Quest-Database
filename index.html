@@ -894,7 +894,7 @@
     // QUEST DOSSIERS & ROOM EXPLORER
     // =========================================================================
     async function loadQuestsDossiers() {
-      const res = await fetch('web_data/quests_dossiers.json');
+      const res = await fetch('web_data/quests_dossiers.json?v=' + Date.now());
       state.quests = await res.json();
       filterQuestsList();
       
@@ -957,6 +957,30 @@
 
     function renderQuestDetail(quest, sections) {
       const detailView = document.getElementById('quest-detail-view');
+      const rawBase = 'https://github.com/DarkChas1DR/PSOBB-Quest-Database/raw/refs/heads/main/';
+      const zipUrl = quest.download_zip_url || `${rawBase}downloads/${quest.key}.zip?download=1`;
+      const zipName = quest.download_zip_name || `${quest.key.split('/').pop()}.zip`;
+
+      // Fallback wireframes if missing in cached json
+      let wireframesList = quest.matching_wireframes && quest.matching_wireframes.length > 0 ? quest.matching_wireframes : [];
+      if (wireframesList.length === 0 && state.wireframes && state.wireframes.length > 0) {
+        const epMap = {'Episode1': 1, 'Episode2': 2, 'Episode4': 4};
+        const ep = epMap[quest.episode] || 1;
+        const flWfMap = {
+          1: {0: ['map_city00_00'], 1: ['map_forest01'], 2: ['map_forest02'], 3: ['map_cave01_00'], 4: ['map_cave02_00'], 5: ['map_cave03_00'], 6: ['map_machine01_00'], 7: ['map_machine02_00'], 8: ['map_ancient01_00'], 9: ['map_ancient02_00'], 10: ['map_ancient03_00'], 11: ['map_boss01'], 12: ['map_boss02'], 13: ['map_boss03'], 14: ['map_darkfalz00'], 15: ['map_lobby_01'], 16: ['map_vs01_00'], 17: ['map_vs02_00']},
+          2: {0: ['map_labo00_00'], 1: ['map_ruins01_00'], 2: ['map_ruins02_00'], 3: ['map_space01_00'], 4: ['map_space02_00'], 5: ['map_jungle01_00'], 6: ['map_jungle02_00'], 7: ['map_jungle03_00'], 8: ['map_jungle04_00'], 9: ['map_jungle05_00'], 10: ['map_seabed01_00'], 11: ['map_seabed02_00'], 12: ['map_boss05'], 13: ['map_boss06'], 14: ['map_boss07'], 15: ['map_boss08'], 16: ['map_jungle06_00'], 17: ['map_jungle07_00']},
+          4: {0: ['map_city02_00'], 1: ['map_wilds01_00'], 2: ['map_wilds01_01'], 3: ['map_wilds01_02'], 4: ['map_wilds01_03'], 5: ['map_crater01_00'], 6: ['map_desert01_00'], 7: ['map_desert02_00'], 8: ['map_desert03_00'], 9: ['map_boss09_00'], 10: ['map_test01_00']}
+        };
+        (quest.floors || []).forEach(fl => {
+          const ids = (flWfMap[ep] && flWfMap[ep][fl]) || [];
+          ids.forEach(id => {
+            const found = state.wireframes.find(w => w.id === id);
+            if (found && !wireframesList.some(x => x.id === id)) {
+              wireframesList.push(found);
+            }
+          });
+        });
+      }
 
       detailView.innerHTML = `
         <!-- Quest Header -->
@@ -972,28 +996,39 @@
           <h3 class="text-2xl font-black text-white tracking-wide">${quest.name}</h3>
         </div>
 
-        <!-- DOWNLOAD QUEST FILES -->
-        <div class="p-4 bg-gradient-to-r from-emerald-950/40 via-slate-900 to-slate-900 border border-emerald-500/40 rounded-xl space-y-3">
-          <div class="flex items-center justify-between">
-            <h4 class="text-sm font-bold text-white flex items-center space-x-2">
-              <i class="fa-solid fa-download text-emerald-400"></i>
-              <span>Download Quest Package & Server Assets</span>
-            </h4>
-            <span class="text-[11px] text-slate-400 font-mono">Original BIN / DAT / QST / ZIP</span>
+        <!-- DOWNLOAD QUEST FILES (UNCONDITIONAL BULLETPROOF) -->
+        <div class="p-5 bg-gradient-to-r from-emerald-950/80 via-slate-900 to-slate-900 border-2 border-emerald-500/80 rounded-xl space-y-3 shadow-xl shadow-emerald-950/40">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h4 class="text-base font-black text-white flex items-center space-x-2">
+                <i class="fa-solid fa-cloud-arrow-down text-emerald-400 text-lg"></i>
+                <span>Download Quest Package & Server Assets</span>
+              </h4>
+              <p class="text-xs text-slate-400">1-click download of the complete verified quest bundle (BIN + DAT) or individual server payloads</p>
+            </div>
+            <span class="px-2.5 py-1 rounded bg-emerald-950 border border-emerald-600 text-emerald-400 font-mono text-xs font-bold">
+              <i class="fa-solid fa-check-circle mr-1"></i> Ready to Download
+            </span>
           </div>
-          <div class="flex flex-wrap items-center gap-2">
-            ${quest.download_zip_url ? `
-              <a href="${quest.download_zip_url}" download class="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-lg text-xs font-bold flex items-center space-x-2 shadow-lg shadow-emerald-950/50 transition">
-                <i class="fa-solid fa-file-zipper text-sm"></i>
-                <span>Download Quest ZIP (${quest.download_zip_name || 'bundle.zip'})</span>
+          <div class="flex flex-wrap items-center gap-2 pt-1">
+            <a href="${zipUrl}" download class="px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-lg text-xs font-black flex items-center space-x-2 shadow-lg shadow-emerald-950/50 transition transform hover:-translate-y-0.5 cursor-pointer">
+              <i class="fa-solid fa-file-zipper text-sm"></i>
+              <span>Download Quest ZIP (${zipName})</span>
+            </a>
+            <a href="${rawBase}analysis/quest-knowledge/source-quests/${quest.key}.bin?download=1" download class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 hover:border-cyan-400 rounded-lg text-xs font-mono flex items-center space-x-1.5 transition cursor-pointer">
+              <i class="fa-solid fa-file-code text-cyan-400"></i>
+              <span>Original BIN</span>
+            </a>
+            <a href="${rawBase}analysis/quest-knowledge/source-quests/${quest.key.replace(/-[a-z]$/, '')}.dat?download=1" download class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 hover:border-amber-400 rounded-lg text-xs font-mono flex items-center space-x-1.5 transition cursor-pointer">
+              <i class="fa-solid fa-database text-amber-400"></i>
+              <span>Original DAT</span>
+            </a>
+            ${quest.download_files && quest.download_files.some(f => f.label.includes('QST')) ? `
+              <a href="${rawBase}analysis/quest-knowledge/source-quests/${quest.key}.qst?download=1" download class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 hover:border-purple-400 rounded-lg text-xs font-mono flex items-center space-x-1.5 transition cursor-pointer">
+                <i class="fa-solid fa-box-archive text-purple-400"></i>
+                <span>Original QST</span>
               </a>
             ` : ''}
-            ${quest.download_files && quest.download_files.length > 0 ? quest.download_files.map(f => `
-              <a href="${f.url}" download class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-xs font-mono flex items-center space-x-1.5 transition">
-                <i class="fa-solid fa-file-arrow-down text-cyan-400"></i>
-                <span>${f.label}: ${f.name}</span>
-              </a>
-            `).join('') : ''}
           </div>
         </div>
 
@@ -1018,17 +1053,17 @@
         </div>
 
         <!-- MATCHING MAP WIREFRAMES -->
-        ${quest.matching_wireframes && quest.matching_wireframes.length > 0 ? `
+        ${wireframesList.length > 0 ? `
           <div class="p-4 bg-slate-900/90 border border-amber-500/40 rounded-xl space-y-3">
             <div class="flex items-center justify-between">
               <h4 class="text-sm font-bold text-white flex items-center space-x-2">
                 <i class="fa-solid fa-draw-polygon text-amber-400"></i>
-                <span>Floor Map Wireframes & Section Geometry (${quest.matching_wireframes.length} Layout${quest.matching_wireframes.length > 1 ? 's' : ''})</span>
+                <span>Floor Map Wireframes & Section Geometry (${wireframesList.length} Layout${wireframesList.length > 1 ? 's' : ''})</span>
               </h4>
               <span class="text-[11px] text-amber-400/80 font-mono">Qedit Collision Geometry</span>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-              ${quest.matching_wireframes.map(wf => `
+              ${wireframesList.map(wf => `
                 <div class="bg-slate-950 border border-slate-800 rounded-lg p-2.5 space-y-2 hover:border-amber-500/60 transition group cursor-pointer" onclick="jumpToWireframe('${wf.id}')">
                   <div class="relative w-full h-36 bg-black rounded flex items-center justify-center overflow-hidden border border-slate-900">
                     <img src="${wf.image_png}" alt="${wf.id}" class="max-w-full max-h-full object-contain group-hover:scale-105 transition duration-300" loading="lazy" />
@@ -1129,7 +1164,7 @@
     // MAP WIREFRAMES & GEOMETRY (126 LAYOUTS)
     // =========================================================================
     async function loadWireframes() {
-      const res = await fetch('web_data/wireframes.json');
+      const res = await fetch('web_data/wireframes.json?v=' + Date.now());
       state.wireframes = await res.json();
       filterWireframes();
 
