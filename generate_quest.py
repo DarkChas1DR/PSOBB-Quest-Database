@@ -72,59 +72,67 @@ AREA_KEYWORDS = {
     'desert 3': (4, 8, 8, 'map_desert03_00', 'Subterranean Desert 3'),
 }
 
-# Standard enemy pools by area
+# Standard authentic Sega enemy pools by area with authentic hex type IDs and subtypes
 ENEMY_POOLS = {
-    'Forest': [
-        ('Booma', 0x0040, 'Basic Native melee infantry'),
-        ('Gobooma', 0x0041, 'Agile Native pack fighter'),
-        ('Gigobooma', 0x0042, 'Heavy Native brawler'),
-        ('Savage Wolf', 0x0043, 'Pack flanking quadruped'),
-        ('Barbarous Wolf', 0x0044, 'Alpha pack leader'),
-        ('Monest', 0x0045, 'Hive spawner (Mothmants)'),
-        ('Hildebear', 0x0047, 'Brute ape with high HP and jumping strike'),
+    'Forest 1': [
+        ('Booma', 0x0044, 0, 'Basic Native melee infantry'),
+        ('Gobooma', 0x0044, 1, 'Agile Native pack fighter'),
+        ('Savage Wolf', 0x0043, 0, 'Pack flanking quadruped'),
+        ('Barbarous Wolf', 0x0043, 1, 'Alpha pack leader'),
+        ('Monest', 0x0042, 0, 'Hive spawner (Mothmants)'),
+        ('Rag Rappy', 0x0041, 0, 'Wild native bird'),
+    ],
+    'Forest 2': [
+        ('Booma', 0x0044, 0, 'Basic Native melee infantry'),
+        ('Gobooma', 0x0044, 1, 'Agile Native pack fighter'),
+        ('Gigobooma', 0x0044, 2, 'Heavy Native brawler'),
+        ('Savage Wolf', 0x0043, 0, 'Pack flanking quadruped'),
+        ('Barbarous Wolf', 0x0043, 1, 'Alpha pack leader'),
+        ('Hildebear', 0x0040, 0, 'Brute ape with high HP and jumping strike'),
+        ('Rag Rappy', 0x0041, 0, 'Wild native bird'),
     ],
     'Caves': [
-        ('Evil Shark', 0x0060, 'Altered Beast infantry'),
-        ('Pal Shark', 0x0061, 'Altered Beast spearman'),
-        ('Guil Shark', 0x0062, 'Elite Altered Beast guard'),
-        ('Poison Lily', 0x0063, 'Paralysis & Megid spore plant'),
-        ('Grass Assassin', 0x0064, 'Dual scythe striker'),
-        ('Nano Dragon', 0x0065, 'Aerial laser breath reptile'),
-        ('Pan Arms', 0x0067, 'Split shielding duo'),
+        ('Evil Shark', 0x0063, 0, 'Altered Beast infantry'),
+        ('Pal Shark', 0x0063, 1, 'Altered Beast spearman'),
+        ('Guil Shark', 0x0063, 2, 'Elite Altered Beast guard'),
+        ('Poison Lily', 0x0061, 0, 'Paralysis & Megid spore plant'),
+        ('Grass Assassin', 0x0060, 0, 'Dual scythe striker'),
+        ('Nano Dragon', 0x0062, 0, 'Aerial laser breath reptile'),
+        ('Pan Arms', 0x0065, 0, 'Split shielding duo'),
     ],
     'Mines': [
-        ('Gillchic', 0x0080, 'Machine laser infantry'),
-        ('Dubchic', 0x0081, 'Remote core linked drone'),
-        ('Canadine', 0x0083, 'Hovering ring laser platform'),
-        ('Canane', 0x0084, 'Ring leader command drone'),
-        ('Sinow Beat', 0x0085, 'Stealth camouflage assassin'),
-        ('Garanz', 0x0086, 'Heavy armored missile tank'),
+        ('Dubchic', 0x0080, 0, 'Remote core linked drone'),
+        ('Gillchic', 0x0080, 1, 'Machine laser infantry'),
+        ('Sinow Beat', 0x0082, 0, 'Stealth camouflage assassin'),
+        ('Canadine', 0x0083, 0, 'Hovering ring laser platform'),
+        ('Canane', 0x0084, 0, 'Ring leader command drone'),
+        ('Garanz', 0x0081, 0, 'Heavy armored missile tank'),
     ],
     'Ruins': [
-        ('Dimenian', 0x00A0, 'Dark entity swordsman'),
-        ('La Dimenian', 0x00A1, 'Dark entity veteran'),
-        ('So Dimenian', 0x00A2, 'Heavy dark entity warrior'),
-        ('Claw', 0x00A3, 'Swarm blade drone'),
-        ('Bulk', 0x00A4, 'Swarm anchor core'),
-        ('Dark Belra', 0x00A6, 'Giant rocket punch demon'),
-        ('Chaos Sorcerer', 0x00A8, 'High-tier spellcaster (Rafoie/Rabarta)'),
+        ('Dimenian', 0x00A6, 0, 'Dark entity swordsman'),
+        ('La Dimenian', 0x00A6, 1, 'Dark entity veteran'),
+        ('So Dimenian', 0x00A6, 2, 'Heavy dark entity warrior'),
+        ('Delsaber', 0x00A0, 0, 'Twin saber elite knight'),
+        ('Chaos Sorcerer', 0x00A1, 0, 'High-tier spellcaster (Rafoie/Rabarta)'),
+        ('Dark Belra', 0x00A5, 0, 'Giant rocket punch demon'),
+        ('Chaos Bringer', 0x00A4, 0, 'Charging demon centaur'),
     ],
     'Seabed': [
-        ('Dolmolm', 0x0110, 'Submersible armored crustacean'),
-        ('Dolmdarl', 0x0111, 'Advanced heavy submerger'),
-        ('Morfos', 0x0112, 'Phase shifting laser automaton'),
-        ('Recobox', 0x0113, 'Autonomous recon drone dispenser'),
-        ('Sinow Zoa', 0x0115, 'High-mobility seabed assassin'),
-        ('Delbiter', 0x0117, 'Armored charging behemoth'),
+        ('Dolmolm', 0x0110, 0, 'Submersible armored crustacean'),
+        ('Dolmdarl', 0x0111, 0, 'Advanced heavy submerger'),
+        ('Morfos', 0x0112, 0, 'Phase shifting laser automaton'),
+        ('Recobox', 0x0113, 0, 'Autonomous recon drone dispenser'),
+        ('Sinow Zoa', 0x0115, 0, 'High-mobility seabed assassin'),
+        ('Delbiter', 0x0117, 0, 'Armored charging behemoth'),
     ],
     'Desert': [
-        ('Boota', 0x0130, 'Desert sand infantry'),
-        ('Ze Boota', 0x0131, 'Desert sand skirmisher'),
-        ('Ba Boota', 0x0132, 'Desert heavy sand fighter'),
-        ('Zu', 0x0133, 'Giant desert avian terror'),
-        ('Astark', 0x0135, 'Desert apex predator'),
-        ('Goran', 0x0136, 'Desert rock burrower'),
-        ('Goran Detonator', 0x0138, 'Heavy explosive desert beast'),
+        ('Boota', 0x0130, 0, 'Desert sand infantry'),
+        ('Ze Boota', 0x0131, 0, 'Desert sand skirmisher'),
+        ('Ba Boota', 0x0132, 0, 'Desert heavy sand fighter'),
+        ('Zu', 0x0133, 0, 'Giant desert avian terror'),
+        ('Astark', 0x0135, 0, 'Desert apex predator'),
+        ('Goran', 0x0136, 0, 'Desert rock burrower'),
+        ('Goran Detonator', 0x0138, 0, 'Heavy explosive desert beast'),
     ]
 }
 
@@ -331,10 +339,12 @@ def compile_quest_dat(spec, enemies_rows, objects_rows):
         y = float(parts[6])
         z = float(parts[7])
         angle = int(parts[8], 16)
+        subtype = int(parts[10]) if len(parts) > 10 and parts[10].isdigit() else 0
         all_spawns.append({
             'floor': flr, 'room': room, 'wave': wave,
             'name': name, 'type': type_id,
-            'x': x, 'y': y, 'z': z, 'angle': angle
+            'x': x, 'y': y, 'z': z, 'angle': angle,
+            'subtype': subtype
         })
 
     # Group 2: Enemies (w0 = 2) for each floor
@@ -354,11 +364,16 @@ def compile_quest_dat(spec, enemies_rows, objects_rows):
         off = SECTION_HDR
         for idx, sp in enumerate(stage_spawns):
             eid = flr * 100 + sp['wave']
+            type_val = sp['type']
+            subtype_val = sp.get('subtype', 0)
+            p1 = 1 if type_val == 0x0043 else 32
+            p2 = 1 if sp['name'] == 'Barbarous Wolf' else (3 if type_val == 0x0042 else 0)
+            p6 = subtype_val
             struct.pack_into('<4H2I3f3i3f4I', sec, off,
-                sp['type'], 0, eid, sp['wave'], idx + 1, sp['room'],
+                type_val, 0, eid, sp['wave'], idx + 1, sp['room'],
                 sp['x'], sp['y'], sp['z'], 0, sp['angle'], 0,
                 1.0, 1.0, 1.0,
-                32, 0, sp['wave'], entity_counter
+                p1, p2, p6, entity_counter
             )
             entity_counter += 1
             off += RECORD_SIZE
@@ -569,8 +584,8 @@ def generate_quest_files(spec, out_dir):
     FLAG_ROOM_CLEARED = 612
     FLAG_REWARD_CLAIMED = 613
 
-    pool_key = 'Forest'
-    for k in ENEMY_POOLS.keys():
+    pool_key = 'Forest 1'
+    for k in ['Forest 2', 'Forest 1', 'Caves', 'Mines', 'Ruins', 'Seabed', 'Desert']:
         if k.lower() in spec['area_name'].lower():
             pool_key = k
             break
@@ -693,6 +708,10 @@ def generate_quest_files(spec, out_dir):
     with open(os.path.join(out_dir, "script.txt"), "w", encoding="utf-8") as f:
         f.write(script_content)
 
+    sec_pos_map = wf.get('section_positions', {}) if wf else {}
+    enter_pos = sec_pos_map.get(str(combat_rooms[0]), [0.0, 0.0, 0.0])
+    exit_pos = sec_pos_map.get(str(target_clear_room), [0.0, 0.0, 0.0])
+
     objects_rows = [
         "floor,room,type_hex,type_name,x,y,z,angle,param1,param2,param3",
         # Pioneer 2 NPCs
@@ -701,13 +720,13 @@ def generate_quest_files(spec, out_dir):
         # Pioneer 2 to Stage 1 Floor Teleporter (param1=floorIdx, param2=1, param3=floorIdx)
         f"0,10,0x0002,Warp_To_Stage1,132.0,1.0,-266.0,0x0000,{spec['floor_idx']},1,{spec['floor_idx']}",
         # Stage Infiltration Warp
-        f"{spec['floor_idx']},{combat_rooms[0]},0x0019,Warp_StageIn,0.0,0.0,0.0,0x0000,0,0,0",
+        f"{spec['floor_idx']},{combat_rooms[0]},0x0019,Warp_StageIn,{enter_pos[0]:.1f},{enter_pos[1]:.1f},{enter_pos[2]:.1f},0x0000,0,0,0",
         # Laser barrier fence at first combat room
-        f"{spec['floor_idx']},{combat_rooms[0]},0x0004,Laser_Fence_Barrier,0.0,0.0,10.0,0x0000,1,0,0",
+        f"{spec['floor_idx']},{combat_rooms[0]},0x0004,Laser_Fence_Barrier,{enter_pos[0]:.1f},{enter_pos[1]:.1f},{(enter_pos[2] + 12.0):.1f},0x0000,1,0,0",
         # Floor Terminal Switch at final room
-        f"{spec['floor_idx']},{target_clear_room},0x0001,Floor_Terminal_Switch,15.0,0.0,15.0,0x0000,1,0,0",
+        f"{spec['floor_idx']},{target_clear_room},0x0001,Floor_Terminal_Switch,{(exit_pos[0] - 12.0):.1f},{exit_pos[1]:.1f},{exit_pos[2]:.1f},0x0000,1,0,0",
         # Extraction Warp back to Pioneer 2 (param1=0, param2=1, param3=0)
-        f"{spec['floor_idx']},{target_clear_room},0x0002,Warp_Extract_Pioneer2,18.0,0.0,18.0,0x0000,0,1,0"
+        f"{spec['floor_idx']},{target_clear_room},0x0002,Warp_Extract_Pioneer2,{(exit_pos[0] + 12.0):.1f},{exit_pos[1]:.1f},{exit_pos[2]:.1f},0x0000,0,1,0"
     ]
 
     map_lines = [
@@ -719,16 +738,16 @@ def generate_quest_files(spec, out_dir):
         f"0, 10, 0x0002, Guild_Officer_NPC, 12.5, 0.0, -45.0, 0x8000, 0, 0, 0",
         f"0, 10, 0x0002, Tactical_Scout_NPC, 18.0, 0.0, -40.0, 0x8000, 0, 0, 0",
         f"0, 10, 0x0002, Warp_To_Stage1, 132.0, 1.0, -266.0, 0x0000, {spec['floor_idx']}, 1, {spec['floor_idx']}",
-        f"{spec['floor_idx']}, {combat_rooms[0]}, 0x0019, Warp_StageIn, 0.0, 0.0, 0.0, 0x0000, 0, 0, 0",
-        f"{spec['floor_idx']}, {combat_rooms[0]}, 0x0004, Laser_Fence_Barrier, 0.0, 0.0, 10.0, 0x0000, 1, 0, 0",
-        f"{spec['floor_idx']}, {target_clear_room}, 0x0001, Floor_Terminal_Switch, 15.0, 0.0, 15.0, 0x0000, 1, 0, 0",
-        f"{spec['floor_idx']}, {target_clear_room}, 0x0002, Warp_Extract_Pioneer2, 18.0, 0.0, 18.0, 0x0000, 0, 1, 0",
+        f"{spec['floor_idx']}, {combat_rooms[0]}, 0x0019, Warp_StageIn, {enter_pos[0]:.1f}, {enter_pos[1]:.1f}, {enter_pos[2]:.1f}, 0x0000, 0, 0, 0",
+        f"{spec['floor_idx']}, {combat_rooms[0]}, 0x0004, Laser_Fence_Barrier, {enter_pos[0]:.1f}, {enter_pos[1]:.1f}, {(enter_pos[2] + 12.0):.1f}, 0x0000, 1, 0, 0",
+        f"{spec['floor_idx']}, {target_clear_room}, 0x0001, Floor_Terminal_Switch, {(exit_pos[0] - 12.0):.1f}, {exit_pos[1]:.1f}, {exit_pos[2]:.1f}, 0x0000, 1, 0, 0",
+        f"{spec['floor_idx']}, {target_clear_room}, 0x0002, Warp_Extract_Pioneer2, {(exit_pos[0] + 12.0):.1f}, {exit_pos[1]:.1f}, {exit_pos[2]:.1f}, 0x0000, 0, 1, 0",
         f"",
         f"[ENEMIES]"
     ]
 
     waves_rows = ["floor,room,wave_num,trigger_event,delay_frames,enemy_count,next_action"]
-    enemies_rows = ["floor,room,wave,enemy_name,type_hex,x,y,z,angle,comment"]
+    enemies_rows = ["floor,room,wave,enemy_name,type_hex,x,y,z,angle,comment,subtype"]
 
     for w_idx, room_id in enumerate(combat_rooms):
         wave_num = w_idx + 1
@@ -739,13 +758,19 @@ def generate_quest_files(spec, out_dir):
 
         waves_rows.append(f"{spec['floor_idx']},{room_id},{wave_num},{trigger_evt},{delay},{e_count},spawn_wave")
 
+        room_pos = sec_pos_map.get(str(room_id), [0.0, 0.0, 0.0])
+        cx, cy, cz = float(room_pos[0]), float(room_pos[1]), float(room_pos[2])
+
         for i in range(e_count):
-            radius = 12.0 + (i % 3) * 5.0
-            angle_rad = (3.14159 * 2 * i) / e_count
-            x = radius * math.cos(angle_rad)
-            z = 15.0 + radius * math.sin(angle_rad)
-            enemies_rows.append(f"{spec['floor_idx']},{room_id},{wave_num},{e_type[0]},{hex(e_type[1])},{x:.1f},0.0,{z:.1f},0x0000,{e_type[2]}")
-            map_lines.append(f"{spec['floor_idx']}, {room_id}, {wave_num}, {e_type[0]} ({hex(e_type[1])}), x={x:.1f}, y=0.0, z={z:.1f}, delay={delay}")
+            radius = 8.0 + (i % 4) * 3.5
+            angle_rad = (3.14159 * 2 * i) / e_count + (wave_num * 0.6)
+            x = cx + radius * math.cos(angle_rad)
+            y = cy
+            z = cz + radius * math.sin(angle_rad)
+            angle_hex_arr = ['0x0000', '0x4000', '0x8000', '0xC000']
+            angle_hex = angle_hex_arr[i % 4]
+            enemies_rows.append(f"{spec['floor_idx']},{room_id},{wave_num},{e_type[0]},{hex(e_type[1])},{x:.1f},{y:.1f},{z:.1f},{angle_hex},{e_type[3]},{e_type[2]}")
+            map_lines.append(f"{spec['floor_idx']}, {room_id}, {wave_num}, {e_type[0]} ({hex(e_type[1])}), x={x:.1f}, y={y:.1f}, z={z:.1f}, subtype={e_type[2]}, delay={delay}")
 
     with open(os.path.join(out_dir, "enemies.csv"), "w", encoding="utf-8") as f:
         f.write("\n".join(enemies_rows))
