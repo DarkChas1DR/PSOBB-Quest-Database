@@ -15,6 +15,7 @@ import re
 import struct
 import argparse
 import zipfile
+import math
 
 REPO_DIR = os.path.dirname(os.path.abspath(__file__))
 WEB_DATA_DIR = os.path.join(REPO_DIR, 'web_data')
@@ -266,92 +267,164 @@ def prs_compress(data):
 def compile_quest_dat(spec, enemies_rows, objects_rows):
     RECORD_SIZE = 68
     SECTION_HDR = 16
-    buf = bytearray()
-    
-    # 1. Floor 1 Objects
-    obj_data = bytearray()
-    for idx, row in enumerate(objects_rows[1:]):
-        parts = row.split(',')
-        if len(parts) < 8: continue
-        flr = int(parts[0])
-        if flr != 0 and flr != 1 and flr != spec.get('floor_idx', 1):
+    EVT_REC_SIZE = 20
+    EVT_HDR_SIZE = 16
+    dat_sections = []
+
+    target_flr = spec.get('floor_idx', 1)
+    floors = [0, target_flr]  # Floor 0 (Pioneer 2) + Floor target_flr (Stage)
+
+    # 1. Parse objects from objects_rows
+    all_objs = []
+    for row in objects_rows[1:]:
+        parts = [p.strip() for p in row.split(',')]
+        if len(parts) < 8:
             continue
-        type_id = int(parts[2], 16)
+        flr = int(parts[0])
         room = int(parts[1])
-        x, y, z = float(parts[4]), float(parts[5]), float(parts[6])
+        type_id = int(parts[2], 16)
+        x = float(parts[4])
+        y = float(parts[5])
+        z = float(parts[6])
         angle = int(parts[7], 16)
-        rec = bytearray(RECORD_SIZE)
-        struct.pack_into('<2H3I3f3i3f4I', rec, 0,
-            type_id, 2, idx, 16384 + idx, room,
-            x, y, z, 0, angle, 0,
-            1.0, 1.0, 1.0,
-            int(parts[8]) if len(parts) > 8 and parts[8].strip().lstrip('-').isdigit() else 0,
-            int(parts[9]) if len(parts) > 9 and parts[9].strip().lstrip('-').isdigit() else 0,
-            int(parts[10]) if len(parts) > 10 and parts[10].strip().lstrip('-').isdigit() else 0,
-            1000 + idx
-        )
-        obj_data.extend(rec)
+        p1 = int(parts[8]) if len(parts) > 8 and parts[8].lstrip('-').isdigit() else 0
+        p2 = int(parts[9]) if len(parts) > 9 and parts[9].lstrip('-').isdigit() else 0
+        p3 = int(parts[10]) if len(parts) > 10 and parts[10].lstrip('-').isdigit() else 0
+        all_objs.append({
+            'floor': flr, 'room': room, 'type': type_id,
+            'x': x, 'y': y, 'z': z, 'angle': angle,
+            'p1': p1, 'p2': p2, 'p3': p3
+        })
 
-    buf.extend(struct.pack('<4I', 1, SECTION_HDR + len(obj_data), 0, len(obj_data)))
-    buf.extend(obj_data)
-
-    # 2. Floor 1 Enemies
-    ene_data = bytearray()
-    events = []
-    actions = bytearray()
-    
-    waves_dict = {}
-    for idx, row in enumerate(enemies_rows[1:]):
-        parts = row.split(',')
-        if len(parts) < 8: continue
-        w = int(parts[2])
-        if w not in waves_dict: waves_dict[w] = []
-        waves_dict[w].append((idx, parts))
-
-    sorted_waves = sorted(waves_dict.keys())
-    total_waves = len(sorted_waves)
-
-    for wi, w in enumerate(sorted_waves):
-        spawns = waves_dict[w]
-        room = int(spawns[0][1][1])
-        eid = 100 + w
-        act_off = len(actions)
-        if wi < total_waves - 1:
-            actions.extend(struct.pack('<BI B', 0x0C, 100 + (w + 1), 0x01))
-        else:
-            actions.extend(struct.pack('<BH B', 0x0A, 1, 0x01))
-        events.append((eid, 1, room, w, 10, act_off))
-
-        for idx, parts in spawns:
-            type_id = int(parts[4], 16)
-            x, y, z = float(parts[5]), float(parts[6]), float(parts[7])
-            angle = int(parts[8], 16)
-            rec = bytearray(RECORD_SIZE)
-            struct.pack_into('<4H2I3f3i3f4I', rec, 0,
-                type_id, 0, eid, w, idx + 1, room,
-                x, y, z, 0, angle, 0,
+    # Group 1: Objects (w0 = 1) for each floor
+    entity_counter = 1000
+    for flr in floors:
+        stage_objs = [o for o in all_objs if o['floor'] == flr]
+        dsize = len(stage_objs) * RECORD_SIZE
+        tot_size = SECTION_HDR + dsize
+        sec = bytearray(tot_size)
+        struct.pack_into('<4I', sec, 0, 1, tot_size, flr, dsize)
+        off = SECTION_HDR
+        for idx, o in enumerate(stage_objs):
+            struct.pack_into('<2H3I3f3i3f4I', sec, off,
+                o['type'], 2, idx, 16384 + idx, o['room'],
+                o['x'], o['y'], o['z'], 0, o['angle'], 0,
                 1.0, 1.0, 1.0,
-                32, 0, w, 2000 + idx
+                o['p1'], o['p2'], o['p3'], entity_counter
             )
-            ene_data.extend(rec)
+            entity_counter += 1
+            off += RECORD_SIZE
+        dat_sections.append(sec)
 
-    buf.extend(struct.pack('<4I', 1, SECTION_HDR + len(ene_data), 1, len(ene_data)))
-    buf.extend(ene_data)
+    # 2. Parse enemies from enemies_rows
+    all_spawns = []
+    for row in enemies_rows[1:]:
+        parts = [p.strip() for p in row.split(',')]
+        if len(parts) < 8:
+            continue
+        flr = int(parts[0])
+        room = int(parts[1])
+        wave = int(parts[2])
+        name = parts[3]
+        type_id = int(parts[4], 16)
+        x = float(parts[5])
+        y = float(parts[6])
+        z = float(parts[7])
+        angle = int(parts[8], 16)
+        all_spawns.append({
+            'floor': flr, 'room': room, 'wave': wave,
+            'name': name, 'type': type_id,
+            'x': x, 'y': y, 'z': z, 'angle': angle
+        })
 
-    # 3. Map Events (Floor 2)
-    evt_entries = bytearray()
-    for e in events:
-        eid, flr, rm, wv, prm, aoff = e
-        evt_entries.extend(struct.pack('<I HH HH II', eid, 0, flr, rm, wv, prm, aoff))
-    
-    evt_hdr = struct.pack('<4I', 16 + len(evt_entries), 16, len(events), 0)
-    evt_payload = evt_hdr + evt_entries + actions
-    buf.extend(struct.pack('<4I', 2, SECTION_HDR + len(evt_payload), 1, len(evt_payload)))
-    buf.extend(evt_payload)
+    # Group 2: Enemies (w0 = 2) for each floor
+    for flr in floors:
+        if flr == 0:
+            # Pioneer 2 has 0 enemies (16-byte empty header)
+            p2_hdr = bytearray(SECTION_HDR)
+            struct.pack_into('<4I', p2_hdr, 0, 2, SECTION_HDR, 0, 0)
+            dat_sections.append(p2_hdr)
+            continue
 
-    # 4. Terminator
-    buf.extend(struct.pack('<4I', 0, 0, 0, 0))
-    return prs_compress(bytes(buf))
+        stage_spawns = [s for s in all_spawns if s['floor'] == flr]
+        dsize = len(stage_spawns) * RECORD_SIZE
+        tot_size = SECTION_HDR + dsize
+        sec = bytearray(tot_size)
+        struct.pack_into('<4I', sec, 0, 2, tot_size, flr, dsize)
+        off = SECTION_HDR
+        for idx, sp in enumerate(stage_spawns):
+            eid = flr * 100 + sp['wave']
+            struct.pack_into('<4H2I3f3i3f4I', sec, off,
+                sp['type'], 0, eid, sp['wave'], idx + 1, sp['room'],
+                sp['x'], sp['y'], sp['z'], 0, sp['angle'], 0,
+                1.0, 1.0, 1.0,
+                32, 0, sp['wave'], entity_counter
+            )
+            entity_counter += 1
+            off += RECORD_SIZE
+        dat_sections.append(sec)
+
+    # Group 3: Map Events / Wave Actions (w0 = 3) for each floor
+    for flr in floors:
+        if flr == 0:
+            continue
+        stage_spawns = [s for s in all_spawns if s['floor'] == flr]
+        if not stage_spawns:
+            continue
+
+        waves_map = {}
+        for sp in stage_spawns:
+            w = sp['wave']
+            if w not in waves_map:
+                waves_map[w] = []
+            waves_map[w].append(sp)
+
+        wave_nums = sorted(waves_map.keys())
+        stage_events = []
+        action_bytes = bytearray()
+
+        for wi, w in enumerate(wave_nums):
+            w_spawns = waves_map[w]
+            room_id = w_spawns[0]['room'] if w_spawns else 1
+            eid = flr * 100 + w
+            is_last = (wi == len(wave_nums) - 1)
+            act_off = len(action_bytes)
+
+            if not is_last:
+                next_eid = flr * 100 + wave_nums[wi + 1]
+                action_bytes.extend(struct.pack('<BI B', 0x0C, next_eid, 0x01))
+            else:
+                action_bytes.extend(struct.pack('<BH B', 0x0A, flr, 0x01))
+
+            stage_events.append((eid, flr, room_id, w, 10, act_off))
+
+        table_size = EVT_HDR_SIZE + len(stage_events) * EVT_REC_SIZE
+        tot_payload = table_size + len(action_bytes)
+        tot_sec = SECTION_HDR + tot_payload
+
+        sec = bytearray(tot_sec)
+        struct.pack_into('<4I', sec, 0, 3, tot_sec, flr, tot_payload)
+
+        e_off = SECTION_HDR
+        struct.pack_into('<4I', sec, e_off, table_size, EVT_HDR_SIZE, len(stage_events), 0)
+        e_off += EVT_HDR_SIZE
+
+        for ev in stage_events:
+            eid, e_flr, e_rm, e_wv, e_prm, e_aoff = ev
+            struct.pack_into('<I HH HH II', sec, e_off, eid, 0, e_flr, e_rm, e_wv, e_prm, e_aoff)
+            e_off += EVT_REC_SIZE
+
+        sec[e_off:e_off+len(action_bytes)] = action_bytes
+        dat_sections.append(sec)
+
+    # Terminator: 16 null bytes
+    dat_sections.append(bytearray(16))
+
+    full_dat = bytearray()
+    for s in dat_sections:
+        full_dat.extend(s)
+
+    return prs_compress(bytes(full_dat))
 
 def compile_quest_bin(spec):
     HEADER_SIZE = 0x122C
@@ -377,31 +450,34 @@ def compile_quest_bin(spec):
         backpatch.append((len(code), fid))
         code.extend(b'\0\0')
 
-    # Fn 0
+    # Fn 0: Entry point
     def_fn(0)
     code.extend(bytes([0xF8, 0xBC])) # set_episode
     code.extend(struct.pack('<i', spec['episode'] - 1))
     code.extend(bytes([0xF9, 0x51, 0, 0, 0, 0, 0])) # Pioneer 2
-    code.extend(bytes([0xF9, 0x51, 1, spec['area_id'], 0, 0, 0])) # Floor 1
+    # Floor matching FloorSet.ini:
+    code.extend(bytes([0xF9, 0x51, spec['floor_idx'], spec['area_id'], 0, 0, 0]))
+    if spec.get('has_boss'):
+        code.extend(bytes([0xF9, 0x51, 11, 11, 0, 0, 0]))
     code.append(0x04); emit_ref(100) # thread L100
     code.append(0x01) # ret
 
-    # Fn 1
+    # Fn 1: Guild callback
     def_fn(1); code.append(0x01)
 
-    # Fn 10: Officer
+    # Fn 10: Hunter's Guild Officer NPC
     def_fn(10)
     code.append(0x65); code.append(0x5A)
-    code.extend(b"Hunter's Guild:\\nA critical assignment on Ragol awaits you.\\nDeploy and eradicate all hostiles!\0")
+    code.extend(f"Hunter's Guild:\nGreetings Hunter! Deploy to {spec['area_name']} and eliminate all hostiles!\0".encode('latin-1'))
     code.append(0x5E); code.append(0x01)
 
-    # Fn 20: Scout
+    # Fn 20: Tactical Scout
     def_fn(20)
     code.append(0x65); code.append(0x5A)
-    code.extend(b"Tactical Scout:\\nRadar detects dense enemy clusters in designated sectors.\\nMaintain formation!\0")
+    code.extend(b"Tactical Scout:\nHostiles detected in designated sectors.\nMaintain formation!\0")
     code.append(0x5E); code.append(0x01)
 
-    # Fn 100: Monitor loop
+    # Fn 100: Monitor loop with sync yield
     def_fn(100)
     code.append(0x02); code.append(0x28); emit_ref(100); code.append(0x01)
 
@@ -469,11 +545,24 @@ def generate_quest_files(spec, out_dir):
 
     wireframes = load_json('wireframes.json')
     wf = next((w for w in wireframes if w['id'] == spec['wireframe_id']), None)
-    sec_ids = wf['section_ids'] if wf else [1, 2, 3, 4, 5]
+    sec_ids = wf['section_ids'] if (wf and wf.get('section_ids')) else [1, 2, 3, 4, 5, 6, 7, 8]
 
-    combat_rooms = sec_ids[:min(spec['waves_count'], len(sec_ids))]
+    # Distribute rooms evenly across entire map wireframe geometry
+    total_sec = len(sec_ids)
+    target_room_count = min(total_sec, max(8, spec['waves_count'] * 3))
+    if spec.get('has_boss'):
+        target_room_count = min(total_sec, 2)
+
+    combat_rooms = []
+    for r in range(target_room_count):
+        s_idx_sample = int(r * (total_sec - 1) / max(1, target_room_count - 1))
+        sec_id = sec_ids[s_idx_sample]
+        if sec_id not in combat_rooms:
+            combat_rooms.append(sec_id)
     if not combat_rooms:
-        combat_rooms = [1, 2, 3]
+        combat_rooms = [sec_ids[0] if sec_ids else 1]
+
+    target_clear_room = combat_rooms[-1]
 
     FLAG_ACCEPTED = 610
     FLAG_ENCOUNTER_ACTIVE = 611
@@ -504,7 +593,7 @@ def generate_quest_files(spec, out_dir):
         f"    BB_Map_Designate {spec['floor_idx']}, {spec['area_id']}, 0, 0, 0    // Floor {spec['floor_idx']}: {spec['area_name']}",
     ]
 
-    if spec['has_boss']:
+    if spec.get('has_boss'):
         asm_lines.append(f"    BB_Map_Designate 11, 11, 0, 0, 0           // Floor 11: Boss Arena")
 
     asm_lines.extend([
@@ -589,7 +678,7 @@ def generate_quest_files(spec, out_dir):
         f"",
         f"    // Polling encounter completion",
         f"    set_register R2, {spec['floor_idx']}                   // Floor slot",
-        f"    set_register R3, {combat_rooms[-1]}                   // Target final combat room ID",
+        f"    set_register R3, {target_clear_room}                   // Target final combat room ID",
         f"    if_zone_clear R1, R2                       // Consumes R2=Floor, R3=Room; R1 receives 1 if cleared",
         f"    jmpi_eq R1, 0, L100                        // Still enemies alive, loop back and yield",
         f"",
@@ -604,41 +693,57 @@ def generate_quest_files(spec, out_dir):
     with open(os.path.join(out_dir, "script.txt"), "w", encoding="utf-8") as f:
         f.write(script_content)
 
-    enemies_rows = ["floor,room,wave,enemy_name,type_hex,x,y,z,angle,comment"]
+    objects_rows = [
+        "floor,room,type_hex,type_name,x,y,z,angle,param1,param2,param3",
+        # Pioneer 2 NPCs
+        "0,10,0x0002,Guild_Officer_NPC,12.5,0.0,-45.0,0x8000,0,0,0",
+        "0,10,0x0002,Tactical_Scout_NPC,18.0,0.0,-40.0,0x8000,0,0,0",
+        # Pioneer 2 to Stage 1 Floor Teleporter (param1=floorIdx, param2=1, param3=floorIdx)
+        f"0,10,0x0002,Warp_To_Stage1,132.0,1.0,-266.0,0x0000,{spec['floor_idx']},1,{spec['floor_idx']}",
+        # Stage Infiltration Warp
+        f"{spec['floor_idx']},{combat_rooms[0]},0x0019,Warp_StageIn,0.0,0.0,0.0,0x0000,0,0,0",
+        # Laser barrier fence at first combat room
+        f"{spec['floor_idx']},{combat_rooms[0]},0x0004,Laser_Fence_Barrier,0.0,0.0,10.0,0x0000,1,0,0",
+        # Floor Terminal Switch at final room
+        f"{spec['floor_idx']},{target_clear_room},0x0001,Floor_Terminal_Switch,15.0,0.0,15.0,0x0000,1,0,0",
+        # Extraction Warp back to Pioneer 2 (param1=0, param2=1, param3=0)
+        f"{spec['floor_idx']},{target_clear_room},0x0002,Warp_Extract_Pioneer2,18.0,0.0,18.0,0x0000,0,1,0"
+    ]
+
     map_lines = [
         f"# PSOBB Spatial Placements & Wave Actions for: {spec['title']}",
         f"# Floor {spec['floor_idx']} ({spec['area_name']})",
         f"",
         f"[OBJECTS]",
-        f"# floor, room, type_hex, type_name, x, y, z, angle, param1..param6",
-        f"0, 10, 0x0002, Guild_Officer_NPC, 12.5, 0.0, -45.0, 0x8000, 0, 0, 0, 0, 0, 0",
-        f"{spec['floor_idx']}, {combat_rooms[0]}, 0x0019, Warp_Pioneer2, 0.0, 0.0, 0.0, 0x0000, 0, 0, 0, 0, 1, 0",
+        f"# floor, room, type_hex, type_name, x, y, z, angle, param1, param2, param3",
+        f"0, 10, 0x0002, Guild_Officer_NPC, 12.5, 0.0, -45.0, 0x8000, 0, 0, 0",
+        f"0, 10, 0x0002, Tactical_Scout_NPC, 18.0, 0.0, -40.0, 0x8000, 0, 0, 0",
+        f"0, 10, 0x0002, Warp_To_Stage1, 132.0, 1.0, -266.0, 0x0000, {spec['floor_idx']}, 1, {spec['floor_idx']}",
+        f"{spec['floor_idx']}, {combat_rooms[0]}, 0x0019, Warp_StageIn, 0.0, 0.0, 0.0, 0x0000, 0, 0, 0",
+        f"{spec['floor_idx']}, {combat_rooms[0]}, 0x0004, Laser_Fence_Barrier, 0.0, 0.0, 10.0, 0x0000, 1, 0, 0",
+        f"{spec['floor_idx']}, {target_clear_room}, 0x0001, Floor_Terminal_Switch, 15.0, 0.0, 15.0, 0x0000, 1, 0, 0",
+        f"{spec['floor_idx']}, {target_clear_room}, 0x0002, Warp_Extract_Pioneer2, 18.0, 0.0, 18.0, 0x0000, 0, 1, 0",
         f"",
         f"[ENEMIES]"
     ]
 
-    objects_rows = [
-        "floor,room,type_hex,type_name,x,y,z,angle,comment",
-        "0,10,0x0002,Guild_Officer_NPC,12.5,0.0,-45.0,0x8000,Pioneer 2 Quest Giver",
-        f"{spec['floor_idx']},{combat_rooms[0]},0x0019,Warp_Pioneer2,0.0,0.0,0.0,0x0000,Return Teleporter Switch 1"
-    ]
-
     waves_rows = ["floor,room,wave_num,trigger_event,delay_frames,enemy_count,next_action"]
+    enemies_rows = ["floor,room,wave,enemy_name,type_hex,x,y,z,angle,comment"]
 
-    for w_idx in range(spec['waves_count']):
-        room_id = combat_rooms[w_idx % len(combat_rooms)]
+    for w_idx, room_id in enumerate(combat_rooms):
         wave_num = w_idx + 1
-        trigger_evt = 100 + wave_num
+        trigger_evt = spec['floor_idx'] * 100 + wave_num
         delay = 30 * w_idx
-
         e_type = enemies_catalog[w_idx % len(enemies_catalog)]
-        e_count = 3 + (w_idx % 3)
+        e_count = 4 + (w_idx % 4)
 
         waves_rows.append(f"{spec['floor_idx']},{room_id},{wave_num},{trigger_evt},{delay},{e_count},spawn_wave")
 
         for i in range(e_count):
-            x = (i - e_count / 2) * 15.0
-            z = 20.0 + (i * 5.0)
+            radius = 12.0 + (i % 3) * 5.0
+            angle_rad = (3.14159 * 2 * i) / e_count
+            x = radius * math.cos(angle_rad)
+            z = 15.0 + radius * math.sin(angle_rad)
             enemies_rows.append(f"{spec['floor_idx']},{room_id},{wave_num},{e_type[0]},{hex(e_type[1])},{x:.1f},0.0,{z:.1f},0x0000,{e_type[2]}")
             map_lines.append(f"{spec['floor_idx']}, {room_id}, {wave_num}, {e_type[0]} ({hex(e_type[1])}), x={x:.1f}, y=0.0, z={z:.1f}, delay={delay}")
 
