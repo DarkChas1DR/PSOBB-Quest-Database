@@ -3955,6 +3955,11 @@ Import \`script.txt\` into Qedit or host directly in Newserv quest directories.
 
       // Render updated views
       renderStudioViews();
+      try {
+        compileBinaries(state.questStudio.currentQuest);
+      } catch (err) {
+        console.warn("Binary compilation note:", err);
+      }
     }
 
     // RENDER STUDIO VIEWS
@@ -4240,117 +4245,229 @@ Import \`script.txt\` into Qedit or host directly in Newserv quest directories.
     }
 
     // =========================================================================
-    // SEGA DAT COMPILER — 68-byte entity records, 16-byte section headers
+    // SEGA DAT COMPILER — Multi-floor entity tables + Map Events (Wave Actions)
     // =========================================================================
     function compileQuestDat(questData) {
-      const { objectCsvRows, allSpawns } = questData;
-
-      // Parse objects from CSV rows (skip header)
-      const objRecs = [];
-      for (let i = 1; i < objectCsvRows.length; i++) {
-        const parts = objectCsvRows[i].split(',');
-        if (parts.length < 8) continue;
-        objRecs.push({
-          floor: parseInt(parts[0]) || 0,
-          room:  parseInt(parts[1]) || 0,
-          type:  parseInt(parts[2], 16) || 0,
-          x:     parseFloat(parts[4]) || 0,
-          y:     parseFloat(parts[5]) || 0,
-          z:     parseFloat(parts[6]) || 0,
-          angle: parseInt(parts[7], 16) || 0
-        });
-      }
-
+      const { objectCsvRows, allSpawns, stages } = questData;
       const RECORD_SIZE = 68;
       const SECTION_HDR = 16;
-      const numObj = objRecs.length;
-      const numEne = allSpawns.length;
+      const numStages = (stages && stages.length > 0) ? stages.length : 1;
 
-      const totalSize = SECTION_HDR + numObj * RECORD_SIZE + SECTION_HDR + numEne * RECORD_SIZE;
-      const buf = new ArrayBuffer(totalSize);
-      const view = new DataView(buf);
-      let off = 0;
-
-      // Object section header
-      view.setUint32(off, 1, true); off += 4;
-      view.setUint32(off, SECTION_HDR + numObj * RECORD_SIZE, true); off += 4;
-      view.setUint32(off, 0, true); off += 4;
-      view.setUint32(off, numObj * RECORD_SIZE, true); off += 4;
-
-      let entityId = 1;
-      // Object records
-      for (const o of objRecs) {
-        view.setUint16(off, o.type, true); off += 2;
-        view.setUint16(off, 0, true); off += 2;
-        view.setUint16(off, 0, true); off += 2;
-        view.setInt16(off, o.room, true); off += 2;
-        view.setUint16(off, 0, true); off += 2;
-        view.setUint16(off, 0, true); off += 2;
-        view.setUint32(off, o.floor, true); off += 4;
-        view.setFloat32(off, o.x, true); off += 4;
-        view.setFloat32(off, o.y, true); off += 4;
-        view.setFloat32(off, o.z, true); off += 4;
-        view.setInt32(off, o.angle, true); off += 4;
-        view.setInt32(off, 0, true); off += 4;
-        view.setInt32(off, 0, true); off += 4;
-        view.setFloat32(off, 1.0, true); off += 4;
-        view.setFloat32(off, 1.0, true); off += 4;
-        view.setFloat32(off, 1.0, true); off += 4;
-        view.setUint32(off, 1, true); off += 4;
-        view.setUint32(off, 0, true); off += 4;
-        view.setUint32(off, 0, true); off += 4;
-        view.setUint32(off, entityId++, true); off += 4;
+      // Parse objects from CSV rows (skip header)
+      const allObjs = [];
+      if (objectCsvRows && objectCsvRows.length > 1) {
+        for (let i = 1; i < objectCsvRows.length; i++) {
+          const parts = objectCsvRows[i].split(',');
+          if (parts.length < 8) continue;
+          allObjs.push({
+            floor: parseInt(parts[0]) || 0,
+            room:  parseInt(parts[1]) || 0,
+            type:  parseInt(parts[2], 16) || 0,
+            name:  parts[3] || '',
+            x:     parseFloat(parts[4]) || 0,
+            y:     parseFloat(parts[5]) || 0,
+            z:     parseFloat(parts[6]) || 0,
+            angle: parseInt(parts[7], 16) || 0,
+            param1: parseInt(parts[8]) || 0,
+            param2: parseInt(parts[9]) || 0,
+            param3: parseInt(parts[10]) || 0
+          });
+        }
       }
 
-      // Enemy section header
-      view.setUint32(off, 1, true); off += 4;
-      view.setUint32(off, SECTION_HDR + numEne * RECORD_SIZE, true); off += 4;
-      view.setUint32(off, 1, true); off += 4;
-      view.setUint32(off, numEne * RECORD_SIZE, true); off += 4;
+      const datBuffers = [];
+      let entityCounter = 1000;
+      const allEvents = [];
+      const actionBytes = [];
 
-      // Enemy records
-      for (const s of allSpawns) {
-        const typeVal = parseInt(s.hex, 16) || 0;
-        const isRare = (s.role && s.role.toLowerCase().includes('rare')) ? 1 : 0;
-        const waveNum = s.wave || 1;
-        const x = parseFloat(s.x) || 0;
-        const y = parseFloat(s.y) || 0;
-        const z = parseFloat(s.z) || 0;
-        const angleInt = parseInt(s.angle, 16) || 0;
-        view.setUint16(off, typeVal, true); off += 2;
-        view.setUint16(off, 0, true); off += 2;
-        view.setUint16(off, 0, true); off += 2;
-        view.setInt16(off, s.room || 1, true); off += 2;
-        view.setUint16(off, 0, true); off += 2;
-        view.setUint16(off, 0, true); off += 2;
-        view.setUint32(off, waveNum, true); off += 4;
-        view.setFloat32(off, x, true); off += 4;
-        view.setFloat32(off, y, true); off += 4;
-        view.setFloat32(off, z, true); off += 4;
-        view.setInt32(off, angleInt, true); off += 4;
-        view.setInt32(off, 0, true); off += 4;
-        view.setInt32(off, 0, true); off += 4;
-        view.setFloat32(off, 1.0, true); off += 4;
-        view.setFloat32(off, 1.0, true); off += 4;
-        view.setFloat32(off, 1.0, true); off += 4;
-        view.setUint32(off, 0, true); off += 4;
-        view.setUint32(off, 0, true); off += 4;
-        view.setUint32(off, isRare, true); off += 4;
-        view.setUint32(off, entityId++, true); off += 4;
+      // Loop through each stage (Floor 1 to numStages)
+      for (let sIdx = 0; sIdx < numStages; sIdx++) {
+        const floorNum = sIdx + 1;
+        const stageObj = stages[sIdx];
+        const floorIdx = stageObj && stageObj.areaObj ? stageObj.areaObj.floorIdx : floorNum;
+
+        // 1. OBJECT SECTION for this stage
+        const stageObjs = allObjs.filter(o => o.floor === floorNum || o.floor === floorIdx);
+        const objBuf = new ArrayBuffer(SECTION_HDR + stageObjs.length * RECORD_SIZE);
+        const objView = new DataView(objBuf);
+
+        // Section header: [floorNum, total_size, 0 (objects), data_size]
+        objView.setUint32(0, floorNum, true);
+        objView.setUint32(4, SECTION_HDR + stageObjs.length * RECORD_SIZE, true);
+        objView.setUint32(8, 0, true); // type = 0 for objects
+        objView.setUint32(12, stageObjs.length * RECORD_SIZE, true);
+
+        let off = SECTION_HDR;
+        for (let oi = 0; oi < stageObjs.length; oi++) {
+          const o = stageObjs[oi];
+          objView.setUint16(off + 0, o.type, true);
+          objView.setUint16(off + 2, 2, true); // flags
+          objView.setUint32(off + 4, oi, true); // obj_index
+          objView.setUint32(off + 8, 16384 + oi, true); // id
+          objView.setUint32(off + 12, o.room || 1, true); // room
+          objView.setFloat32(off + 16, o.x, true);
+          objView.setFloat32(off + 20, o.y, true);
+          objView.setFloat32(off + 24, o.z, true);
+          objView.setInt32(off + 28, 0, true); // rx
+          objView.setInt32(off + 32, o.angle, true); // ry
+          objView.setInt32(off + 36, 0, true); // rz
+          objView.setFloat32(off + 40, 1.0, true); // sx
+          objView.setFloat32(off + 44, 1.0, true); // sy
+          objView.setFloat32(off + 48, 1.0, true); // sz
+          objView.setUint32(off + 52, o.param1 || 0, true);
+          objView.setUint32(off + 56, o.param2 || 0, true);
+          objView.setUint32(off + 60, o.param3 || 0, true);
+          objView.setUint32(off + 64, entityCounter++, true);
+          off += RECORD_SIZE;
+        }
+        datBuffers.push(new Uint8Array(objBuf));
+
+        // 2. ENEMY SECTION for this stage
+        const stageSpawns = (allSpawns || []).filter(sp => sp.stageIdx === floorNum || (numStages === 1));
+        const eneBuf = new ArrayBuffer(SECTION_HDR + stageSpawns.length * RECORD_SIZE);
+        const eneView = new DataView(eneBuf);
+
+        // Section header: [floorNum, total_size, 1 (enemies), data_size]
+        eneView.setUint32(0, floorNum, true);
+        eneView.setUint32(4, SECTION_HDR + stageSpawns.length * RECORD_SIZE, true);
+        eneView.setUint32(8, 1, true); // type = 1 for enemies
+        eneView.setUint32(12, stageSpawns.length * RECORD_SIZE, true);
+
+        // Group spawns by wave to build events
+        const wavesMap = {};
+        for (const sp of stageSpawns) {
+          const w = sp.wave || 1;
+          if (!wavesMap[w]) wavesMap[w] = [];
+          wavesMap[w].push(sp);
+        }
+
+        const waveNums = Object.keys(wavesMap).map(Number).sort((a, b) => a - b);
+        const totalWavesThisStage = waveNums.length > 0 ? waveNums[waveNums.length - 1] : 1;
+
+        // Create wave events
+        for (let wi = 0; wi < waveNums.length; wi++) {
+          const w = waveNums[wi];
+          const wSpawns = wavesMap[w];
+          const roomId = (wSpawns[0] && wSpawns[0].room) ? wSpawns[0].room : 1;
+          const eid = floorNum * 100 + w;
+          const isLastWaveOfStage = (w === totalWavesThisStage);
+          const actOffset = actionBytes.length;
+
+          if (!isLastWaveOfStage) {
+            const nextEid = floorNum * 100 + (w + 1);
+            actionBytes.push(0x0C);
+            actionBytes.push(nextEid & 0xFF, (nextEid >> 8) & 0xFF, (nextEid >> 16) & 0xFF, (nextEid >> 24) & 0xFF);
+            actionBytes.push(0x01);
+          } else {
+            actionBytes.push(0x0A);
+            actionBytes.push(floorNum & 0xFF, (floorNum >> 8) & 0xFF);
+            actionBytes.push(0x01);
+          }
+
+          allEvents.push({
+            eventId: eid,
+            floor: floorNum,
+            room: roomId,
+            wave: w,
+            param: 10,
+            actOffset: actOffset
+          });
+        }
+
+        off = SECTION_HDR;
+        for (let ei = 0; ei < stageSpawns.length; ei++) {
+          const sp = stageSpawns[ei];
+          const typeVal = parseInt(sp.hex, 16) || 0x0040;
+          const isRare = (sp.role && sp.role.toLowerCase().includes('rare')) ? 1 : 0;
+          const w = sp.wave || 1;
+          const eid = floorNum * 100 + w;
+          const angleInt = parseInt(sp.angle, 16) || 0;
+
+          eneView.setUint16(off + 0, typeVal, true);
+          eneView.setUint16(off + 2, 0, true);
+          eneView.setUint16(off + 4, eid, true); // event_id
+          eneView.setUint16(off + 6, w, true); // wave
+          eneView.setUint32(off + 8, ei + 1, true); // entity_index
+          eneView.setUint32(off + 12, sp.room || 1, true); // room
+          eneView.setFloat32(off + 16, parseFloat(sp.x) || 0, true);
+          eneView.setFloat32(off + 20, parseFloat(sp.y) || 0, true);
+          eneView.setFloat32(off + 24, parseFloat(sp.z) || 0, true);
+          eneView.setInt32(off + 28, 0, true);
+          eneView.setInt32(off + 32, angleInt, true);
+          eneView.setInt32(off + 36, 0, true);
+          eneView.setFloat32(off + 40, 1.0, true);
+          eneView.setFloat32(off + 44, 1.0, true);
+          eneView.setFloat32(off + 48, 1.0, true);
+          eneView.setUint32(off + 52, isRare ? 33 : 32, true); // param1
+          eneView.setUint32(off + 56, 0, true);
+          eneView.setUint32(off + 60, w, true);
+          eneView.setUint32(off + 64, entityCounter++, true);
+          off += RECORD_SIZE;
+        }
+        datBuffers.push(new Uint8Array(eneBuf));
       }
 
-      return prsCompress(new Uint8Array(buf));
+      // 3. MAP EVENTS / WAVE ACTIONS SECTION (Floor numStages + 1)
+      const evtFloorNum = numStages + 1;
+      const EVT_REC_SIZE = 20;
+      const EVT_HDR_SIZE = 16;
+      const evtTableSize = EVT_HDR_SIZE + allEvents.length * EVT_REC_SIZE;
+      const totalEvtPayloadSize = evtTableSize + actionBytes.length;
+
+      const evtBuf = new ArrayBuffer(SECTION_HDR + totalEvtPayloadSize);
+      const evtView = new DataView(evtBuf);
+
+      evtView.setUint32(0, evtFloorNum, true);
+      evtView.setUint32(4, SECTION_HDR + totalEvtPayloadSize, true);
+      evtView.setUint32(8, 1, true);
+      evtView.setUint32(12, totalEvtPayloadSize, true);
+
+      let eOff = SECTION_HDR;
+      evtView.setUint32(eOff + 0, evtTableSize, true);
+      evtView.setUint32(eOff + 4, EVT_HDR_SIZE, true);
+      evtView.setUint32(eOff + 8, allEvents.length, true);
+      evtView.setUint32(eOff + 12, 0, true);
+      eOff += EVT_HDR_SIZE;
+
+      for (const ev of allEvents) {
+        evtView.setUint32(eOff + 0, ev.eventId, true);
+        evtView.setUint16(eOff + 4, 0, true);
+        evtView.setUint16(eOff + 6, ev.floor, true);
+        evtView.setUint16(eOff + 8, ev.room, true);
+        evtView.setUint16(eOff + 10, ev.wave, true);
+        evtView.setUint32(eOff + 12, ev.param, true);
+        evtView.setUint32(eOff + 16, ev.actOffset, true);
+        eOff += EVT_REC_SIZE;
+      }
+
+      const actUint8 = new Uint8Array(actionBytes);
+      new Uint8Array(evtBuf, eOff).set(actUint8);
+      datBuffers.push(new Uint8Array(evtBuf));
+
+      // 4. TERMINATOR: [0, 0, 0, 0] (16 bytes)
+      const termBuf = new Uint8Array(16);
+      datBuffers.push(termBuf);
+
+      const totalDatLen = datBuffers.reduce((acc, b) => acc + b.length, 0);
+      const finalDat = new Uint8Array(totalDatLen);
+      let dOff = 0;
+      for (const b of datBuffers) {
+        finalDat.set(b, dOff);
+        dOff += b.length;
+      }
+
+      return prsCompress(finalDat);
     }
 
     // =========================================================================
-    // SEGA BIN COMPILER — 1024-byte header, bytecode, function offset table
+    // SEGA BIN COMPILER — Authentic 4652-byte Header + PSOBB Bytecode + Fn Table
     // =========================================================================
     function compileQuestBin(questData) {
-      const { title, directive, manifest, script_txt, stages, allSpawns } = questData;
+      const { title, directive, manifest, stages, allSpawns } = questData;
       const primaryEp = manifest ? manifest.episode : 1;
       const questId = 999;
+      const HEADER_SIZE = 0x122C; // 4652 bytes Sega Standard
 
-      // --- UTF-16LE string helpers ---
       function encUtf16le(str, maxBytes) {
         const chars = Array.from(str).slice(0, maxBytes / 2);
         const buf = new Uint8Array(maxBytes);
@@ -4362,73 +4479,99 @@ Import \`script.txt\` into Qedit or host directly in Newserv quest directories.
         return buf;
       }
 
-      // --- Bytecode helpers ---
+      const header = new Uint8Array(HEADER_SIZE);
+      const hdrView = new DataView(header.buffer);
+
+      // Standard Sega padding (0x398..0x122B filled with 0xFF)
+      for (let i = 0x398; i < HEADER_SIZE; i++) {
+        header[i] = 0xFF;
+      }
+
+      // Title at 0x18
+      const questTitle = (title || 'Custom Quest').slice(0, 31);
+      header.set(encUtf16le(questTitle, 64), 0x18);
+
+      // Short description at 0x58
+      const shortDesc = `PSOBB AI Quest (${directive ? directive.toUpperCase() : 'EXTERMINATION'})`.slice(0, 63);
+      header.set(encUtf16le(shortDesc, 128), 0x58);
+
+      // Long description at 0x158
+      const stageNames = (stages && stages.length > 0) ? stages.map(s => s.areaObj ? s.areaObj.name : 'Floor').join(' -> ') : 'Gauntlet';
+      const longDesc = `Multi-Floor Quest: ${stageNames}. Battle through designated Ragol corridors to complete the mission!`.slice(0, 127);
+      header.set(encUtf16le(longDesc, 256), 0x158);
+
+      // Bytecode emission
       const code = [];
       function emitByte(b) { code.push(b & 0xff); }
       function emitU16le(v) { code.push(v & 0xff); code.push((v >> 8) & 0xff); }
-      function emitU32le(v) { code.push(v & 0xff); code.push((v >> 8) & 0xff); code.push((v >> 16) & 0xff); code.push((v >> 24) & 0xff); }
-      function emitI8(v) { code.push((v + 256) & 0xff); }
-      function emitString(s) { for (let i = 0; i < s.length; i++) emitByte(s.charCodeAt(i)); emitByte(0); }
+      function emitI32le(v) {
+        code.push(v & 0xff);
+        code.push((v >> 8) & 0xff);
+        code.push((v >> 16) & 0xff);
+        code.push((v >> 24) & 0xff);
+      }
+      function emitString(s) {
+        for (let i = 0; i < s.length; i++) emitByte(s.charCodeAt(i));
+        emitByte(0);
+      }
 
-      // Opcodes (verified against q101-bb-e.bin disassembly)
-      const OP_NOP   = 0x00;
-      const OP_RET   = 0x01;
-      const OP_SYNC  = 0x02;
-      const OP_THREAD = 0x04; // SCRIPT16
-      const OP_WINDOW_MSG = 0x5A; // CSTRING
-      const OP_WINEND = 0x5E;
-      const OP_NPC_TALK = 0x65;
-      const OP_JMP   = 0x28; // SCRIPT16
-      const OP_CALL  = 0x29; // SCRIPT16
-      const OP_JMP_ON = 0x2A;
-      const OP_JMP_OFF = 0x2B;
-      const OP_SET_EPISODE = [0xBC, 0xF8]; // 0xF8BC, arg I32
-      const OP_BB_MAP_DESIGNATE = [0x51, 0xF9]; // 0xF951, 5xI8
+      // Correct Sega Big-Endian Bytecode Opcodes
+      const OP_SET_EPISODE       = [0xF8, 0xBC]; // set_episode <I32>
+      const OP_BB_MAP_DESIGNATE  = [0xF9, 0x51]; // BB_Map_Designate <5x I8>
+      const OP_THREAD            = 0x04;         // thread <SCRIPT16>
+      const OP_RET               = 0x01;         // ret
+      const OP_SYNC              = 0x02;         // sync
+      const OP_WINDOW_MSG        = 0x5A;         // window_msg <CSTRING>
+      const OP_WINEND            = 0x5E;         // winend
+      const OP_NPC_TALK          = 0x65;         // npc_talk
+      const OP_JMP               = 0x28;         // jmp <SCRIPT16>
 
-      // fn_map: fnId -> relative code offset (from code[0])
       const fnMap = {};
       function defFn(id) { fnMap[id] = code.length; }
 
-      // Backpatch slots: { at, targetFnId }
       const backpatch = [];
       function emitScriptRef(fnId) {
-        backpatch.push({ at: code.length, fnId });
-        code.push(0); code.push(0); // placeholder
+        backpatch.push({ at: code.length, fnId: fnId });
+        code.push(0); code.push(0);
       }
 
-      // --- Function 0: Entry point ---
+      // --- Function 0: Entry Point ---
       defFn(0);
-      // set_episode <ep-1>
+      // set_episode <primaryEp - 1>
       emitByte(OP_SET_EPISODE[0]); emitByte(OP_SET_EPISODE[1]);
-      emitI8(primaryEp - 1); emitI8(0); emitI8(0); emitI8(0);
-      // BB_Map_Designate 0, 0, 0, 0, 0  (Pioneer 2)
+      emitI32le(primaryEp - 1);
+
+      // BB_Map_Designate 0, 0, 0, 0, 0 (Pioneer 2)
       emitByte(OP_BB_MAP_DESIGNATE[0]); emitByte(OP_BB_MAP_DESIGNATE[1]);
-      emitI8(0); emitI8(0); emitI8(0); emitI8(0); emitI8(0);
+      emitByte(0); emitByte(0); emitByte(0); emitByte(0); emitByte(0);
+
       // BB_Map_Designate for each stage
       if (stages && stages.length > 0) {
-        for (const s of stages) {
-          const floorIdx = s.areaObj ? s.areaObj.floorIdx : 1;
-          const areaId   = s.areaObj ? s.areaObj.areaId   : 1;
+        for (let sIdx = 0; sIdx < stages.length; sIdx++) {
+          const s = stages[sIdx];
+          const floorSlot = sIdx + 1;
+          const areaId = (s.areaObj && s.areaObj.areaId) ? s.areaObj.areaId : floorSlot;
           emitByte(OP_BB_MAP_DESIGNATE[0]); emitByte(OP_BB_MAP_DESIGNATE[1]);
-          emitI8(floorIdx); emitI8(areaId); emitI8(0); emitI8(0); emitI8(0);
+          emitByte(floorSlot); emitByte(areaId); emitByte(0); emitByte(0); emitByte(0);
         }
       } else {
         emitByte(OP_BB_MAP_DESIGNATE[0]); emitByte(OP_BB_MAP_DESIGNATE[1]);
-        emitI8(1); emitI8(1); emitI8(0); emitI8(0); emitI8(0);
+        emitByte(1); emitByte(1); emitByte(0); emitByte(0); emitByte(0);
       }
-      // thread L100
+
+      // thread L100 (monitor)
       emitByte(OP_THREAD); emitScriptRef(100);
       emitByte(OP_RET);
 
-      // --- Function 1: Sega callback (blank ret) ---
+      // --- Function 1: Sega Callback ---
       defFn(1);
       emitByte(OP_RET);
 
-      // --- Function 10: Guild Officer NPC interaction ---
+      // --- Function 10: Hunter's Guild Officer NPC ---
       defFn(10);
       emitByte(OP_NPC_TALK);
       emitByte(OP_WINDOW_MSG);
-      emitString("Hunter's Guild:\\nA critical assignment on Ragol awaits you.\\nDeploy through the teleporter and neutralize all hostiles.");
+      emitString("Hunter's Guild:\\nA critical multi-sector mission awaits on Ragol.\\nClear all corridors and report back for your reward!");
       emitByte(OP_WINEND);
       emitByte(OP_RET);
 
@@ -4436,34 +4579,33 @@ Import \`script.txt\` into Qedit or host directly in Newserv quest directories.
       defFn(20);
       emitByte(OP_NPC_TALK);
       emitByte(OP_WINDOW_MSG);
-      emitString("Tactical Scout:\\nRadar indicates heavy swarm activity in all designated corridors.\\nClear each sector sequentially to unlock the advance warps.");
+      emitString("Tactical Scout:\\nHostile swarms detected across all sectors.\\nMaintain formation and watch your flanks!");
       emitByte(OP_WINEND);
       emitByte(OP_RET);
 
-      // --- Function 30: Master Paganini (Mag Cell shop) ---
+      // --- Function 30: Master Paganini ---
       defFn(30);
       emitByte(OP_NPC_TALK);
       emitByte(OP_WINDOW_MSG);
-      emitString("Paganini:\\nYou look like a collector. Trade Photon Drops for rare Mag Cells.\\nBring me 99 Photon Drops and I will reward you handsomely.");
+      emitString("Master Paganini:\\nWelcome, Hunter! I trade Photon Drops for rare Mag Cells.\\nVisit anytime you collect Photon Drops!");
       emitByte(OP_WINEND);
       emitByte(OP_RET);
 
-      // --- Function 40: Mission Client NPC ---
+      // --- Function 40: Mission Client ---
       defFn(40);
       emitByte(OP_NPC_TALK);
       emitByte(OP_WINDOW_MSG);
-      emitString("Mission Client:\\nOur survey team was trapped by ferocious swarms!\\nPlease clear the corridors so we can retrieve our equipment.");
+      emitString("Survey Team Client:\\nPlease help! Our equipment was overrun by hostile swarms!\\nClear the area so we can recover our findings!");
       emitByte(OP_WINEND);
       emitByte(OP_RET);
 
-      // --- Function 100: Background objective monitor (sync-yielded loop) ---
+      // --- Function 100: Background Objective Monitor Loop ---
       defFn(100);
       emitByte(OP_SYNC);
-      emitByte(OP_JMP); emitScriptRef(100); // loop back (sync yield)
-      // Note: In a full quest this would check zone_clear flags and advance, but for base compiler we emit a simple sync loop that the script.txt handles via text-based tooling
+      emitByte(OP_JMP); emitScriptRef(100);
       emitByte(OP_RET);
 
-      // --- Backpatch all SCRIPT16 references ---
+      // Backpatch SCRIPT16 references
       for (const bp of backpatch) {
         const target = fnMap[bp.fnId];
         if (target !== undefined) {
@@ -4472,28 +4614,11 @@ Import \`script.txt\` into Qedit or host directly in Newserv quest directories.
         }
       }
 
-      // --- Build header (1024 bytes) ---
-      const HEADER_SIZE = 0x400; // 1024
-      const header = new Uint8Array(HEADER_SIZE);
-      const hdrView = new DataView(header.buffer);
-
-      // Title (UTF-16LE, at 0x18, max 64 bytes)
-      const questTitle = (title || 'Custom Quest').slice(0, 32);
-      header.set(encUtf16le(questTitle, 64), 0x18);
-      // Short description at 0x58, max 128 bytes
-      const shortDesc = `PSOBB AI Quest (${directive ? directive.toUpperCase() : 'EXTERMINATION'})`.slice(0, 63);
-      header.set(encUtf16le(shortDesc, 128), 0x58);
-      // Long description at 0x158, max 256 bytes
-      const longDesc = `Custom PSOBB quest generated by AI Quest Creator Studio. Episode ${primaryEp}, ${allSpawns ? allSpawns.length : 0} total hostiles.`.slice(0, 127);
-      header.set(encUtf16le(longDesc, 256), 0x158);
-
-      // Function table — 702 entries max (2808 bytes), one uint32 per function
+      // Function table — 702 entries (2808 bytes)
       const FN_TABLE_ENTRIES = 702;
       const fnTable = new Uint8Array(FN_TABLE_ENTRIES * 4);
       const ftView = new DataView(fnTable.buffer);
-      // Fill with 0xFFFFFFFF (unused)
       for (let i = 0; i < FN_TABLE_ENTRIES * 4; i += 4) ftView.setUint32(i, 0xFFFFFFFF, true);
-      // Patch in known functions
       const fnIds = [0, 1, 10, 20, 30, 40, 100];
       for (const id of fnIds) {
         if (fnMap[id] !== undefined && id < FN_TABLE_ENTRIES) {
@@ -4501,13 +4626,12 @@ Import \`script.txt\` into Qedit or host directly in Newserv quest directories.
         }
       }
 
-      // Final layout: 1024-byte header + bytecode + function table
       const codeBytes = new Uint8Array(code);
       const codeOffset = HEADER_SIZE;
       const fnTableOffset = HEADER_SIZE + codeBytes.length;
       const totalSize = fnTableOffset + fnTable.length;
 
-      // Patch header fields at 0x00..0x14
+      // Header fields at 0x00..0x14
       hdrView.setUint32(0x00, codeOffset, true);
       hdrView.setUint32(0x04, fnTableOffset, true);
       hdrView.setUint32(0x08, totalSize, true);
@@ -4515,7 +4639,6 @@ Import \`script.txt\` into Qedit or host directly in Newserv quest directories.
       hdrView.setUint32(0x10, questId, true);
       hdrView.setUint32(0x14, 0x00000400, true);
 
-      // Assemble final binary
       const rawBin = new Uint8Array(totalSize);
       rawBin.set(header, 0);
       rawBin.set(codeBytes, codeOffset);

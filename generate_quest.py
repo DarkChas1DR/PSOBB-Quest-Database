@@ -12,6 +12,7 @@ import os
 import sys
 import json
 import re
+import struct
 import argparse
 import zipfile
 
@@ -197,6 +198,270 @@ def parse_prompt(prompt_text):
         'reward': reward,
         'raw_prompt': prompt_text
     }
+
+def prs_compress(data):
+    dst = bytearray()
+    flag_byte_idx = 0
+    flag_bit_idx = 0
+    current_flags = 0
+    dst.append(0)
+
+    def write_bit(bit):
+        nonlocal flag_byte_idx, flag_bit_idx, current_flags
+        if flag_bit_idx == 8:
+            flag_byte_idx = len(dst)
+            dst.append(0)
+            flag_bit_idx = 0
+            current_flags = 0
+        if bit:
+            current_flags |= (1 << flag_bit_idx)
+            dst[flag_byte_idx] = current_flags
+        flag_bit_idx += 1
+
+    src = 0
+    data_len = len(data)
+    while src < data_len:
+        best_len = 0
+        best_offset = 0
+        max_lookback = min(src, 8190)
+        max_len = min(256, data_len - src)
+        if max_len >= 3 and max_lookback > 0:
+            for l in range(1, max_lookback + 1):
+                cm = 0
+                while cm < max_len and data[src - l + (cm % l)] == data[src + cm]:
+                    cm += 1
+                if cm > best_len:
+                    best_len = cm
+                    best_offset = l
+                    if best_len == max_len:
+                        break
+
+        if best_len >= 3:
+            if best_len <= 5 and best_offset <= 256:
+                write_bit(0); write_bit(0)
+                write_bit(1 if ((best_len - 2) & 2) else 0)
+                write_bit(1 if ((best_len - 2) & 1) else 0)
+                dst.append((256 - best_offset) & 0xFF)
+            else:
+                write_bit(0); write_bit(1)
+                comb = (8192 - best_offset) << 3
+                if best_len <= 9:
+                    val = comb | (best_len - 2)
+                    dst.append(val & 0xFF)
+                    dst.append((val >> 8) & 0xFF)
+                else:
+                    dst.append(comb & 0xFF)
+                    dst.append((comb >> 8) & 0xFF)
+                    dst.append(best_len - 1)
+            src += best_len
+        else:
+            write_bit(1)
+            dst.append(data[src])
+            src += 1
+
+    write_bit(0); write_bit(1)
+    dst.append(0); dst.append(0)
+    return bytes(dst)
+
+def compile_quest_dat(spec, enemies_rows, objects_rows):
+    RECORD_SIZE = 68
+    SECTION_HDR = 16
+    buf = bytearray()
+    
+    # 1. Floor 1 Objects
+    obj_data = bytearray()
+    for idx, row in enumerate(objects_rows[1:]):
+        parts = row.split(',')
+        if len(parts) < 8: continue
+        flr = int(parts[0])
+        if flr != 0 and flr != 1 and flr != spec.get('floor_idx', 1):
+            continue
+        type_id = int(parts[2], 16)
+        room = int(parts[1])
+        x, y, z = float(parts[4]), float(parts[5]), float(parts[6])
+        angle = int(parts[7], 16)
+        rec = bytearray(RECORD_SIZE)
+        struct.pack_into('<2H3I3f3i3f4I', rec, 0,
+            type_id, 2, idx, 16384 + idx, room,
+            x, y, z, 0, angle, 0,
+            1.0, 1.0, 1.0,
+            int(parts[8]) if len(parts) > 8 and parts[8].strip().lstrip('-').isdigit() else 0,
+            int(parts[9]) if len(parts) > 9 and parts[9].strip().lstrip('-').isdigit() else 0,
+            int(parts[10]) if len(parts) > 10 and parts[10].strip().lstrip('-').isdigit() else 0,
+            1000 + idx
+        )
+        obj_data.extend(rec)
+
+    buf.extend(struct.pack('<4I', 1, SECTION_HDR + len(obj_data), 0, len(obj_data)))
+    buf.extend(obj_data)
+
+    # 2. Floor 1 Enemies
+    ene_data = bytearray()
+    events = []
+    actions = bytearray()
+    
+    waves_dict = {}
+    for idx, row in enumerate(enemies_rows[1:]):
+        parts = row.split(',')
+        if len(parts) < 8: continue
+        w = int(parts[2])
+        if w not in waves_dict: waves_dict[w] = []
+        waves_dict[w].append((idx, parts))
+
+    sorted_waves = sorted(waves_dict.keys())
+    total_waves = len(sorted_waves)
+
+    for wi, w in enumerate(sorted_waves):
+        spawns = waves_dict[w]
+        room = int(spawns[0][1][1])
+        eid = 100 + w
+        act_off = len(actions)
+        if wi < total_waves - 1:
+            actions.extend(struct.pack('<BI B', 0x0C, 100 + (w + 1), 0x01))
+        else:
+            actions.extend(struct.pack('<BH B', 0x0A, 1, 0x01))
+        events.append((eid, 1, room, w, 10, act_off))
+
+        for idx, parts in spawns:
+            type_id = int(parts[4], 16)
+            x, y, z = float(parts[5]), float(parts[6]), float(parts[7])
+            angle = int(parts[8], 16)
+            rec = bytearray(RECORD_SIZE)
+            struct.pack_into('<4H2I3f3i3f4I', rec, 0,
+                type_id, 0, eid, w, idx + 1, room,
+                x, y, z, 0, angle, 0,
+                1.0, 1.0, 1.0,
+                32, 0, w, 2000 + idx
+            )
+            ene_data.extend(rec)
+
+    buf.extend(struct.pack('<4I', 1, SECTION_HDR + len(ene_data), 1, len(ene_data)))
+    buf.extend(ene_data)
+
+    # 3. Map Events (Floor 2)
+    evt_entries = bytearray()
+    for e in events:
+        eid, flr, rm, wv, prm, aoff = e
+        evt_entries.extend(struct.pack('<I HH HH II', eid, 0, flr, rm, wv, prm, aoff))
+    
+    evt_hdr = struct.pack('<4I', 16 + len(evt_entries), 16, len(events), 0)
+    evt_payload = evt_hdr + evt_entries + actions
+    buf.extend(struct.pack('<4I', 2, SECTION_HDR + len(evt_payload), 1, len(evt_payload)))
+    buf.extend(evt_payload)
+
+    # 4. Terminator
+    buf.extend(struct.pack('<4I', 0, 0, 0, 0))
+    return prs_compress(bytes(buf))
+
+def compile_quest_bin(spec):
+    HEADER_SIZE = 0x122C
+    header = bytearray(HEADER_SIZE)
+    for i in range(0x398, HEADER_SIZE):
+        header[i] = 0xFF
+
+    title_u16 = spec['title'][:31].encode('utf-16le') + b'\0\0'
+    header[0x18:0x18+len(title_u16)] = title_u16
+
+    desc1 = f"PSOBB AI Quest ({spec['type'].upper()})".encode('utf-16le') + b'\0\0'
+    header[0x58:0x58+len(desc1)] = desc1
+
+    desc2 = f"Area: {spec['area_name']} (Floor {spec['floor_idx']}). Complete all wave encounters to claim your reward!".encode('utf-16le') + b'\0\0'
+    header[0x158:0x158+len(desc2)] = desc2
+
+    code = bytearray()
+    fn_map = {}
+    backpatch = []
+
+    def def_fn(fid): fn_map[fid] = len(code)
+    def emit_ref(fid):
+        backpatch.append((len(code), fid))
+        code.extend(b'\0\0')
+
+    # Fn 0
+    def_fn(0)
+    code.extend(bytes([0xF8, 0xBC])) # set_episode
+    code.extend(struct.pack('<i', spec['episode'] - 1))
+    code.extend(bytes([0xF9, 0x51, 0, 0, 0, 0, 0])) # Pioneer 2
+    code.extend(bytes([0xF9, 0x51, 1, spec['area_id'], 0, 0, 0])) # Floor 1
+    code.append(0x04); emit_ref(100) # thread L100
+    code.append(0x01) # ret
+
+    # Fn 1
+    def_fn(1); code.append(0x01)
+
+    # Fn 10: Officer
+    def_fn(10)
+    code.append(0x65); code.append(0x5A)
+    code.extend(b"Hunter's Guild:\\nA critical assignment on Ragol awaits you.\\nDeploy and eradicate all hostiles!\0")
+    code.append(0x5E); code.append(0x01)
+
+    # Fn 20: Scout
+    def_fn(20)
+    code.append(0x65); code.append(0x5A)
+    code.extend(b"Tactical Scout:\\nRadar detects dense enemy clusters in designated sectors.\\nMaintain formation!\0")
+    code.append(0x5E); code.append(0x01)
+
+    # Fn 100: Monitor loop
+    def_fn(100)
+    code.append(0x02); code.append(0x28); emit_ref(100); code.append(0x01)
+
+    for pos, fid in backpatch:
+        target = fn_map.get(fid, 0)
+        code[pos] = target & 0xFF
+        code[pos+1] = (target >> 8) & 0xFF
+
+    NUM_FNS = 702
+    fn_table = bytearray(NUM_FNS * 4)
+    for i in range(NUM_FNS):
+        struct.pack_into('<I', fn_table, i * 4, 0xFFFFFFFF)
+    for fid, off in fn_map.items():
+        if fid < NUM_FNS:
+            struct.pack_into('<I', fn_table, fid * 4, off)
+
+    code_start = HEADER_SIZE
+    fn_table_offset = code_start + len(code)
+    total_size = fn_table_offset + len(fn_table)
+
+    struct.pack_into('<6I', header, 0,
+        code_start, fn_table_offset, total_size,
+        0xFFFFFFFF, 999, 0x00000400
+    )
+
+    full_bin = header + code + fn_table
+    return prs_compress(full_bin)
+
+def compile_quest_qst(bin_prs, dat_prs, quest_num=999):
+    dat_fname = f"quest{quest_num}.dat".encode('ascii')
+    bin_fname = f"quest{quest_num}.bin".encode('ascii')
+    chunks = []
+
+    def make_header(fname, total_sz):
+        hdr = bytearray(88)
+        struct.pack_into('<2H', hdr, 0, 88, 0x0044)
+        hdr[44:44+len(fname)] = fname
+        struct.pack_into('<I', hdr, 60, total_sz)
+        hdr[64:68] = b'PSO/'
+        return bytes(hdr)
+
+    def append_chunks(fname, data):
+        num_chunks = max(1, (len(data) + 1023) // 1024)
+        for ci in range(num_chunks):
+            pkt = bytearray(1056)
+            struct.pack_into('<2HI', pkt, 0, 1052, 0x0013, ci)
+            pkt[8:8+len(fname)] = fname
+            chunk = data[ci*1024:(ci+1)*1024]
+            pkt[24:24+len(chunk)] = chunk
+            struct.pack_into('<I', pkt, 1048, len(chunk))
+            chunks.append(bytes(pkt))
+
+    h1 = make_header(dat_fname, len(dat_prs))
+    h2 = make_header(bin_fname, len(bin_prs))
+    append_chunks(dat_fname, dat_prs)
+    append_chunks(bin_fname, bin_prs)
+
+    out = bytearray(h1 + h2)
+    for c in chunks: out.extend(c)
+    return bytes(out)
 
 def generate_quest_files(spec, out_dir):
     """Generates all files (script.txt, map.txt, CSVs, README, and ZIP) for the quest."""
@@ -421,6 +686,18 @@ A custom Phantasy Star Online Blue Burst quest generated by the **PSOBB AI Quest
     with open(os.path.join(out_dir, "README.md"), "w", encoding="utf-8") as f:
         f.write(readme_content)
 
+    # Compile authentic Sega binaries
+    dat_prs = compile_quest_dat(spec, enemies_rows, objects_rows)
+    bin_prs = compile_quest_bin(spec)
+    qst_bytes = compile_quest_qst(bin_prs, dat_prs, 999)
+
+    with open(os.path.join(out_dir, "quest999.dat"), "wb") as f:
+        f.write(dat_prs)
+    with open(os.path.join(out_dir, "quest999.bin"), "wb") as f:
+        f.write(bin_prs)
+    with open(os.path.join(out_dir, "quest999.qst"), "wb") as f:
+        f.write(qst_bytes)
+
     zip_path = os.path.join(out_dir, "custom_quest.zip")
     with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zf:
         zf.write(os.path.join(out_dir, "script.txt"), "script.txt")
@@ -429,6 +706,9 @@ A custom Phantasy Star Online Blue Burst quest generated by the **PSOBB AI Quest
         zf.write(os.path.join(out_dir, "objects.csv"), "objects.csv")
         zf.write(os.path.join(out_dir, "waves.csv"), "waves.csv")
         zf.write(os.path.join(out_dir, "README.md"), "README.md")
+        zf.write(os.path.join(out_dir, "quest999.dat"), "quest999.dat")
+        zf.write(os.path.join(out_dir, "quest999.bin"), "quest999.bin")
+        zf.write(os.path.join(out_dir, "quest999.qst"), "quest999.qst")
 
     return zip_path
 
