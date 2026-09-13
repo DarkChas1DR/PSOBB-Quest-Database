@@ -4445,9 +4445,12 @@ Import \`script.txt\` into Qedit or host directly in Newserv quest directories.
       // -----------------------------------------------------------------------
       // GROUP 1: OBJECT SECTIONS (w0 = 1)
       // -----------------------------------------------------------------------
+      const OBJ_RECORD_SIZE = 68;
+      const ENE_RECORD_SIZE = 72;
+
       for (const flr of floors) {
         const stageObjs = allObjs.filter(o => o.floor === flr);
-        const dsize = stageObjs.length * RECORD_SIZE;
+        const dsize = stageObjs.length * OBJ_RECORD_SIZE;
         const totalSize = SECTION_HDR + dsize;
         const objBuf = new ArrayBuffer(totalSize);
         const objView = new DataView(objBuf);
@@ -4479,13 +4482,13 @@ Import \`script.txt\` into Qedit or host directly in Newserv quest directories.
           objView.setUint32(off + 56, o.param2 || 0, true); // Color Blue
           objView.setUint32(off + 60, o.param3 || 0, true); // Floor Number
           objView.setUint32(off + 64, entityCounter++, true);
-          off += RECORD_SIZE;
+          off += OBJ_RECORD_SIZE;
         }
         datBuffers.push(new Uint8Array(objBuf));
       }
 
       // -----------------------------------------------------------------------
-      // GROUP 2: ENEMY SECTIONS (w0 = 2)
+      // GROUP 2: ENEMY SECTIONS (w0 = 2) - Authentic Sega PSOBB 72-byte structure
       // -----------------------------------------------------------------------
       for (const flr of floors) {
         if (flr === 0) {
@@ -4501,7 +4504,7 @@ Import \`script.txt\` into Qedit or host directly in Newserv quest directories.
         }
 
         const stageSpawns = (allSpawns || []).filter(sp => sp.floorIdx === flr);
-        const dsize = stageSpawns.length * RECORD_SIZE;
+        const dsize = stageSpawns.length * ENE_RECORD_SIZE;
         const totalSize = SECTION_HDR + dsize;
         const eneBuf = new ArrayBuffer(totalSize);
         const eneView = new DataView(eneBuf);
@@ -4515,38 +4518,44 @@ Import \`script.txt\` into Qedit or host directly in Newserv quest directories.
         let off = SECTION_HDR;
         for (let ei = 0; ei < stageSpawns.length; ei++) {
           const sp = stageSpawns[ei];
-          const typeVal = parseInt(sp.hex, 16) || 0x0040;
+          const typeVal = parseInt(sp.hex, 16) || 0x0044;
           const isRare = (sp.role && sp.role.toLowerCase().includes('rare')) ? 1 : 0;
           const w = sp.wave || 1;
-          const eid = flr * 100 + w;
           const angleInt = parseInt(sp.angle, 16) || 0;
+          const roomVal = parseInt(sp.room, 10) || 1;
 
-          eneView.setUint16(off + 0, typeVal, true);
-          eneView.setUint16(off + 2, 0, true);
-          eneView.setUint16(off + 4, eid, true); // event_id
-          eneView.setUint16(off + 6, w, true); // wave
-          eneView.setUint32(off + 8, ei + 1, true); // entity_index
-          eneView.setUint32(off + 12, sp.room || 1, true); // room
-          eneView.setFloat32(off + 16, parseFloat(sp.x) || 0, true);
-          eneView.setFloat32(off + 20, parseFloat(sp.y) || 0, true);
-          eneView.setFloat32(off + 24, parseFloat(sp.z) || 0, true);
-          eneView.setInt32(off + 28, 0, true);
-          eneView.setInt32(off + 32, angleInt, true);
-          eneView.setInt32(off + 36, 0, true);
-          eneView.setFloat32(off + 40, 1.0, true);
-          eneView.setFloat32(off + 44, 1.0, true);
-          eneView.setFloat32(off + 48, 1.0, true);
-          const p1Val = (typeVal === 0x0043) ? 1 : (isRare ? 33 : 32);
+          // Authentic Sega PSOBB 72-byte enemy struct (read by QEdit / game engine)
+          eneView.setUint16(off + 0, typeVal, true);  // 0x00: Enemy Type ID
+          eneView.setUint16(off + 2, 0, true);        // 0x02: reserved
+          eneView.setUint16(off + 4, 0, true);        // 0x04: reserved
+          eneView.setUint16(off + 6, 0, true);        // 0x06: reserved
+          eneView.setUint16(off + 8, flr, true);      // 0x08: Floor Index
+          eneView.setInt16(off + 10, -1, true);       // 0x0A: -1 (0xFFFF)
+          eneView.setUint16(off + 12, roomVal, true); // 0x0C: Room / Section ID (checked by QEdit!)
+          eneView.setUint16(off + 14, w, true);       // 0x0E: Wave Number (checked by QEdit against Group 3!)
+          eneView.setUint32(off + 16, w, true);       // 0x10: Wave Number (duplicate uint32)
+          eneView.setFloat32(off + 20, parseFloat(sp.x) || 0, true); // 0x14: X Position
+          eneView.setFloat32(off + 24, parseFloat(sp.y) || 0, true); // 0x18: Y Position
+          eneView.setFloat32(off + 28, parseFloat(sp.z) || 0, true); // 0x1C: Z Position
+          eneView.setInt32(off + 32, 0, true);        // 0x20: Angle X
+          eneView.setInt32(off + 36, angleInt, true); // 0x24: Angle Y (Yaw)
+          eneView.setInt32(off + 40, 0, true);        // 0x28: Angle Z
+          
+          const p1Val = (typeVal === 0x0043) ? 1 : (isRare ? 33 : 0);
           const p2Val = (sp.name === 'Barbarous Wolf') ? 1 : (typeVal === 0x0042 ? 3 : 0);
+          const p3Val = (typeVal === 0x0042) ? 10 : 0;
           let p6Val = (sp.subtype !== undefined) ? sp.subtype : 0;
           if (isRare && (typeVal === 0x0040 || typeVal === 0x0041)) {
             p6Val = 1;
           }
-          eneView.setUint32(off + 52, p1Val, true); // param1
-          eneView.setUint32(off + 56, p2Val, true); // param2
-          eneView.setUint32(off + 60, p6Val, true); // param6 (subtype/variant)
-          eneView.setUint32(off + 64, entityCounter++, true);
-          off += RECORD_SIZE;
+          eneView.setUint32(off + 44, p1Val, true); // 0x2C: Param 1
+          eneView.setUint32(off + 48, p2Val, true); // 0x30: Param 2 (e.g. Wolf leader, Monest initial)
+          eneView.setUint32(off + 52, p3Val, true); // 0x34: Param 3 (Monest capacity)
+          eneView.setUint32(off + 56, 0, true);     // 0x38: Param 4
+          eneView.setUint32(off + 60, 0, true);     // 0x3C: Param 5
+          eneView.setUint32(off + 64, p6Val, true); // 0x40: Param 6 (Subtype: 0=Booma, 1=Gobooma, 2=Gigobooma)
+          eneView.setUint32(off + 68, entityCounter++, true); // 0x44: Param 7 / Entity ID
+          off += ENE_RECORD_SIZE;
         }
         datBuffers.push(new Uint8Array(eneBuf));
       }

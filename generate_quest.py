@@ -273,7 +273,8 @@ def prs_compress(data):
     return bytes(dst)
 
 def compile_quest_dat(spec, enemies_rows, objects_rows):
-    RECORD_SIZE = 68
+    OBJ_RECORD_SIZE = 68
+    ENE_RECORD_SIZE = 72
     SECTION_HDR = 16
     EVT_REC_SIZE = 20
     EVT_HDR_SIZE = 16
@@ -308,7 +309,7 @@ def compile_quest_dat(spec, enemies_rows, objects_rows):
     entity_counter = 1000
     for flr in floors:
         stage_objs = [o for o in all_objs if o['floor'] == flr]
-        dsize = len(stage_objs) * RECORD_SIZE
+        dsize = len(stage_objs) * OBJ_RECORD_SIZE
         tot_size = SECTION_HDR + dsize
         sec = bytearray(tot_size)
         struct.pack_into('<4I', sec, 0, 1, tot_size, flr, dsize)
@@ -321,7 +322,7 @@ def compile_quest_dat(spec, enemies_rows, objects_rows):
                 o['p1'], o['p2'], o['p3'], entity_counter
             )
             entity_counter += 1
-            off += RECORD_SIZE
+            off += OBJ_RECORD_SIZE
         dat_sections.append(sec)
 
     # 2. Parse enemies from enemies_rows
@@ -357,26 +358,31 @@ def compile_quest_dat(spec, enemies_rows, objects_rows):
             continue
 
         stage_spawns = [s for s in all_spawns if s['floor'] == flr]
-        dsize = len(stage_spawns) * RECORD_SIZE
+        dsize = len(stage_spawns) * ENE_RECORD_SIZE
         tot_size = SECTION_HDR + dsize
         sec = bytearray(tot_size)
         struct.pack_into('<4I', sec, 0, 2, tot_size, flr, dsize)
         off = SECTION_HDR
         for idx, sp in enumerate(stage_spawns):
-            eid = flr * 100 + sp['wave']
             type_val = sp['type']
             subtype_val = sp.get('subtype', 0)
-            p1 = 1 if type_val == 0x0043 else 32
+            w = sp['wave']
+            room_val = sp['room']
+            p1 = 1 if type_val == 0x0043 else 0
             p2 = 1 if sp['name'] == 'Barbarous Wolf' else (3 if type_val == 0x0042 else 0)
+            p3 = 10 if type_val == 0x0042 else 0
             p6 = subtype_val
-            struct.pack_into('<4H2I3f3i3f4I', sec, off,
-                type_val, 0, eid, sp['wave'], idx + 1, sp['room'],
-                sp['x'], sp['y'], sp['z'], 0, sp['angle'], 0,
-                1.0, 1.0, 1.0,
-                p1, p2, p6, entity_counter
+            # Authentic Sega PSOBB 72-byte enemy struct
+            struct.pack_into('<4H 2h 2H I 3f 3i 7I', sec, off,
+                type_val, 0, 0, 0,
+                flr, -1, room_val, w,
+                w,
+                sp['x'], sp['y'], sp['z'],
+                0, sp['angle'], 0,
+                p1, p2, p3, 0, 0, p6, entity_counter
             )
             entity_counter += 1
-            off += RECORD_SIZE
+            off += ENE_RECORD_SIZE
         dat_sections.append(sec)
 
     # Group 3: Map Events / Wave Actions (w0 = 3) for each floor
