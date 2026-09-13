@@ -2,32 +2,11 @@
 
 A reference library for understanding Phantasy Star Online Blue Burst quests and grounding future AI-assisted quest development in real scripts and matching spatial data.
 
-> 🌐 **Interactive Web Viewing Database & Developer Toolkit**:  
-> Browse all 527 quests, download packages, inspect 126 map wireframes with section markers, build item creation codes, check quest flags, and execute SQL queries in your browser:  
-> **[https://darkchas1dr.github.io/PSOBB-Quest-Database/](https://darkchas1dr.github.io/PSOBB-Quest-Database/)**
+**[Browse the public research database](https://darkchas1dr.github.io/PSOBB-Quest-Database/)** — quests, full scripts, opcodes, NPC appearances, monsters, objects, floors and map sections.
 
-## ⚡ AI Quest Creator & Community Generator
+**[Coverage and missing evidence](DATABASE-COVERAGE.md)** · **[Repair audit](analysis/audit/antigravity-review.md)**
 
-Generate complete, crash-safe, playable custom PSOBB quests from natural language prompts using either the **interactive web studio** or the **command-line generator**.
-
-### 1. Interactive Web Studio (GitHub Pages)
-Launch the **[AI Quest Creator](https://darkchas1dr.github.io/PSOBB-Quest-Database/)** directly in your browser:
-- **Natural Language Prompting**: Type any quest concept (e.g., *"Forest 1 extermination with 3 waves of Boomas and Savage Wolves, an ancient hunter NPC named Dan, and 5000 Meseta reward"*).
-- **AI Prompt Enhancer**: One-click prompt expansion using the built-in offline Quest Director or your personal Google Gemini / OpenAI key (BYOK).
-- **Crash-Proof Qedit Assembly**: Auto-compiles Function 0 entry, Hunter's Guild dialogue logic, reward delivery (`add_meseta` or `item_create2`), and strict VM `sync` yielded watcher threads.
-- **2D Wireframe Section Inspector**: Visualizes combat rooms, spawn coordinates, and unlock switches overlaid on 126 client map geometry layouts.
-- **1-Click Turnkey ZIP Export**: Instant in-browser packaging of `custom_quest.zip` containing `script.txt`, `map.txt`, `enemies.csv`, `objects.csv`, `quest_manifest.json`, and setup guides.
-
-### 2. Standalone CLI Tool (`generate_quest.py`)
-Run the generator directly from your terminal:
-
-```sh
-# Generate quest from natural language prompt
-python generate_quest.py --prompt "Caves 2 extermination with 4 waves of Evil Sharks and 15000 Meseta" --output my_quest
-
-# Generate with explicit parameters
-python generate_quest.py --area "Ruins 3" --waves 4 --reward "item:God/Arm" --output ruins_raid
-```
+The database is a research library. A future Quest AI Generator will be a separate project and URL. The experimental generator has been withdrawn; its code remains recoverable in Git history at ec64966.
 
 ## Start here
 
@@ -99,12 +78,9 @@ All 527 variants were checked against decoder placement/event counts. Reassembly
 
 This is a static research library, not a claim that every branch is understood or that generated quests are bug-free. Native Qedit compilation and multiplayer gameplay validation are still required. The snapshot and derived analyses date from September 2026.
 
-## Master database & developer toolkit
+## Imported data under review
 
-- **Live Web Application**: [https://darkchas1dr.github.io/PSOBB-Quest-Database/](https://darkchas1dr.github.io/PSOBB-Quest-Database/)
-- **Comprehensive Technical Specification**: [PSOBB_MASTER_DATABASE.md](PSOBB_MASTER_DATABASE.md)
-- **Master SQLite Database**: `psobb_master_database.sqlite` (21 relational tables, 121,176 verified records)
-- **Turnkey Script Blueprints**: Custom Shopkeeper NPCs & Casino Machine state machines in [Chapter 13 of the Master Specification](PSOBB_MASTER_DATABASE.md#chapter-13-custom-shops--casino-mini-game-blueprints).
+Antigravity’s aggregated exports are [preserved for review](analysis/import-review/antigravity/README.md). They are not loaded by the active catalogue and are not certified complete or safe. The catalogue is rebuilt from the preserved source outputs using nalysis/tools/build_database_site.py.
 
 ## Attribution
 

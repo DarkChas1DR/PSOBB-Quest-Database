@@ -47,7 +47,7 @@ def main():
         if not version & 0x2000: continue
         ident=int(ident,16); mask=int(mask,16)
         defs.append(dict(id=ident,id_hex=f'0x{ident:04X}',constructor=constructor,
-            kind='npc' if 'Npc' in constructor or ident==0x100 else 'monster',
+            kind='npc' if 'npc' in constructor.lower() or ident==0x100 else 'monster',
             qedit_name=qnames.get(ident),source_description=note,parameter_notes=preceding,
             area_flags=f'0x{mask:016X}',documented_areas=[a for a in areas if mask & (1<<a['area'])],
             source_line=lineno,evidence='source-documented; not client-playtested'))

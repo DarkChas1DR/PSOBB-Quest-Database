@@ -506,7 +506,7 @@ Qedit label: Stage NPC's. Constructor: `TObjNpcEnemy`. Observed placements: 598.
 
 ## Coverage notes
 
-This gallery includes `0x0118 / 280` (`__QUEST_NPC__`, 161 observed placements), which the older entity index incorrectly grouped as a monster because its classifier checked mixed-case `Npc`. The gallery recognizes it as an NPC; its parameters are included in `npcs.json`. The older index and SQLite classification have not yet been rebuilt.
+The 0x0118 Quest NPC classification has been corrected in the entity index and SQLite archive.
 
 ## Evidence
 

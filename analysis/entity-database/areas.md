@@ -354,13 +354,11 @@ These BB constructor masks are not inferred from quest frequency. A type exclude
 
 | DAT ID | Monster |
 |---|---|
-| 0x0118 | [Rupika](monsters/0118-__QUEST_NPC__.md) |
 
 ## Episode 4: Crater (Eastern Route) — area 0x24
 
 | DAT ID | Monster |
 |---|---|
-| 0x0118 | [Rupika](monsters/0118-__QUEST_NPC__.md) |
 | 0x0041 | [Rag Rappy / Sand Rappy](monsters/0041-TObjEneLappy.md) |
 | 0x0110 | [astark](monsters/0110-__ASTARK__.md) |
 | 0x0111 | [Saterlite Lizard](monsters/0111-__SATELLITE_LIZARD_YOWIE__.md) |
@@ -372,7 +370,6 @@ These BB constructor masks are not inferred from quest frequency. A type exclude
 
 | DAT ID | Monster |
 |---|---|
-| 0x0118 | [Rupika](monsters/0118-__QUEST_NPC__.md) |
 | 0x0041 | [Rag Rappy / Sand Rappy](monsters/0041-TObjEneLappy.md) |
 | 0x0110 | [astark](monsters/0110-__ASTARK__.md) |
 | 0x0111 | [Saterlite Lizard](monsters/0111-__SATELLITE_LIZARD_YOWIE__.md) |
@@ -384,7 +381,6 @@ These BB constructor masks are not inferred from quest frequency. A type exclude
 
 | DAT ID | Monster |
 |---|---|
-| 0x0118 | [Rupika](monsters/0118-__QUEST_NPC__.md) |
 | 0x0041 | [Rag Rappy / Sand Rappy](monsters/0041-TObjEneLappy.md) |
 | 0x0110 | [astark](monsters/0110-__ASTARK__.md) |
 | 0x0111 | [Saterlite Lizard](monsters/0111-__SATELLITE_LIZARD_YOWIE__.md) |
@@ -396,7 +392,6 @@ These BB constructor masks are not inferred from quest frequency. A type exclude
 
 | DAT ID | Monster |
 |---|---|
-| 0x0118 | [Rupika](monsters/0118-__QUEST_NPC__.md) |
 | 0x0041 | [Rag Rappy / Sand Rappy](monsters/0041-TObjEneLappy.md) |
 | 0x0110 | [astark](monsters/0110-__ASTARK__.md) |
 | 0x0111 | [Saterlite Lizard](monsters/0111-__SATELLITE_LIZARD_YOWIE__.md) |
@@ -408,7 +403,6 @@ These BB constructor masks are not inferred from quest frequency. A type exclude
 
 | DAT ID | Monster |
 |---|---|
-| 0x0118 | [Rupika](monsters/0118-__QUEST_NPC__.md) |
 | 0x0041 | [Rag Rappy / Sand Rappy](monsters/0041-TObjEneLappy.md) |
 | 0x0110 | [astark](monsters/0110-__ASTARK__.md) |
 | 0x0111 | [Saterlite Lizard](monsters/0111-__SATELLITE_LIZARD_YOWIE__.md) |
@@ -420,7 +414,6 @@ These BB constructor masks are not inferred from quest frequency. A type exclude
 
 | DAT ID | Monster |
 |---|---|
-| 0x0118 | [Rupika](monsters/0118-__QUEST_NPC__.md) |
 | 0x0041 | [Rag Rappy / Sand Rappy](monsters/0041-TObjEneLappy.md) |
 | 0x0111 | [Saterlite Lizard](monsters/0111-__SATELLITE_LIZARD_YOWIE__.md) |
 | 0x0112 | [Merissa A](monsters/0112-__MERISSA_A__.md) |
@@ -432,7 +425,6 @@ These BB constructor masks are not inferred from quest frequency. A type exclude
 
 | DAT ID | Monster |
 |---|---|
-| 0x0118 | [Rupika](monsters/0118-__QUEST_NPC__.md) |
 | 0x0041 | [Rag Rappy / Sand Rappy](monsters/0041-TObjEneLappy.md) |
 | 0x0111 | [Saterlite Lizard](monsters/0111-__SATELLITE_LIZARD_YOWIE__.md) |
 | 0x0112 | [Merissa A](monsters/0112-__MERISSA_A__.md) |
@@ -444,7 +436,6 @@ These BB constructor masks are not inferred from quest frequency. A type exclude
 
 | DAT ID | Monster |
 |---|---|
-| 0x0118 | [Rupika](monsters/0118-__QUEST_NPC__.md) |
 | 0x0041 | [Rag Rappy / Sand Rappy](monsters/0041-TObjEneLappy.md) |
 | 0x0111 | [Saterlite Lizard](monsters/0111-__SATELLITE_LIZARD_YOWIE__.md) |
 | 0x0112 | [Merissa A](monsters/0112-__MERISSA_A__.md) |
@@ -456,14 +447,12 @@ These BB constructor masks are not inferred from quest frequency. A type exclude
 
 | DAT ID | Monster |
 |---|---|
-| 0x0118 | [Rupika](monsters/0118-__QUEST_NPC__.md) |
 | 0x0119 | [Saint million](monsters/0119-__EPISODE_4_BOSS__.md) |
 
 ## Episode 4: Test Map — area 0x2E
 
 | DAT ID | Monster |
 |---|---|
-| 0x0118 | [Rupika](monsters/0118-__QUEST_NPC__.md) |
 | 0x0041 | [Rag Rappy / Sand Rappy](monsters/0041-TObjEneLappy.md) |
 | 0x0110 | [astark](monsters/0110-__ASTARK__.md) |
 | 0x0111 | [Saterlite Lizard](monsters/0111-__SATELLITE_LIZARD_YOWIE__.md) |

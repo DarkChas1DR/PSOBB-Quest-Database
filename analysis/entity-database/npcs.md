@@ -69,3 +69,4 @@ IDs below are DAT enemy/NPC placement IDs. Names retain Qedit labels where avail
 | 0x00FE (254) | [Ep 2 Nurse](npcs/00FE-TObjNpcNgcBase_0x00FE_.md) | 386 |
 | 0x00FF (255) | [Unknown 255](npcs/00FF-TObjNpcNgcBase_0x00FF_.md) | 133 |
 | 0x0100 (256) | [Momoka](npcs/0100-__MOMOKA__.md) | 86 |
+| 0x0118 (280) | [Rupika](npcs/0118-__QUEST_NPC__.md) | 161 |

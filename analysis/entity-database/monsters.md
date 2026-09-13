@@ -68,5 +68,4 @@ IDs below are DAT enemy/NPC placement IDs. Names retain Qedit labels where avail
 | 0x0115 (277) | [Boota](monsters/0115-__BOOTA_FAMILY__.md) | 3655 |
 | 0x0116 (278) | [Dorphon](monsters/0116-__DORPHON__.md) | 344 |
 | 0x0117 (279) | [Goran](monsters/0117-__GORAN_FAMILY__.md) | 4575 |
-| 0x0118 (280) | [Rupika](monsters/0118-__QUEST_NPC__.md) | 161 |
 | 0x0119 (281) | [Saint million](monsters/0119-__EPISODE_4_BOSS__.md) | 5 |

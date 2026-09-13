@@ -19,9 +19,9 @@ Companion registries to the quest library, built from the preserved newserv and 
 
 ## What is covered
 
-The initial registry includes 64 BB monster constructor definitions, 61 NPC constructor definitions, and all 146,753 enemy/NPC placement records from the supplied corpus. It classifies 135,708 records as monsters and 11,040 as NPCs; five records have unclassified types and remain explicitly unresolved. These counts include language duplicates and are not counts of distinct monster species.
+The initial registry includes 63 BB monster constructor definitions, 62 NPC constructor definitions, and all 146,753 enemy/NPC placement records from the supplied corpus. It classifies 135,547 records as monsters and 11,201 as NPCs; five records have unclassified types and remain explicitly unresolved. These counts include language duplicates and are not counts of distinct monster species.
 
-There are 12 player classes, 48 disassembler-recognized visual configuration blocks, and 3,370 distinct resolved static NPC handler candidates. The SQLite `handlers` table retains their complete label bodies; per-NPC pages link example handlers to the full quest script, where dialogue and called functions can be inspected. Handler bodies may call other labels, so a single label is not necessarily the entire conversation. Visual blocks are examples, not a catalogue of every named NPC or every face.
+There are 12 player classes, 48 disassembler-recognized visual configuration blocks, and 3,464 distinct resolved static NPC handler candidates. The SQLite `handlers` table retains their complete label bodies; per-NPC pages link example handlers to the full quest script, where dialogue and called functions can be inspected. Handler bodies may call other labels, so a single label is not necessarily the entire conversation. Visual blocks are examples, not a catalogue of every named NPC or every face.
 
 ## ID namespaces and placement safety
 
