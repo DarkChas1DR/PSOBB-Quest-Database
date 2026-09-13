@@ -566,7 +566,28 @@ def generate_quest_files(spec, out_dir):
 
     wireframes = load_json('wireframes.json')
     wf = next((w for w in wireframes if w['id'] == spec['wireframe_id']), None)
-    sec_ids = wf['section_ids'] if (wf and wf.get('section_ids')) else [1, 2, 3, 4, 5, 6, 7, 8]
+    
+    AUTHENTIC_ROOMS = {
+        'forest 1': [2, 4, 5, 7, 8, 10, 11],
+        'forest 2': [1, 2, 3, 4, 5, 6, 10, 11, 12, 13, 15],
+        'caves 1': [10, 11, 12, 20, 30, 31, 32, 33, 34, 40, 50, 51, 52, 53, 60],
+        'caves 2': [10, 11, 12, 13, 14, 15, 16, 20, 21, 22, 23, 30, 35, 40, 45, 60],
+        'caves 3': [20, 21, 22, 23, 30, 31, 32, 33, 40, 41, 50, 51, 52, 53, 54, 70, 71],
+        'mines 1': [20, 21, 30, 40, 41, 50, 51, 52, 53, 54, 60, 61, 75, 90],
+        'mines 2': [20, 21, 30, 40, 41, 50, 51, 52, 53, 60, 61, 70, 80, 90],
+        'ruins 1': [10, 11, 20, 30, 40, 41, 50, 60, 61, 70, 91, 93],
+        'ruins 2': [10, 11, 20, 30, 40, 41, 50, 60, 61, 70, 91, 92, 93, 94, 98, 100],
+        'ruins 3': [20, 21, 30, 31, 32, 40, 41, 42, 43, 44, 60, 80],
+    }
+    
+    spec_area_lower = spec['area_name'].lower()
+    matched_rooms = None
+    for k, r_list in AUTHENTIC_ROOMS.items():
+        if k in spec_area_lower:
+            matched_rooms = r_list
+            break
+            
+    sec_ids = matched_rooms if matched_rooms else (wf['section_ids'] if (wf and wf.get('section_ids')) else [1, 2, 3, 4, 5, 6, 7, 8])
 
     # Distribute rooms evenly across entire map wireframe geometry
     total_sec = len(sec_ids)
@@ -725,14 +746,14 @@ def generate_quest_files(spec, out_dir):
         "0,10,0x0002,Tactical_Scout_NPC,18.0,0.0,-40.0,0x8000,0,0,0",
         # Pioneer 2 to Stage 1 Floor Teleporter (param1=floorIdx, param2=1, param3=floorIdx)
         f"0,10,0x0002,Warp_To_Stage1,132.0,1.0,-266.0,0x0000,{spec['floor_idx']},1,{spec['floor_idx']}",
-        # Stage Infiltration Warp
-        f"{spec['floor_idx']},{combat_rooms[0]},0x0019,Warp_StageIn,{enter_pos[0]:.1f},{enter_pos[1]:.1f},{enter_pos[2]:.1f},0x0000,0,0,0",
-        # Laser barrier fence at first combat room
-        f"{spec['floor_idx']},{combat_rooms[0]},0x0004,Laser_Fence_Barrier,{enter_pos[0]:.1f},{enter_pos[1]:.1f},{(enter_pos[2] + 12.0):.1f},0x0000,1,0,0",
-        # Floor Terminal Switch at final room
-        f"{spec['floor_idx']},{target_clear_room},0x0001,Floor_Terminal_Switch,{(exit_pos[0] - 12.0):.1f},{exit_pos[1]:.1f},{exit_pos[2]:.1f},0x0000,1,0,0",
-        # Extraction Warp back to Pioneer 2 (param1=0, param2=1, param3=0)
-        f"{spec['floor_idx']},{target_clear_room},0x0002,Warp_Extract_Pioneer2,{(exit_pos[0] + 12.0):.1f},{exit_pos[1]:.1f},{exit_pos[2]:.1f},0x0000,0,1,0"
+        # Stage Infiltration Warp (local room center)
+        f"{spec['floor_idx']},{combat_rooms[0]},0x0019,Warp_StageIn,0.0,0.0,0.0,0x0000,0,0,0",
+        # Laser barrier fence at first combat room (+12.0 along Z)
+        f"{spec['floor_idx']},{combat_rooms[0]},0x0004,Laser_Fence_Barrier,0.0,0.0,12.0,0x0000,1,0,0",
+        # Floor Terminal Switch at final room (-12.0 along X)
+        f"{spec['floor_idx']},{target_clear_room},0x0001,Floor_Terminal_Switch,-12.0,0.0,0.0,0x0000,1,0,0",
+        # Extraction Warp back to Pioneer 2 (+12.0 along X)
+        f"{spec['floor_idx']},{target_clear_room},0x0002,Warp_Extract_Pioneer2,12.0,0.0,0.0,0x0000,0,1,0"
     ]
 
     map_lines = [
@@ -744,10 +765,10 @@ def generate_quest_files(spec, out_dir):
         f"0, 10, 0x0002, Guild_Officer_NPC, 12.5, 0.0, -45.0, 0x8000, 0, 0, 0",
         f"0, 10, 0x0002, Tactical_Scout_NPC, 18.0, 0.0, -40.0, 0x8000, 0, 0, 0",
         f"0, 10, 0x0002, Warp_To_Stage1, 132.0, 1.0, -266.0, 0x0000, {spec['floor_idx']}, 1, {spec['floor_idx']}",
-        f"{spec['floor_idx']}, {combat_rooms[0]}, 0x0019, Warp_StageIn, {enter_pos[0]:.1f}, {enter_pos[1]:.1f}, {enter_pos[2]:.1f}, 0x0000, 0, 0, 0",
-        f"{spec['floor_idx']}, {combat_rooms[0]}, 0x0004, Laser_Fence_Barrier, {enter_pos[0]:.1f}, {enter_pos[1]:.1f}, {(enter_pos[2] + 12.0):.1f}, 0x0000, 1, 0, 0",
-        f"{spec['floor_idx']}, {target_clear_room}, 0x0001, Floor_Terminal_Switch, {(exit_pos[0] - 12.0):.1f}, {exit_pos[1]:.1f}, {exit_pos[2]:.1f}, 0x0000, 1, 0, 0",
-        f"{spec['floor_idx']}, {target_clear_room}, 0x0002, Warp_Extract_Pioneer2, {(exit_pos[0] + 12.0):.1f}, {exit_pos[1]:.1f}, {exit_pos[2]:.1f}, 0x0000, 0, 1, 0",
+        f"{spec['floor_idx']}, {combat_rooms[0]}, 0x0019, Warp_StageIn, 0.0, 0.0, 0.0, 0x0000, 0, 0, 0",
+        f"{spec['floor_idx']}, {combat_rooms[0]}, 0x0004, Laser_Fence_Barrier, 0.0, 0.0, 12.0, 0x0000, 1, 0, 0",
+        f"{spec['floor_idx']}, {target_clear_room}, 0x0001, Floor_Terminal_Switch, -12.0, 0.0, 0.0, 0x0000, 1, 0, 0",
+        f"{spec['floor_idx']}, {target_clear_room}, 0x0002, Warp_Extract_Pioneer2, 12.0, 0.0, 0.0, 0x0000, 0, 1, 0",
         f"",
         f"[ENEMIES]"
     ]
@@ -764,15 +785,12 @@ def generate_quest_files(spec, out_dir):
 
         waves_rows.append(f"{spec['floor_idx']},{room_id},{wave_num},{trigger_evt},{delay},{e_count},spawn_wave")
 
-        room_pos = sec_pos_map.get(str(room_id), [0.0, 0.0, 0.0])
-        cx, cy, cz = float(room_pos[0]), float(room_pos[1]), float(room_pos[2])
-
         for i in range(e_count):
             radius = 8.0 + (i % 4) * 3.5
             angle_rad = (3.14159 * 2 * i) / e_count + (wave_num * 0.6)
-            x = cx + radius * math.cos(angle_rad)
-            y = cy
-            z = cz + radius * math.sin(angle_rad)
+            x = radius * math.cos(angle_rad)
+            y = 0.0
+            z = radius * math.sin(angle_rad)
             angle_hex_arr = ['0x0000', '0x4000', '0x8000', '0xC000']
             angle_hex = angle_hex_arr[i % 4]
             enemies_rows.append(f"{spec['floor_idx']},{room_id},{wave_num},{e_type[0]},{hex(e_type[1])},{x:.1f},{y:.1f},{z:.1f},{angle_hex},{e_type[3]},{e_type[2]}")
