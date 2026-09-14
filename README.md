@@ -1,30 +1,33 @@
 # PSOBB Quest Database
 
+
+[Browse 443 appearance selector render sheets](analysis/entity-database/appearance-gallery/supported/README.md) — class IDs, hair, faces, costumes, skins, heads and seven special models.
+
 [![Research checkpoints: 3 of 8 completed](analysis/progress.svg)](PROGRESS.md)
 
-**[Progress and remaining work](PROGRESS.md)** — milestone progress only; overall database completeness is not yet established.
+**[Progress and remaining work](PROGRESS.md)** â€” milestone progress only; overall database completeness is not yet established.
 
 A reference library for understanding Phantasy Star Online Blue Burst quests and grounding future AI-assisted quest development in real scripts and matching spatial data.
 
-**[Browse the public research database](https://darkchas1dr.github.io/PSOBB-Quest-Database/)** — quests, full scripts, opcodes, NPC appearances, monsters, objects, floors and map sections.
+**[Browse the public research database](https://darkchas1dr.github.io/PSOBB-Quest-Database/)** â€” quests, full scripts, opcodes, NPC appearances, monsters, objects, floors and map sections.
 
-**[Coverage and missing evidence](DATABASE-COVERAGE.md)** · **[Repair audit](analysis/audit/antigravity-review.md)**
+**[Coverage and missing evidence](DATABASE-COVERAGE.md)** Â· **[Repair audit](analysis/audit/antigravity-review.md)**
 
 The database is a research library. A future Quest AI Generator will be a separate project and URL. The experimental generator has been withdrawn; its code remains recoverable in Git history at ec64966.
 
 ## Start here
 
-**[QEdit Feature & Field Coverage Matrix](analysis/qedit-coverage/README.md)** — source inventory and field-by-field verification worklist for completing the database.
+**[QEdit Feature & Field Coverage Matrix](analysis/qedit-coverage/README.md)** â€” source inventory and field-by-field verification worklist for completing the database.
 
-**[Object catalogue](analysis/object-database/README.md)** — Qedit IDs, field labels, presets, area menus, supporting parameter documentation and quest placements. Verification status is explicit.
+**[Object catalogue](analysis/object-database/README.md)** â€” Qedit IDs, field labels, presets, area menus, supporting parameter documentation and quest placements. Verification status is explicit.
 
-**[General floor and map database](analysis/floor-database/README.md)** — choose an episode, area, layout and entity variation independently of any existing quest.
+**[General floor and map database](analysis/floor-database/README.md)** â€” choose an episode, area, layout and entity variation independently of any existing quest.
 
-**[Browse recorded map rooms / sections](analysis/map-sections/README.md)** — per-quest room IDs, waves, events and placement links; geometric boundaries remain unverified.
+**[Browse recorded map rooms / sections](analysis/map-sections/README.md)** â€” per-quest room IDs, waves, events and placement links; geometric boundaries remain unverified.
 
-**Entity references: [Monster database](analysis/entity-database/monsters.md) · [Episode/area spawn rules](analysis/entity-database/areas.md) · [NPC database](analysis/entity-database/npcs.md) · [Classes and appearance IDs](analysis/entity-database/classes.md)**
+**Entity references: [Monster database](analysis/entity-database/monsters.md) Â· [Episode/area spawn rules](analysis/entity-database/areas.md) Â· [NPC database](analysis/entity-database/npcs.md) Â· [Classes and appearance IDs](analysis/entity-database/classes.md)**
 
-**Browse quests by episode: [Episode 1](analysis/server-catalogue/episode-1.md) · [Episode 2](analysis/server-catalogue/episode-2.md) · [Episode 4](analysis/server-catalogue/episode-4.md)**
+**Browse quests by episode: [Episode 1](analysis/server-catalogue/episode-1.md) Â· [Episode 2](analysis/server-catalogue/episode-2.md) Â· [Episode 4](analysis/server-catalogue/episode-4.md)**
 
 - [Quest library and coverage](analysis/quest-knowledge/README.md)
 - [Quest-building instructions](analysis/quest-knowledge/BUILDER-INSTRUCTIONS.md)
@@ -86,7 +89,7 @@ This is a static research library, not a claim that every branch is understood o
 
 ## Imported data under review
 
-Antigravity’s aggregated exports are [preserved for review](analysis/import-review/antigravity/README.md). They are not loaded by the active catalogue and are not certified complete or safe. The catalogue is rebuilt from the preserved source outputs using nalysis/tools/build_database_site.py.
+Antigravityâ€™s aggregated exports are [preserved for review](analysis/import-review/antigravity/README.md). They are not loaded by the active catalogue and are not certified complete or safe. The catalogue is rebuilt from the preserved source outputs using nalysis/tools/build_database_site.py.
 
 ## Attribution
 

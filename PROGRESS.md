@@ -9,13 +9,15 @@
 | Initial Qedit feature inventory | Complete | Published forms, controls, handler links, record declarations and label inventory; scope limitations recorded |
 | NPC appearance source/byte reference | Complete | Published BB layout, editor behavior and 48 observed-block checks; native tests are separate below |
 | Placement source/byte reference | Complete | Published object/enemy mappings and 4,444,899 CSV-exposed field checks; source-only fields explicitly identified |
-| Full supported appearance gallery | Partial | Render and identify every supported selector and special-model appearance; verify limits and source/executable equivalence |
+| Full supported appearance gallery | Partial | 443 offline sheets published: 424 selector values, 12 baselines, 7 special models. Remaining: combinations, colours/proportions, other special appearances, native visual checks and source/executable equivalence |
 | Scene reconstruction | Partial | Trace camera, actor, dialogue and timing dependencies into complete scene chains; current camera references are not reconstructed scenes |
 | Qedit save/reopen compatibility | Pending | One-field fixtures for supported record types and opcode/data paths; verify output bytes and label boundaries in the supplied Qedit |
 | Clean-client behavior | Pending | Version-recorded tests of appearances, parameters, maps, spawns, scenes and completion |
 | Multiplayer and final completeness audit | Pending | Party synchronization, join/failure paths and all outstanding field/feature gaps verified; no unsupported completeness claims |
 
 ## Current evidence
+
+- [Browse the supported appearance selector gallery](analysis/entity-database/appearance-gallery/supported/README.md)
 
 - [Qedit inventory](analysis/qedit-coverage/README.md)
 - [NPC appearance fields](analysis/qedit-coverage/npc-appearance/README.md)
