@@ -1,5 +1,7 @@
 # QEdit Feature & Field Coverage Matrix
 
+[NPC appearance field reference and byte checks](npc-appearance/README.md) — BB offsets, editor controls, colour/name behavior and pending save/reopen fixtures.
+
 This is the first source inventory for the supplied Qedit/PSOBB research scope. **It is not a 100% compatibility certification.** Resource objects and label slots are inventory counts, not verified feature counts. No completion percentage is assigned.
 
 ## Build scope

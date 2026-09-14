@@ -2,6 +2,8 @@
 
 [QEdit Feature & Field Coverage Matrix](analysis/qedit-coverage/README.md) — editor forms, event handlers, declared records and entity/object labels, with evidence and required verification.
 
+[NPC appearance field audit](analysis/qedit-coverage/npc-appearance/README.md): 48 preserved blocks checked against 624 integer-field annotations; native Qedit save/reopen and client tests remain pending.
+
 The goal is complete, source-backed quest research. The current database is **not 100% complete**. Counts refer to the supplied collection and tool versions, not every PSOBB quest or every possible client configuration.
 
 | Research category | Available now | Remaining evidence needed |
