@@ -11,11 +11,13 @@
 | Placement source/byte reference | Complete | Published object/enemy mappings and 4,444,899 CSV-exposed field checks; source-only fields explicitly identified |
 | Full supported appearance gallery | Partial | 443 offline sheets published: 424 selector values, 12 baselines, 7 special models. Remaining: combinations, colours/proportions, other special appearances, native visual checks and source/executable equivalence |
 | Scene reconstruction | Partial | Trace camera, actor, dialogue and timing dependencies into complete scene chains; current camera references are not reconstructed scenes |
-| Qedit save/reopen compatibility | Pending | One-field fixtures for supported record types and opcode/data paths; verify output bytes and label boundaries in the supplied Qedit |
+| Qedit save/reopen compatibility | Partial | One-field fixtures for supported record types and opcode/data paths; verify output bytes and label boundaries in the supplied Qedit |
 | Clean-client behavior | Pending | Version-recorded tests of appearances, parameters, maps, spawns, scenes and completion |
 | Multiplayer and final completeness audit | Pending | Party synchronization, join/failure paths and all outstanding field/feature gaps verified; no unsupported completeness claims |
 
 ## Current evidence
+
+- [Native QEdit TTF baseline](analysis/qedit-coverage/native-tests/README.md): user save/reopen and structural checks passed; header semantics investigated.
 
 - [Quest limits and placement rules](analysis/quest-limits/README.md): format bounds and 527-variant measurements published; runtime capacity tests pending.
 

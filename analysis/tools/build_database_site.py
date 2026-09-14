@@ -69,6 +69,7 @@ def main():
     refs.insert(2,('Monster/object saved-field mappings','analysis/qedit-coverage/placements/README.md'))
     refs.insert(3,('Progress and remaining work','PROGRESS.md'))
     refs.append(('Quest limits and placement rules','analysis/quest-limits/README.md'))
+    refs.append(('Native QEdit save/reopen baseline','analysis/qedit-coverage/native-tests/README.md'))
     for name,p in refs:rows.append(make('References',name,p,'Open the full source reference or coverage record',[link('Open reference',p)],evidence='See source-specific status'))
     counts={k:sum(r['kind']==k for r in rows) for k in dict.fromkeys(r['kind'] for r in rows)}
     assert counts['Quests']==527 and counts['Floors']==47 and counts['Maps']==126 and counts['Objects']==280
