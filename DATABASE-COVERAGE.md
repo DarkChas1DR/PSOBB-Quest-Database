@@ -1,5 +1,7 @@
 # PSOBB research coverage
 
+[QEdit Feature & Field Coverage Matrix](analysis/qedit-coverage/README.md) — editor forms, event handlers, declared records and entity/object labels, with evidence and required verification.
+
 The goal is complete, source-backed quest research. The current database is **not 100% complete**. Counts refer to the supplied collection and tool versions, not every PSOBB quest or every possible client configuration.
 
 | Research category | Available now | Remaining evidence needed |

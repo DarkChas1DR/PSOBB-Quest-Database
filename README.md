@@ -10,6 +10,8 @@ The database is a research library. A future Quest AI Generator will be a separa
 
 ## Start here
 
+**[QEdit Feature & Field Coverage Matrix](analysis/qedit-coverage/README.md)** — source inventory and field-by-field verification worklist for completing the database.
+
 **[Object catalogue](analysis/object-database/README.md)** — Qedit IDs, field labels, presets, area menus, supporting parameter documentation and quest placements. Verification status is explicit.
 
 **[General floor and map database](analysis/floor-database/README.md)** — choose an episode, area, layout and entity variation independently of any existing quest.

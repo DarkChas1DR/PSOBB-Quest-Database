@@ -1,0 +1,10 @@
+# Unit13 — '3D View'
+
+Resource objects are inventoried, not certified features. Captions may be changed at runtime; container objects, labels and controls all count. Complex/multiline property values are not fully decoded.
+
+[Coverage guide](../README.md) · [Source resource](https://github.com/schthack/qedit/blob/2af5d144485b58ba28b57d98d2daa1a6b141ff4f/Unit13.dfm#L1)
+
+| Resource object | Component | Caption / text | Declared event handler(s) |
+|---|---|---|---|
+| [Form13](https://github.com/schthack/qedit/blob/2af5d144485b58ba28b57d98d2daa1a6b141ff4f/Unit13.dfm#L1) | TForm13 | '3D View' | OnClose: [FormClose](https://github.com/schthack/qedit/blob/2af5d144485b58ba28b57d98d2daa1a6b141ff4f/Unit13.pas#L1038); OnHide: [FormHide](https://github.com/schthack/qedit/blob/2af5d144485b58ba28b57d98d2daa1a6b141ff4f/Unit13.pas#L375); OnKeyDown: [FormKeyDown](https://github.com/schthack/qedit/blob/2af5d144485b58ba28b57d98d2daa1a6b141ff4f/Unit13.pas#L1049); OnKeyPress: [FormKeyPress](https://github.com/schthack/qedit/blob/2af5d144485b58ba28b57d98d2daa1a6b141ff4f/Unit13.pas#L1056); OnKeyUp: [FormKeyUp](https://github.com/schthack/qedit/blob/2af5d144485b58ba28b57d98d2daa1a6b141ff4f/Unit13.pas#L1133); OnMouseDown: [FormMouseDown](https://github.com/schthack/qedit/blob/2af5d144485b58ba28b57d98d2daa1a6b141ff4f/Unit13.pas#L892); OnMouseMove: [FormMouseMove](https://github.com/schthack/qedit/blob/2af5d144485b58ba28b57d98d2daa1a6b141ff4f/Unit13.pas#L381); OnMouseUp: [FormMouseUp](https://github.com/schthack/qedit/blob/2af5d144485b58ba28b57d98d2daa1a6b141ff4f/Unit13.pas#L1007); OnMouseWheel: [FormMouseWheel](https://github.com/schthack/qedit/blob/2af5d144485b58ba28b57d98d2daa1a6b141ff4f/Unit13.pas#L1014); OnShow: [FormShow](https://github.com/schthack/qedit/blob/2af5d144485b58ba28b57d98d2daa1a6b141ff4f/Unit13.pas#L347) |
+| [Timer1](https://github.com/schthack/qedit/blob/2af5d144485b58ba28b57d98d2daa1a6b141ff4f/Unit13.dfm#L24) | TTimer |  | OnTimer: [Timer1Timer](https://github.com/schthack/qedit/blob/2af5d144485b58ba28b57d98d2daa1a6b141ff4f/Unit13.pas#L106) |
