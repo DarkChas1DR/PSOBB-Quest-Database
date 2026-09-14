@@ -1,5 +1,9 @@
 # PSOBB Quest Database
 
+[![Research checkpoints: 3 of 8 completed](analysis/progress.svg)](PROGRESS.md)
+
+**[Progress and remaining work](PROGRESS.md)** — milestone progress only; overall database completeness is not yet established.
+
 A reference library for understanding Phantasy Star Online Blue Burst quests and grounding future AI-assisted quest development in real scripts and matching spatial data.
 
 **[Browse the public research database](https://darkchas1dr.github.io/PSOBB-Quest-Database/)** — quests, full scripts, opcodes, NPC appearances, monsters, objects, floors and map sections.
