@@ -1,55 +1,45 @@
 # PSOBB Quest Database
 
+A public research library for Phantasy Star Online Blue Burst quest scripts, spatial data and QEdit references.
 
-[Browse 443 appearance selector render sheets](analysis/entity-database/appearance-gallery/supported/README.md) — class IDs, hair, faces, costumes, skins, heads and seven special models.
+[![Research checkpoints](analysis/progress.svg)](PROGRESS.md)
 
-[![Research checkpoints: 3 of 8 completed](analysis/progress.svg)](PROGRESS.md)
+**[Open the searchable database](https://darkchas1dr.github.io/PSOBB-Quest-Database/)** · **[Progress](PROGRESS.md)** · **[Coverage and gaps](DATABASE-COVERAGE.md)**
 
-**[Progress and remaining work](PROGRESS.md)** â€” milestone progress only; overall database completeness is not yet established.
+3 of 8 defined research checkpoints complete. This is milestone progress, not an overall completeness percentage. Native QEdit, client and multiplayer verification remains pending.
 
-A reference library for understanding Phantasy Star Online Blue Burst quests and grounding future AI-assisted quest development in real scripts and matching spatial data.
+## Explore the database
 
-**[Browse the public research database](https://darkchas1dr.github.io/PSOBB-Quest-Database/)** â€” quests, full scripts, opcodes, NPC appearances, monsters, objects, floors and map sections.
+| Find | Open |
+|---|---|
+| Quests, scripts and downloads | [Episode 1](analysis/server-catalogue/episode-1.md) · [Episode 2](analysis/server-catalogue/episode-2.md) · [Episode 4](analysis/server-catalogue/episode-4.md) |
+| Areas and map variants | [General floor database](analysis/floor-database/README.md) |
+| Numbered maps and room IDs | [Wireframe atlas](analysis/floor-database/geometry/README.md) · [Quest room/wave mappings](analysis/map-sections/README.md) |
+| Monsters and spawn evidence | [Monster catalogue](analysis/entity-database/monsters.md) · [Episode/area references](analysis/entity-database/areas.md) |
+| NPC types and appearances | [NPC catalogue](analysis/entity-database/npcs.md) · [443 appearance sheets](analysis/entity-database/appearance-gallery/supported/README.md) · [Special characters](analysis/entity-database/appearance-gallery/special-characters.md) |
+| Doors, switches and objects | [Object catalogue](analysis/object-database/README.md) |
+| Scripts, opcodes and binary layouts | [Quest knowledge](analysis/quest-knowledge/README.md) · [Compiler profiles](analysis/quest-knowledge/COMPILER-PROFILES.md) · [DAT schema](analysis/quest-knowledge/DAT-SCHEMA.md) |
+| QEdit fields and saved bytes | [Coverage matrix](analysis/qedit-coverage/README.md) |
+| Quest capacity and placement rules | [Limits reference](analysis/quest-limits/README.md) · [Observed quest counts](analysis/quest-limits/observed-counts.md) · [Placement checklist](analysis/quest-limits/placement-rules.md) |
 
-**[Coverage and missing evidence](DATABASE-COVERAGE.md)** Â· **[Repair audit](analysis/audit/antigravity-review.md)**
+## Latest research: quest limits
 
-The database is a research library. A future Quest AI Generator will be a separate project and URL. The experimental generator has been withdrawn; its code remains recoverable in Git history at ec64966.
+The new reference separates field encoding bounds, observed quest sizes and unknown runtime capacity. It includes reproducible counts from all 527 quest variants and a native test protocol. **Observed maxima are not safe generator limits.**
 
-## Start here
+[Read the findings](analysis/quest-limits/README.md) · [See the required tests](analysis/quest-limits/test-protocol.md)
 
-**[QEdit Feature & Field Coverage Matrix](analysis/qedit-coverage/README.md)** â€” source inventory and field-by-field verification worklist for completing the database.
+## Collection at a glance
 
-**[Object catalogue](analysis/object-database/README.md)** â€” Qedit IDs, field labels, presets, area menus, supporting parameter documentation and quest placements. Verification status is explicit.
+| Collection | Published coverage |
+|---|---:|
+| Decoded quest variants, including languages | 527 |
+| General area entries / geometry maps | 47 / 126 |
+| Monster / NPC definitions | 63 / 62 |
+| Object definitions | 280 |
+| BB opcode signatures | 515 (512 unique opcodes) |
+| Offline appearance render sheets | 443 |
 
-**[General floor and map database](analysis/floor-database/README.md)** â€” choose an episode, area, layout and entity variation independently of any existing quest.
-
-**[Browse recorded map rooms / sections](analysis/map-sections/README.md)** â€” per-quest room IDs, waves, events and placement links; geometric boundaries remain unverified.
-
-**Entity references: [Monster database](analysis/entity-database/monsters.md) Â· [Episode/area spawn rules](analysis/entity-database/areas.md) Â· [NPC database](analysis/entity-database/npcs.md) Â· [Classes and appearance IDs](analysis/entity-database/classes.md)**
-
-**Browse quests by episode: [Episode 1](analysis/server-catalogue/episode-1.md) Â· [Episode 2](analysis/server-catalogue/episode-2.md) Â· [Episode 4](analysis/server-catalogue/episode-4.md)**
-
-- [Quest library and coverage](analysis/quest-knowledge/README.md)
-- [Quest-building instructions](analysis/quest-knowledge/BUILDER-INSTRUCTIONS.md)
-- [Towards the Future walkthrough](analysis/QUEST-BUILDING-GUIDE.md)
-- [Browse all server quest dossiers](analysis/server-catalogue/README.md)
-- [Compiler profiles](analysis/quest-knowledge/COMPILER-PROFILES.md) and [DAT layout](analysis/quest-knowledge/DAT-SCHEMA.md)
-- [Validation results](analysis/quest-knowledge/validation-results.json) and [known review findings](analysis/quest-knowledge/review-findings.json)
-
-## Included data
-
-| Content | Count |
-| --- | ---: |
-| Preserved server quest source files | 1,558 |
-| Decoded quest variants, including language variants | 527 |
-| Category/prefix/ID groups | 293 |
-| Script label blocks, including data labels | 107,966 |
-| Object placements | 186,967 |
-| Enemy/NPC placements | 146,753 |
-| Ordinary event records | 34,877 |
-| Random event records | 770 |
-
-The collection covers Episodes 1, 2 and 4. Counts include repeated content and language variants; enemy placement totals are not gameplay kill totals. Full client geometry and executable tools are not bundled. Client/Qedit assets are indexed, with selected definitions and map tables preserved.
+Counts describe this collection, not exhaustive gameplay verification. The future AI Quest Generator will be a separate project and URL.
 
 ## Use the searchable database
 
@@ -86,10 +76,6 @@ Every polling cycle must yield. Initialization, register ownership, multiplayer 
 All 527 variants were checked against decoder placement/event counts. Reassembly preserved script payloads and label tables; eight complete files also changed headers and remain flagged for review. Two language variants of **A New Hope** have malformed event action offsets. These findings are retained rather than silently repaired.
 
 This is a static research library, not a claim that every branch is understood or that generated quests are bug-free. Native Qedit compilation and multiplayer gameplay validation are still required. The snapshot and derived analyses date from September 2026.
-
-## Imported data under review
-
-Antigravityâ€™s aggregated exports are [preserved for review](analysis/import-review/antigravity/README.md). They are not loaded by the active catalogue and are not certified complete or safe. The catalogue is rebuilt from the preserved source outputs using nalysis/tools/build_database_site.py.
 
 ## Attribution
 

@@ -17,6 +17,8 @@
 
 ## Current evidence
 
+- [Quest limits and placement rules](analysis/quest-limits/README.md): format bounds and 527-variant measurements published; runtime capacity tests pending.
+
 - [Browse the supported appearance selector gallery](analysis/entity-database/appearance-gallery/supported/README.md)
 
 - [Qedit inventory](analysis/qedit-coverage/README.md)
