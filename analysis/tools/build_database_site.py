@@ -18,7 +18,7 @@ def main():
         d=downloads[q['key']]
         links=[link(label,base+f) for label,f in [('Quest dossier','README.md'),('Script','script.txt'),('Map data','map.txt'),('Enemies / NPCs','enemies.csv'),('Objects','objects.csv'),('Waves','waves.csv'),('Rooms','sections.md'),('Room data','sections.json')]]
         links += [link('Download ZIP',d['zip'])]+[link(f['label'],f['path']) for f in d['files']]
-        rows.append(make('Quests',q['name'],q['key'],f"{q['episode']} Â· {q['language']} Â· {q['enemy_npc_records']} enemy/NPC records Â· {q['events']} events Â· {q['roundtrip']}",links,episode=q['episode'],data={k:q[k] for k in ('objects','enemy_npc_records','events','floors','issues','roundtrip','map_designations') if k in q},evidence='Decoded corpus example; not a gameplay test',download_sha256=d['sha256']))
+        rows.append(make('Quests',q['name'],q['key'],f"{q['episode']} · {q['language']} · {q['enemy_npc_records']} enemy/NPC records · {q['events']} events · {q['roundtrip']}",links,episode=q['episode'],data={k:q[k] for k in ('objects','enemy_npc_records','events','floors','issues','roundtrip','map_designations') if k in q},evidence='Decoded corpus example; not a gameplay test',download_sha256=d['sha256']))
         current_label=None
         cameras=[]
         for lineno,line in enumerate((ROOT/(base+'script.txt')).read_text(encoding='utf-8').splitlines(),1):
@@ -29,10 +29,10 @@ def main():
         if cameras:
             rows.append(make('Scenes',q['name'],q['key'],f"{len(cameras)} camera-related instructions; scene candidates",[link('Full scene script',base+'script.txt'),link('Script call references',base+'script-references.csv'),link('Actor placements',base+'enemies.csv')],episode=q['episode'],data={'camera_references':cameras},evidence='Static camera opcode references; not a reconstructed or runtime-verified cutscene'))
     for f in read('analysis/floor-database/floors.json'):
-        rows.append(make('Floors',f['name'],f"Ep{f['episode']} area 0x{f['area']:02X}",f"Episode {f['episode']} Â· default floor {f['default_floor']} Â· {len(f['variants'])} table entries",[link('Area and variants',f"analysis/floor-database/area-{f['area']:02X}.md")],episode=f"Episode{f['episode']}",data=f,evidence='Source map tables; floor slot and area ID are separate'))
+        rows.append(make('Floors',f['name'],f"Ep{f['episode']} area 0x{f['area']:02X}",f"Episode {f['episode']} · default floor {f['default_floor']} · {len(f['variants'])} table entries",[link('Area and variants',f"analysis/floor-database/area-{f['area']:02X}.md")],episode=f"Episode{f['episode']}",data=f,evidence='Source map tables; floor slot and area ID are separate'))
     for m in read('analysis/floor-database/geometry/extraction-index.json'):
         stem='analysis/floor-database/geometry/'+m['map']
-        rows.append(make('Maps',m['map'],m['map'],f"{len(m['section_ids'])} section markers Â· {m['triangles']} collision triangles",[link('Map notes',stem+'.md'),link('Geometry JSON',stem+'.json'),link('Wireframe SVG',stem+'.svg'),link('Wireframe PNG',stem+'.png')],image=stem+'.png',data={'section_ids':m['section_ids']},evidence='Extracted section origins and collision mesh; room boundaries and safe spawn locations not proven'))
+        rows.append(make('Maps',m['map'],m['map'],f"{len(m['section_ids'])} section markers · {m['triangles']} collision triangles",[link('Map notes',stem+'.md'),link('Geometry JSON',stem+'.json'),link('Wireframe SVG',stem+'.svg'),link('Wireframe PNG',stem+'.png')],image=stem+'.png',data={'section_ids':m['section_ids']},evidence='Extracted section origins and collision mesh; room boundaries and safe spawn locations not proven'))
     gallery={x['dat_type']:x for x in read('analysis/entity-database/appearance-gallery/npcs.json')}
     for d in read('analysis/entity-database/definitions.json'):
         kind='NPCs' if d['kind']=='npc' else 'Monsters'
@@ -43,7 +43,7 @@ def main():
             links.append(link('Appearance gallery','analysis/entity-database/appearance-gallery/README.md'))
             g=gallery.get(d['id'],{})
             if g.get('preview'):image='analysis/entity-database/appearance-gallery/'+g['preview']
-        rows.append(make(kind,d['qedit_name'] or d['source_description'] or d['constructor'],d['id_hex'],f"{d['constructor']} Â· {d['observed_placement_count']} observed placements",links,image=image,data=d,evidence=d['evidence']))
+        rows.append(make(kind,d['qedit_name'] or d['source_description'] or d['constructor'],d['id_hex'],f"{d['constructor']} · {d['observed_placement_count']} observed placements",links,image=image,data=d,evidence=d['evidence']))
     for o in read('analysis/object-database/objects.json'):
         file=f"analysis/object-database/objects/{o['id']:04X}.md"
         rows.append(make('Objects',o['name'],o['id_hex'],'Qedit fields, presets, area menus and observed placements',[link('Object record',file)],data=o,evidence='Source-documented / observed; consult per-field evidence'))

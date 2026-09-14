@@ -2,7 +2,7 @@
 
 Actual preview pictures extracted from the supplied Qedit `images.ppk`. NPC preview filenames are mapped to hexadecimal DAT types by `GenerateMonsterName(..., -1)` in Qedit Unit1.pas. These are reference previews, not proof of every client appearance combination.
 
-[Special characters and IDs](special-characters.md) Â· [Class, hair, face, head, skin and costume IDs](../qedit/native-builder/appearance-ids.json) Â· [NPC parameters and placements](../npcs.md) Â· [Machine-readable gallery](npcs.json)
+[Special characters and IDs](special-characters.md) · [Class, hair, face, head, skin and costume IDs](../qedit/native-builder/appearance-ids.json) · [NPC parameters and placements](../npcs.md) · [Machine-readable gallery](npcs.json)
 
 Player class IDs, DAT NPC types, instance/character IDs, script labels and special appearance selectors are separate namespaces. Select a DAT entry below for positions, facing, interaction and source documentation.
 
@@ -10,7 +10,7 @@ Coverage: 57 previews across 62 NPC definitions. Missing previews are listed exp
 
 ## Gallery
 
-### 0x0001 (1) â€” Woman with red hair and purple outfit
+### 0x0001 (1) — Woman with red hair and purple outfit
 
 ![Qedit NPC 0x0001](images/0001.png)
 
@@ -18,7 +18,7 @@ Coverage: 57 previews across 62 NPC definitions. Missing previews are listed exp
 
 Qedit label: Unknown 1. Constructor: `TObjNpcFemaleBase`. Observed placements: 6.
 
-### 0x0002 (2) â€” Shorter version of the above
+### 0x0002 (2) — Shorter version of the above
 
 ![Qedit NPC 0x0002](images/0002.png)
 
@@ -26,7 +26,7 @@ Qedit label: Unknown 1. Constructor: `TObjNpcFemaleBase`. Observed placements: 6
 
 Qedit label: Unknown 2. Constructor: `TObjNpcFemaleChild`. Observed placements: 22.
 
-### 0x0003 (3) â€” Woman wearing green outfit
+### 0x0003 (3) — Woman wearing green outfit
 
 ![Qedit NPC 0x0003](images/0003.png)
 
@@ -34,7 +34,7 @@ Qedit label: Unknown 2. Constructor: `TObjNpcFemaleChild`. Observed placements: 
 
 Qedit label: Unknown 3. Constructor: `TObjNpcFemaleDwarf`. Observed placements: 85.
 
-### 0x0004 (4) â€” Woman outside Hunter's Guild
+### 0x0004 (4) — Woman outside Hunter's Guild
 
 ![Qedit NPC 0x0004](images/0004.png)
 
@@ -42,7 +42,7 @@ Qedit label: Unknown 3. Constructor: `TObjNpcFemaleDwarf`. Observed placements: 
 
 Qedit label: Unknown 4. Constructor: `TObjNpcFemaleFat`. Observed placements: 172.
 
-### 0x0005 (5) â€” Tool shop woman
+### 0x0005 (5) — Tool shop woman
 
 ![Qedit NPC 0x0005](images/0005.png)
 
@@ -50,7 +50,7 @@ Qedit label: Unknown 4. Constructor: `TObjNpcFemaleFat`. Observed placements: 17
 
 Qedit label: Unknown 5. Constructor: `TObjNpcFemaleMacho`. Observed placements: 567.
 
-### 0x0006 (6) â€” Older woman with yellow/red outfit
+### 0x0006 (6) — Older woman with yellow/red outfit
 
 ![Qedit NPC 0x0006](images/0006.png)
 
@@ -58,7 +58,7 @@ Qedit label: Unknown 5. Constructor: `TObjNpcFemaleMacho`. Observed placements: 
 
 Qedit label: Unknown 6. Constructor: `TObjNpcFemaleOld`. Observed placements: 57.
 
-### 0x0007 (7) â€” Woman walking around inside shop area
+### 0x0007 (7) — Woman walking around inside shop area
 
 ![Qedit NPC 0x0007](images/0007.png)
 
@@ -66,7 +66,7 @@ Qedit label: Unknown 6. Constructor: `TObjNpcFemaleOld`. Observed placements: 57
 
 Qedit label: Unknown 7. Constructor: `TObjNpcFemaleTall`. Observed placements: 212.
 
-### 0x0008 (8) â€” Similar appearance to weapon shop man
+### 0x0008 (8) — Similar appearance to weapon shop man
 
 ![Qedit NPC 0x0008](images/0008.png)
 
@@ -74,7 +74,7 @@ Qedit label: Unknown 7. Constructor: `TObjNpcFemaleTall`. Observed placements: 2
 
 Qedit label: Unknown 8. Constructor: `TObjNpcMaleBase`. Observed placements: 24.
 
-### 0x0009 (9) â€” Kid wearing purple
+### 0x0009 (9) — Kid wearing purple
 
 ![Qedit NPC 0x0009](images/0009.png)
 
@@ -82,7 +82,7 @@ Qedit label: Unknown 8. Constructor: `TObjNpcMaleBase`. Observed placements: 24.
 
 Qedit label: Unknown 9. Constructor: `TObjNpcMaleChild`. Observed placements: 166.
 
-### 0x000A (10) â€” Man outside Medical Center
+### 0x000A (10) — Man outside Medical Center
 
 ![Qedit NPC 0x000A](images/000a.png)
 
@@ -90,7 +90,7 @@ Qedit label: Unknown 9. Constructor: `TObjNpcMaleChild`. Observed placements: 16
 
 Qedit label: Uknown 10. Constructor: `TObjNpcMaleDwarf`. Observed placements: 187.
 
-### 0x000B (11) â€” Armor shop man
+### 0x000B (11) — Armor shop man
 
 ![Qedit NPC 0x000B](images/000b.png)
 
@@ -98,7 +98,7 @@ Qedit label: Uknown 10. Constructor: `TObjNpcMaleDwarf`. Observed placements: 18
 
 Qedit label: Armor shop. Constructor: `TObjNpcMaleFat`. Observed placements: 443.
 
-### 0x000C (12) â€” Weapon shop man
+### 0x000C (12) — Weapon shop man
 
 ![Qedit NPC 0x000C](images/000c.png)
 
@@ -106,7 +106,7 @@ Qedit label: Armor shop. Constructor: `TObjNpcMaleFat`. Observed placements: 443
 
 Qedit label: Weapon Shop. Constructor: `TObjNpcMaleMacho`. Observed placements: 298.
 
-### 0x000D (13) â€” Man near telepipe locations
+### 0x000D (13) — Man near telepipe locations
 
 ![Qedit NPC 0x000D](images/000d.png)
 
@@ -114,7 +114,7 @@ Qedit label: Weapon Shop. Constructor: `TObjNpcMaleMacho`. Observed placements: 
 
 Qedit label: Zidd. Constructor: `TObjNpcMaleOld`. Observed placements: 271.
 
-### 0x000E (14) â€” Man wearing turquoise
+### 0x000E (14) — Man wearing turquoise
 
 ![Qedit NPC 0x000E](images/000e.png)
 
@@ -122,7 +122,7 @@ Qedit label: Zidd. Constructor: `TObjNpcMaleOld`. Observed placements: 271.
 
 Qedit label: Unknown 14. Constructor: `TObjNpcMaleTall`. Observed placements: 17.
 
-### 0x0019 (25) â€” Man right of the Ragol warp door
+### 0x0019 (25) — Man right of the Ragol warp door
 
 ![Qedit NPC 0x0019](images/0019.png)
 
@@ -130,7 +130,7 @@ Qedit label: Unknown 14. Constructor: `TObjNpcMaleTall`. Observed placements: 17
 
 Qedit label: Blue Soldier. Constructor: `TObjNpcSoldierBase`. Observed placements: 469.
 
-### 0x001A (26) â€” Man left of the Ragol warp door
+### 0x001A (26) — Man left of the Ragol warp door
 
 ![Qedit NPC 0x001A](images/001a.png)
 
@@ -138,7 +138,7 @@ Qedit label: Blue Soldier. Constructor: `TObjNpcSoldierBase`. Observed placement
 
 Qedit label: Red Soldier. Constructor: `TObjNpcSoldierMacho`. Observed placements: 367.
 
-### 0x001B (27) â€” Principal Tyrell
+### 0x001B (27) — Principal Tyrell
 
 ![Qedit NPC 0x001B](images/001b.png)
 
@@ -146,7 +146,7 @@ Qedit label: Red Soldier. Constructor: `TObjNpcSoldierMacho`. Observed placement
 
 Qedit label: Principle. Constructor: `TObjNpcGovernorBase`. Observed placements: 159.
 
-### 0x001C (28) â€” Tekker
+### 0x001C (28) — Tekker
 
 ![Qedit NPC 0x001C](images/001c.png)
 
@@ -154,7 +154,7 @@ Qedit label: Principle. Constructor: `TObjNpcGovernorBase`. Observed placements:
 
 Qedit label: Tekker. Constructor: `TObjNpcConnoisseur`. Observed placements: 512.
 
-### 0x001D (29) â€” Bank woman
+### 0x001D (29) — Bank woman
 
 ![Qedit NPC 0x001D](images/001d.png)
 
@@ -162,7 +162,7 @@ Qedit label: Tekker. Constructor: `TObjNpcConnoisseur`. Observed placements: 512
 
 Qedit label: Guild Lady. Constructor: `TObjNpcCloakroomBase`. Observed placements: 630.
 
-### 0x001E (30) â€” Man in front of bank
+### 0x001E (30) — Man in front of bank
 
 ![Qedit NPC 0x001E](images/001e.png)
 
@@ -170,7 +170,7 @@ Qedit label: Guild Lady. Constructor: `TObjNpcCloakroomBase`. Observed placement
 
 Qedit label: Scientist. Constructor: `TObjNpcExpertBase`. Observed placements: 534.
 
-### 0x001F (31) â€” Nurses in Medical Center
+### 0x001F (31) — Nurses in Medical Center
 
 ![Qedit NPC 0x001F](images/001f.png)
 
@@ -178,7 +178,7 @@ Qedit label: Scientist. Constructor: `TObjNpcExpertBase`. Observed placements: 5
 
 Qedit label: Nurse. Constructor: `TObjNpcNurseBase`. Observed placements: 797.
 
-### 0x0020 (32) â€” Irene
+### 0x0020 (32) — Irene
 
 ![Qedit NPC 0x0020](images/0020.png)
 
@@ -186,7 +186,7 @@ Qedit label: Nurse. Constructor: `TObjNpcNurseBase`. Observed placements: 797.
 
 Qedit label: Irene. Constructor: `TObjNpcSecretaryBase`. Observed placements: 209.
 
-### 0x0021 (33) â€” TODO
+### 0x0021 (33) — TODO
 
 ![Qedit NPC 0x0021](images/0021.png)
 
@@ -194,7 +194,7 @@ Qedit label: Irene. Constructor: `TObjNpcSecretaryBase`. Observed placements: 20
 
 Qedit label: Default Humar (Ash). Constructor: `TObjNpcHHM00`. Observed placements: 37.
 
-### 0x0022 (34) â€” TODO
+### 0x0022 (34) — TODO
 
 ![Qedit NPC 0x0022](images/0022.png)
 
@@ -202,7 +202,7 @@ Qedit label: Default Humar (Ash). Constructor: `TObjNpcHHM00`. Observed placemen
 
 Qedit label: Default Hunewearl (Sue). Constructor: `TObjNpcNHW00`. Observed placements: 15.
 
-### 0x0024 (36) â€” TODO
+### 0x0024 (36) — TODO
 
 ![Qedit NPC 0x0024](images/0024.png)
 
@@ -210,7 +210,7 @@ Qedit label: Default Hunewearl (Sue). Constructor: `TObjNpcNHW00`. Observed plac
 
 Qedit label: Default Ramar (Bernie). Constructor: `TObjNpcHRM00`. Observed placements: 16.
 
-### 0x0025 (37) â€” TODO
+### 0x0025 (37) — TODO
 
 ![Qedit NPC 0x0025](images/0025.png)
 
@@ -218,7 +218,7 @@ Qedit label: Default Ramar (Bernie). Constructor: `TObjNpcHRM00`. Observed place
 
 Qedit label: Default Racast (Gilingham). Constructor: `TObjNpcARM00`. Observed placements: 33.
 
-### 0x0026 (38) â€” TODO
+### 0x0026 (38) — TODO
 
 ![Qedit NPC 0x0026](images/0026.png)
 
@@ -226,7 +226,7 @@ Qedit label: Default Racast (Gilingham). Constructor: `TObjNpcARM00`. Observed p
 
 Qedit label: Default Racaseal (Elenor). Constructor: `TObjNpcARW00`. Observed placements: 29.
 
-### 0x0027 (39) â€” TODO
+### 0x0027 (39) — TODO
 
 ![Qedit NPC 0x0027](images/0027.png)
 
@@ -234,7 +234,7 @@ Qedit label: Default Racaseal (Elenor). Constructor: `TObjNpcARW00`. Observed pl
 
 Qedit label: Default Fomarl (Alisha). Constructor: `TObjNpcHFW00`. Observed placements: 41.
 
-### 0x0028 (40) â€” TODO
+### 0x0028 (40) — TODO
 
 ![Qedit NPC 0x0028](images/0028.png)
 
@@ -242,7 +242,7 @@ Qedit label: Default Fomarl (Alisha). Constructor: `TObjNpcHFW00`. Observed plac
 
 Qedit label: Default Fomewm (Montaque). Constructor: `TObjNpcNFM00`. Observed placements: 30.
 
-### 0x0029 (41) â€” TODO
+### 0x0029 (41) — TODO
 
 ![Qedit NPC 0x0029](images/0029.png)
 
@@ -250,7 +250,7 @@ Qedit label: Default Fomewm (Montaque). Constructor: `TObjNpcNFM00`. Observed pl
 
 Qedit label: Default Fomewearl (Rupika). Constructor: `TObjNpcNFW00`. Observed placements: 28.
 
-### 0x002B (43) â€” TODO
+### 0x002B (43) — TODO
 
 ![Qedit NPC 0x002B](images/002b.png)
 
@@ -258,7 +258,7 @@ Qedit label: Default Fomewearl (Rupika). Constructor: `TObjNpcNFW00`. Observed p
 
 Qedit label: Unknown 43. Constructor: `TObjNpcNHW01`. Observed placements: 48.
 
-### 0x002C (44) â€” TODO
+### 0x002C (44) — TODO
 
 ![Qedit NPC 0x002C](images/002c.png)
 
@@ -266,7 +266,7 @@ Qedit label: Unknown 43. Constructor: `TObjNpcNHW01`. Observed placements: 48.
 
 Qedit label: Unknown 44. Constructor: `TObjNpcAHM01`. Observed placements: 24.
 
-### 0x002D (45) â€” TODO
+### 0x002D (45) — TODO
 
 ![Qedit NPC 0x002D](images/002d.png)
 
@@ -274,7 +274,7 @@ Qedit label: Unknown 44. Constructor: `TObjNpcAHM01`. Observed placements: 24.
 
 Qedit label: Dacci. Constructor: `TObjNpcHRM01`. Observed placements: 50.
 
-### 0x0030 (48) â€” TODO
+### 0x0030 (48) — TODO
 
 ![Qedit NPC 0x0030](images/0030.png)
 
@@ -282,7 +282,7 @@ Qedit label: Dacci. Constructor: `TObjNpcHRM01`. Observed placements: 50.
 
 Qedit label: None. Constructor: `TObjNpcHFW01`. Observed placements: 30.
 
-### 0x0031 (49) â€” TODO
+### 0x0031 (49) — TODO
 
 ![Qedit NPC 0x0031](images/0031.png)
 
@@ -290,7 +290,7 @@ Qedit label: None. Constructor: `TObjNpcHFW01`. Observed placements: 30.
 
 Qedit label: None. Constructor: `TObjNpcNFM01`. Observed placements: 106.
 
-### 0x0032 (50) â€” TODO
+### 0x0032 (50) — TODO
 
 ![Qedit NPC 0x0032](images/0032.png)
 
@@ -298,7 +298,7 @@ Qedit label: None. Constructor: `TObjNpcNFM01`. Observed placements: 106.
 
 Qedit label: None. Constructor: `TObjNpcNFW01`. Observed placements: 26.
 
-### 0x0045 (69) â€” Rappy NPC
+### 0x0045 (69) — Rappy NPC
 
 Preview unavailable in the supplied Qedit archive.
 
@@ -306,7 +306,7 @@ Preview unavailable in the supplied Qedit archive.
 
 Qedit label: Rappy NPC. Constructor: `TObjNpcLappy`. Observed placements: 862.
 
-### 0x0046 (70) â€” Small Hildebear NPC
+### 0x0046 (70) — Small Hildebear NPC
 
 Preview unavailable in the supplied Qedit archive.
 
@@ -314,7 +314,7 @@ Preview unavailable in the supplied Qedit archive.
 
 Qedit label: Small hildebear NPC. Constructor: `TObjNpcMoja`. Observed placements: 16.
 
-### 0x00A9 (169) â€” Dark Bringer NPC
+### 0x00A9 (169) — Dark Bringer NPC
 
 Preview unavailable in the supplied Qedit archive.
 
@@ -322,7 +322,7 @@ Preview unavailable in the supplied Qedit archive.
 
 Qedit label: None. Constructor: `TObjNpcBringer`. Observed placements: 0.
 
-### 0x00D0 (208) â€” Ep2 armor shop man
+### 0x00D0 (208) — Ep2 armor shop man
 
 ![Qedit NPC 0x00D0](images/00d0.png)
 
@@ -330,7 +330,7 @@ Qedit label: None. Constructor: `TObjNpcBringer`. Observed placements: 0.
 
 Qedit label: Unknown 208. Constructor: `TObjNpcKenkyu`. Observed placements: 319.
 
-### 0x00D1 (209) â€” Natasha Milarose
+### 0x00D1 (209) — Natasha Milarose
 
 ![Qedit NPC 0x00D1](images/00d1.png)
 
@@ -338,7 +338,7 @@ Qedit label: Unknown 208. Constructor: `TObjNpcKenkyu`. Observed placements: 319
 
 Qedit label: Natasha. Constructor: `TObjNpcSoutokufu`. Observed placements: 167.
 
-### 0x00D2 (210) â€” Dan
+### 0x00D2 (210) — Dan
 
 ![Qedit NPC 0x00D2](images/00d2.png)
 
@@ -346,7 +346,7 @@ Qedit label: Natasha. Constructor: `TObjNpcSoutokufu`. Observed placements: 167.
 
 Qedit label: Dan. Constructor: `TObjNpcHosa`. Observed placements: 133.
 
-### 0x00D3 (211) â€” Ep2 tool shop woman
+### 0x00D3 (211) — Ep2 tool shop woman
 
 ![Qedit NPC 0x00D3](images/00d3.png)
 
@@ -354,7 +354,7 @@ Qedit label: Dan. Constructor: `TObjNpcHosa`. Observed placements: 133.
 
 Qedit label: Unknown 211. Constructor: `TObjNpcKenkyuW`. Observed placements: 324.
 
-### 0x00F0 (240) â€” Man next to room with warp to Lab
+### 0x00F0 (240) — Man next to room with warp to Lab
 
 ![Qedit NPC 0x00F0](images/00f0.png)
 
@@ -362,7 +362,7 @@ Qedit label: Unknown 211. Constructor: `TObjNpcKenkyuW`. Observed placements: 32
 
 Qedit label: Armor shop. Constructor: `TObjNpcHosa2`. Observed placements: 149.
 
-### 0x00F1 (241) â€” Ep2 weapon shop man
+### 0x00F1 (241) — Ep2 weapon shop man
 
 ![Qedit NPC 0x00F1](images/00f1.png)
 
@@ -370,7 +370,7 @@ Qedit label: Armor shop. Constructor: `TObjNpcHosa2`. Observed placements: 149.
 
 Qedit label: Item Shop. Constructor: `TObjNpcKenkyu2`. Observed placements: 178.
 
-### 0x00F2 (242) â€” TODO
+### 0x00F2 (242) — TODO
 
 ![Qedit NPC 0x00F2](images/00f2.png)
 
@@ -378,7 +378,7 @@ Qedit label: Item Shop. Constructor: `TObjNpcKenkyu2`. Observed placements: 178.
 
 Qedit label: Default Fomar. Constructor: `TObjNpcNgcBase(0x00F2)`. Observed placements: 31.
 
-### 0x00F3 (243) â€” TODO
+### 0x00F3 (243) — TODO
 
 ![Qedit NPC 0x00F3](images/00f3.png)
 
@@ -386,7 +386,7 @@ Qedit label: Default Fomar. Constructor: `TObjNpcNgcBase(0x00F2)`. Observed plac
 
 Qedit label: Default Ramarl (Karen). Constructor: `TObjNpcNgcBase(0x00F3)`. Observed placements: 48.
 
-### 0x00F4 (244) â€” TODO
+### 0x00F4 (244) — TODO
 
 ![Qedit NPC 0x00F4](images/00f4.png)
 
@@ -394,7 +394,7 @@ Qedit label: Default Ramarl (Karen). Constructor: `TObjNpcNgcBase(0x00F3)`. Obse
 
 Qedit label: Leo. Constructor: `TObjNpcNgcBase(0x00F4)`. Observed placements: 41.
 
-### 0x00F5 (245) â€” TODO
+### 0x00F5 (245) — TODO
 
 ![Qedit NPC 0x00F5](images/00f5.png)
 
@@ -402,7 +402,7 @@ Qedit label: Leo. Constructor: `TObjNpcNgcBase(0x00F4)`. Observed placements: 41
 
 Qedit label: Pagini. Constructor: `TObjNpcNgcBase(0x00F5)`. Observed placements: 36.
 
-### 0x00F6 (246) â€” TODO
+### 0x00F6 (246) — TODO
 
 ![Qedit NPC 0x00F6](images/00f6.png)
 
@@ -410,7 +410,7 @@ Qedit label: Pagini. Constructor: `TObjNpcNgcBase(0x00F5)`. Observed placements:
 
 Qedit label: Unknown 246. Constructor: `TObjNpcNgcBase(0x00F6)`. Observed placements: 8.
 
-### 0x00F7 (247) â€” Nol
+### 0x00F7 (247) — Nol
 
 ![Qedit NPC 0x00F7](images/00f7.png)
 
@@ -418,7 +418,7 @@ Qedit label: Unknown 246. Constructor: `TObjNpcNgcBase(0x00F6)`. Observed placem
 
 Qedit label: Nol. Constructor: `TObjNpcNgcBase(0x00F7)`. Observed placements: 73.
 
-### 0x00F8 (248) â€” Elly
+### 0x00F8 (248) — Elly
 
 ![Qedit NPC 0x00F8](images/00f8.png)
 
@@ -426,7 +426,7 @@ Qedit label: Nol. Constructor: `TObjNpcNgcBase(0x00F7)`. Observed placements: 73
 
 Qedit label: Elly. Constructor: `TObjNpcNgcBase(0x00F8)`. Observed placements: 98.
 
-### 0x00F9 (249) â€” Woman with cyan hair
+### 0x00F9 (249) — Woman with cyan hair
 
 ![Qedit NPC 0x00F9](images/00f9.png)
 
@@ -434,7 +434,7 @@ Qedit label: Elly. Constructor: `TObjNpcNgcBase(0x00F8)`. Observed placements: 9
 
 Qedit label: Unknown 249. Constructor: `TObjNpcNgcBase(0x00F9)`. Observed placements: 154.
 
-### 0x00FA (250) â€” Woman with bright red hair
+### 0x00FA (250) — Woman with bright red hair
 
 ![Qedit NPC 0x00FA](images/00fa.png)
 
@@ -442,7 +442,7 @@ Qedit label: Unknown 249. Constructor: `TObjNpcNgcBase(0x00F9)`. Observed placem
 
 Qedit label: Ep 2 Item Shop. Constructor: `TObjNpcNgcBase(0x00FA)`. Observed placements: 139.
 
-### 0x00FB (251) â€” Man with blue hair near the Ep2 Medical Center
+### 0x00FB (251) — Man with blue hair near the Ep2 Medical Center
 
 ![Qedit NPC 0x00FB](images/00fb.png)
 
@@ -450,7 +450,7 @@ Qedit label: Ep 2 Item Shop. Constructor: `TObjNpcNgcBase(0x00FA)`. Observed pla
 
 Qedit label: Ep 2 Weapon Shop. Constructor: `TObjNpcNgcBase(0x00FB)`. Observed placements: 146.
 
-### 0x00FC (252) â€” Man in room next to Ep2 Hunter's Guild
+### 0x00FC (252) — Man in room next to Ep2 Hunter's Guild
 
 ![Qedit NPC 0x00FC](images/00fc.png)
 
@@ -458,7 +458,7 @@ Qedit label: Ep 2 Weapon Shop. Constructor: `TObjNpcNgcBase(0x00FB)`. Observed p
 
 Qedit label: Security Guard. Constructor: `TObjNpcNgcBase(0x00FC)`. Observed placements: 125.
 
-### 0x00FD (253) â€” TODO
+### 0x00FD (253) — TODO
 
 ![Qedit NPC 0x00FD](images/00fd.png)
 
@@ -466,7 +466,7 @@ Qedit label: Security Guard. Constructor: `TObjNpcNgcBase(0x00FC)`. Observed pla
 
 Qedit label: Ep 2 Hunters Guild. Constructor: `TObjNpcNgcBase(0x00FD)`. Observed placements: 73.
 
-### 0x00FE (254) â€” Episode 2 Hunter's Guild woman
+### 0x00FE (254) — Episode 2 Hunter's Guild woman
 
 ![Qedit NPC 0x00FE](images/00fe.png)
 
@@ -474,7 +474,7 @@ Qedit label: Ep 2 Hunters Guild. Constructor: `TObjNpcNgcBase(0x00FD)`. Observed
 
 Qedit label: Ep 2 Nurse. Constructor: `TObjNpcNgcBase(0x00FE)`. Observed placements: 386.
 
-### 0x00FF (255) â€” Woman near room with teleporter to VR areas
+### 0x00FF (255) — Woman near room with teleporter to VR areas
 
 ![Qedit NPC 0x00FF](images/00ff.png)
 
@@ -482,7 +482,7 @@ Qedit label: Ep 2 Nurse. Constructor: `TObjNpcNgcBase(0x00FE)`. Observed placeme
 
 Qedit label: Unknown 255. Constructor: `TObjNpcNgcBase(0x00FF)`. Observed placements: 133.
 
-### 0x0100 (256) â€” Momoka
+### 0x0100 (256) — Momoka
 
 ![Qedit NPC 0x0100](images/0100.png)
 
@@ -490,13 +490,13 @@ Qedit label: Unknown 255. Constructor: `TObjNpcNgcBase(0x00FF)`. Observed placem
 
 Qedit label: Momoka. Constructor: `__MOMOKA__`. Observed placements: 86.
 
-### 0x0118 (280) â€” Rupika
+### 0x0118 (280) — Rupika
 
 Preview unavailable in the supplied Qedit archive.
 
 Qedit label: Rupika. Constructor: `__QUEST_NPC__`. Observed placements: 161.
 
-### 0x0033 (51) â€” Stage NPC's
+### 0x0033 (51) — Stage NPC's
 
 Preview unavailable in the supplied Qedit archive.
 

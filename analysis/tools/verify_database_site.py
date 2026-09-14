@@ -4,6 +4,11 @@ import hashlib, json, sqlite3
 ROOT=Path(__file__).resolve().parents[2]
 def read(p):return json.loads((ROOT/p).read_text(encoding='utf-8'))
 catalogue=read('database-data/catalogue.json')
+# Detect known UTF-8 punctuation misdecoded as Windows-1252.
+for path in ('database-data/catalogue.json', 'index.html', 'analysis/entity-database/appearance-gallery/README.md'):
+    content=(ROOT/path).read_text(encoding='utf-8')
+    for bad in ('\u00e2\u20ac\u201d', '\u00e2\u20ac\u201c', '\u00c2\u00b7'):
+        assert bad not in content, f'Corrupt punctuation in {path}'
 all_paths={p.relative_to(ROOT).as_posix() for p in ROOT.rglob('*') if p.is_file() and '.git' not in p.parts}
 targets={l['path'] for r in catalogue['records'] for l in r['links']}
 targets.update(r['image'] for r in catalogue['records'] if r.get('image'))
